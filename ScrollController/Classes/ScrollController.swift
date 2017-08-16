@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PageScrollViewLifeCycle : class {
+public protocol PageScrollViewLifeCycle : class {
     func didAppear()
     func didDissapear()
     func viewDidLoad()
@@ -17,27 +17,27 @@ protocol PageScrollViewLifeCycle : class {
     var isKeyboardResponsive : Bool { get }
 }
 
-protocol Viewable : class {
+public protocol Viewable : class {
     var view : UIView { get }
 }
 
-protocol ItemViewable : class {
+public protocol ItemViewable : class {
     associatedtype Item : UIView
     var view : Item { get }
 }
 
-protocol Initializable : class {
+public protocol Initializable : class {
     init()
 }
 
-protocol TitleScrollable : class {
+public protocol TitleScrollable : class {
     var didSelectItemAction : ((Int, (() -> ())?) -> ())? { get set }
     func jump(index : Int, animated : Bool)
     func shift(delta : CGFloat, startIndex : Int, destinationIndex : Int)
     init(pagesCount: Int, scrollDirection : ScrollDirection)
 }
 
-protocol ViewScrollable : class {
+public protocol ViewScrollable : class {
     associatedtype View : UIView
     func appendViews(views : [View])
     func insertView(view : View, index : Int)
@@ -46,7 +46,7 @@ protocol ViewScrollable : class {
     var isLayouted : Bool { get }
 }
 
-protocol ControllerScrollable : class {
+public protocol ControllerScrollable : class {
     func shift(pageIndex : Int, animated : Bool)
     func showNext(animated : Bool)
     func viewDidAppear()
@@ -56,39 +56,39 @@ protocol ControllerScrollable : class {
     func removeAtIndex(index : Int)
 }
 
-protocol TextSettable {
+public protocol TextSettable {
     var text : String? { get set }
 }
 
-protocol Selectable : class {
+public protocol Selectable : class {
     var isSelected : Bool { get set }
     var didSelectAction : ((Int) -> ())? { get set }
     var index : Int { get set }
 }
 
-enum ScrollDirection {
+public enum ScrollDirection {
     case Vertical
     case Horizontal
 }
 
-enum TitleViewAlignment {
+public enum TitleViewAlignment {
     case Top
     case Left
     case Right
 }
 
-enum TitleViewPosition {
+public enum TitleViewPosition {
     case Beside
     case Above
 }
 
-typealias TitleItemObject = Selectable & ItemViewable
-typealias TitleItemControllableObject = ItemViewable & Initializable & Selectable
-typealias ScrollLifeCycleObject = PageScrollViewLifeCycle & Viewable & Initializable
+public typealias TitleItemObject = Selectable & ItemViewable
+public typealias TitleItemControllableObject = ItemViewable & Initializable & Selectable
+public typealias ScrollLifeCycleObject = PageScrollViewLifeCycle & Viewable & Initializable
 
-class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrollable, Viewable where T : ViewScrollable, T : UIScrollView, T : TitleConfigurable, N : TitleItemControllableObject, N : UIView, N.Item == T.View {
+public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrollable, Viewable where T : ViewScrollable, T : UIScrollView, T : TitleConfigurable, N : TitleItemControllableObject, N : UIView, N.Item == T.View {
     
-    var titleView : T {
+    public var titleView : T {
         return _titleScrollableController.titleView
     }
     
@@ -142,7 +142,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
         self._didFinishForceScroll = completion
     }
     
-    init(pagesContent : [PageScrollViewModel], startPageIndex: Int = 0, scrollDirection : ScrollDirection) {
+    public init(pagesContent : [PageScrollViewModel], startPageIndex: Int = 0, scrollDirection : ScrollDirection) {
         super.init()
         content = pagesContent
         _scrollDirection = scrollDirection
@@ -165,7 +165,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
     
     //MARK: - ControllerScrollable_Implementation
     
-    func append(object objects : [PageScrollViewModel]) {
+    public func append(object objects : [PageScrollViewModel]) {
         if objects.count > 0 {
             content.append(contentsOf: objects)
             _contentScrollableController.append(pagesCount: objects.count)
@@ -180,7 +180,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
         }
     }
     
-    func insert(object : PageScrollViewModel, index : Int) {
+    public func insert(object : PageScrollViewModel, index : Int) {
         guard index < content.count else { return }
         content.insert(object, at: index)
         _contentScrollableController.insert(object: object, index: index)
@@ -204,7 +204,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
         }
     }
     
-    func removeAtIndex(index : Int) {
+    public func removeAtIndex(index : Int) {
         guard index < content.count else { return }
 
         //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
@@ -237,7 +237,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
         loadView(pageIndex: _currentIndex)
     }
     
-    func shift(pageIndex : Int, animated : Bool = true) {
+    public func shift(pageIndex : Int, animated : Bool = true) {
         if !self._contentScrollableController.scrollView.isLayouted {
             _currentIndex = pageIndex
             loadView(pageIndex: _currentIndex)
@@ -251,7 +251,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
         }
     }
     
-    func showNext(animated : Bool = true) {
+    public func showNext(animated : Bool = true) {
         var page = _currentIndex + 1
         var animated = animated
         if page >= content.count {
@@ -261,14 +261,14 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
         shift(pageIndex: page, animated: animated)
     }
     
-    func viewDidAppear() {
+    public func viewDidAppear() {
         _isOnScreen = true
         if isIndexValid(index: _currentIndex) {
             content[_currentIndex].object.didAppear()
         }
     }
     
-    func viewDidDisappear() {
+    public func viewDidDisappear() {
         _isOnScreen = false
         if isIndexValid(index: _currentIndex) {
             content[_currentIndex].object.didDissapear()
@@ -277,7 +277,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
     
     //MARK: - UIScrollViewDelegate_Implementation
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !_scrollInProgress {
             content[_currentIndex].object.didStartScrolling()
             _scrollInProgress = true
@@ -321,7 +321,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
         }
     }
     
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
 //        content[_currentIndex].object.didStartDragging()
 //        if _scrollDirection == ScrollDirection.Horizontal {
 //            _startDraggingContentOffset = scrollView.contentOffset.x
@@ -331,7 +331,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
        // _titleScrollableController.jump(_currentIndex, animated: false)
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 //        if _scrollDirection == ScrollDirection.Horizontal {
 //            if _startDraggingContentOffset == scrollView.contentOffset.x {
 //                content[_currentIndex].object.didCancelDragging()
@@ -343,7 +343,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
 //        }
     }
     
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
         _didFinishForceScroll?()
 
@@ -352,7 +352,7 @@ class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrolla
     
     //MARK: - Viewable_Implementation
     
-    var view : UIView {
+    public var view : UIView {
         return _containerView
     }
 }

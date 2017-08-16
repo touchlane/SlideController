@@ -8,18 +8,18 @@
 
 import Foundation
 
-class PageScrollViewModel {
+public class PageScrollViewModel {
     
-    var object : ScrollLifeCycleObject { get {return buildObjectIfNeeded() } }
+    public var object : ScrollLifeCycleObject { get {return buildObjectIfNeeded() } }
     
     fileprivate var _className : String?
     fileprivate var _object : ScrollLifeCycleObject?
     
-    init(className : String) {
+    public init(className : String) {
         _className = className
     }
     
-    init(object : ScrollLifeCycleObject?) {
+    public  init(object : ScrollLifeCycleObject?) {
         _object = object
     }
 }

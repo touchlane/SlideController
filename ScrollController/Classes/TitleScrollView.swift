@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TitleConfigurable : class {
+public protocol TitleConfigurable : class {
     associatedtype TitleItem : UIView
     var items : [TitleItem] { get }
     var alignment : TitleViewAlignment { get set }
@@ -17,30 +17,30 @@ protocol TitleConfigurable : class {
     weak var titleViewConfigurationDelegate : TitleViewConfigurationDelegate? { get set }
 }
 
-protocol TitleViewConfigurationDelegate : class {
+public protocol TitleViewConfigurationDelegate : class {
     func didChangeAlignment(alignment : TitleViewAlignment)
     func didChangeTitleSize(size : CGFloat)
     func didChangePosition(position : TitleViewPosition)
 }
 
-class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable where T: UIView, T : TitleItemObject {
+open class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable where T: UIView, T : TitleItemObject {
     
-    typealias View = T
-    typealias TitleItem = View
+    public typealias View = T
+    public typealias TitleItem = View
     
-    internal private(set) var isLayouted = false
+    public private(set) var isLayouted = false
     
-    init() {
+    public init() {
         super.init(frame: CGRect.zero)
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         if !isLayouted {
             isLayouted = true
@@ -50,23 +50,23 @@ class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable where
     
     //MARK: - ViewScrollable_Implementation
     
-    func appendViews(views: [View]) {
+    open func appendViews(views: [View]) {
         
     }
     
-    func insertView(view : View, index : Int) {
+    open func insertView(view : View, index : Int) {
         
     }
     
-    func removeViewAtIndex(index : Int) {
+    open func removeViewAtIndex(index : Int) {
         
     }
     
-    var firstLayoutAction : (() -> ())?
+    open var firstLayoutAction : (() -> ())?
     
     //MARK: - TitleConfigurable_Implementation
     
-    var alignment = TitleViewAlignment.Top {
+    public var alignment = TitleViewAlignment.Top {
         didSet {
             if alignment != oldValue {
                titleViewConfigurationDelegate?.didChangeAlignment(alignment: alignment)
@@ -74,7 +74,7 @@ class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable where
         }
     }
     
-    var titleSize : CGFloat = 84 {
+    open var titleSize : CGFloat = 84 {
         didSet {
             if titleSize != oldValue {
                 titleViewConfigurationDelegate?.didChangeTitleSize(size: titleSize)
@@ -82,7 +82,7 @@ class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable where
         }
     }
     
-    var position = TitleViewPosition.Beside {
+    open var position = TitleViewPosition.Beside {
         didSet {
             if position != oldValue {
                 titleViewConfigurationDelegate?.didChangePosition(position: position)
@@ -90,9 +90,9 @@ class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable where
         }
     }
     
-    weak var titleViewConfigurationDelegate : TitleViewConfigurationDelegate?
+    weak public var titleViewConfigurationDelegate : TitleViewConfigurationDelegate?
     
-    var items : [TitleItem] {
+    open var items : [TitleItem] {
         return [TitleItem]()
     }
 }

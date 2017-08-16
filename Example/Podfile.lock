@@ -1,16 +1,19 @@
 PODS:
   - ScrollController (0.1.0)
+  - SnapKit (3.2.0)
 
 DEPENDENCIES:
   - ScrollController (from `../`)
+  - SnapKit
 
 EXTERNAL SOURCES:
   ScrollController:
     :path: ../
 
 SPEC CHECKSUMS:
-  ScrollController: bef77d5d782ce9a74dcdffe91f4b0c5e891678f5
+  ScrollController: b3bffd47c0030a4230981476baf7b16f61304da6
+  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
-PODFILE CHECKSUM: 0424ff875c7d3ad1998ffc2b382253991c8ba16f
+PODFILE CHECKSUM: bf86b09269411198c748b186c8272d9158186ff8
 
 COCOAPODS: 1.2.1
