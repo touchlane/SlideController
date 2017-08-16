@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "ScrollController_Example.app"
-               BlueprintName = "ScrollController_Example"
-               ReferencedContainer = "container:ScrollController.xcodeproj">
+               BuildableName = "SlideController_Example.app"
+               BlueprintName = "SlideController_Example"
+               ReferencedContainer = "container:SlideController.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "ScrollController_Tests.xctest"
-               BlueprintName = "ScrollController_Tests"
-               ReferencedContainer = "container:ScrollController.xcodeproj">
+               BuildableName = "SlideController_Tests.xctest"
+               BlueprintName = "SlideController_Tests"
+               ReferencedContainer = "container:SlideController.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "ScrollController_Tests.xctest"
-               BlueprintName = "ScrollController_Tests"
-               ReferencedContainer = "container:ScrollController.xcodeproj">
+               BuildableName = "SlideController_Tests.xctest"
+               BlueprintName = "SlideController_Tests"
+               ReferencedContainer = "container:SlideController.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "ScrollController_Example.app"
-            BlueprintName = "ScrollController_Example"
-            ReferencedContainer = "container:ScrollController.xcodeproj">
+            BuildableName = "SlideController_Example.app"
+            BlueprintName = "SlideController_Example"
+            ReferencedContainer = "container:SlideController.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "ScrollController_Example.app"
-            BlueprintName = "ScrollController_Example"
-            ReferencedContainer = "container:ScrollController.xcodeproj">
+            BuildableName = "SlideController_Example.app"
+            BlueprintName = "SlideController_Example"
+            ReferencedContainer = "container:SlideController.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -99,9 +99,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "ScrollController_Example.app"
-            BlueprintName = "ScrollController_Example"
-            ReferencedContainer = "container:ScrollController.xcodeproj">
+            BuildableName = "SlideController_Example.app"
+            BlueprintName = "SlideController_Example"
+            ReferencedContainer = "container:SlideController.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

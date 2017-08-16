@@ -50,15 +50,15 @@
 		2C96AEB652C6EEBDE1779B38 /* Pods-ScrollController_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ScrollController_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ScrollController_Tests/Pods-ScrollController_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		5C7558F21A9DE62FFF5CE980 /* Pods_ScrollController_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ScrollController_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D950FB8A6A37006F61D4EE5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		607FACD01AFB9204008FA782 /* ScrollController_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScrollController_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		607FACD01AFB9204008FA782 /* SlideController_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlideController_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		607FACE51AFB9204008FA782 /* ScrollController_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScrollController_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		607FACE51AFB9204008FA782 /* SlideController_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SlideController_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		7B04C0304503DA1562F61347 /* ScrollController.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ScrollController.podspec; path = ../ScrollController.podspec; sourceTree = "<group>"; };
+		7B04C0304503DA1562F61347 /* SlideController.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SlideController.podspec; path = ../SlideController.podspec; sourceTree = "<group>"; };
 		86D7AD831F44842E00B65941 /* RootRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		86D7AD851F44843800B65941 /* ClosureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClosureButton.swift; sourceTree = "<group>"; };
 		86D7AD861F44843800B65941 /* FilledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledButton.swift; sourceTree = "<group>"; };
@@ -129,8 +129,8 @@
 		607FACD11AFB9204008FA782 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				607FACD01AFB9204008FA782 /* ScrollController_Example.app */,
-				607FACE51AFB9204008FA782 /* ScrollController_Tests.xctest */,
+				607FACD01AFB9204008FA782 /* SlideController_Example.app */,
+				607FACE51AFB9204008FA782 /* SlideController_Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -181,7 +181,7 @@
 		607FACF51AFB993E008FA782 /* Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				7B04C0304503DA1562F61347 /* ScrollController.podspec */,
+				7B04C0304503DA1562F61347 /* SlideController.podspec */,
 				F82E08E1A9F482FC66A45FD2 /* README.md */,
 				5D950FB8A6A37006F61D4EE5 /* LICENSE */,
 			);
@@ -312,9 +312,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		607FACCF1AFB9204008FA782 /* ScrollController_Example */ = {
+		607FACCF1AFB9204008FA782 /* SlideController_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "ScrollController_Example" */;
+			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SlideController_Example" */;
 			buildPhases = (
 				ACDB559F8A58E0CFB7404A67 /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
@@ -327,14 +327,14 @@
 			);
 			dependencies = (
 			);
-			name = ScrollController_Example;
+			name = SlideController_Example;
 			productName = ScrollController;
-			productReference = 607FACD01AFB9204008FA782 /* ScrollController_Example.app */;
+			productReference = 607FACD01AFB9204008FA782 /* SlideController_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		607FACE41AFB9204008FA782 /* ScrollController_Tests */ = {
+		607FACE41AFB9204008FA782 /* SlideController_Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "ScrollController_Tests" */;
+			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SlideController_Tests" */;
 			buildPhases = (
 				FFA0BF62F24722AD2156005C /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
@@ -348,9 +348,9 @@
 			dependencies = (
 				607FACE71AFB9204008FA782 /* PBXTargetDependency */,
 			);
-			name = ScrollController_Tests;
+			name = SlideController_Tests;
 			productName = Tests;
-			productReference = 607FACE51AFB9204008FA782 /* ScrollController_Tests.xctest */;
+			productReference = 607FACE51AFB9204008FA782 /* SlideController_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -374,7 +374,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "ScrollController" */;
+			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "SlideController" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -387,8 +387,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				607FACCF1AFB9204008FA782 /* ScrollController_Example */,
-				607FACE41AFB9204008FA782 /* ScrollController_Tests */,
+				607FACCF1AFB9204008FA782 /* SlideController_Example */,
+				607FACE41AFB9204008FA782 /* SlideController_Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -547,7 +547,7 @@
 /* Begin PBXTargetDependency section */
 		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 607FACCF1AFB9204008FA782 /* ScrollController_Example */;
+			target = 607FACCF1AFB9204008FA782 /* SlideController_Example */;
 			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -720,7 +720,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "ScrollController" */ = {
+		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "SlideController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACED1AFB9204008FA782 /* Debug */,
@@ -729,7 +729,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "ScrollController_Example" */ = {
+		607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SlideController_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACF01AFB9204008FA782 /* Debug */,
@@ -738,7 +738,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "ScrollController_Tests" */ = {
+		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "SlideController_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACF31AFB9204008FA782 /* Debug */,
