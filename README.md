@@ -22,7 +22,7 @@ pod "ScrollController"
 
 ## Author
 
-pknd, pkondrashkov@gmail.com
+Panda-System, pkondrashkov@gmail.com
 
 ## License
 

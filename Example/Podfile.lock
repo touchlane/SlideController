@@ -1,0 +1,16 @@
+PODS:
+  - ScrollController (0.1.0)
+
+DEPENDENCIES:
+  - ScrollController (from `../`)
+
+EXTERNAL SOURCES:
+  ScrollController:
+    :path: ../
+
+SPEC CHECKSUMS:
+  ScrollController: bef77d5d782ce9a74dcdffe91f4b0c5e891678f5
+
+PODFILE CHECKSUM: 0424ff875c7d3ad1998ffc2b382253991c8ba16f
+
+COCOAPODS: 1.2.1
