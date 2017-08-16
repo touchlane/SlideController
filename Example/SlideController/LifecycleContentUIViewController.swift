@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-import ScrollController
+import SlideController
 
 protocol ViewLifeCycleDependable {
     func viewDidAppear()

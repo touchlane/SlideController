@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import ScrollController
+import SlideController
 
 class Page3LifeCycleObject : Initializable {
     

@@ -1,6 +1,6 @@
 import UIKit
 import XCTest
-import ScrollController
+import SlideController
 
 class Tests: XCTestCase {
     

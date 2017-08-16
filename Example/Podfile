@@ -1,10 +1,10 @@
 use_frameworks!
 
-target 'ScrollController_Example' do
-    pod 'ScrollController', :path => '../'
+target 'SlideController_Example' do
+    pod 'SlideController', :path => '../'
     pod 'SnapKit'
 
-    target 'ScrollController_Tests' do
+    target 'SlideController_Tests' do
         inherit! :search_paths
     end
 end

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import ScrollController
+import SlideController
 
 class SignInController {
     

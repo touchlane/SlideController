@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-import ScrollController
+import SlideController
 
 class ContentUIViewController <T : Viewable>: UIViewController {
     
