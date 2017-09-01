@@ -1,5 +1,5 @@
 PODS:
-  - SlideController (0.1.0)
+  - SlideController (0.1.1)
   - SnapKit (3.2.0)
 
 DEPENDENCIES:
@@ -11,9 +11,9 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  SlideController: 1358951567a88b4b04106bfc82b015837d977962
+  SlideController: fa364fc3bb777fd48b134aa01144eca8160eb9f5
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
 PODFILE CHECKSUM: 032dabe9ffce432dd65e6d3ffb3054350cfb0946
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.1.1
