@@ -10,16 +10,16 @@ import UIKit
 
 class ContentPage {
     var constraints = [NSLayoutConstraint]()
-    fileprivate var _view : UIView
+    fileprivate var intenalView : UIView
     
     init(view : UIView) {
-        _view = view
+        intenalView = view
     }
 }
 
 private typealias Viewable_Implementation = ContentPage
 extension Viewable_Implementation : Viewable {
     var view : UIView {
-        return _view
+        return intenalView
     }
 }
