@@ -127,7 +127,7 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
         self.shift(pageIndex: self._currentIndex, animated: false)
     }
     
-    func didSelectTitleItem(index : Int, completion : @escaping () -> ()) {
+    public func didSelectTitleItem(index : Int, completion : @escaping () -> ()) {
         loadViewIfNeeded(pageIndex: index)
         _isForcedToScroll = true
         shift(pageIndex: index)
@@ -157,9 +157,18 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
         _contentScrollableController.scrollView.firstLayoutAction = _firstLayoutContentAction
     }
     
-    var isScrollEnabled : Bool = true {
+    public var isScrollEnabled : Bool = true {
         didSet {
             _contentScrollableController.scrollView.isScrollEnabled = isScrollEnabled
+        }
+    }
+    
+    private func layoutIfNeeded() {
+        if _contentScrollableController.scrollView.isLayouted {
+            _contentScrollableController.scrollView.layoutIfNeeded()
+        }
+        if _titleScrollableController.titleView.isLayouted {
+            _titleScrollableController.titleView.layoutIfNeeded()
         }
     }
     
@@ -170,27 +179,17 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
             content.append(contentsOf: objects)
             _contentScrollableController.append(pagesCount: objects.count)
             _titleScrollableController.append(pagesCount: objects.count)
-            if _contentScrollableController.scrollView.isLayouted {
-                _contentScrollableController.scrollView.layoutIfNeeded()
-            }
-            if _titleScrollableController.titleView.isLayouted {
-                _titleScrollableController.titleView.layoutIfNeeded()
-            }
+            layoutIfNeeded()
             loadView(pageIndex: _currentIndex)
         }
     }
     
     public func insert(object : PageScrollViewModel, index : Int) {
-        guard index < content.count else { return }
+        guard index <= content.count else { return }
         content.insert(object, at: index)
-        _contentScrollableController.insert(object: object, index: index)
-        _titleScrollableController.insert(object: object, index: index)
-        if _contentScrollableController.scrollView.isLayouted {
-           _contentScrollableController.scrollView.layoutIfNeeded()
-        }
-        if _titleScrollableController.titleView.isLayouted {
-            _titleScrollableController.titleView.layoutIfNeeded()
-        }
+        _contentScrollableController.insert(index: index)
+        _titleScrollableController.insert(index: index)
+        layoutIfNeeded()
         if index <= _currentIndex {
             // FIXME: workaround to fix life cycle calls  
             _contentScrollableController.scrollView.delegate = nil
@@ -217,12 +216,7 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
             _indexToRemove = index
         }
 
-        if _contentScrollableController.scrollView.isLayouted {
-            _contentScrollableController.scrollView.layoutIfNeeded()
-        }
-        if _titleScrollableController.titleView.isLayouted {
-            _titleScrollableController.titleView.layoutIfNeeded()
-        }
+        layoutIfNeeded()
         if index < _currentIndex {
             shift(pageIndex: _currentIndex - 1, animated: false)
         } else if index == _currentIndex {

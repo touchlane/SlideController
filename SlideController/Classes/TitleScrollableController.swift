@@ -59,7 +59,7 @@ class TitleScrollableController<T, N> : TitleScrollable where T : ViewScrollable
         _scrollView.appendViews(views: newControllers.map{$0.view})
     }
     
-    func insert(object : PageScrollViewModel, index : Int) {
+    func insert(index : Int) {
         let controller = TitleItemController<N>()
         controller.index = index
         controller.didSelectAction = _didSelectTitleItemAction
