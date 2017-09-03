@@ -10,7 +10,7 @@ import UIKit
 
 class TitleItemController<T> : TitleItemControllableObject where T : TitleItemObject, T : UIView {
 
-    fileprivate var _item = T()
+    private var _item = T()
     typealias Item = T.Item
     
     //MARK: - Initializable_Implementation

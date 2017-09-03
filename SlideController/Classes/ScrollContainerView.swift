@@ -126,17 +126,17 @@ private extension ScrollContainerView {
         }
         _titleViewConstraints.removeAll()
         switch view.alignment {
-        case TitleViewAlignment.Top:
+        case .Top:
             _titleViewConstraints.append(view.heightAnchor.constraint(equalToConstant: view.titleSize))
             _titleViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
             _titleViewConstraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
             _titleViewConstraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
-        case TitleViewAlignment.Left:
+        case .Left:
             _titleViewConstraints.append(view.widthAnchor.constraint(equalToConstant: view.titleSize))
             _titleViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
             _titleViewConstraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
             _titleViewConstraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
-        case TitleViewAlignment.Right:
+        case .Right:
             _titleViewConstraints.append(view.widthAnchor.constraint(equalToConstant: view.titleSize))
             _titleViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
             _titleViewConstraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
