@@ -10,13 +10,13 @@ import UIKit
 
 class ScrollPageLifeCycleObject : Initializable {
     
-    fileprivate var _view : UIView
+    fileprivate var objectView : UIView
     
     //MARK: - Initialazable_Implementation
     
     required init() {
-        _view = UIView()
-        _view.backgroundColor = UIColor.white
+        objectView = UIView()
+        objectView.backgroundColor = UIColor.white
     }
 }
 
@@ -51,7 +51,7 @@ private typealias Viewable_Implementation = ScrollPageLifeCycleObject
 extension Viewable_Implementation : Viewable {
     var view : UIView {
         get {
-            return _view
+            return objectView
         }
     }
 }

@@ -11,11 +11,11 @@ import SlideController
 
 class LogoutController {
     
-    fileprivate let _view = LogoutView()
+    fileprivate let logoutView = LogoutView()
     
     var logOutDidTapAction: (() -> ())? {
         didSet {
-            _view.logOutBtn.didTouchUpInside = logOutDidTapAction
+            logoutView.logOutBtn.didTouchUpInside = logOutDidTapAction
         }
     }
 }
@@ -24,6 +24,6 @@ private typealias Viewable_Implementation = LogoutController
 extension Viewable_Implementation : Viewable {
     
     var view : UIView {
-        return _view
+        return logoutView
     }
 }

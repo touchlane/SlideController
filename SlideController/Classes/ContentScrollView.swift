@@ -12,12 +12,12 @@ class ContentScrollView: UIScrollView {
   
     var firstLayoutAction : (() -> ())?
     
-    fileprivate var _scrollDirection : ScrollDirection!
-    fileprivate var _pages = [ContentPage]()
+    fileprivate var scrollDirection : ScrollDirection!
+    fileprivate var pages = [ContentPage]()
     internal private(set) var isLayouted = false
     
     init(scrollDirection : ScrollDirection) {
-        _scrollDirection = scrollDirection
+        self.scrollDirection = scrollDirection
         super.init(frame: CGRect.zero)
         isPagingEnabled = true
         bounces = false
@@ -83,11 +83,11 @@ extension ViewScrollable_Implementation : ViewScrollable {
     
     func appendViews(views: [View]) {
         
-        var prevPage : ContentPage? = _pages.last
-        let prevPrevPage : ContentPage? = _pages.count > 1 ? _pages[_pages.count - 2] : nil
+        var prevPage : ContentPage? = pages.last
+        let prevPrevPage : ContentPage? = pages.count > 1 ? pages[pages.count - 2] : nil
         
         if let prevPage = prevPage {
-            updateConstraints(prevPage, prevPage : prevPrevPage, isLast : false, direction: _scrollDirection)
+            updateConstraints(prevPage, prevPage : prevPrevPage, isLast : false, direction: scrollDirection)
         }
         
         for i in 0...views.count - 1 {
@@ -95,39 +95,39 @@ extension ViewScrollable_Implementation : ViewScrollable {
             view.backgroundColor = UIColor.clear
             view.translatesAutoresizingMaskIntoConstraints = false
             let viewModel = ContentPage(view: view)
-            _pages.append(viewModel)
+            pages.append(viewModel)
             addSubview(view)
-            activateConstraints(viewModel, prevPage: prevPage, isLast: i == views.count - 1, direction: _scrollDirection)
+            activateConstraints(viewModel, prevPage: prevPage, isLast: i == views.count - 1, direction: scrollDirection)
             prevPage = viewModel
         }
     }
     
     func insertView(view : View, index : Int) {
-        guard index < _pages.count else { return }
+        guard index < pages.count else { return }
         view.backgroundColor = UIColor.clear
         view.translatesAutoresizingMaskIntoConstraints = false
         let viewModel = ContentPage(view: view)
-        _pages.insert(viewModel, at: index)
+        pages.insert(viewModel, at: index)
         addSubview(view)
-        let prevPage : ContentPage? = index > 0 ? _pages[index - 1] :  nil
-        let nextPage : ContentPage = _pages[index + 1]
-        activateConstraints(viewModel, prevPage: prevPage, isLast: false, direction: _scrollDirection)
-        updateConstraints(nextPage, prevPage : viewModel, isLast : index == _pages.count - 2, direction: _scrollDirection)
+        let prevPage : ContentPage? = index > 0 ? pages[index - 1] :  nil
+        let nextPage : ContentPage = pages[index + 1]
+        activateConstraints(viewModel, prevPage: prevPage, isLast: false, direction: scrollDirection)
+        updateConstraints(nextPage, prevPage : viewModel, isLast : index == pages.count - 2, direction: scrollDirection)
     }
     
     func removeViewAtIndex(index : Int) {
-        guard index < _pages.count else { return }
-        let page : ContentPage = _pages[index]
-        let prevPage : ContentPage? = index > 0 ? _pages[index - 1] : nil
-        let nextPage : ContentPage? = index < _pages.count - 1 ? _pages[index + 1] : nil
+        guard index < pages.count else { return }
+        let page : ContentPage = pages[index]
+        let prevPage : ContentPage? = index > 0 ? pages[index - 1] : nil
+        let nextPage : ContentPage? = index < pages.count - 1 ? pages[index + 1] : nil
         
-        _pages.remove(at: index)
+        pages.remove(at: index)
         page.view.removeFromSuperview()
         if let nextPage = nextPage {
-            updateConstraints(nextPage, prevPage: prevPage, isLast: index == _pages.count - 1, direction: _scrollDirection)
+            updateConstraints(nextPage, prevPage: prevPage, isLast: index == pages.count - 1, direction: scrollDirection)
         } else if let prevPage = prevPage {
-            let prevPrevPage : ContentPage? = _pages.count > 1 ? _pages[_pages.count - 2] : nil
-            updateConstraints(prevPage, prevPage: prevPrevPage, isLast: true, direction: _scrollDirection)
+            let prevPrevPage : ContentPage? = pages.count > 1 ? pages[pages.count - 2] : nil
+            updateConstraints(prevPage, prevPage: prevPrevPage, isLast: true, direction: scrollDirection)
         }
     }
 }

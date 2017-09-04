@@ -49,7 +49,6 @@ open class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable 
     }
     
     //MARK: - ViewScrollable_Implementation
-    
     open func appendViews(views: [View]) {
         
     }
@@ -65,7 +64,6 @@ open class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable 
     open var firstLayoutAction : (() -> ())?
     
     //MARK: - TitleConfigurable_Implementation
-    
     public var alignment = TitleViewAlignment.Top {
         didSet {
             if alignment != oldValue {
