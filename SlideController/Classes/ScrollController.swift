@@ -92,13 +92,6 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
         return _titleScrollableController.titleView
     }
     
-    internal var _currentModel : PageScrollViewModel? {
-        if isIndexValid(index: _currentIndex) {
-            return content[_currentIndex]
-        }
-        return nil
-    }
-    
     fileprivate let _containerView = ScrollContainerView<T>()
     fileprivate var _titleScrollableController : TitleScrollableController<T, N>!
     internal fileprivate(set) var content = [PageScrollViewModel]()
