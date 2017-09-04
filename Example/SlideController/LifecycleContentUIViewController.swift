@@ -17,10 +17,10 @@ protocol ViewLifeCycleDependable {
 
 class LifecycleContentUIViewController <T> : UIViewController where T : Viewable, T : ViewLifeCycleDependable {
     
-    private let _controller : T
+    private let controller : T
     
     init(controller : T) {
-        _controller = controller
+        self.controller = controller
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,19 +30,19 @@ class LifecycleContentUIViewController <T> : UIViewController where T : Viewable
     
     override func viewDidLoad() {
         automaticallyAdjustsScrollViewInsets = false
-        _controller.view.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(_controller.view)
-        activateControllerViewConstraints(view: _controller.view)
+        controller.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(controller.view)
+        activateControllerViewConstraints(view: controller.view)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        _controller.viewDidAppear()
+        controller.viewDidAppear()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        _controller.viewDidDisappear()
+        controller.viewDidDisappear()
     }
 }
 
