@@ -10,7 +10,6 @@ import UIKit
 import SlideController
 
 class RootRouter {
-    
     var presenter : UINavigationController?
     
     func showSignIn(animated : Bool) {

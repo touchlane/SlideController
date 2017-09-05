@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SnapKit
 import SlideController
 
 protocol ViewLifeCycleDependable {
@@ -32,7 +31,7 @@ class LifecycleContentUIViewController <T> : UIViewController where T : Viewable
         automaticallyAdjustsScrollViewInsets = false
         _controller.view.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(_controller.view)
-        activateControllerViewConstraints(view: _controller.view)
+        activateControllerViewConstraints(view: _controller.view, superView: self.view)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -48,9 +47,12 @@ class LifecycleContentUIViewController <T> : UIViewController where T : Viewable
 
 private extension LifecycleContentUIViewController {
     
-    func activateControllerViewConstraints(view : UIView) {
-        view.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
+    func activateControllerViewConstraints(view : UIView, superView : UIView) {
+        var constraints = [NSLayoutConstraint]()
+        constraints.append(view.bottomAnchor.constraint(equalTo: superView.bottomAnchor))
+        constraints.append(view.leadingAnchor.constraint(equalTo: superView.leadingAnchor))
+        constraints.append(view.trailingAnchor.constraint(equalTo: superView.trailingAnchor))
+        constraints.append(view.topAnchor.constraint(equalTo: superView.topAnchor))
+        NSLayoutConstraint.activate(constraints)
     }
 }

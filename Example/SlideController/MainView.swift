@@ -6,7 +6,7 @@
 //  Copyright © 2017 Panda Systems. All rights reserved.
 //
 
-import SnapKit
+import UIKit
 
 class MainView : UIView {
     
@@ -38,19 +38,22 @@ class MainView : UIView {
 
 private typealias Private_MainView = MainView
 private extension Private_MainView {
-    
     func activateContentViewConstraints(view : UIView) {
-        view.snp.makeConstraints { (make) in
-            make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-MainView.bottomViewHeight)
-        }
+        var constraints = [NSLayoutConstraint]()
+        constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -MainView.bottomViewHeight))
+        constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
+        constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
+        constraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
+        NSLayoutConstraint.activate(constraints)
     }
     
     func activateBottomViewConstraints(view : UIView) {
-        view.snp.makeConstraints { (make) in
-            make.bottom.leading.trailing.equalToSuperview()
-            make.height.equalTo(MainView.bottomViewHeight)
-        }
+        var constraints = [NSLayoutConstraint]()
+        constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
+        constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
+        constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
+        constraints.append(view.heightAnchor.constraint(equalToConstant: MainView.bottomViewHeight))
+        NSLayoutConstraint.activate(constraints)
     }
 }
 

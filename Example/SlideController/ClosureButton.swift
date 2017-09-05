@@ -9,7 +9,6 @@
 import UIKit
 
 class ClosureButton: UIButton {
-    
     typealias DidTapButton = () -> ()
     
     var didTouchUpInside: DidTapButton? {
@@ -25,7 +24,6 @@ class ClosureButton: UIButton {
 
 private typealias Private_ClosureButton = ClosureButton
 private extension Private_ClosureButton {
-    
     @objc func didTouchUpInside(_ sender: UIButton) {
         didTouchUpInside?()
     }

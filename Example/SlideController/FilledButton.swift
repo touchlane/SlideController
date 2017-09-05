@@ -10,7 +10,6 @@ import CoreGraphics
 import Foundation
 
 class FilledButton: ClosureButton, ButtonDesignable {
-    
     init() {
         super.init(frame: CGRect.zero)
         backgroundColor = bgColor
