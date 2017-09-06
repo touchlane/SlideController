@@ -6,10 +6,9 @@
 //  Copyright © 2017 Panda Systems. All rights reserved.
 //
 
-import SnapKit
+import UIKit
 
 class SignInView : UIView {
-    
     fileprivate let _signInBtnWidth : CGFloat = 120
     fileprivate let _signInBtnHeigh : CGFloat = 32
     
@@ -34,12 +33,12 @@ class SignInView : UIView {
 private typealias Private_SignInView = SignInView
 private extension Private_SignInView {
     func activateSignInBtnConstraints (view : UIView) {
-        view.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.width.equalTo(_signInBtnWidth)
-            make.height.equalTo(_signInBtnHeigh)
-        }
+        var constraints = [NSLayoutConstraint]()
+        constraints.append(view.centerXAnchor.constraint(equalTo: self.centerXAnchor))
+        constraints.append(view.centerYAnchor.constraint(equalTo: self.centerYAnchor))
+        constraints.append(view.heightAnchor.constraint(equalToConstant: _signInBtnHeigh))
+        constraints.append(view.widthAnchor.constraint(equalToConstant: _signInBtnWidth))
+        NSLayoutConstraint.activate(constraints)
     }
-    
 }
 

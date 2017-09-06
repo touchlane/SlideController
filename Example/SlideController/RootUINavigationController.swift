@@ -9,7 +9,6 @@
 import UIKit
 
 class RootUINavigationController : UINavigationController {
-    
     init() {
         super.init(nibName: nil, bundle: nil)
         navigationBar.isHidden = true

@@ -23,7 +23,7 @@ class LogoutView : UIView {
         logOutBtn.layer.cornerRadius = _logOutBtnHeigh / 2
         logOutBtn.translatesAutoresizingMaskIntoConstraints = false
         addSubview(logOutBtn)
-        activateLogOutBtnConstraints(view : logOutBtn)
+        activateLogOutBtnConstraints(view : logOutBtn, superView: self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,12 +34,13 @@ class LogoutView : UIView {
 
 private typealias Private_LogoutView = LogoutView
 private extension Private_LogoutView {
-    func activateLogOutBtnConstraints (view : UIView) {
-        view.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.width.equalTo(_logOutInBtnWidth)
-            make.height.equalTo(_logOutBtnHeigh)
-        }
+    func activateLogOutBtnConstraints (view : UIView, superView : UIView) {
+        var constraints = [NSLayoutConstraint]()
+        constraints.append(view.centerXAnchor.constraint(equalTo: superView.centerXAnchor))
+        constraints.append(view.centerYAnchor.constraint(equalTo: superView.centerYAnchor))
+        constraints.append(view.widthAnchor.constraint(equalToConstant: _logOutInBtnWidth))
+        constraints.append(view.heightAnchor.constraint(equalToConstant: _logOutBtnHeigh))
+        NSLayoutConstraint.activate(constraints)
     }
     
 }
