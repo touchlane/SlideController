@@ -1,6 +1,6 @@
 //
 //  ClosureButtonDesignable.swift
-//  PandaDemo
+//  SlideController_Example
 //
 //  Created by Evgeny Dedovets on 8/9/17.
 //  Copyright © 2017 Panda Systems. All rights reserved.
