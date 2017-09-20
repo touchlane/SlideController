@@ -1,6 +1,6 @@
 //
 //  ScrollController.swift
-//  youlive
+//  SlideController
 //
 //  Created by Evgeny Dedovets on 5/6/17.
 //  Copyright © 2017 Panda Systems. All rights reserved.
