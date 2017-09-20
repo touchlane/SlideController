@@ -12,29 +12,31 @@ import SlideController
 class RootRouter {
     var presenter : UINavigationController?
     
-    func showSignIn(animated : Bool) {
-        let signInControler = SignInController()
-        signInControler.signInDidTapAction = signInDidTapAction
-        let vc = ContentUIViewController<SignInController>(controller: signInControler)
+    func openMainScreen(animated : Bool) {
+        let optionsControler = OptionsController()
+        optionsControler.openHorizontalDemoAction = openHorizontalDemoAction
+        let vc = ContentUIViewController<OptionsController>()
+        vc.controller = optionsControler
         presenter?.setViewControllers([vc], animated: animated)
     }
     
     func showMainPage(animated : Bool) {
-        let logoutController = LogoutController()
-        logoutController.logOutDidTapAction = logOutDidTapAction
+        let optionsController = HorizontalOptionsController()
+        optionsController.logOutDidTapAction = logOutDidTapAction
         let mainController = MainController()
-        mainController.bottomController = logoutController
-        let vc = LifecycleContentUIViewController<MainController>(controller: mainController)
-        presenter?.setViewControllers([vc], animated: animated)
+        mainController.optionsController = optionsController
+        let vc = LifecycleContentUIViewController<MainController>()
+        vc.controller = mainController
+        presenter?.pushViewController(vc, animated: animated)
     }
     
-    private lazy var signInDidTapAction : (() -> ())? = { [weak self] in
+    private lazy var openHorizontalDemoAction : (() -> ())? = { [weak self] in
         guard let `self` = self else { return }
         self.showMainPage(animated : true)
     }
     
     private lazy var logOutDidTapAction : (() -> ())? = { [weak self] in
         guard let `self` = self else { return }
-        self.showSignIn(animated : true)
+        self.presenter?.popViewController(animated: true)
     }
 }

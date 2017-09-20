@@ -9,7 +9,6 @@
 import UIKit
 
 class ContentScrollableController {
-    
     var pageSize : CGFloat = 0
     var didCompleteContentLayout : (() -> ())?
     

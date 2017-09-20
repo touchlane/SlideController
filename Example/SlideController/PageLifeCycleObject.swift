@@ -9,29 +9,32 @@
 import UIKit
 import SlideController
 
-class Page1LifeCycleObject : Initializable {
-    
+class PageLifeCycleObject : Initializable {
     fileprivate var _controller = ColorController()
     
     //MARK: - Initialazable_Implementation
     
     required init() {
-        
+    
     }
 }
 
-private typealias PageScrollViewLifeCycle_Implementation = Page1LifeCycleObject
+private typealias PageScrollViewLifeCycle_Implementation = PageLifeCycleObject
 extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
+    var isKeyboardResponsive : Bool {
+        return false
+    }
+    
+    var title : String? {
+        return _controller.title
+    }
+    
     func didAppear() {
-        print("Page 1 did appear")
+        print("Page did appear")
     }
     
     func didDissapear() {
-        print("Page 1 did dissapear")
-    }
-    
-    var isKeyboardResponsive : Bool {
-        return false
+        print("Page did dissapear")
     }
     
     func viewDidLoad() {
@@ -47,8 +50,8 @@ extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
     }
 }
 
-private typealias Viewable_Implementation = Page1LifeCycleObject
-extension Viewable_Implementation : Viewable {
+private typealias Viewable_Implementation = PageLifeCycleObject
+extension Viewable_Implementation : SlideController.Viewable {
     var view : UIView {
         get {
             return _controller.view

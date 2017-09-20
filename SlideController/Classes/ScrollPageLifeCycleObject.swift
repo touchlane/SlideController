@@ -22,16 +22,20 @@ class ScrollPageLifeCycleObject : Initializable {
 
 private typealias PageScrollViewLifeCycle_Implementation = ScrollPageLifeCycleObject
 extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
+    var isKeyboardResponsive : Bool {
+        return false
+    }
+    
+    var title : String? {
+        return nil
+    }
+    
     func didAppear() {
         print("Empty page did appear")
     }
     
     func didDissapear() {
         print("Empty page did dissapear")
-    }
-    
-    var isKeyboardResponsive : Bool {
-        return false
     }
     
     func viewDidLoad() {

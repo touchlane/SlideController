@@ -9,9 +9,6 @@
 import UIKit
 
 class MainView : UIView {
-    
-    static let bottomViewHeight : CGFloat = 50
-    
     var contentView : UIView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -23,36 +20,35 @@ class MainView : UIView {
         }
     }
    
-    var bottomView : UIView? {
+    var optionsView : UIView? {
         didSet {
             oldValue?.removeFromSuperview()
-            if let view = bottomView {
+            if let view = optionsView {
                 view.translatesAutoresizingMaskIntoConstraints = false
                 self.addSubview(view)
-                activateBottomViewConstraints(view: view)
+                activateOptionsViewConstraints(view: view)
             }
         }
     }
-    
 }
 
 private typealias Private_MainView = MainView
 private extension Private_MainView {
     func activateContentViewConstraints(view : UIView) {
         var constraints = [NSLayoutConstraint]()
-        constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -MainView.bottomViewHeight))
+        constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
         constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
         constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
         constraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
         NSLayoutConstraint.activate(constraints)
     }
     
-    func activateBottomViewConstraints(view : UIView) {
+    func activateOptionsViewConstraints(view : UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
         constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
         constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
-        constraints.append(view.heightAnchor.constraint(equalToConstant: MainView.bottomViewHeight))
+        constraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
         NSLayoutConstraint.activate(constraints)
     }
 }

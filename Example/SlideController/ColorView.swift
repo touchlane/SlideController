@@ -9,7 +9,6 @@
 import UIKit
 
 class ColorView : UIView {
-    
     init() {
         super.init(frame: CGRect.zero)
         backgroundColor = randomColor()
@@ -22,7 +21,6 @@ class ColorView : UIView {
 
 private typealias Private_ColorView = ColorView
 private extension Private_ColorView {
-
     func randomColor() -> UIColor{
         let randomRed:CGFloat = CGFloat(drand48())
         let randomGreen:CGFloat = CGFloat(drand48())

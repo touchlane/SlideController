@@ -10,12 +10,15 @@ import UIKit
 import SlideController
 
 class ColorController {
+    var title : String? {
+        return _view.backgroundColor?.toHexString()
+    }
+    
     fileprivate let _view = ColorView()
 }
 
 private typealias Viewable_Implementation = ColorController
 extension Viewable_Implementation : Viewable {
-    
     var view : UIView {
         return _view
     }

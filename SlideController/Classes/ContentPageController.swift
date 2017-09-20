@@ -9,7 +9,6 @@
 import UIKit
 
 class ContentPageController {
-    
     let view = UIView()
     
     func isContentLoaded() -> Bool {

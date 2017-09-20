@@ -14,24 +14,25 @@
 		86D7AD871F44843800B65941 /* ClosureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD851F44843800B65941 /* ClosureButton.swift */; };
 		86D7AD881F44843800B65941 /* FilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD861F44843800B65941 /* FilledButton.swift */; };
 		86D7AD8C1F44844A00B65941 /* RootUINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD891F44844A00B65941 /* RootUINavigationController.swift */; };
-		86D7AD8D1F44844A00B65941 /* ContentUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD8A1F44844A00B65941 /* ContentUIViewController.swift */; };
 		86D7AD8E1F44844A00B65941 /* LifecycleContentUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD8B1F44844A00B65941 /* LifecycleContentUIViewController.swift */; };
 		86D7AD911F44849700B65941 /* ClosureButtonDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD901F44849700B65941 /* ClosureButtonDesignable.swift */; };
 		86D7AD941F44849D00B65941 /* ColorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD921F44849D00B65941 /* ColorController.swift */; };
 		86D7AD951F44849D00B65941 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD931F44849D00B65941 /* ColorView.swift */; };
-		86D7AD981F4484A500B65941 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD961F4484A500B65941 /* SignInController.swift */; };
-		86D7AD991F4484A500B65941 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD971F4484A500B65941 /* SignInView.swift */; };
 		86D7AD9C1F44892200B65941 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD9A1F44892200B65941 /* MainController.swift */; };
 		86D7AD9D1F44892200B65941 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD9B1F44892200B65941 /* MainView.swift */; };
-		86D7ADA41F44895100B65941 /* Page3LifeCycleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADA31F44895100B65941 /* Page3LifeCycleObject.swift */; };
-		86D7ADA61F44895700B65941 /* Page2LifeCycleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADA51F44895700B65941 /* Page2LifeCycleObject.swift */; };
-		86D7ADA81F44895D00B65941 /* Page1LifeCycleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADA71F44895D00B65941 /* Page1LifeCycleObject.swift */; };
-		86D7ADAB1F44896300B65941 /* LogoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADA91F44896300B65941 /* LogoutController.swift */; };
-		86D7ADAC1F44896300B65941 /* LogoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADAA1F44896300B65941 /* LogoutView.swift */; };
+		86D7ADA81F44895D00B65941 /* PageLifeCycleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADA71F44895D00B65941 /* PageLifeCycleObject.swift */; };
+		86D7ADAB1F44896300B65941 /* HorizontalOptionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADA91F44896300B65941 /* HorizontalOptionsController.swift */; };
+		86D7ADAC1F44896300B65941 /* HorizontalOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADAA1F44896300B65941 /* HorizontalOptionsView.swift */; };
 		86D7ADAF1F44896A00B65941 /* MainTitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADAD1F44896A00B65941 /* MainTitleItem.swift */; };
 		86D7ADB01F44896A00B65941 /* MainTitleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADAE1F44896A00B65941 /* MainTitleScrollView.swift */; };
 		86EE777B1F4491B6009FCDB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EE777A1F4491B6009FCDB3 /* AppDelegate.swift */; };
 		AD817F5C8752A3A99B45F29F /* Pods_SlideController_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E9E6A30D87A3394BD3AD62 /* Pods_SlideController_Example.framework */; };
+		B4BB56801F72B2FC002D521D /* ContentUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BB567F1F72B2FC002D521D /* ContentUIViewController.swift */; };
+		B4BB56821F72B5AE002D521D /* Viewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BB56811F72B5AE002D521D /* Viewable.swift */; };
+		B4BB56841F72BB98002D521D /* ViewLifeCycleDependable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BB56831F72BB98002D521D /* ViewLifeCycleDependable.swift */; };
+		B4BB56891F72CCB2002D521D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BB56881F72CCB2002D521D /* UIColor.swift */; };
+		B4D742761F604AC80019A0C6 /* OptionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D742751F604AC80019A0C6 /* OptionsController.swift */; };
+		B4D742781F604AD70019A0C6 /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D742771F604AD70019A0C6 /* OptionsView.swift */; };
 		F0DB67F7CEC13D1EAF4D13C5 /* Pods_SlideController_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEC61E3A4E0A664CF3A05DEF /* Pods_SlideController_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,23 +64,24 @@
 		86D7AD851F44843800B65941 /* ClosureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClosureButton.swift; sourceTree = "<group>"; };
 		86D7AD861F44843800B65941 /* FilledButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledButton.swift; sourceTree = "<group>"; };
 		86D7AD891F44844A00B65941 /* RootUINavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootUINavigationController.swift; sourceTree = "<group>"; };
-		86D7AD8A1F44844A00B65941 /* ContentUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentUIViewController.swift; sourceTree = "<group>"; };
 		86D7AD8B1F44844A00B65941 /* LifecycleContentUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifecycleContentUIViewController.swift; sourceTree = "<group>"; };
 		86D7AD901F44849700B65941 /* ClosureButtonDesignable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClosureButtonDesignable.swift; sourceTree = "<group>"; };
 		86D7AD921F44849D00B65941 /* ColorController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorController.swift; sourceTree = "<group>"; };
 		86D7AD931F44849D00B65941 /* ColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
-		86D7AD961F4484A500B65941 /* SignInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
-		86D7AD971F4484A500B65941 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		86D7AD9A1F44892200B65941 /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		86D7AD9B1F44892200B65941 /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		86D7ADA31F44895100B65941 /* Page3LifeCycleObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page3LifeCycleObject.swift; sourceTree = "<group>"; };
-		86D7ADA51F44895700B65941 /* Page2LifeCycleObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page2LifeCycleObject.swift; sourceTree = "<group>"; };
-		86D7ADA71F44895D00B65941 /* Page1LifeCycleObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page1LifeCycleObject.swift; sourceTree = "<group>"; };
-		86D7ADA91F44896300B65941 /* LogoutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutController.swift; sourceTree = "<group>"; };
-		86D7ADAA1F44896300B65941 /* LogoutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutView.swift; sourceTree = "<group>"; };
+		86D7ADA71F44895D00B65941 /* PageLifeCycleObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageLifeCycleObject.swift; sourceTree = "<group>"; };
+		86D7ADA91F44896300B65941 /* HorizontalOptionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalOptionsController.swift; sourceTree = "<group>"; };
+		86D7ADAA1F44896300B65941 /* HorizontalOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalOptionsView.swift; sourceTree = "<group>"; };
 		86D7ADAD1F44896A00B65941 /* MainTitleItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTitleItem.swift; sourceTree = "<group>"; };
 		86D7ADAE1F44896A00B65941 /* MainTitleScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTitleScrollView.swift; sourceTree = "<group>"; };
 		86EE777A1F4491B6009FCDB3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B4BB567F1F72B2FC002D521D /* ContentUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentUIViewController.swift; sourceTree = "<group>"; };
+		B4BB56811F72B5AE002D521D /* Viewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Viewable.swift; sourceTree = "<group>"; };
+		B4BB56831F72BB98002D521D /* ViewLifeCycleDependable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLifeCycleDependable.swift; sourceTree = "<group>"; };
+		B4BB56881F72CCB2002D521D /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		B4D742751F604AC80019A0C6 /* OptionsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsController.swift; sourceTree = "<group>"; };
+		B4D742771F604AD70019A0C6 /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 		E1AEA2A998395087E8500157 /* Pods-SlideController_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlideController_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SlideController_Tests/Pods-SlideController_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		EEC61E3A4E0A664CF3A05DEF /* Pods_SlideController_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SlideController_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F82E08E1A9F482FC66A45FD2 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -138,12 +140,11 @@
 		607FACD21AFB9204008FA782 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				B4BB56871F72CC73002D521D /* Extensions */,
+				86D7AD801F4483ED00B65941 /* Protocols */,
+				B4BB56861F72BC47002D521D /* Controllers */,
 				86D7AD7D1F4483C900B65941 /* Routers */,
 				86D7AD811F4483F200B65941 /* Core */,
-				86D7AD801F4483ED00B65941 /* Protocols */,
-				86D7AD8F1F44847D00B65941 /* ColorController */,
-				86D7AD7F1F4483E700B65941 /* SignIn */,
-				86D7AD7E1F4483D200B65941 /* Main */,
 				86EE777A1F4491B6009FCDB3 /* AppDelegate.swift */,
 				86CFA4281F4491F400C4B1A4 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -214,26 +215,17 @@
 				86D7AD9B1F44892200B65941 /* MainView.swift */,
 				86D7ADA21F44894200B65941 /* Menu */,
 				86D7ADA11F44893900B65941 /* BottomController */,
-				86D7ADA01F44893300B65941 /* Page 1 */,
-				86D7AD9F1F44892C00B65941 /* Page 2 */,
-				86D7AD9E1F44892600B65941 /* Page 3 */,
+				86D7ADA01F44893300B65941 /* PageContent */,
 			);
 			name = Main;
-			sourceTree = "<group>";
-		};
-		86D7AD7F1F4483E700B65941 /* SignIn */ = {
-			isa = PBXGroup;
-			children = (
-				86D7AD961F4484A500B65941 /* SignInController.swift */,
-				86D7AD971F4484A500B65941 /* SignInView.swift */,
-			);
-			name = SignIn;
 			sourceTree = "<group>";
 		};
 		86D7AD801F4483ED00B65941 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				86D7AD901F44849700B65941 /* ClosureButtonDesignable.swift */,
+				B4BB56831F72BB98002D521D /* ViewLifeCycleDependable.swift */,
+				B4BB56811F72B5AE002D521D /* Viewable.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -241,10 +233,8 @@
 		86D7AD811F4483F200B65941 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				B4BB56851F72BBE7002D521D /* UIViewControllers */,
 				86D7AD821F44840C00B65941 /* Buttons */,
-				86D7AD891F44844A00B65941 /* RootUINavigationController.swift */,
-				86D7AD8A1F44844A00B65941 /* ContentUIViewController.swift */,
-				86D7AD8B1F44844A00B65941 /* LifecycleContentUIViewController.swift */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -267,35 +257,19 @@
 			name = ColorController;
 			sourceTree = "<group>";
 		};
-		86D7AD9E1F44892600B65941 /* Page 3 */ = {
+		86D7ADA01F44893300B65941 /* PageContent */ = {
 			isa = PBXGroup;
 			children = (
-				86D7ADA31F44895100B65941 /* Page3LifeCycleObject.swift */,
+				86D7ADA71F44895D00B65941 /* PageLifeCycleObject.swift */,
 			);
-			name = "Page 3";
-			sourceTree = "<group>";
-		};
-		86D7AD9F1F44892C00B65941 /* Page 2 */ = {
-			isa = PBXGroup;
-			children = (
-				86D7ADA51F44895700B65941 /* Page2LifeCycleObject.swift */,
-			);
-			name = "Page 2";
-			sourceTree = "<group>";
-		};
-		86D7ADA01F44893300B65941 /* Page 1 */ = {
-			isa = PBXGroup;
-			children = (
-				86D7ADA71F44895D00B65941 /* Page1LifeCycleObject.swift */,
-			);
-			name = "Page 1";
+			name = PageContent;
 			sourceTree = "<group>";
 		};
 		86D7ADA11F44893900B65941 /* BottomController */ = {
 			isa = PBXGroup;
 			children = (
-				86D7ADA91F44896300B65941 /* LogoutController.swift */,
-				86D7ADAA1F44896300B65941 /* LogoutView.swift */,
+				86D7ADA91F44896300B65941 /* HorizontalOptionsController.swift */,
+				86D7ADAA1F44896300B65941 /* HorizontalOptionsView.swift */,
 			);
 			name = BottomController;
 			sourceTree = "<group>";
@@ -307,6 +281,43 @@
 				86D7ADAE1F44896A00B65941 /* MainTitleScrollView.swift */,
 			);
 			name = Menu;
+			sourceTree = "<group>";
+		};
+		B4BB56851F72BBE7002D521D /* UIViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				86D7AD891F44844A00B65941 /* RootUINavigationController.swift */,
+				86D7AD8B1F44844A00B65941 /* LifecycleContentUIViewController.swift */,
+				B4BB567F1F72B2FC002D521D /* ContentUIViewController.swift */,
+			);
+			name = UIViewControllers;
+			sourceTree = "<group>";
+		};
+		B4BB56861F72BC47002D521D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				86D7AD7E1F4483D200B65941 /* Main */,
+				86D7AD8F1F44847D00B65941 /* ColorController */,
+				B4D742741F604AA60019A0C6 /* OptionsController */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		B4BB56871F72CC73002D521D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B4BB56881F72CCB2002D521D /* UIColor.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		B4D742741F604AA60019A0C6 /* OptionsController */ = {
+			isa = PBXGroup;
+			children = (
+				B4D742751F604AC80019A0C6 /* OptionsController.swift */,
+				B4D742771F604AD70019A0C6 /* OptionsView.swift */,
+			);
+			name = OptionsController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -512,8 +523,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86D7ADA41F44895100B65941 /* Page3LifeCycleObject.swift in Sources */,
-				86D7AD8D1F44844A00B65941 /* ContentUIViewController.swift in Sources */,
+				B4BB56821F72B5AE002D521D /* Viewable.swift in Sources */,
 				86D7AD9D1F44892200B65941 /* MainView.swift in Sources */,
 				86D7AD941F44849D00B65941 /* ColorController.swift in Sources */,
 				86D7AD951F44849D00B65941 /* ColorView.swift in Sources */,
@@ -521,18 +531,20 @@
 				86D7AD881F44843800B65941 /* FilledButton.swift in Sources */,
 				86D7AD841F44842E00B65941 /* RootRouter.swift in Sources */,
 				86D7AD911F44849700B65941 /* ClosureButtonDesignable.swift in Sources */,
-				86D7ADAB1F44896300B65941 /* LogoutController.swift in Sources */,
-				86D7ADAC1F44896300B65941 /* LogoutView.swift in Sources */,
-				86D7AD981F4484A500B65941 /* SignInController.swift in Sources */,
-				86D7ADA61F44895700B65941 /* Page2LifeCycleObject.swift in Sources */,
+				86D7ADAB1F44896300B65941 /* HorizontalOptionsController.swift in Sources */,
+				86D7ADAC1F44896300B65941 /* HorizontalOptionsView.swift in Sources */,
 				86D7ADB01F44896A00B65941 /* MainTitleScrollView.swift in Sources */,
+				B4D742761F604AC80019A0C6 /* OptionsController.swift in Sources */,
 				86D7AD8C1F44844A00B65941 /* RootUINavigationController.swift in Sources */,
+				B4BB56841F72BB98002D521D /* ViewLifeCycleDependable.swift in Sources */,
+				B4BB56801F72B2FC002D521D /* ContentUIViewController.swift in Sources */,
 				86D7AD871F44843800B65941 /* ClosureButton.swift in Sources */,
 				86D7ADAF1F44896A00B65941 /* MainTitleItem.swift in Sources */,
 				86D7AD9C1F44892200B65941 /* MainController.swift in Sources */,
 				86EE777B1F4491B6009FCDB3 /* AppDelegate.swift in Sources */,
-				86D7ADA81F44895D00B65941 /* Page1LifeCycleObject.swift in Sources */,
-				86D7AD991F4484A500B65941 /* SignInView.swift in Sources */,
+				B4BB56891F72CCB2002D521D /* UIColor.swift in Sources */,
+				86D7ADA81F44895D00B65941 /* PageLifeCycleObject.swift in Sources */,
+				B4D742781F604AD70019A0C6 /* OptionsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,42 +1,27 @@
 //
-//  PresenterUIViewController.swift
-//  PandaDemo
+//  ContentUIViewController.swift
+//  SlideController_Example
 //
-//  Created by Evgeny Dedovets on 8/10/17.
-//  Copyright © 2017 Panda Systems. All rights reserved.
+//  Created by Evgeny Dedovets on 9/20/17.
+//  Copyright © 2017 CocoaPods. All rights reserved.
 //
 
 import UIKit
-import SlideController
 
-class ContentUIViewController <T : Viewable>: UIViewController {
-    private let _controller : T
-    
-    init(controller : T) {
-        _controller = controller
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+class ContentUIViewController<T> : UIViewController where T : Viewable {
+    var controller : T? {
+        didSet {
+            if let controller = controller {
+                view = controller.view
+            }
+        }
     }
     
     override func viewDidLoad() {
-        automaticallyAdjustsScrollViewInsets = false
-        _controller.view.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(_controller.view)
-        activateControllerViewConstraints(view: _controller.view, superView: self.view)
+        super.viewDidLoad()
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 }
-
-private extension ContentUIViewController {
-    func activateControllerViewConstraints(view : UIView, superView : UIView) {
-        var constraints = [NSLayoutConstraint]()
-        constraints.append(view.bottomAnchor.constraint(equalTo: superView.bottomAnchor))
-        constraints.append(view.leadingAnchor.constraint(equalTo: superView.leadingAnchor))
-        constraints.append(view.trailingAnchor.constraint(equalTo: superView.trailingAnchor))
-        constraints.append(view.topAnchor.constraint(equalTo: superView.topAnchor))
-        NSLayoutConstraint.activate(constraints)
-    }
-}
-

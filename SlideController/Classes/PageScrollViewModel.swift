@@ -19,7 +19,7 @@ public class PageScrollViewModel {
         _className = className
     }
     
-    public  init(object : ScrollLifeCycleObject?) {
+    public  init(object : ScrollLifeCycleObject) {
         _object = object
     }
 }

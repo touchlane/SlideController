@@ -10,37 +10,30 @@ import UIKit
 import SlideController
 
 class MainController {
-    
     fileprivate let _view = MainView()
     fileprivate let _scrollControler : ScrollController<MainTitleScrollView, MainTitleItem>!
     
-    fileprivate let page1 = Page1LifeCycleObject()
-    fileprivate let page2 = Page2LifeCycleObject()
-    fileprivate let page3 = Page3LifeCycleObject()
-    
     init() {
         let pagesContent = [
-            PageScrollViewModel(object: page1),
-            PageScrollViewModel(object: page2),
-            PageScrollViewModel(object: page3)]
+            PageScrollViewModel(object: PageLifeCycleObject()),
+            PageScrollViewModel(className: "SlideController_Example.PageLifeCycleObject"),
+            PageScrollViewModel(className: "SlideController_Example.PageLifeCycleObject")]
         _scrollControler = ScrollController(pagesContent : pagesContent, startPageIndex: 0, scrollDirection: ScrollDirection.Horizontal)
-        _scrollControler.titleView.items[0].titleLabel.text = "Color Page 1"
-        _scrollControler.titleView.items[1].titleLabel.text = "Color Page 2"
-        _scrollControler.titleView.items[2].titleLabel.text = "Color Page 3"
-        
+        for index in 0..<_scrollControler.content.count {
+           _scrollControler.titleView.items[index].titleLabel.text = _scrollControler.content[index].object.title
+        }
         _view.contentView = _scrollControler.view
     }
     
-    var bottomController : Viewable? {
+    var optionsController : Viewable? {
         didSet {
-           _view.bottomView = bottomController?.view
+           _view.optionsView = optionsController?.view
         }
     }
 }
 
 private typealias ViewLifeCycleDependable_Implementation = MainController
 extension ViewLifeCycleDependable_Implementation : ViewLifeCycleDependable {
-    
     func viewDidAppear() {
         _scrollControler.viewDidAppear()
     }
@@ -52,7 +45,6 @@ extension ViewLifeCycleDependable_Implementation : ViewLifeCycleDependable {
 
 private typealias Viewable_Implementation = MainController
 extension Viewable_Implementation : Viewable {
-    
     var view : UIView {
         return _view
     }

@@ -9,14 +9,12 @@
 import UIKit
 
 protocol ButtonDesignable : class {
-    
     var textFont : UIFont { get }
     var textColor : UIColor { get }
     var bgColor : UIColor { get }
 }
 
 extension ButtonDesignable {
-    
     var textFont : UIFont {
         return UIFont.systemFont(ofSize: 15)
     }

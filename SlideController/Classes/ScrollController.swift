@@ -15,6 +15,7 @@ public protocol PageScrollViewLifeCycle : class {
     func didStartScrolling()
     func didCancelScrolling()
     var isKeyboardResponsive : Bool { get }
+    var title : String? { get }
 }
 
 public protocol Viewable : class {
@@ -99,9 +100,10 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
         return nil
     }
     
+    public fileprivate(set) var content = [PageScrollViewModel]()
+    
     fileprivate let _containerView = ScrollContainerView<T>()
     fileprivate var _titleScrollableController : TitleScrollableController<T, N>!
-    internal fileprivate(set) var content = [PageScrollViewModel]()
     fileprivate var _scrollDirection : ScrollDirection!
     fileprivate var _contentScrollableController : ContentScrollableController!
     fileprivate var _currentIndex = 0
