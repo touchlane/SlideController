@@ -84,7 +84,7 @@ public enum TitleViewPosition {
 
 public typealias TitleItemObject = Selectable & ItemViewable
 public typealias TitleItemControllableObject = ItemViewable & Initializable & Selectable
-public typealias ScrollLifeCycleObject = SlidePageLifeCycle & Viewable & Initializable
+public typealias SlideLifeCycleObject = SlidePageLifeCycle & Viewable & Initializable
 
 public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerSlidable, Viewable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
     

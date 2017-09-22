@@ -9,10 +9,10 @@
 import Foundation
 
 public protocol ScrollLifeCycleObjectProvidable : class {
-    var lifeCycleObject : ScrollLifeCycleObject { get }
+    var lifeCycleObject : SlideLifeCycleObject { get }
 }
 
-public class PageScrollViewModel<T : ScrollLifeCycleObject> : ScrollLifeCycleObjectProvidable {
+public class PageScrollViewModel<T : SlideLifeCycleObject> : ScrollLifeCycleObjectProvidable {
     fileprivate var _object : T?
     
     public init() {
@@ -25,12 +25,12 @@ public class PageScrollViewModel<T : ScrollLifeCycleObject> : ScrollLifeCycleObj
     
     //MARK: - ScrollLifeCycleObjectGeneratableImplementation
     
-    public var lifeCycleObject : ScrollLifeCycleObject { get {return buildObjectIfNeeded() } }
+    public var lifeCycleObject : SlideLifeCycleObject { get {return buildObjectIfNeeded() } }
 }
 
 private typealias Private_PageScrollViewModel = PageScrollViewModel
 extension Private_PageScrollViewModel  {
-    func buildObjectIfNeeded() -> ScrollLifeCycleObject {
+    func buildObjectIfNeeded() -> SlideLifeCycleObject {
         if let object = _object {
             return object
         }
