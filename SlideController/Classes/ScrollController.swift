@@ -51,8 +51,8 @@ public protocol ControllerScrollable : class {
     func showNext(animated : Bool)
     func viewDidAppear()
     func viewDidDisappear()
-    func insert(object : PageScrollViewModel, index : Int)
-    func append(object : [PageScrollViewModel])
+    func insert(object : ScrollLifeCycleObjectProvidable, index : Int)
+    func append(object : [ScrollLifeCycleObjectProvidable])
     func removeAtIndex(index : Int)
 }
 
@@ -92,14 +92,14 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
         return _titleScrollableController.titleView
     }
     
-    internal var _currentModel : PageScrollViewModel? {
+    internal var _currentModel : ScrollLifeCycleObjectProvidable? {
         if isIndexValid(index: _currentIndex) {
             return content[_currentIndex]
         }
         return nil
     }
     
-    public fileprivate(set) var content = [PageScrollViewModel]()
+    public fileprivate(set) var content = [ScrollLifeCycleObjectProvidable]()
     
     fileprivate let _containerView = ScrollContainerView<T>()
     fileprivate var _titleScrollableController : TitleScrollableController<T, N>!
@@ -143,7 +143,7 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
         self._didFinishForceScroll = completion
     }
     
-    public init(pagesContent : [PageScrollViewModel], startPageIndex: Int = 0, scrollDirection : ScrollDirection) {
+    public init(pagesContent : [ScrollLifeCycleObjectProvidable], startPageIndex: Int = 0, scrollDirection : ScrollDirection) {
         super.init()
         content = pagesContent
         _scrollDirection = scrollDirection
@@ -166,7 +166,7 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
     
     //MARK: - ControllerScrollable_Implementation
     
-    public func append(object objects : [PageScrollViewModel]) {
+    public func append(object objects : [ScrollLifeCycleObjectProvidable]) {
         if objects.count > 0 {
             content.append(contentsOf: objects)
             _contentScrollableController.append(pagesCount: objects.count)
@@ -181,7 +181,7 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
         }
     }
     
-    public func insert(object : PageScrollViewModel, index : Int) {
+    public func insert(object : ScrollLifeCycleObjectProvidable, index : Int) {
         guard index < content.count else { return }
         content.insert(object, at: index)
         _contentScrollableController.insert(object: object, index: index)

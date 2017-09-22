@@ -48,7 +48,7 @@ class ContentScrollableController {
         scrollView.appendViews(views: newControllers.map{$0.view})
     }
     
-    func insert(object : PageScrollViewModel, index : Int) {
+    func insert(object : ScrollLifeCycleObjectProvidable, index : Int) {
         let controller = ContentPageController()
         controllers.insert(controller, at: index)
         scrollView.insertView(view: controller.view, index: index)

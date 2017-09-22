@@ -8,36 +8,33 @@
 
 import Foundation
 
-public class PageScrollViewModel {
+public protocol ScrollLifeCycleObjectProvidable : class {
+    var object : ScrollLifeCycleObject { get }
+}
+
+public class PageScrollViewModel<T : ScrollLifeCycleObject> : ScrollLifeCycleObjectProvidable {
+    fileprivate var _object : T?
     
-    public var object : ScrollLifeCycleObject { get {return buildObjectIfNeeded() } }
-    
-    fileprivate var _className : String?
-    fileprivate var _object : ScrollLifeCycleObject?
-    
-    public init(className : String) {
-        _className = className
+    public init() {
+        
     }
     
-    public  init(object : ScrollLifeCycleObject) {
+    public init(object : T) {
         _object = object
     }
+    
+    //MARK: - ScrollLifeCycleObjectGeneratableImplementation
+    
+    public var object : ScrollLifeCycleObject { get {return buildObjectIfNeeded() } }
 }
 
 private typealias Private_PageScrollViewModel = PageScrollViewModel
 extension Private_PageScrollViewModel  {
-    
     func buildObjectIfNeeded() -> ScrollLifeCycleObject {
         if let object = _object {
             return object
-        } else {
-            if let classInst = NSClassFromString(_className!) as? Initializable.Type {
-                if let object = classInst.init() as? ScrollLifeCycleObject {
-                    return object
-                }
-            }
         }
-        return ScrollPageLifeCycleObject()
+        _object = T()
+        return _object!
     }
-    
 }
