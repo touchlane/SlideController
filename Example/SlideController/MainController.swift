@@ -11,14 +11,14 @@ import SlideController
 
 class MainController {
     fileprivate let _view = MainView()
-    fileprivate let _scrollControler : ScrollController<MainTitleScrollView, MainTitleItem>!
+    fileprivate let _scrollControler : SlideController<MainTitleScrollView, MainTitleItem>!
     
     init() {
         let pagesContent = [
             PageScrollViewModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
             PageScrollViewModel<PageLifeCycleObject>(),
             PageScrollViewModel<PageLifeCycleObject>()]
-        _scrollControler = ScrollController(pagesContent : pagesContent, startPageIndex: 0, scrollDirection: SlideDirection.Horizontal)
+        _scrollControler = SlideController(pagesContent : pagesContent, startPageIndex: 0, scrollDirection: SlideDirection.Horizontal)
         for index in 0..<_scrollControler.content.count {
             _scrollControler.titleView.items[index].titleLabel.text = String(format: "page %d", index + 1)
         }

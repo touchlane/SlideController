@@ -86,7 +86,7 @@ public typealias TitleItemObject = Selectable & ItemViewable
 public typealias TitleItemControllableObject = ItemViewable & Initializable & Selectable
 public typealias SlideLifeCycleObject = SlidePageLifeCycle & Viewable & Initializable
 
-public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerSlidable, Viewable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
+public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSlidable, Viewable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
     
     public var titleView: T {
         return titleScrollableController.titleView
@@ -357,7 +357,7 @@ public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerS
 }
 
 // MARK: - PrivateScrollController
-private extension ScrollController {
+private extension SlideController {
     func calculateContentPageSize(direction: SlideDirection, titleViewAlignment: TitleViewAlignment, titleViewPosition: TitleViewPosition, titleSize: CGFloat) -> CGFloat {
         var contentPageSize: CGFloat!
         if direction == SlideDirection.Horizontal {
