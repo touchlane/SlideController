@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol ScrollLifeCycleObjectProvidable : class {
-    var object : ScrollLifeCycleObject { get }
+    var lifeCycleObject : ScrollLifeCycleObject { get }
 }
 
 public class PageScrollViewModel<T : ScrollLifeCycleObject> : ScrollLifeCycleObjectProvidable {
@@ -25,7 +25,7 @@ public class PageScrollViewModel<T : ScrollLifeCycleObject> : ScrollLifeCycleObj
     
     //MARK: - ScrollLifeCycleObjectGeneratableImplementation
     
-    public var object : ScrollLifeCycleObject { get {return buildObjectIfNeeded() } }
+    public var lifeCycleObject : ScrollLifeCycleObject { get {return buildObjectIfNeeded() } }
 }
 
 private typealias Private_PageScrollViewModel = PageScrollViewModel

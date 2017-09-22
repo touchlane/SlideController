@@ -8,18 +8,22 @@
 
 import UIKit
 
-class ContentPage {
-    var constraints = [NSLayoutConstraint]()
-    fileprivate var _view : UIView
+///Represents container for one page content
+final internal class ContentPage {
     
-    init(view : UIView) {
-        _view = view
+    ///Used internally for pages ordering
+    var constraints = [NSLayoutConstraint]()
+    fileprivate var internalView: UIView
+    
+    /// - Parameter view: The view to show as content.
+    init(view: UIView) {
+        internalView = view
     }
 }
 
-private typealias Viewable_Implementation = ContentPage
-extension Viewable_Implementation : Viewable {
-    var view : UIView {
-        return _view
+private typealias ViewableImplementation = ContentPage
+extension ViewableImplementation: Viewable {
+    var view: UIView {
+        return internalView
     }
 }

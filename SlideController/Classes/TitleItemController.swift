@@ -8,49 +8,46 @@
 
 import UIKit
 
-class TitleItemController<T> : TitleItemControllableObject where T : TitleItemObject, T : UIView {
+class TitleItemController<T>: TitleItemControllableObject where T: TitleItemObject, T: UIView {
 
-    fileprivate var _item = T()
+    private var item = T()
     typealias Item = T.Item
     
-    //MARK: - Initializable_Implementation
-    
+    // MARK: - InitializableImplementation
     required init() {
         
     }
     
-    //MARK: - ItemViewable_Implementation
-    
-    var view : Item {
-        return _item.view
+    // MARK: - ItemViewableImplementation
+    var view: Item {
+        return item.view
     }
     
-    //MARK: - Selectable_Implementation
-    
-    var isSelected : Bool {
+    // MARK: - SelectableImplementation
+    var isSelected: Bool {
         get {
-            return _item.isSelected
+            return item.isSelected
         }
         set {
-            _item.isSelected = newValue
+            item.isSelected = newValue
         }
     }
     
-    var didSelectAction : ((Int) -> ())? {
+    var didSelectAction: ((Int) -> ())? {
         get {
-            return _item.didSelectAction
+            return item.didSelectAction
         }
         set {
-            _item.didSelectAction = newValue
+            item.didSelectAction = newValue
         }
     }
     
     var index: Int {
         get {
-            return _item.index
+            return item.index
         }
         set {
-            _item.index = newValue
+            item.index = newValue
         }
     }
 }

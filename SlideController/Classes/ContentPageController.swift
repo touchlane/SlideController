@@ -19,7 +19,7 @@ class ContentPageController {
         }
     }
     
-    func loadView(_ childView : UIView) {
+    func load(childView: UIView) {
         if !isContentLoaded() {
             childView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(childView)
