@@ -13,17 +13,17 @@ final internal class ContentPage {
     
     ///Used internally for pages ordering
     var constraints = [NSLayoutConstraint]()
-    fileprivate var intenalView: UIView
+    fileprivate var internalView: UIView
     
     /// - Parameter view: The view to show as content.
     init(view: UIView) {
-        intenalView = view
+        internalView = view
     }
 }
 
 private typealias ViewableImplementation = ContentPage
 extension ViewableImplementation: Viewable {
     var view: UIView {
-        return intenalView
+        return internalView
     }
 }
