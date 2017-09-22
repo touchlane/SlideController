@@ -26,10 +26,6 @@ extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
         return false
     }
     
-    var title : String? {
-        return nil
-    }
-    
     func didAppear() {
         print("Empty page did appear")
     }

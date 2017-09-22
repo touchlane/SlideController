@@ -15,7 +15,6 @@ public protocol PageScrollViewLifeCycle : class {
     func didStartScrolling()
     func didCancelScrolling()
     var isKeyboardResponsive : Bool { get }
-    var title : String? { get }
 }
 
 public protocol Viewable : class {

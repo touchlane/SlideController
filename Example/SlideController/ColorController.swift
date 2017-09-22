@@ -10,10 +10,6 @@ import UIKit
 import SlideController
 
 class ColorController {
-    var title : String? {
-        return _view.backgroundColor?.toHexString()
-    }
-    
     fileprivate let _view = ColorView()
 }
 

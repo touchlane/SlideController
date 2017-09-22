@@ -25,10 +25,6 @@ extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
         return false
     }
     
-    var title : String? {
-        return _controller.title
-    }
-    
     func didAppear() {
         print("Page did appear")
     }
