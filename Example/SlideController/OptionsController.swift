@@ -39,7 +39,7 @@ extension OptionsControllerProtocol_Implementation : OptionsControllerProtocol {
 }
 
 private typealias Viewable_Implementation = OptionsController
-extension Viewable_Implementation : Viewable {
+extension Viewable_Implementation : ViewAccessible {
     var view : UIView {
         get {
             return _view

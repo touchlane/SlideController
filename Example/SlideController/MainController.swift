@@ -25,7 +25,7 @@ class MainController {
         _view.contentView = _scrollControler.view
     }
     
-    var optionsController : Viewable? {
+    var optionsController : ViewAccessible? {
         didSet {
            _view.optionsView = optionsController?.view
         }
@@ -44,7 +44,7 @@ extension ViewLifeCycleDependable_Implementation : ViewLifeCycleDependable {
 }
 
 private typealias Viewable_Implementation = MainController
-extension Viewable_Implementation : Viewable {
+extension Viewable_Implementation : ViewAccessible {
     var view : UIView {
         return _view
     }

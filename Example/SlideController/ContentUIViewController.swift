@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContentUIViewController<T> : UIViewController where T : Viewable {
+class ContentUIViewController<T> : UIViewController where T : ViewAccessible {
     var controller : T? {
         didSet {
             if let controller = controller {
