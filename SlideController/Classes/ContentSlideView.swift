@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContentScrollView: UIScrollView {
+class ContentSlideView: UIScrollView {
   
     var firstLayoutAction: (() -> ())?
     
@@ -39,8 +39,8 @@ class ContentScrollView: UIScrollView {
     }
 }
 
-private typealias PrivateContentScrollView = ContentScrollView
-private extension PrivateContentScrollView {
+private typealias PrivateContentSlideView = ContentSlideView
+private extension PrivateContentSlideView {
     func activateConstraints(_ page: ContentPage, prevPage: ContentPage?, isLast: Bool, direction: SlideDirection) {
         page.constraints.append(page.view.widthAnchor.constraint(equalTo: self.widthAnchor))
         page.constraints.append(page.view.heightAnchor.constraint(equalTo: self.heightAnchor))
@@ -77,7 +77,7 @@ private extension PrivateContentScrollView {
     }
 }
 
-private typealias ViewSlidableImplementation = ContentScrollView
+private typealias ViewSlidableImplementation = ContentSlideView
 extension ViewSlidableImplementation: ViewSlidable {
     typealias View = UIView
     

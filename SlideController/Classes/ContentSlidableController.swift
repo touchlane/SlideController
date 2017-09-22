@@ -8,18 +8,18 @@
 
 import UIKit
 
-class ContentScrollableController {
+class ContentSlidableController {
     var pageSize: CGFloat = 0
     var didCompleteContentLayout: (() -> ())?
     
     internal private(set) var controllers = [ContentPageController]()
-    internal private(set) var scrollView: ContentScrollView
+    internal private(set) var scrollView: ContentSlideView
     
     fileprivate var scrollDirection: SlideDirection!
     
     init(pagesCount: Int, scrollDirection: SlideDirection) {
         self.scrollDirection = scrollDirection
-        scrollView = ContentScrollView(scrollDirection: scrollDirection)
+        scrollView = ContentSlideView(scrollDirection: scrollDirection)
         if pagesCount > 0 {
             append(pagesCount: pagesCount)
         }
@@ -72,8 +72,8 @@ class ContentScrollableController {
     }
 }
 
-private typealias PrivateContentScrollableController = ContentScrollableController
-private extension PrivateContentScrollableController {
+private typealias PrivateContentSlidableController = ContentSlidableController
+private extension PrivateContentSlidableController {
     func isIndexValid(_ index: Int) -> Bool {
         if index >= 0 && index < controllers.count {
             return true

@@ -8,11 +8,11 @@
 
 import Foundation
 
-public protocol ScrollLifeCycleObjectProvidable : class {
+public protocol SlideLifeCycleObjectProvidable : class {
     var lifeCycleObject : SlideLifeCycleObject { get }
 }
 
-public class PageScrollViewModel<T : SlideLifeCycleObject> : ScrollLifeCycleObjectProvidable {
+public class PageSlideViewModel<T : SlideLifeCycleObject> : SlideLifeCycleObjectProvidable {
     fileprivate var _object : T?
     
     public init() {
@@ -28,8 +28,8 @@ public class PageScrollViewModel<T : SlideLifeCycleObject> : ScrollLifeCycleObje
     public var lifeCycleObject : SlideLifeCycleObject { get {return buildObjectIfNeeded() } }
 }
 
-private typealias Private_PageScrollViewModel = PageScrollViewModel
-extension Private_PageScrollViewModel  {
+private typealias PrivatePageSlideViewModel = PageSlideViewModel
+extension PrivatePageSlideViewModel  {
     func buildObjectIfNeeded() -> SlideLifeCycleObject {
         if let object = _object {
             return object

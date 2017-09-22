@@ -9,7 +9,7 @@
 
 import UIKit
 
-class TitleScrollableController<T, N>: TitleScrollable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
+class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
     
     fileprivate var isOffsetChangeAllowed = true
     fileprivate var scrollDirection: SlideDirection
@@ -111,7 +111,7 @@ class TitleScrollableController<T, N>: TitleScrollable where T: ViewSlidable, T:
 
 // MARK: - PrivateTitleScrollableController
 
-private extension TitleScrollableController {
+private extension TitleSlidableController {
     func isIndexValid(_ index: Int) -> Bool {
         if index >= 0 && index < controllers.count {
             return true
