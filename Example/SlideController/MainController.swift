@@ -18,7 +18,7 @@ class MainController {
             PageScrollViewModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
             PageScrollViewModel<PageLifeCycleObject>(),
             PageScrollViewModel<PageLifeCycleObject>()]
-        _scrollControler = ScrollController(pagesContent : pagesContent, startPageIndex: 0, scrollDirection: ScrollDirection.Horizontal)
+        _scrollControler = ScrollController(pagesContent : pagesContent, startPageIndex: 0, scrollDirection: SlideDirection.Horizontal)
         for index in 0..<_scrollControler.content.count {
             _scrollControler.titleView.items[index].titleLabel.text = String(format: "page %d", index + 1)
         }

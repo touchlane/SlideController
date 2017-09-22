@@ -12,7 +12,7 @@ import UIKit
 class TitleScrollableController<T, N>: TitleScrollable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
     
     fileprivate var isOffsetChangeAllowed = true
-    fileprivate var scrollDirection: ScrollDirection
+    fileprivate var scrollDirection: SlideDirection
     fileprivate var selectedIndex = 0
     
     fileprivate lazy var didCompleteSelectItemAction: () -> () = { [weak self] in
@@ -38,7 +38,7 @@ class TitleScrollableController<T, N>: TitleScrollable where T: ViewSlidable, T:
     
     //MARK: - TitleScrollableImplementation
     
-    required init(pagesCount: Int, scrollDirection: ScrollDirection) {
+    required init(pagesCount: Int, scrollDirection: SlideDirection) {
         self.scrollDirection = scrollDirection
         if pagesCount > 0 {
             append(pagesCount: pagesCount)

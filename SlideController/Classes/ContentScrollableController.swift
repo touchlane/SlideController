@@ -15,9 +15,9 @@ class ContentScrollableController {
     internal private(set) var controllers = [ContentPageController]()
     internal private(set) var scrollView: ContentScrollView
     
-    fileprivate var scrollDirection: ScrollDirection!
+    fileprivate var scrollDirection: SlideDirection!
     
-    init(pagesCount: Int, scrollDirection: ScrollDirection) {
+    init(pagesCount: Int, scrollDirection: SlideDirection) {
         self.scrollDirection = scrollDirection
         scrollView = ContentScrollView(scrollDirection: scrollDirection)
         if pagesCount > 0 {
@@ -62,7 +62,7 @@ class ContentScrollableController {
     func scrollToPage(_ index: Int, animated: Bool) {
         if isIndexValid(index) {
             var offsetPoint: CGPoint
-            if scrollDirection == ScrollDirection.Horizontal {
+            if scrollDirection == SlideDirection.Horizontal {
                 offsetPoint = CGPoint(x: pageSize * CGFloat(integerLiteral: index), y: 0)
             } else {
                 offsetPoint = CGPoint(x: 0, y: pageSize * CGFloat(integerLiteral: index))

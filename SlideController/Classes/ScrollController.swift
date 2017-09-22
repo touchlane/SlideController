@@ -34,7 +34,7 @@ public protocol TitleScrollable: class {
     var didSelectItemAction: ((Int, (() -> ())?) -> ())? { get set }
     func jump(index: Int, animated: Bool)
     func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int)
-    init(pagesCount: Int, scrollDirection: ScrollDirection)
+    init(pagesCount: Int, scrollDirection: SlideDirection)
 }
 
 public protocol ViewSlidable: class {
@@ -66,7 +66,7 @@ public protocol Selectable: class {
     var index: Int { get set }
 }
 
-public enum ScrollDirection {
+public enum SlideDirection {
     case Vertical
     case Horizontal
 }
@@ -103,7 +103,7 @@ public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerS
     
     fileprivate let containerView = ScrollContainerView<T>()
     fileprivate var titleScrollableController: TitleScrollableController<T, N>!
-    fileprivate var scrollDirection: ScrollDirection!
+    fileprivate var scrollDirection: SlideDirection!
     fileprivate var contentScrollableController: ContentScrollableController!
     fileprivate var currentIndex = 0
     fileprivate var lastContentOffset: CGFloat = 0
@@ -143,7 +143,7 @@ public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerS
         self.didFinishForceScroll = completion
     }
 
-    public init(pagesContent : [ScrollLifeCycleObjectProvidable], startPageIndex: Int = 0, scrollDirection : ScrollDirection) {
+    public init(pagesContent : [ScrollLifeCycleObjectProvidable], startPageIndex: Int = 0, scrollDirection : SlideDirection) {
         super.init()
         content = pagesContent
         self.scrollDirection = scrollDirection
@@ -167,7 +167,6 @@ public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerS
     //MARK: - ControllerSlidable_Implementation
     
     public func append(object objects : [ScrollLifeCycleObjectProvidable]) {
-
         if objects.count > 0 {
             content.append(contentsOf: objects)
             contentScrollableController.append(pagesCount: objects.count)
@@ -245,7 +244,7 @@ public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerS
             loadView(pageIndex: currentIndex)
         } else {
             contentScrollableController.scrollToPage(pageIndex, animated: animated)
-            if scrollDirection == ScrollDirection.Horizontal {
+            if scrollDirection == SlideDirection.Horizontal {
                 lastContentOffset = contentScrollableController.scrollView.contentOffset.x
             } else {
                 lastContentOffset = contentScrollableController.scrollView.contentOffset.y
@@ -285,7 +284,7 @@ public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerS
         }
         let pageSize = contentScrollableController.pageSize
         var actualContentOffset: CGFloat = 0
-        if scrollDirection == ScrollDirection.Horizontal {
+        if scrollDirection == SlideDirection.Horizontal {
             actualContentOffset = scrollView.contentOffset.x
         } else {
             actualContentOffset = scrollView.contentOffset.y
@@ -359,9 +358,9 @@ public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerS
 
 // MARK: - PrivateScrollController
 private extension ScrollController {
-    func calculateContentPageSize(direction: ScrollDirection, titleViewAlignment: TitleViewAlignment, titleViewPosition: TitleViewPosition, titleSize: CGFloat) -> CGFloat {
+    func calculateContentPageSize(direction: SlideDirection, titleViewAlignment: TitleViewAlignment, titleViewPosition: TitleViewPosition, titleSize: CGFloat) -> CGFloat {
         var contentPageSize: CGFloat!
-        if direction == ScrollDirection.Horizontal {
+        if direction == SlideDirection.Horizontal {
             if (titleViewAlignment == TitleViewAlignment.Left || titleViewAlignment == TitleViewAlignment.Right) && titleViewPosition == TitleViewPosition.Beside {
                 contentPageSize = containerView.frame.width - titleScrollableController.titleView.titleSize
             } else {
@@ -416,7 +415,7 @@ private extension ScrollController {
     }
     
     func shiftKeyboardIfNeeded(offset: CGFloat) {
-        if content[currentIndex].lifeCycleObject.isKeyboardResponsive && scrollDirection == ScrollDirection.Horizontal {
+        if content[currentIndex].lifeCycleObject.isKeyboardResponsive && scrollDirection == SlideDirection.Horizontal {
             if let keyBoardView = findKeyboardWindow() {
                 var frame = keyBoardView.frame
                 frame.origin.x = frame.origin.x + offset
