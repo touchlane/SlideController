@@ -8,62 +8,62 @@
 
 import UIKit
 
-public protocol PageScrollViewLifeCycle : class {
+public protocol PageScrollViewLifeCycle: class {
     func didAppear()
     func didDissapear()
     func viewDidLoad()
     func didStartScrolling()
     func didCancelScrolling()
-    var isKeyboardResponsive : Bool { get }
+    var isKeyboardResponsive: Bool { get }
 }
 
-public protocol Viewable : class {
-    var view : UIView { get }
+public protocol Viewable: class {
+    var view: UIView { get }
 }
 
-public protocol ItemViewable : class {
-    associatedtype Item : UIView
-    var view : Item { get }
+public protocol ItemViewable: class {
+    associatedtype Item: UIView
+    var view: Item { get }
 }
 
-public protocol Initializable : class {
+public protocol Initializable: class {
     init()
 }
 
-public protocol TitleScrollable : class {
-    var didSelectItemAction : ((Int, (() -> ())?) -> ())? { get set }
-    func jump(index : Int, animated : Bool)
-    func shift(delta : CGFloat, startIndex : Int, destinationIndex : Int)
-    init(pagesCount: Int, scrollDirection : ScrollDirection)
+public protocol TitleScrollable: class {
+    var didSelectItemAction: ((Int, (() -> ())?) -> ())? { get set }
+    func jump(index: Int, animated: Bool)
+    func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int)
+    init(pagesCount: Int, scrollDirection: ScrollDirection)
 }
 
-public protocol ViewScrollable : class {
-    associatedtype View : UIView
-    func appendViews(views : [View])
-    func insertView(view : View, index : Int)
-    func removeViewAtIndex(index : Int)
-    var firstLayoutAction : (() -> ())? { get set }
-    var isLayouted : Bool { get }
+public protocol ViewScrollable: class {
+    associatedtype View: UIView
+    func appendViews(views: [View])
+    func insertView(view: View, index: Int)
+    func removeViewAtIndex(index: Int)
+    var firstLayoutAction: (() -> ())? { get set }
+    var isLayouted: Bool { get }
 }
 
-public protocol ControllerScrollable : class {
-    func shift(pageIndex : Int, animated : Bool)
-    func showNext(animated : Bool)
+public protocol ControllerScrollable: class {
+    func shift(pageIndex: Int, animated: Bool)
+    func showNext(animated: Bool)
     func viewDidAppear()
     func viewDidDisappear()
-    func insert(object : PageScrollViewModel, index : Int)
-    func append(object : [PageScrollViewModel])
-    func removeAtIndex(index : Int)
+    func insert(object: PageScrollViewModel, index: Int)
+    func append(object: [PageScrollViewModel])
+    func removeAtIndex(index: Int)
 }
 
 public protocol TextSettable {
-    var text : String? { get set }
+    var text: String? { get set }
 }
 
-public protocol Selectable : class {
-    var isSelected : Bool { get set }
-    var didSelectAction : ((Int) -> ())? { get set }
-    var index : Int { get set }
+public protocol Selectable: class {
+    var isSelected: Bool { get set }
+    var didSelectAction: ((Int) -> ())? { get set }
+    var index: Int { get set }
 }
 
 public enum ScrollDirection {
@@ -86,174 +86,173 @@ public typealias TitleItemObject = Selectable & ItemViewable
 public typealias TitleItemControllableObject = ItemViewable & Initializable & Selectable
 public typealias ScrollLifeCycleObject = PageScrollViewLifeCycle & Viewable & Initializable
 
-public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, ControllerScrollable, Viewable where T : ViewScrollable, T : UIScrollView, T : TitleConfigurable, N : TitleItemControllableObject, N : UIView, N.Item == T.View {
+public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerScrollable, Viewable where T: ViewScrollable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
     
-    public var titleView : T {
-        return _titleScrollableController.titleView
+    public var titleView: T {
+        return titleScrollableController.titleView
     }
     
-    internal var _currentModel : PageScrollViewModel? {
-        if isIndexValid(index: _currentIndex) {
-            return content[_currentIndex]
+    internal var currentModel: PageScrollViewModel? {
+        if isIndexValid(index: currentIndex) {
+            return content[currentIndex]
         }
         return nil
     }
     
     public fileprivate(set) var content = [PageScrollViewModel]()
     
-    fileprivate let _containerView = ScrollContainerView<T>()
-    fileprivate var _titleScrollableController : TitleScrollableController<T, N>!
-    fileprivate var _scrollDirection : ScrollDirection!
-    fileprivate var _contentScrollableController : ContentScrollableController!
-    fileprivate var _currentIndex = 0
-    fileprivate var _lastContentOffset : CGFloat = 0
-    fileprivate var _didFinishForceScroll : (() -> ())?
-    fileprivate var _isForcedToScroll : Bool = false
-    fileprivate var _isOnScreen = false
-    fileprivate var _scrollInProgress : Bool = false
+    fileprivate let containerView = ScrollContainerView<T>()
+    fileprivate var titleScrollableController: TitleScrollableController<T, N>!
+    fileprivate var scrollDirection: ScrollDirection!
+    fileprivate var contentScrollableController: ContentScrollableController!
+    fileprivate var currentIndex = 0
+    fileprivate var lastContentOffset: CGFloat = 0
+    fileprivate var didFinishForceScroll: (() -> ())?
+    fileprivate var isForcedToScroll: Bool = false
+    fileprivate var isOnScreen = false
+    fileprivate var scrollInProgress: Bool = false
 
     //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
-    fileprivate var _shouldRemoveContentAfterAnimation: Bool = false
-    fileprivate var _indexToRemove: Int?
+    fileprivate var shouldRemoveContentAfterAnimation: Bool = false
+    fileprivate var indexToRemove: Int?
 
-    private lazy var _firstLayoutTitleAction : () -> () = { [weak self] in
+    private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let `self` = self else { return }
-        self._titleScrollableController.jump(index: self._currentIndex, animated: false)
+        self.titleScrollableController.jump(index: self.currentIndex, animated: false)
     }
     
-    private lazy var _firstLayoutContentAction : () -> () = { [weak self] in
+    private lazy var firstLayoutContentAction: () -> () = { [weak self] in
         guard let `self` = self else { return }
-        self._contentScrollableController.pageSize = self.calculateContentPageSize(direction: self._scrollDirection, titleViewAlignment: self._titleScrollableController.titleView.alignment, titleViewPosition: self._titleScrollableController.titleView.position, titleSize: self._titleScrollableController.titleView.titleSize)
-        self._contentScrollableController.scrollView.delegate = self
-        self.shift(pageIndex: self._currentIndex, animated: false)
+        self.contentScrollableController.pageSize = self.calculateContentPageSize(direction: self.scrollDirection, titleViewAlignment: self.titleScrollableController.titleView.alignment, titleViewPosition: self.titleScrollableController.titleView.position, titleSize: self.titleScrollableController.titleView.titleSize)
+        self.contentScrollableController.scrollView.delegate = self
+        self.shift(pageIndex: self.currentIndex, animated: false)
     }
     
-    func didSelectTitleItem(index : Int, completion : @escaping () -> ()) {
+    func didSelectTitleItem(index: Int, completion: @escaping () -> ()) {
         loadViewIfNeeded(pageIndex: index)
-        _isForcedToScroll = true
+        isForcedToScroll = true
         shift(pageIndex: index)
-        _didFinishForceScroll = completion
+        didFinishForceScroll = completion
     }
     
-    private lazy var _didSelectItemAction : (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
+    private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
         guard let `self` = self else { return }
         self.loadViewIfNeeded(pageIndex: index)
-        self._isForcedToScroll = true
+        self.isForcedToScroll = true
         self.shift(pageIndex: index)
-        self._didFinishForceScroll = completion
+        self.didFinishForceScroll = completion
     }
     
-    public init(pagesContent : [PageScrollViewModel], startPageIndex: Int = 0, scrollDirection : ScrollDirection) {
+    public init(pagesContent: [PageScrollViewModel], startPageIndex: Int = 0, scrollDirection: ScrollDirection) {
         super.init()
         content = pagesContent
-        _scrollDirection = scrollDirection
-        _titleScrollableController = TitleScrollableController(pagesCount: content.count, scrollDirection: scrollDirection)
-        _currentIndex = startPageIndex
-        _contentScrollableController = ContentScrollableController(pagesCount: content.count, scrollDirection: _scrollDirection)
-        _titleScrollableController.didSelectItemAction = _didSelectItemAction
-        loadView(pageIndex: _currentIndex)
-        _containerView.contentView = _contentScrollableController.scrollView
-        _containerView.titleView = _titleScrollableController.titleView
-        _titleScrollableController.titleView.firstLayoutAction = _firstLayoutTitleAction
-        _contentScrollableController.scrollView.firstLayoutAction = _firstLayoutContentAction
+        self.scrollDirection = scrollDirection
+        titleScrollableController = TitleScrollableController(pagesCount: content.count, scrollDirection: scrollDirection)
+        currentIndex = startPageIndex
+        contentScrollableController = ContentScrollableController(pagesCount: content.count, scrollDirection: scrollDirection)
+        titleScrollableController.didSelectItemAction = didSelectItemAction
+        loadView(pageIndex: currentIndex)
+        containerView.contentView = contentScrollableController.scrollView
+        containerView.titleView = titleScrollableController.titleView
+        titleScrollableController.titleView.firstLayoutAction = firstLayoutTitleAction
+        contentScrollableController.scrollView.firstLayoutAction = firstLayoutContentAction
     }
     
-    var isScrollEnabled : Bool = true {
+    var isScrollEnabled: Bool = true {
         didSet {
-            _contentScrollableController.scrollView.isScrollEnabled = isScrollEnabled
+            contentScrollableController.scrollView.isScrollEnabled = isScrollEnabled
         }
     }
     
-    //MARK: - ControllerScrollable_Implementation
-    
-    public func append(object objects : [PageScrollViewModel]) {
+    // MARK: - ControllerScrollableImplementation
+    public func append(object objects: [PageScrollViewModel]) {
         if objects.count > 0 {
             content.append(contentsOf: objects)
-            _contentScrollableController.append(pagesCount: objects.count)
-            _titleScrollableController.append(pagesCount: objects.count)
-            if _contentScrollableController.scrollView.isLayouted {
-                _contentScrollableController.scrollView.layoutIfNeeded()
+            contentScrollableController.append(pagesCount: objects.count)
+            titleScrollableController.append(pagesCount: objects.count)
+            if contentScrollableController.scrollView.isLayouted {
+                contentScrollableController.scrollView.layoutIfNeeded()
             }
-            if _titleScrollableController.titleView.isLayouted {
-                _titleScrollableController.titleView.layoutIfNeeded()
+            if titleScrollableController.titleView.isLayouted {
+                titleScrollableController.titleView.layoutIfNeeded()
             }
-            loadView(pageIndex: _currentIndex)
+            loadView(pageIndex: currentIndex)
         }
     }
     
-    public func insert(object : PageScrollViewModel, index : Int) {
+    public func insert(object: PageScrollViewModel, index: Int) {
         guard index < content.count else { return }
         content.insert(object, at: index)
-        _contentScrollableController.insert(index: index)
-        _titleScrollableController.insert(index: index)
-        if _contentScrollableController.scrollView.isLayouted {
-           _contentScrollableController.scrollView.layoutIfNeeded()
+        contentScrollableController.insert(index: index)
+        titleScrollableController.insert(index: index)
+        if contentScrollableController.scrollView.isLayouted {
+           contentScrollableController.scrollView.layoutIfNeeded()
         }
-        if _titleScrollableController.titleView.isLayouted {
-            _titleScrollableController.titleView.layoutIfNeeded()
+        if titleScrollableController.titleView.isLayouted {
+            titleScrollableController.titleView.layoutIfNeeded()
         }
-        if index <= _currentIndex {
+        if index <= currentIndex {
             // FIXME: workaround to fix life cycle calls  
-            _contentScrollableController.scrollView.delegate = nil
-            shift(pageIndex: _currentIndex + 1, animated: false)
-            _currentIndex = _currentIndex + 1
-            _titleScrollableController.jump(index: _currentIndex, animated: false)
-            _contentScrollableController.scrollView.delegate = self
+            contentScrollableController.scrollView.delegate = nil
+            shift(pageIndex: currentIndex + 1, animated: false)
+            currentIndex = currentIndex + 1
+            titleScrollableController.jump(index: currentIndex, animated: false)
+            contentScrollableController.scrollView.delegate = self
             loadViewIfNeeded(pageIndex: index)
         } else {
-            loadView(pageIndex: _currentIndex)
+            loadView(pageIndex: currentIndex)
         }
     }
     
-    public func removeAtIndex(index : Int) {
+    public func removeAtIndex(index: Int) {
         guard index < content.count else { return }
 
         //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
-        _shouldRemoveContentAfterAnimation = index == _currentIndex
-        if !_shouldRemoveContentAfterAnimation {
+        shouldRemoveContentAfterAnimation = index == currentIndex
+        if !shouldRemoveContentAfterAnimation {
             content.remove(at: index)
-            _contentScrollableController.removeAtIndex(index: index)
-            _titleScrollableController.removeAtIndex(index: index)
+            contentScrollableController.removeAtIndex(index: index)
+            titleScrollableController.removeAtIndex(index: index)
         } else {
-            _indexToRemove = index
+            indexToRemove = index
         }
 
-        if _contentScrollableController.scrollView.isLayouted {
-            _contentScrollableController.scrollView.layoutIfNeeded()
+        if contentScrollableController.scrollView.isLayouted {
+            contentScrollableController.scrollView.layoutIfNeeded()
         }
-        if _titleScrollableController.titleView.isLayouted {
-            _titleScrollableController.titleView.layoutIfNeeded()
+        if titleScrollableController.titleView.isLayouted {
+            titleScrollableController.titleView.layoutIfNeeded()
         }
-        if index < _currentIndex {
-            shift(pageIndex: _currentIndex - 1, animated: false)
-        } else if index == _currentIndex {
-            if _currentIndex < content.count - (_shouldRemoveContentAfterAnimation ? 1 : 0) {
-                _titleScrollableController.jump(index: _currentIndex, animated : false)
+        if index < currentIndex {
+            shift(pageIndex: currentIndex - 1, animated: false)
+        } else if index == currentIndex {
+            if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) {
+                titleScrollableController.jump(index: currentIndex, animated: false)
 
                 removeContentIfNeeded()
             } else {
-                shift(pageIndex: _currentIndex - 1, animated: true)
+                shift(pageIndex: currentIndex - 1, animated: true)
             }
         }
-        loadView(pageIndex: _currentIndex)
+        loadView(pageIndex: currentIndex)
     }
     
-    public func shift(pageIndex : Int, animated : Bool = true) {
-        if !self._contentScrollableController.scrollView.isLayouted {
-            _currentIndex = pageIndex
-            loadView(pageIndex: _currentIndex)
+    public func shift(pageIndex: Int, animated: Bool = true) {
+        if !self.contentScrollableController.scrollView.isLayouted {
+            currentIndex = pageIndex
+            loadView(pageIndex: currentIndex)
         } else {
-            _contentScrollableController.scrollToPage(pageIndex, animated: animated)
-            if _scrollDirection == ScrollDirection.Horizontal {
-                _lastContentOffset = _contentScrollableController.scrollView.contentOffset.x
+            contentScrollableController.scrollToPage(pageIndex, animated: animated)
+            if scrollDirection == ScrollDirection.Horizontal {
+                lastContentOffset = contentScrollableController.scrollView.contentOffset.x
             } else {
-                _lastContentOffset = _contentScrollableController.scrollView.contentOffset.y
+                lastContentOffset = contentScrollableController.scrollView.contentOffset.y
             }
         }
     }
     
-    public func showNext(animated : Bool = true) {
-        var page = _currentIndex + 1
+    public func showNext(animated: Bool = true) {
+        var page = currentIndex + 1
         var animated = animated
         if page >= content.count {
             page = 0
@@ -263,29 +262,28 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
     }
     
     public func viewDidAppear() {
-        _isOnScreen = true
-        if isIndexValid(index: _currentIndex) {
-            content[_currentIndex].object.didAppear()
+        isOnScreen = true
+        if isIndexValid(index: currentIndex) {
+            content[currentIndex].lifeCycleObject.didAppear()
         }
     }
     
     public func viewDidDisappear() {
-        _isOnScreen = false
-        if isIndexValid(index: _currentIndex) {
-            content[_currentIndex].object.didDissapear()
+        isOnScreen = false
+        if isIndexValid(index: currentIndex) {
+            content[currentIndex].lifeCycleObject.didDissapear()
         }
     }
     
-    //MARK: - UIScrollViewDelegate_Implementation
-    
+    // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !_scrollInProgress {
-            content[_currentIndex].object.didStartScrolling()
-            _scrollInProgress = true
+        if !scrollInProgress {
+            content[currentIndex].lifeCycleObject.didStartScrolling()
+            scrollInProgress = true
         }
-        let pageSize = _contentScrollableController.pageSize
-        var actualContentOffset : CGFloat = 0
-        if _scrollDirection == ScrollDirection.Horizontal {
+        let pageSize = contentScrollableController.pageSize
+        var actualContentOffset: CGFloat = 0
+        if scrollDirection == ScrollDirection.Horizontal {
             actualContentOffset = scrollView.contentOffset.x
         } else {
             actualContentOffset = scrollView.contentOffset.y
@@ -293,20 +291,20 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
         let actualIndex = Int(actualContentOffset / pageSize)
         if actualContentOffset.truncatingRemainder(dividingBy: pageSize) == 0.0 {
             let nextIndex = actualIndex
-            if nextIndex != _currentIndex {
+            if nextIndex != currentIndex {
                 loadView(pageIndex: nextIndex)
-                _titleScrollableController.jump(index: nextIndex, animated : false)
+                titleScrollableController.jump(index: nextIndex, animated: false)
             } else {
-                content[_currentIndex].object.didCancelScrolling()
+                content[currentIndex].lifeCycleObject.didCancelScrolling()
             }
 
             removeContentIfNeeded()
 
-            _scrollInProgress = false
+            scrollInProgress = false
         } else {
-            let offset = actualContentOffset - _lastContentOffset
-            var startIndex : Int
-            var destinationIndex : Int
+            let offset = actualContentOffset - lastContentOffset
+            var startIndex: Int
+            var destinationIndex: Int
             if  offset < 0 {
                 startIndex = actualIndex + 1
                 destinationIndex = startIndex - 1
@@ -315,101 +313,99 @@ public class ScrollController<T, N> : NSObject, UIScrollViewDelegate, Controller
                 destinationIndex = startIndex + 1
             }
             shiftKeyboardIfNeeded(offset: -offset)
-            if !_isForcedToScroll {
-                _titleScrollableController.shift(delta: offset, startIndex: startIndex, destinationIndex: destinationIndex)
+            if !isForcedToScroll {
+                titleScrollableController.shift(delta: offset, startIndex: startIndex, destinationIndex: destinationIndex)
             }
-            _lastContentOffset = actualContentOffset
+            lastContentOffset = actualContentOffset
         }
     }
     
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        content[_currentIndex].object.didStartDragging()
-//        if _scrollDirection == ScrollDirection.Horizontal {
-//            _startDraggingContentOffset = scrollView.contentOffset.x
+//        content[currentIndex].object.didStartDragging()
+//        if scrollDirection == ScrollDirection.Horizontal {
+//            startDraggingContentOffset = scrollView.contentOffset.x
 //        } else {
-//            _startDraggingContentOffset = scrollView.contentOffset.y
+//            startDraggingContentOffset = scrollView.contentOffset.y
 //        }
-       // _titleScrollableController.jump(_currentIndex, animated: false)
+       // titleScrollableController.jump(currentIndex, animated: false)
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if _scrollDirection == ScrollDirection.Horizontal {
-//            if _startDraggingContentOffset == scrollView.contentOffset.x {
-//                content[_currentIndex].object.didCancelDragging()
+//        if scrollDirection == ScrollDirection.Horizontal {
+//            if startDraggingContentOffset == scrollView.contentOffset.x {
+//                content[currentIndex].object.didCancelDragging()
 //            }
 //        } else {
-//            if _startDraggingContentOffset == scrollView.contentOffset.y {
-//                content[_currentIndex].object.didCancelDragging()
+//            if startDraggingContentOffset == scrollView.contentOffset.y {
+//                content[currentIndex].object.didCancelDragging()
 //            }
 //        }
     }
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
-        _didFinishForceScroll?()
+        didFinishForceScroll?()
 
-        _isForcedToScroll = false
+        isForcedToScroll = false
     }
     
-    //MARK: - Viewable_Implementation
-    
-    public var view : UIView {
-        return _containerView
+    // MARK: - ViewableImplementation
+    public var view: UIView {
+        return containerView
     }
 }
 
-//MARK: - Private_ScrollController
-
+// MARK: - PrivateScrollController
 private extension ScrollController {
-    func calculateContentPageSize(direction : ScrollDirection, titleViewAlignment : TitleViewAlignment, titleViewPosition : TitleViewPosition, titleSize : CGFloat) -> CGFloat {
-        var contentPageSize : CGFloat!
+    func calculateContentPageSize(direction: ScrollDirection, titleViewAlignment: TitleViewAlignment, titleViewPosition: TitleViewPosition, titleSize: CGFloat) -> CGFloat {
+        var contentPageSize: CGFloat!
         if direction == ScrollDirection.Horizontal {
             if (titleViewAlignment == TitleViewAlignment.Left || titleViewAlignment == TitleViewAlignment.Right) && titleViewPosition == TitleViewPosition.Beside {
-                contentPageSize = _containerView.frame.width - _titleScrollableController.titleView.titleSize
+                contentPageSize = containerView.frame.width - titleScrollableController.titleView.titleSize
             } else {
-                contentPageSize = _containerView.frame.width
+                contentPageSize = containerView.frame.width
             }
         } else {
             if titleViewPosition == TitleViewPosition.Beside &&  titleViewAlignment == TitleViewAlignment.Top {
-                contentPageSize = _containerView.frame.height - _titleScrollableController.titleView.titleSize
+                contentPageSize = containerView.frame.height - titleScrollableController.titleView.titleSize
             } else {
-                contentPageSize = _containerView.frame.height
+                contentPageSize = containerView.frame.height
             }
         }
         return contentPageSize
     }
     
-    func isIndexValid(index : Int) -> Bool {
+    func isIndexValid(index: Int) -> Bool {
         if index >= content.count || index < 0 {
             return false
         }
         return true
     }
     
-    func loadView(pageIndex : Int) {
+    func loadView(pageIndex: Int) {
         loadViewIfNeeded(pageIndex: pageIndex - 1)
         loadViewIfNeeded(pageIndex: pageIndex, truePage: true)
         loadViewIfNeeded(pageIndex: pageIndex + 1)
     }
     
-    func loadViewIfNeeded(pageIndex : Int, truePage : Bool = false) {
+    func loadViewIfNeeded(pageIndex: Int, truePage: Bool = false) {
         if isIndexValid(index: pageIndex) {
-            if !_contentScrollableController.controllers[pageIndex].isContentLoaded(){
-                _contentScrollableController.controllers[pageIndex].loadView(content[pageIndex].object.view)
-                content[pageIndex].object.viewDidLoad()
+            if !contentScrollableController.controllers[pageIndex].isContentLoaded() {
+                contentScrollableController.controllers[pageIndex].load(childView: content[pageIndex].lifeCycleObject.view)
+                content[pageIndex].lifeCycleObject.viewDidLoad()
                 
             }
             if truePage {
-                if _isOnScreen {
-                    if _currentIndex != pageIndex {
-                        content[_currentIndex].object.didDissapear()
-                        _currentIndex = pageIndex
+                if isOnScreen {
+                    if currentIndex != pageIndex {
+                        content[currentIndex].lifeCycleObject.didDissapear()
+                        currentIndex = pageIndex
                     }
-                    content[pageIndex].object.didAppear()
+                    content[pageIndex].lifeCycleObject.didAppear()
 
 
                 } else {
-                    _currentIndex = pageIndex
+                    currentIndex = pageIndex
                 }
 
 
@@ -417,8 +413,8 @@ private extension ScrollController {
         }
     }
     
-    func shiftKeyboardIfNeeded(offset : CGFloat) {
-        if content[_currentIndex].object.isKeyboardResponsive && _scrollDirection == ScrollDirection.Horizontal {
+    func shiftKeyboardIfNeeded(offset: CGFloat) {
+        if content[currentIndex].lifeCycleObject.isKeyboardResponsive && scrollDirection == ScrollDirection.Horizontal {
             if let keyBoardView = findKeyboardWindow() {
                 var frame = keyBoardView.frame
                 frame.origin.x = frame.origin.x + offset
@@ -437,13 +433,13 @@ private extension ScrollController {
     }
 
     func removeContentIfNeeded() {
-        guard let index = _indexToRemove, _shouldRemoveContentAfterAnimation else {
+        guard let index = indexToRemove, shouldRemoveContentAfterAnimation else {
             return
         }
-        _shouldRemoveContentAfterAnimation = false
-        _indexToRemove = nil
+        shouldRemoveContentAfterAnimation = false
+        indexToRemove = nil
         content.remove(at: index)
-        _contentScrollableController.removeAtIndex(index: index)
-        _titleScrollableController.removeAtIndex(index: index)
+        contentScrollableController.removeAtIndex(index: index)
+        titleScrollableController.removeAtIndex(index: index)
     }
 }

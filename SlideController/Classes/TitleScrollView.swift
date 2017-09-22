@@ -8,22 +8,22 @@
 
 import UIKit
 
-public protocol TitleConfigurable : class {
-    associatedtype TitleItem : UIView
-    var items : [TitleItem] { get }
-    var alignment : TitleViewAlignment { get set }
-    var position : TitleViewPosition { get set }
-    var titleSize : CGFloat { get set }
-    weak var titleViewConfigurationDelegate : TitleViewConfigurationDelegate? { get set }
+public protocol TitleConfigurable: class {
+    associatedtype TitleItem: UIView
+    var items: [TitleItem] { get }
+    var alignment: TitleViewAlignment { get set }
+    var position: TitleViewPosition { get set }
+    var titleSize: CGFloat { get set }
+    weak var titleViewConfigurationDelegate: TitleViewConfigurationDelegate? { get set }
 }
 
-public protocol TitleViewConfigurationDelegate : class {
-    func didChangeAlignment(alignment : TitleViewAlignment)
-    func didChangeTitleSize(size : CGFloat)
-    func didChangePosition(position : TitleViewPosition)
+public protocol TitleViewConfigurationDelegate: class {
+    func didChangeAlignment(alignment: TitleViewAlignment)
+    func didChangeTitleSize(size: CGFloat)
+    func didChangePosition(position: TitleViewPosition)
 }
 
-open class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable where T: UIView, T : TitleItemObject {
+open class TitleScrollView<T>: UIScrollView, ViewScrollable, TitleConfigurable where T: UIView, T: TitleItemObject {
     
     public typealias View = T
     public typealias TitleItem = View
@@ -48,22 +48,22 @@ open class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable 
         }
     }
     
-    //MARK: - ViewScrollable_Implementation
+    // MARK: - ViewScrollableImplementation
     open func appendViews(views: [View]) {
         
     }
     
-    open func insertView(view : View, index : Int) {
+    open func insertView(view: View, index: Int) {
         
     }
     
-    open func removeViewAtIndex(index : Int) {
+    open func removeViewAtIndex(index: Int) {
         
     }
     
-    open var firstLayoutAction : (() -> ())?
+    open var firstLayoutAction: (() -> ())?
     
-    //MARK: - TitleConfigurable_Implementation
+    // MARK: - TitleConfigurableImplementation
     public var alignment = TitleViewAlignment.Top {
         didSet {
             if alignment != oldValue {
@@ -72,7 +72,7 @@ open class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable 
         }
     }
     
-    open var titleSize : CGFloat = 84 {
+    open var titleSize: CGFloat = 84 {
         didSet {
             if titleSize != oldValue {
                 titleViewConfigurationDelegate?.didChangeTitleSize(size: titleSize)
@@ -88,9 +88,9 @@ open class TitleScrollView<T> : UIScrollView, ViewScrollable, TitleConfigurable 
         }
     }
     
-    weak public var titleViewConfigurationDelegate : TitleViewConfigurationDelegate?
+    weak public var titleViewConfigurationDelegate: TitleViewConfigurationDelegate?
     
-    open var items : [TitleItem] {
+    open var items: [TitleItem] {
         return [TitleItem]()
     }
 }

@@ -9,27 +9,27 @@
 
 import UIKit
 
-class TitleScrollableController<T, N> : TitleScrollable where T : ViewScrollable, T : UIScrollView, T : TitleConfigurable, N : TitleItemControllableObject, N : UIView, N.Item == T.View {
+class TitleScrollableController<T, N>: TitleScrollable where T: ViewScrollable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
     
     fileprivate var isOffsetChangeAllowed = true
-    fileprivate var scrollDirection : ScrollDirection
+    fileprivate var scrollDirection: ScrollDirection
     fileprivate var selectedIndex = 0
     
-    fileprivate lazy var didCompleteSelectItemAction : () -> () = { [weak self] in
+    fileprivate lazy var didCompleteSelectItemAction: () -> () = { [weak self] in
         guard let `self` = self else { return }
         self.isOffsetChangeAllowed = true
     }
     
-    fileprivate lazy var didSelectTitleItemAction : (Int) -> () = { [weak self] index in
+    fileprivate lazy var didSelectTitleItemAction: (Int) -> () = { [weak self] index in
         guard let `self` = self else { return }
         self.isOffsetChangeAllowed = false
-        self.jump(index: index, animated : true)
+        self.jump(index: index, animated: true)
         self.didSelectItemAction?(index, self.didCompleteSelectItemAction)
     }
 
-    var didCompleteTitleLayout : (() -> ())?
+    var didCompleteTitleLayout: (() -> ())?
     
-    var titleView : T {
+    var titleView: T {
         return scrollView
     }
     
@@ -38,16 +38,16 @@ class TitleScrollableController<T, N> : TitleScrollable where T : ViewScrollable
     
     //MARK: - TitleScrollableImplementation
     
-    required init(pagesCount: Int, scrollDirection : ScrollDirection) {
+    required init(pagesCount: Int, scrollDirection: ScrollDirection) {
         self.scrollDirection = scrollDirection
         if pagesCount > 0 {
             append(pagesCount: pagesCount)
         }
     }
     
-    var didSelectItemAction : ((Int, (() -> ())?) -> ())?
+    var didSelectItemAction: ((Int, (() -> ())?) -> ())?
     
-    func append(pagesCount : Int) {
+    func append(pagesCount: Int) {
         var newControllers = [TitleItemController<N>]()
         for index in 0..<pagesCount {
             let controller = TitleItemController<N>()
@@ -59,7 +59,7 @@ class TitleScrollableController<T, N> : TitleScrollable where T : ViewScrollable
         scrollView.appendViews(views: newControllers.map{$0.view})
     }
     
-    func insert(index : Int) {
+    func insert(index: Int) {
         let controller = TitleItemController<N>()
         controller.index = index
         controller.didSelectAction = didSelectTitleItemAction
@@ -70,7 +70,7 @@ class TitleScrollableController<T, N> : TitleScrollable where T : ViewScrollable
         scrollView.insertView(view: controller.view, index: index)
     }
     
-    func removeAtIndex(index : Int) {
+    func removeAtIndex(index: Int) {
         for i in index + 1..<controllers.count {
             controllers[i].index = i - 1
         }
@@ -78,12 +78,12 @@ class TitleScrollableController<T, N> : TitleScrollable where T : ViewScrollable
         scrollView.removeViewAtIndex(index: index)
     }
     
-    func jump(index : Int, animated : Bool) {
+    func jump(index: Int, animated: Bool) {
         if isIndexValid(index) {
             controllers[selectedIndex].isSelected = false
             selectedIndex = index
             controllers[index].isSelected = true
-            // TODO : calculate offset for vertical scroll direction
+            // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
             case .Horizontal:
                 scrollView.setContentOffset(CGPoint(x: calculateTargetOffset(index), y: 0), animated: animated)
@@ -93,12 +93,12 @@ class TitleScrollableController<T, N> : TitleScrollable where T : ViewScrollable
         }
     }
     
-    func shift(delta : CGFloat, startIndex : Int, destinationIndex : Int) {
+    func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int) {
         if isOffsetChangeAllowed && isIndexValid(startIndex) && isIndexValid(destinationIndex) {
             let targetOffset = calculateTargetOffset(destinationIndex)
             let startOffset = calculateTargetOffset(startIndex)
             let shift = delta * abs(startOffset - targetOffset) / scrollView.frame.width
-            // TODO : calculate offset for vertical scroll direction
+            // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
             case .Horizontal:
                 scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x + shift, y: 0), animated: false)
@@ -109,17 +109,17 @@ class TitleScrollableController<T, N> : TitleScrollable where T : ViewScrollable
     }
 }
 
-//MARK: - PrivateTitleScrollableController
+// MARK: - PrivateTitleScrollableController
 
 private extension TitleScrollableController {
-    func isIndexValid(_ index : Int) -> Bool {
+    func isIndexValid(_ index: Int) -> Bool {
         if index >= 0 && index < controllers.count {
             return true
         }
         return false
     }
     
-    func calculateTargetOffset(_ index : Int) -> CGFloat {
+    func calculateTargetOffset(_ index: Int) -> CGFloat {
         var newOffsetX = scrollView.contentOffset.x
         if isIndexValid(index) {
             let title = controllers[index].view

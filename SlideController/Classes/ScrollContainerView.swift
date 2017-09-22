@@ -8,23 +8,23 @@
 
 import UIKit
 
-class ScrollContainerView<T> : UIView, TitleViewConfigurationDelegate where T : ViewScrollable, T : UIScrollView, T : TitleConfigurable {
+class ScrollContainerView<T>: UIView, TitleViewConfigurationDelegate where T: ViewScrollable, T: UIScrollView, T: TitleConfigurable {
     
     fileprivate var contentViewConstraints = [NSLayoutConstraint]()
     fileprivate var titleViewConstraints = [NSLayoutConstraint]()
     
-    var contentView : UIView? {
+    var contentView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let view = contentView {
                 view.translatesAutoresizingMaskIntoConstraints = false
                 self.addSubview(view)
-                activateContentViewConstraints(view: view, titleView : titleView)
+                activateContentViewConstraints(view: view, titleView: titleView)
             }
         }
     }
     
-    var titleView : T? {
+    var titleView: T? {
         didSet {
             oldValue?.removeFromSuperview()
             if let view = titleView {
@@ -33,7 +33,7 @@ class ScrollContainerView<T> : UIView, TitleViewConfigurationDelegate where T : 
                 self.addSubview(view)
                 activateTitleViewConstraints(view: view)
                 if let contentView = contentView {
-                    activateContentViewConstraints(view: contentView, titleView : view)
+                    activateContentViewConstraints(view: contentView, titleView: view)
                 }
             }
         }
@@ -47,38 +47,36 @@ class ScrollContainerView<T> : UIView, TitleViewConfigurationDelegate where T : 
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - TitleViewConfigurationDelegate_Implementation
-    
-    func didChangeAlignment(alignment : TitleViewAlignment) {
+    // MARK: - TitleViewConfigurationDelegateImplementation
+    func didChangeAlignment(alignment: TitleViewAlignment) {
         if let contentView = contentView {
-            activateContentViewConstraints(view: contentView, titleView : titleView)
+            activateContentViewConstraints(view: contentView, titleView: titleView)
         }
         if let titleView = titleView {
             activateTitleViewConstraints(view: titleView)
         }
     }
     
-    func didChangeTitleSize(size : CGFloat) {
+    func didChangeTitleSize(size: CGFloat) {
         if let titleView = titleView {
             activateTitleViewConstraints(view: titleView)
             if let contentView = contentView {
-                activateContentViewConstraints(view: contentView, titleView : titleView)
+                activateContentViewConstraints(view: contentView, titleView: titleView)
             }
         }
     }
     
-    func didChangePosition(position : TitleViewPosition) {
+    func didChangePosition(position: TitleViewPosition) {
         if let contentView = contentView {
-            activateContentViewConstraints(view: contentView, titleView : titleView)
+            activateContentViewConstraints(view: contentView, titleView: titleView)
         }
     }
     
 }
 
-//MARK: - Private_ScrollContainerView
-
+// MARK: - PrivateScrollContainerView
 private extension ScrollContainerView {
-    func activateContentViewConstraints(view : UIView, titleView : T?) {
+    func activateContentViewConstraints(view: UIView, titleView: T?) {
         for constraint in contentViewConstraints {
             constraint.isActive = false
         }
@@ -119,7 +117,7 @@ private extension ScrollContainerView {
         NSLayoutConstraint.activate(contentViewConstraints)
     }
     
-    func activateTitleViewConstraints(view : T) {
+    func activateTitleViewConstraints(view: T) {
         for constraint in titleViewConstraints {
             constraint.isActive = false
         }
