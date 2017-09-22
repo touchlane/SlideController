@@ -1,6 +1,6 @@
 //
 //  BottomBarView.swift
-//  PandaDemo
+//  SlideController_Example
 //
 //  Created by Evgeny Dedovets on 8/10/17.
 //  Copyright © 2017 Panda Systems. All rights reserved.
@@ -8,17 +8,15 @@
 
 import UIKit
 
-class LogoutView : UIView {
+class HorizontalOptionsView : UIView {
+    let logOutBtn = FilledButton()
     
     fileprivate let _logOutInBtnWidth : CGFloat = 120
     fileprivate let _logOutBtnHeigh : CGFloat = 32
     
-    let logOutBtn = FilledButton()
-    
     init() {
         super.init(frame: CGRect.zero)
-        backgroundColor = UIColor.yellow
-        logOutBtn.setTitle("Log Out", for: UIControlState())
+        logOutBtn.setTitle("Menu", for: UIControlState())
         logOutBtn.clipsToBounds = true
         logOutBtn.layer.cornerRadius = _logOutBtnHeigh / 2
         logOutBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -29,11 +27,18 @@ class LogoutView : UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if logOutBtn.frame.contains(point) {
+            return true
+        }
+        return false
+    }
 }
 
 
-private typealias Private_LogoutView = LogoutView
-private extension Private_LogoutView {
+private typealias Private_HorizontalOptionsView = HorizontalOptionsView
+private extension Private_HorizontalOptionsView {
     func activateLogOutBtnConstraints (view : UIView, superView : UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.centerXAnchor.constraint(equalTo: superView.centerXAnchor))
@@ -42,5 +47,4 @@ private extension Private_LogoutView {
         constraints.append(view.heightAnchor.constraint(equalToConstant: _logOutBtnHeigh))
         NSLayoutConstraint.activate(constraints)
     }
-    
 }

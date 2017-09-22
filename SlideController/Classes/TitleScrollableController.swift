@@ -1,7 +1,7 @@
 
 //
-//  HorizontalTitleController.swift
-//  youlive
+//  TitleScrollableController.swift
+//  SlideController
 //
 //  Created by Evgeny Dedovets on 4/16/17.
 //  Copyright © 2017 Panda Systems. All rights reserved.

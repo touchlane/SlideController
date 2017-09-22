@@ -1,6 +1,6 @@
 //
-//  ContentViewModel.swift
-//  youlive
+//  ContentPage.swift
+//  SlideController
 //
 //  Created by Evgeny Dedovets on 4/25/17.
 //  Copyright © 2017 Panda Systems. All rights reserved.

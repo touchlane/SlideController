@@ -1,6 +1,6 @@
 //
 //  ContentPageController.swift
-//  youlive
+//  SlideController
 //
 //  Created by Evgeny Dedovets on 4/24/17.
 //  Copyright © 2017 Panda Systems. All rights reserved.
@@ -9,7 +9,6 @@
 import UIKit
 
 class ContentPageController {
-    
     let view = UIView()
     
     func isContentLoaded() -> Bool {

@@ -1,6 +1,6 @@
 //
 //  MainTitleScrollView.swift
-//  youlive
+//  SlideController_Example
 //
 //  Created by Vadim Morozov on 4/20/17.
 //  Copyright © 2017 Panda Systems. All rights reserved.

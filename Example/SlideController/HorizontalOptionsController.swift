@@ -1,29 +1,26 @@
 //
 //  BottomBarController.swift
-//  PandaDemo
+//  SlideController_Example
 //
 //  Created by Evgeny Dedovets on 8/10/17.
 //  Copyright © 2017 Panda Systems. All rights reserved.
 //
 
 import UIKit
-import SlideController
 
-class LogoutController {
-    
-    fileprivate let logoutView = LogoutView()
+class HorizontalOptionsController {
+    fileprivate let _view = HorizontalOptionsView()
     
     var logOutDidTapAction: (() -> ())? {
         didSet {
-            logoutView.logOutBtn.didTouchUpInside = logOutDidTapAction
+            _view.logOutBtn.didTouchUpInside = logOutDidTapAction
         }
     }
 }
 
-private typealias Viewable_Implementation = LogoutController
+private typealias Viewable_Implementation = HorizontalOptionsController
 extension Viewable_Implementation : Viewable {
-    
     var view : UIView {
-        return logoutView
+        return _view
     }
 }

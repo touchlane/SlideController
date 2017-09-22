@@ -1,6 +1,6 @@
 //
 //  ScrollPageLifeCycleObject.swift
-//  youlive
+//  SlideController
 //
 //  Created by Evgeny Dedovets on 4/16/17.
 //  Copyright © 2017 Panda Systems. All rights reserved.
@@ -22,16 +22,16 @@ class ScrollPageLifeCycleObject : Initializable {
 
 private typealias PageScrollViewLifeCycle_Implementation = ScrollPageLifeCycleObject
 extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
+    var isKeyboardResponsive : Bool {
+        return false
+    }
+    
     func didAppear() {
         print("Empty page did appear")
     }
     
     func didDissapear() {
         print("Empty page did dissapear")
-    }
-    
-    var isKeyboardResponsive : Bool {
-        return false
     }
     
     func viewDidLoad() {
