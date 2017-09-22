@@ -10,28 +10,28 @@ import Foundation
 
 public class PageScrollViewModel {
     
-    public var object : ScrollLifeCycleObject { get {return buildObjectIfNeeded() } }
+    public var lifeCycleObject: ScrollLifeCycleObject { get {return buildObjectIfNeeded() } }
     
-    fileprivate var _className : String?
-    fileprivate var _object : ScrollLifeCycleObject?
+    fileprivate var className: String?
+    fileprivate var object: ScrollLifeCycleObject?
     
-    public init(className : String) {
-        _className = className
+    public init(className: String) {
+        self.className = className
     }
     
-    public  init(object : ScrollLifeCycleObject) {
-        _object = object
+    public  init(object: ScrollLifeCycleObject) {
+        self.object = object
     }
 }
 
-private typealias Private_PageScrollViewModel = PageScrollViewModel
-extension Private_PageScrollViewModel  {
+private typealias PrivatePageScrollViewModel = PageScrollViewModel
+extension PrivatePageScrollViewModel  {
     
     func buildObjectIfNeeded() -> ScrollLifeCycleObject {
-        if let object = _object {
+        if let object = object {
             return object
         } else {
-            if let classInst = NSClassFromString(_className!) as? Initializable.Type {
+            if let classInst = NSClassFromString(className!) as? Initializable.Type {
                 if let object = classInst.init() as? ScrollLifeCycleObject {
                     return object
                 }

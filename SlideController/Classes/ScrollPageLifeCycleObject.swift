@@ -8,21 +8,20 @@
 
 import UIKit
 
-class ScrollPageLifeCycleObject : Initializable {
+class ScrollPageLifeCycleObject: Initializable {
     
-    fileprivate var _view : UIView
+    fileprivate var objectView: UIView
     
-    //MARK: - Initialazable_Implementation
-    
+    // MARK: - InitialazableImplementation
     required init() {
-        _view = UIView()
-        _view.backgroundColor = UIColor.white
+        objectView = UIView()
+        objectView.backgroundColor = UIColor.white
     }
 }
 
-private typealias PageScrollViewLifeCycle_Implementation = ScrollPageLifeCycleObject
-extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
-    var isKeyboardResponsive : Bool {
+private typealias PageScrollViewLifeCycleImplementation = ScrollPageLifeCycleObject
+extension PageScrollViewLifeCycleImplementation: PageScrollViewLifeCycle {
+    var isKeyboardResponsive: Bool {
         return false
     }
     
@@ -47,11 +46,11 @@ extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
     }
 }
 
-private typealias Viewable_Implementation = ScrollPageLifeCycleObject
-extension Viewable_Implementation : Viewable {
-    var view : UIView {
+private typealias ViewableImplementation = ScrollPageLifeCycleObject
+extension ViewableImplementation: Viewable {
+    var view: UIView {
         get {
-            return _view
+            return objectView
         }
     }
 }
