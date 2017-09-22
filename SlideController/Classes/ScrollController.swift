@@ -46,7 +46,7 @@ public protocol ViewSlidable: class {
     var isLayouted: Bool { get }
 }
 
-public protocol ControllerScrollable: class {
+public protocol ControllerSlidable: class {
     func shift(pageIndex: Int, animated: Bool)
     func showNext(animated: Bool)
     func viewDidAppear()
@@ -86,7 +86,7 @@ public typealias TitleItemObject = Selectable & ItemViewable
 public typealias TitleItemControllableObject = ItemViewable & Initializable & Selectable
 public typealias ScrollLifeCycleObject = SlidePageLifeCycle & Viewable & Initializable
 
-public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerScrollable, Viewable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
+public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerSlidable, Viewable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
     
     public var titleView: T {
         return titleScrollableController.titleView
@@ -164,7 +164,7 @@ public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerS
         }
     }
 
-    //MARK: - ControllerScrollable_Implementation
+    //MARK: - ControllerSlidable_Implementation
     
     public func append(object objects : [ScrollLifeCycleObjectProvidable]) {
 
