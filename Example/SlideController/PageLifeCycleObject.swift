@@ -20,7 +20,7 @@ class PageLifeCycleObject : Initializable {
 }
 
 private typealias PageScrollViewLifeCycle_Implementation = PageLifeCycleObject
-extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
+extension PageScrollViewLifeCycle_Implementation : SlidePageLifeCycle {
     var isKeyboardResponsive : Bool {
         return false
     }

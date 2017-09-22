@@ -77,8 +77,8 @@ private extension PrivateContentScrollView {
     }
 }
 
-private typealias ViewScrollableImplementation = ContentScrollView
-extension ViewScrollableImplementation: ViewScrollable {
+private typealias ViewSlidableImplementation = ContentScrollView
+extension ViewSlidableImplementation: ViewSlidable {
     typealias View = UIView
     
     func appendViews(views: [View]) {

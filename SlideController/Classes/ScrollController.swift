@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol PageScrollViewLifeCycle: class {
+public protocol SlidePageLifeCycle: class {
     func didAppear()
     func didDissapear()
     func viewDidLoad()
@@ -37,7 +37,7 @@ public protocol TitleScrollable: class {
     init(pagesCount: Int, scrollDirection: ScrollDirection)
 }
 
-public protocol ViewScrollable: class {
+public protocol ViewSlidable: class {
     associatedtype View: UIView
     func appendViews(views: [View])
     func insertView(view: View, index: Int)
@@ -84,9 +84,9 @@ public enum TitleViewPosition {
 
 public typealias TitleItemObject = Selectable & ItemViewable
 public typealias TitleItemControllableObject = ItemViewable & Initializable & Selectable
-public typealias ScrollLifeCycleObject = PageScrollViewLifeCycle & Viewable & Initializable
+public typealias ScrollLifeCycleObject = SlidePageLifeCycle & Viewable & Initializable
 
-public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerScrollable, Viewable where T: ViewScrollable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
+public class ScrollController<T, N>: NSObject, UIScrollViewDelegate, ControllerScrollable, Viewable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
     
     public var titleView: T {
         return titleScrollableController.titleView

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ScrollContainerView<T>: UIView, TitleViewConfigurationDelegate where T: ViewScrollable, T: UIScrollView, T: TitleConfigurable {
+class ScrollContainerView<T>: UIView, TitleViewConfigurationDelegate where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable {
     
     fileprivate var contentViewConstraints = [NSLayoutConstraint]()
     fileprivate var titleViewConstraints = [NSLayoutConstraint]()

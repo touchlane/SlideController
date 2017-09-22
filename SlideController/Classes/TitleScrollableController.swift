@@ -9,7 +9,7 @@
 
 import UIKit
 
-class TitleScrollableController<T, N>: TitleScrollable where T: ViewScrollable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
+class TitleScrollableController<T, N>: TitleScrollable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
     
     fileprivate var isOffsetChangeAllowed = true
     fileprivate var scrollDirection: ScrollDirection
