@@ -8,15 +8,15 @@
 
 import UIKit
 
-class ContentScrollView: UIScrollView {
+class ContentSlideView: UIScrollView {
   
     var firstLayoutAction: (() -> ())?
     
-    fileprivate var scrollDirection: ScrollDirection!
+    fileprivate var scrollDirection: SlideDirection!
     fileprivate var pages = [ContentPage]()
     internal private(set) var isLayouted = false
     
-    init(scrollDirection: ScrollDirection) {
+    init(scrollDirection: SlideDirection) {
         self.scrollDirection = scrollDirection
         super.init(frame: CGRect.zero)
         isPagingEnabled = true
@@ -39,12 +39,12 @@ class ContentScrollView: UIScrollView {
     }
 }
 
-private typealias PrivateContentScrollView = ContentScrollView
-private extension PrivateContentScrollView {
-    func activateConstraints(_ page: ContentPage, prevPage: ContentPage?, isLast: Bool, direction: ScrollDirection) {
+private typealias PrivateContentSlideView = ContentSlideView
+private extension PrivateContentSlideView {
+    func activateConstraints(_ page: ContentPage, prevPage: ContentPage?, isLast: Bool, direction: SlideDirection) {
         page.constraints.append(page.view.widthAnchor.constraint(equalTo: self.widthAnchor))
         page.constraints.append(page.view.heightAnchor.constraint(equalTo: self.heightAnchor))
-        if direction == ScrollDirection.Horizontal {
+        if direction == SlideDirection.Horizontal {
             page.constraints.append(page.view.topAnchor.constraint(equalTo: self.topAnchor))
             if let prevPage = prevPage {
                 page.constraints.append(page.view.leadingAnchor.constraint(equalTo: prevPage.view.trailingAnchor))
@@ -68,7 +68,7 @@ private extension PrivateContentScrollView {
         NSLayoutConstraint.activate(page.constraints)
     }
     
-    func updateConstraints(_ page: ContentPage, prevPage: ContentPage?, isLast: Bool, direction: ScrollDirection) {
+    func updateConstraints(_ page: ContentPage, prevPage: ContentPage?, isLast: Bool, direction: SlideDirection) {
         for constraint in page.constraints {
             constraint.isActive = false
         }
@@ -77,8 +77,8 @@ private extension PrivateContentScrollView {
     }
 }
 
-private typealias ViewScrollableImplementation = ContentScrollView
-extension ViewScrollableImplementation: ViewScrollable {
+private typealias ViewSlidableImplementation = ContentSlideView
+extension ViewSlidableImplementation: ViewSlidable {
     typealias View = UIView
     
     func appendViews(views: [View]) {

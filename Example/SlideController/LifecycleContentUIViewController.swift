@@ -9,7 +9,7 @@
 import UIKit
 import SlideController
 
-class LifecycleContentUIViewController <T> : UIViewController where T : Viewable, T : ViewLifeCycleDependable {
+class LifecycleContentUIViewController <T> : UIViewController where T : ViewAccessible, T : ViewLifeCycleDependable {
     var controller : T? {
         didSet {
             if let controller = controller {

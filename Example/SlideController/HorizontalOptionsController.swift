@@ -19,7 +19,7 @@ class HorizontalOptionsController {
 }
 
 private typealias Viewable_Implementation = HorizontalOptionsController
-extension Viewable_Implementation : Viewable {
+extension Viewable_Implementation : ViewAccessible {
     var view : UIView {
         return _view
     }

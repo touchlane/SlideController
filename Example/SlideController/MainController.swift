@@ -11,21 +11,21 @@ import SlideController
 
 class MainController {
     fileprivate let _view = MainView()
-    fileprivate let _scrollControler : ScrollController<MainTitleScrollView, MainTitleItem>!
+    fileprivate let _scrollControler : SlideController<MainTitleScrollView, MainTitleItem>!
     
     init() {
         let pagesContent = [
-            PageScrollViewModel(object: PageLifeCycleObject()),
-            PageScrollViewModel(className: "SlideController_Example.PageLifeCycleObject"),
-            PageScrollViewModel(className: "SlideController_Example.PageLifeCycleObject")]
-        _scrollControler = ScrollController(pagesContent : pagesContent, startPageIndex: 0, scrollDirection: ScrollDirection.Horizontal)
+            PageSlideViewModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
+            PageSlideViewModel<PageLifeCycleObject>(),
+            PageSlideViewModel<PageLifeCycleObject>()]
+        _scrollControler = SlideController(pagesContent : pagesContent, startPageIndex: 0, scrollDirection: SlideDirection.Horizontal)
         for index in 0..<_scrollControler.content.count {
             _scrollControler.titleView.items[index].titleLabel.text = String(format: "page %d", index + 1)
         }
         _view.contentView = _scrollControler.view
     }
     
-    var optionsController : Viewable? {
+    var optionsController : ViewAccessible? {
         didSet {
            _view.optionsView = optionsController?.view
         }
@@ -44,7 +44,7 @@ extension ViewLifeCycleDependable_Implementation : ViewLifeCycleDependable {
 }
 
 private typealias Viewable_Implementation = MainController
-extension Viewable_Implementation : Viewable {
+extension Viewable_Implementation : ViewAccessible {
     var view : UIView {
         return _view
     }

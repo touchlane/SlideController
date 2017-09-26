@@ -19,8 +19,8 @@ class PageLifeCycleObject : Initializable {
     }
 }
 
-private typealias PageScrollViewLifeCycle_Implementation = PageLifeCycleObject
-extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
+private typealias SlidePageLifeCycleImplementation = PageLifeCycleObject
+extension SlidePageLifeCycleImplementation : SlidePageLifeCycle {
     var isKeyboardResponsive : Bool {
         return false
     }
@@ -37,17 +37,17 @@ extension PageScrollViewLifeCycle_Implementation : PageScrollViewLifeCycle {
         
     }
     
-    func didStartScrolling() {
+    func didStartSliding() {
         
     }
     
-    func didCancelScrolling() {
+    func didCancelSliding() {
         
     }
 }
 
 private typealias Viewable_Implementation = PageLifeCycleObject
-extension Viewable_Implementation : SlideController.Viewable {
+extension Viewable_Implementation : Viewable {
     var view : UIView {
         get {
             return _controller.view

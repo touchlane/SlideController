@@ -8,18 +8,18 @@
 
 import UIKit
 
-class ContentScrollableController {
+class ContentSlidableController {
     var pageSize: CGFloat = 0
     var didCompleteContentLayout: (() -> ())?
     
     internal private(set) var controllers = [ContentPageController]()
-    internal private(set) var scrollView: ContentScrollView
+    internal private(set) var scrollView: ContentSlideView
     
-    fileprivate var scrollDirection: ScrollDirection!
+    fileprivate var scrollDirection: SlideDirection!
     
-    init(pagesCount: Int, scrollDirection: ScrollDirection) {
+    init(pagesCount: Int, scrollDirection: SlideDirection) {
         self.scrollDirection = scrollDirection
-        scrollView = ContentScrollView(scrollDirection: scrollDirection)
+        scrollView = ContentSlideView(scrollDirection: scrollDirection)
         if pagesCount > 0 {
             append(pagesCount: pagesCount)
         }
@@ -48,7 +48,7 @@ class ContentScrollableController {
         scrollView.appendViews(views: newControllers.map{$0.view})
     }
     
-    func insert(index: Int) {
+    func insert(index : Int) {
         let controller = ContentPageController()
         controllers.insert(controller, at: index)
         scrollView.insertView(view: controller.view, index: index)
@@ -62,7 +62,7 @@ class ContentScrollableController {
     func scrollToPage(_ index: Int, animated: Bool) {
         if isIndexValid(index) {
             var offsetPoint: CGPoint
-            if scrollDirection == ScrollDirection.Horizontal {
+            if scrollDirection == SlideDirection.Horizontal {
                 offsetPoint = CGPoint(x: pageSize * CGFloat(integerLiteral: index), y: 0)
             } else {
                 offsetPoint = CGPoint(x: 0, y: pageSize * CGFloat(integerLiteral: index))
@@ -72,8 +72,8 @@ class ContentScrollableController {
     }
 }
 
-private typealias PrivateContentScrollableController = ContentScrollableController
-private extension PrivateContentScrollableController {
+private typealias PrivateContentSlidableController = ContentSlidableController
+private extension PrivateContentSlidableController {
     func isIndexValid(_ index: Int) -> Bool {
         if index >= 0 && index < controllers.count {
             return true

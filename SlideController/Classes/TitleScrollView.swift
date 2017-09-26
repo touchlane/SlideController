@@ -23,7 +23,7 @@ public protocol TitleViewConfigurationDelegate: class {
     func didChangePosition(position: TitleViewPosition)
 }
 
-open class TitleScrollView<T>: UIScrollView, ViewScrollable, TitleConfigurable where T: UIView, T: TitleItemObject {
+open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable where T: UIView, T: TitleItemObject {
     
     public typealias View = T
     public typealias TitleItem = View
@@ -48,7 +48,7 @@ open class TitleScrollView<T>: UIScrollView, ViewScrollable, TitleConfigurable w
         }
     }
     
-    // MARK: - ViewScrollableImplementation
+    // MARK: - ViewSlidableImplementation
     open func appendViews(views: [View]) {
         
     }
