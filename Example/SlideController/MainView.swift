@@ -9,7 +9,7 @@
 import UIKit
 
 class MainView : UIView {
-    var contentView : UIView? {
+    var contentView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let view = contentView {
@@ -20,7 +20,7 @@ class MainView : UIView {
         }
     }
    
-    var optionsView : UIView? {
+    var optionsView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let view = optionsView {
@@ -32,9 +32,9 @@ class MainView : UIView {
     }
 }
 
-private typealias Private_MainView = MainView
-private extension Private_MainView {
-    func activateContentViewConstraints(view : UIView) {
+private typealias PrivateMainView = MainView
+private extension PrivateMainView {
+    func activateContentViewConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
         constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
@@ -43,7 +43,7 @@ private extension Private_MainView {
         NSLayoutConstraint.activate(constraints)
     }
     
-    func activateOptionsViewConstraints(view : UIView) {
+    func activateOptionsViewConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
         constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))

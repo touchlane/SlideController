@@ -67,19 +67,19 @@ public protocol Selectable: class {
 }
 
 public enum SlideDirection {
-    case Vertical
-    case Horizontal
+    case vertical
+    case horizontal
 }
 
 public enum TitleViewAlignment {
-    case Top
-    case Left
-    case Right
+    case top
+    case left
+    case right
 }
 
 public enum TitleViewPosition {
-    case Beside
-    case Above
+    case beside
+    case above
 }
 
 public typealias TitleItemObject = Selectable & ItemViewable
@@ -244,7 +244,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             loadView(pageIndex: currentIndex)
         } else {
             contentSlidableController.scrollToPage(pageIndex, animated: animated)
-            if slideDirection == SlideDirection.Horizontal {
+            if slideDirection == SlideDirection.horizontal {
                 lastContentOffset = contentSlidableController.scrollView.contentOffset.x
             } else {
                 lastContentOffset = contentSlidableController.scrollView.contentOffset.y
@@ -284,7 +284,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         let pageSize = contentSlidableController.pageSize
         var actualContentOffset: CGFloat = 0
-        if slideDirection == SlideDirection.Horizontal {
+        if slideDirection == SlideDirection.horizontal {
             actualContentOffset = scrollView.contentOffset.x
         } else {
             actualContentOffset = scrollView.contentOffset.y
@@ -360,14 +360,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
 private extension SlideController {
     func calculateContentPageSize(direction: SlideDirection, titleViewAlignment: TitleViewAlignment, titleViewPosition: TitleViewPosition, titleSize: CGFloat) -> CGFloat {
         var contentPageSize: CGFloat!
-        if direction == SlideDirection.Horizontal {
-            if (titleViewAlignment == TitleViewAlignment.Left || titleViewAlignment == TitleViewAlignment.Right) && titleViewPosition == TitleViewPosition.Beside {
+        if direction == SlideDirection.horizontal {
+            if (titleViewAlignment == TitleViewAlignment.left || titleViewAlignment == TitleViewAlignment.right) && titleViewPosition == TitleViewPosition.beside {
                 contentPageSize = containerView.frame.width - titleSlidableController.titleView.titleSize
             } else {
                 contentPageSize = containerView.frame.width
             }
         } else {
-            if titleViewPosition == TitleViewPosition.Beside &&  titleViewAlignment == TitleViewAlignment.Top {
+            if titleViewPosition == TitleViewPosition.beside &&  titleViewAlignment == TitleViewAlignment.top {
                 contentPageSize = containerView.frame.height - titleSlidableController.titleView.titleSize
             } else {
                 contentPageSize = containerView.frame.height
@@ -415,7 +415,7 @@ private extension SlideController {
     }
     
     func shiftKeyboardIfNeeded(offset: CGFloat) {
-        if content[currentIndex].lifeCycleObject.isKeyboardResponsive && slideDirection == SlideDirection.Horizontal {
+        if content[currentIndex].lifeCycleObject.isKeyboardResponsive && slideDirection == SlideDirection.horizontal {
             if let keyBoardView = findKeyboardWindow() {
                 var frame = keyBoardView.frame
                 frame.origin.x = frame.origin.x + offset

@@ -62,7 +62,7 @@ class ContentSlidableController {
     func scrollToPage(_ index: Int, animated: Bool) {
         if isIndexValid(index) {
             var offsetPoint: CGPoint
-            if scrollDirection == SlideDirection.Horizontal {
+            if scrollDirection == SlideDirection.horizontal {
                 offsetPoint = CGPoint(x: pageSize * CGFloat(integerLiteral: index), y: 0)
             } else {
                 offsetPoint = CGPoint(x: 0, y: pageSize * CGFloat(integerLiteral: index))

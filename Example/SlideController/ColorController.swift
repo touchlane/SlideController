@@ -10,12 +10,12 @@ import UIKit
 import SlideController
 
 class ColorController {
-    fileprivate let _view = ColorView()
+    private let internalView = ColorView()
 }
 
-private typealias Viewable_Implementation = ColorController
-extension Viewable_Implementation : Viewable {
-    var view : UIView {
-        return _view
+private typealias ViewableImplementation = ColorController
+extension ViewableImplementation : Viewable {
+    var view: UIView {
+        return internalView
     }
 }

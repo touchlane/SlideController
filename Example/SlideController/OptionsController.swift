@@ -14,35 +14,35 @@ protocol OptionsControllerProtocol : class {
 }
 
 class OptionsController {
-    fileprivate let _view = OptionsView()
+    private let internalView = OptionsView()
 }
 
-private typealias OptionsControllerProtocol_Implementation = OptionsController
-extension OptionsControllerProtocol_Implementation : OptionsControllerProtocol {
+private typealias OptionsControllerProtocolImplementation = OptionsController
+extension OptionsControllerProtocolImplementation : OptionsControllerProtocol {
     var openHorizontalDemoAction: (() -> ())? {
         get {
-            return _view.horizontalDemoBtn.didTouchUpInside
+            return internalView.horizontalDemoBtn.didTouchUpInside
         }
         set {
-            _view.horizontalDemoBtn.didTouchUpInside = newValue
+            internalView.horizontalDemoBtn.didTouchUpInside = newValue
         }
     }
     
     var openVerticalDemoAction: (() -> ())? {
         get {
-            return _view.verticalDemoBtn.didTouchUpInside
+            return internalView.verticalDemoBtn.didTouchUpInside
         }
         set {
-            _view.verticalDemoBtn.didTouchUpInside = newValue
+            internalView.verticalDemoBtn.didTouchUpInside = newValue
         }
     }
 }
 
-private typealias Viewable_Implementation = OptionsController
-extension Viewable_Implementation : ViewAccessible {
-    var view : UIView {
+private typealias ViewAccessibleImplementation = OptionsController
+extension ViewAccessibleImplementation : ViewAccessible {
+    var view: UIView {
         get {
-            return _view
+            return internalView
         }
     }
 }

@@ -44,7 +44,7 @@ private extension PrivateContentSlideView {
     func activateConstraints(_ page: ContentPage, prevPage: ContentPage?, isLast: Bool, direction: SlideDirection) {
         page.constraints.append(page.view.widthAnchor.constraint(equalTo: self.widthAnchor))
         page.constraints.append(page.view.heightAnchor.constraint(equalTo: self.heightAnchor))
-        if direction == SlideDirection.Horizontal {
+        if direction == SlideDirection.horizontal {
             page.constraints.append(page.view.topAnchor.constraint(equalTo: self.topAnchor))
             if let prevPage = prevPage {
                 page.constraints.append(page.view.leadingAnchor.constraint(equalTo: prevPage.view.trailingAnchor))

@@ -9,5 +9,5 @@
 import UIKit
 
 protocol ViewAccessible : class {
-    var view : UIView { get }
+    var view: UIView { get }
 }

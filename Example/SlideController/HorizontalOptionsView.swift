@@ -11,17 +11,17 @@ import UIKit
 class HorizontalOptionsView : UIView {
     let logOutBtn = FilledButton()
     
-    fileprivate let _logOutInBtnWidth : CGFloat = 120
-    fileprivate let _logOutBtnHeigh : CGFloat = 32
+    private let logOutInBtnWidth: CGFloat = 120
+    private let logOutBtnHeigh: CGFloat = 32
     
     init() {
         super.init(frame: CGRect.zero)
         logOutBtn.setTitle("Menu", for: UIControlState())
         logOutBtn.clipsToBounds = true
-        logOutBtn.layer.cornerRadius = _logOutBtnHeigh / 2
+        logOutBtn.layer.cornerRadius = logOutBtnHeigh / 2
         logOutBtn.translatesAutoresizingMaskIntoConstraints = false
         addSubview(logOutBtn)
-        activateLogOutBtnConstraints(view : logOutBtn, superView: self)
+        activateLogOutBtnConstraints(view: logOutBtn, superView: self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -37,14 +37,14 @@ class HorizontalOptionsView : UIView {
 }
 
 
-private typealias Private_HorizontalOptionsView = HorizontalOptionsView
-private extension Private_HorizontalOptionsView {
-    func activateLogOutBtnConstraints (view : UIView, superView : UIView) {
+private typealias PrivateHorizontalOptionsView = HorizontalOptionsView
+private extension PrivateHorizontalOptionsView {
+    func activateLogOutBtnConstraints (view: UIView, superView: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.centerXAnchor.constraint(equalTo: superView.centerXAnchor))
         constraints.append(view.centerYAnchor.constraint(equalTo: superView.centerYAnchor))
-        constraints.append(view.widthAnchor.constraint(equalToConstant: _logOutInBtnWidth))
-        constraints.append(view.heightAnchor.constraint(equalToConstant: _logOutBtnHeigh))
+        constraints.append(view.widthAnchor.constraint(equalToConstant: logOutInBtnWidth))
+        constraints.append(view.heightAnchor.constraint(equalToConstant: logOutBtnHeigh))
         NSLayoutConstraint.activate(constraints)
     }
 }

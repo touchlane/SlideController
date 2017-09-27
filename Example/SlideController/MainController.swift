@@ -10,43 +10,43 @@ import UIKit
 import SlideController
 
 class MainController {
-    fileprivate let _view = MainView()
-    fileprivate let _scrollControler : SlideController<MainTitleScrollView, MainTitleItem>!
+    private let internalView = MainView()
+    private let slideController: SlideController<MainTitleScrollView, MainTitleItem>!
     
     init() {
         let pagesContent = [
             PageSlideViewModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
             PageSlideViewModel<PageLifeCycleObject>(),
             PageSlideViewModel<PageLifeCycleObject>()]
-        _scrollControler = SlideController(pagesContent : pagesContent, startPageIndex: 0, scrollDirection: SlideDirection.Horizontal)
-        for index in 0..<_scrollControler.content.count {
-            _scrollControler.titleView.items[index].titleLabel.text = String(format: "page %d", index + 1)
+        slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, scrollDirection: SlideDirection.horizontal)
+        for index in 0..<slideController.content.count {
+            slideController.titleView.items[index].titleLabel.text = String(format: "page %d", index + 1)
         }
-        _view.contentView = _scrollControler.view
+        internalView.contentView = slideController.view
     }
     
-    var optionsController : ViewAccessible? {
+    var optionsController: ViewAccessible? {
         didSet {
-           _view.optionsView = optionsController?.view
+           internalView.optionsView = optionsController?.view
         }
     }
 }
 
-private typealias ViewLifeCycleDependable_Implementation = MainController
-extension ViewLifeCycleDependable_Implementation : ViewLifeCycleDependable {
+private typealias ViewLifeCycleDependableImplementation = MainController
+extension ViewLifeCycleDependableImplementation : ViewLifeCycleDependable {
     func viewDidAppear() {
-        _scrollControler.viewDidAppear()
+        slideController.viewDidAppear()
     }
     
     func viewDidDisappear() {
-        _scrollControler.viewDidDisappear()
+        slideController.viewDidDisappear()
     }
 }
 
-private typealias Viewable_Implementation = MainController
-extension Viewable_Implementation : ViewAccessible {
+private typealias ViewAccessibleImplementation = MainController
+extension ViewAccessibleImplementation : ViewAccessible {
     var view : UIView {
-        return _view
+        return internalView
     }
 }
 

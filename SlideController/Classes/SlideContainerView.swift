@@ -82,19 +82,19 @@ private extension SlideContainerView {
         }
         contentViewConstraints.removeAll()
         if let titleView = titleView {
-            if titleView.position == TitleViewPosition.Beside {
+            if titleView.position == TitleViewPosition.beside {
                 switch titleView.alignment {
-                case TitleViewAlignment.Top:
+                case TitleViewAlignment.top:
                     contentViewConstraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
                     contentViewConstraints.append(view.topAnchor.constraint(equalTo: titleView.bottomAnchor))
                     contentViewConstraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
                     contentViewConstraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
-                case TitleViewAlignment.Left:
+                case TitleViewAlignment.left:
                     contentViewConstraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
                     contentViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
                     contentViewConstraints.append(view.leadingAnchor.constraint(equalTo: titleView.trailingAnchor))
                     contentViewConstraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
-                case TitleViewAlignment.Right:
+                case TitleViewAlignment.right:
                     contentViewConstraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
                     contentViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
                     contentViewConstraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
@@ -123,17 +123,17 @@ private extension SlideContainerView {
         }
         titleViewConstraints.removeAll()
         switch view.alignment {
-        case .Top:
+        case .top:
             titleViewConstraints.append(view.heightAnchor.constraint(equalToConstant: view.titleSize))
             titleViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
             titleViewConstraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
             titleViewConstraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
-        case .Left:
+        case .left:
             titleViewConstraints.append(view.widthAnchor.constraint(equalToConstant: view.titleSize))
             titleViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
             titleViewConstraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
             titleViewConstraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
-        case .Right:
+        case .right:
             titleViewConstraints.append(view.widthAnchor.constraint(equalToConstant: view.titleSize))
             titleViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
             titleViewConstraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))

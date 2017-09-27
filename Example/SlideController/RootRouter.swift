@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import SlideController
 
 class RootRouter {
-    var presenter : UINavigationController?
+    var presenter: UINavigationController?
     
-    func openMainScreen(animated : Bool) {
+    func openMainScreen(animated: Bool) {
         let optionsControler = OptionsController()
         optionsControler.openHorizontalDemoAction = openHorizontalDemoAction
         let vc = ContentUIViewController<OptionsController>()
@@ -20,7 +19,7 @@ class RootRouter {
         presenter?.setViewControllers([vc], animated: animated)
     }
     
-    func showMainPage(animated : Bool) {
+    func showMainPage(animated: Bool) {
         let optionsController = HorizontalOptionsController()
         optionsController.logOutDidTapAction = logOutDidTapAction
         let mainController = MainController()
@@ -30,12 +29,12 @@ class RootRouter {
         presenter?.pushViewController(vc, animated: animated)
     }
     
-    private lazy var openHorizontalDemoAction : (() -> ())? = { [weak self] in
+    private lazy var openHorizontalDemoAction: (() -> ())? = { [weak self] in
         guard let `self` = self else { return }
-        self.showMainPage(animated : true)
+        self.showMainPage(animated: true)
     }
     
-    private lazy var logOutDidTapAction : (() -> ())? = { [weak self] in
+    private lazy var logOutDidTapAction: (() -> ())? = { [weak self] in
         guard let `self` = self else { return }
         self.presenter?.popViewController(animated: true)
     }
