@@ -19,12 +19,12 @@ class ColorView : UIView {
     }
 }
 
-private typealias Private_ColorView = ColorView
-private extension Private_ColorView {
+private typealias PrivateColorView = ColorView
+private extension PrivateColorView {
     func randomColor() -> UIColor{
-        let randomRed:CGFloat = CGFloat(drand48())
-        let randomGreen:CGFloat = CGFloat(drand48())
-        let randomBlue:CGFloat = CGFloat(drand48())
+        let randomRed: CGFloat = CGFloat(drand48())
+        let randomGreen: CGFloat = CGFloat(drand48())
+        let randomBlue: CGFloat = CGFloat(drand48())
         return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
     }
 }

@@ -9,18 +9,18 @@
 import UIKit
 
 class HorizontalOptionsController {
-    fileprivate let _view = HorizontalOptionsView()
+    private let internalView = HorizontalOptionsView()
     
     var logOutDidTapAction: (() -> ())? {
         didSet {
-            _view.logOutBtn.didTouchUpInside = logOutDidTapAction
+            internalView.logOutBtn.didTouchUpInside = logOutDidTapAction
         }
     }
 }
 
-private typealias Viewable_Implementation = HorizontalOptionsController
-extension Viewable_Implementation : ViewAccessible {
+private typealias ViewableImplementation = HorizontalOptionsController
+extension ViewableImplementation : ViewAccessible {
     var view : UIView {
-        return _view
+        return internalView
     }
 }

@@ -16,12 +16,4 @@ class ContentUIViewController<T> : UIViewController where T : ViewAccessible {
             }
         }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
 }

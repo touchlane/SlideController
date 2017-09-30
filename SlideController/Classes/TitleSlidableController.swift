@@ -85,9 +85,9 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             controllers[index].isSelected = true
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
-            case .Horizontal:
+            case .horizontal:
                 scrollView.setContentOffset(CGPoint(x: calculateTargetOffset(index), y: 0), animated: animated)
-            case .Vertical:
+            case .vertical:
                 scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: animated)
             }
         }
@@ -100,9 +100,9 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             let shift = delta * abs(startOffset - targetOffset) / scrollView.frame.width
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
-            case .Horizontal:
+            case .horizontal:
                 scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x + shift, y: 0), animated: false)
-            case .Vertical:
+            case .vertical:
                 scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
             }
         }

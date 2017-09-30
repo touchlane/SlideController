@@ -12,28 +12,28 @@ import SlideController
 class MainTitleItem : UIView, Initializable, ItemViewable, Selectable {
     let titleLabel = UILabel()
     
-    fileprivate var _titleLabelOffsetX : CGFloat = 21
-    fileprivate var _newIndicatorRadius : CGFloat = 9
-    fileprivate var _isSelected : Bool = false
-    fileprivate var _index : Int = 0
-    fileprivate var _didSelectAction : ((Int) -> ())?
-    fileprivate let _backgroundView = UIView()
-    fileprivate let _backgroundSelectedColor = UIColor.white
-    fileprivate let _titleLabelFont = UIFont.systemFont(ofSize: 16.5)
-    fileprivate let _backgroundColor = UIColor(red: 58.0/255.0, green: 28.0/255.0, blue: 115.0/255.0, alpha: 1.0)
-    fileprivate let _titleFontDefaultColor = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.5)
-    fileprivate let _titleFontSelectedColor = UIColor(red: 30.0/255.0, green: 186.0/255.0, blue: 198.0/255.0, alpha: 1.0)
+    private var titleLabelOffsetX: CGFloat = 21
+    private var newIndicatorRadius: CGFloat = 9
+    private var internalIsSelected: Bool = false
+    private var internalIndex: Int = 0
+    private var internalDidSelectAction: ((Int) -> ())?
+    private let backgroundView = UIView()
+    private let backgroundSelectedColor = UIColor.white
+    private let titleLabelFont = UIFont.systemFont(ofSize: 16.5)
+    private let internalBackgroundColor = UIColor(red: 58.0/255.0, green: 28.0/255.0, blue: 115.0/255.0, alpha: 1.0)
+    private let titleFontDefaultColor = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.5)
+    private let titleFontSelectedColor = UIColor(red: 30.0/255.0, green: 186.0/255.0, blue: 198.0/255.0, alpha: 1.0)
     
     required init() {
         super.init(frame: CGRect.zero)
-        _backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        _backgroundView.layer.masksToBounds = true
-        self.addSubview(_backgroundView)
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.layer.masksToBounds = true
+        self.addSubview(backgroundView)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = _titleLabelFont
+        titleLabel.font = titleLabelFont
         self.addSubview(titleLabel)
-        activateBackgroundViewConstraints(view : _backgroundView)
-        activateTitleLabelConstraints(view : titleLabel)
+        activateBackgroundViewConstraints(view: backgroundView)
+        activateTitleLabelConstraints(view: titleLabel)
         isSelected = false
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapDetected(_:)))
         self.addGestureRecognizer(tapRecognizer)
@@ -43,63 +43,63 @@ class MainTitleItem : UIView, Initializable, ItemViewable, Selectable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var cornerRadius : CGFloat {
+    var cornerRadius: CGFloat {
         get {
-            return _backgroundView.layer.cornerRadius
+            return backgroundView.layer.cornerRadius
         }
         set {
-            _backgroundView.layer.cornerRadius = newValue
+            backgroundView.layer.cornerRadius = newValue
         }
     }
     
-    //MARK: - ItemViewable_Implementation
+    //MARK: - ItemViewableImplementation
     
     typealias Item = MainTitleItem
     
-    var view : Item {
+    var view: Item {
         return self
     }
     
-    //MARK: - Selectable_Implementation
+    //MARK: - SelectableImplementation
     
-    var didSelectAction : ((Int) -> ())? {
+    var didSelectAction: ((Int) -> ())? {
         get {
-            return _didSelectAction
+            return internalDidSelectAction
         }
         set {
-            _didSelectAction = newValue
+            internalDidSelectAction = newValue
         }
     }
     
-    var isSelected : Bool {
+    var isSelected: Bool {
         get {
-            return _isSelected
+            return internalIsSelected
         }
         set {
             if newValue {
-                _backgroundView.backgroundColor = _backgroundSelectedColor
-                titleLabel.textColor = _titleFontSelectedColor
+                backgroundView.backgroundColor = backgroundSelectedColor
+                titleLabel.textColor = titleFontSelectedColor
             } else {
-                _backgroundView.backgroundColor = _backgroundColor
-                titleLabel.textColor = _titleFontDefaultColor
+                backgroundView.backgroundColor = internalBackgroundColor
+                titleLabel.textColor = titleFontDefaultColor
             }
-            _isSelected = newValue
+            internalIsSelected = newValue
         }
     }
     
-    var index : Int {
+    var index: Int {
         get {
-            return _index
+            return internalIndex
         }
         set {
-            _index = newValue
+            internalIndex = newValue
         }
     }
 }
 
-private typealias Private_MainTitleItem = MainTitleItem
-private extension Private_MainTitleItem {
-    func activateBackgroundViewConstraints(view : UIView) {
+private typealias PrivateMainTitleItem = MainTitleItem
+private extension PrivateMainTitleItem {
+    func activateBackgroundViewConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
         constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
@@ -108,17 +108,17 @@ private extension Private_MainTitleItem {
         NSLayoutConstraint.activate(constraints)
     }
     
-    func activateTitleLabelConstraints(view : UIView) {
+    func activateTitleLabelConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.centerYAnchor.constraint(equalTo: self.centerYAnchor))
-        constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -_titleLabelOffsetX))
-        constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: _titleLabelOffsetX))
+        constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -titleLabelOffsetX))
+        constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: titleLabelOffsetX))
         NSLayoutConstraint.activate(constraints)
     }
     
     @objc func tapDetected(_ recognizer: UIGestureRecognizer) {
-        if !_isSelected {
-            _didSelectAction?(_index)
+        if !internalIsSelected {
+            internalDidSelectAction?(internalIndex)
         }
     }
 }

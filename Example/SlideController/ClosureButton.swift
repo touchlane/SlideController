@@ -13,9 +13,9 @@ protocol Actionable : class {
 }
 
 class ClosureButton: UIButton {
-    fileprivate var _didTouchUpInside: (() -> ())? {
+    private var internalDidTouchUpInside: (() -> ())? {
         didSet {
-            if didTouchUpInside != nil {
+            if internalDidTouchUpInside != nil {
                 addTarget(self, action: #selector(didTouchUpInside(_:)), for: .touchUpInside)
             } else {
                 removeTarget(self, action: #selector(didTouchUpInside(_:)), for: .touchUpInside)
@@ -24,21 +24,21 @@ class ClosureButton: UIButton {
     }
 }
 
-private typealias Private_ClosureButton = ClosureButton
-private extension Private_ClosureButton {
+private typealias PrivateClosureButton = ClosureButton
+private extension PrivateClosureButton {
     @objc func didTouchUpInside(_ sender: UIButton) {
         didTouchUpInside?()
     }
 }
 
-private typealias Actionable_Implementation = ClosureButton
-extension Actionable_Implementation : Actionable {
+private typealias ActionableImplementation = ClosureButton
+extension ActionableImplementation : Actionable {
      var didTouchUpInside: (() -> ())? {
         get {
-            return _didTouchUpInside
+            return internalDidTouchUpInside
         }
         set {
-            _didTouchUpInside = newValue
+            internalDidTouchUpInside = newValue
         }
     }
 }

@@ -64,7 +64,7 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     open var firstLayoutAction: (() -> ())?
     
     // MARK: - TitleConfigurableImplementation
-    public var alignment = TitleViewAlignment.Top {
+    public var alignment = TitleViewAlignment.top {
         didSet {
             if alignment != oldValue {
                titleViewConfigurationDelegate?.didChangeAlignment(alignment: alignment)
@@ -80,7 +80,7 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
         }
     }
     
-    open var position = TitleViewPosition.Beside {
+    open var position = TitleViewPosition.beside {
         didSet {
             if position != oldValue {
                 titleViewConfigurationDelegate?.didChangePosition(position: position)
