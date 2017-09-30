@@ -101,10 +101,10 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     public fileprivate(set) var content = [SlideLifeCycleObjectProvidable]()
     
-    fileprivate let containerView = SlideContainerView<T>()
+    fileprivate let containerView = SlideView<T>()
     fileprivate var titleSlidableController: TitleSlidableController<T, N>!
     fileprivate var slideDirection: SlideDirection!
-    fileprivate var contentSlidableController: ContentSlidableController!
+    fileprivate var contentSlidableController: SlideContentController!
     fileprivate var currentIndex = 0
     fileprivate var lastContentOffset: CGFloat = 0
     fileprivate var didFinishForceSlide: (() -> ())?
@@ -123,8 +123,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     private lazy var firstLayoutContentAction: () -> () = { [weak self] in
         guard let `self` = self else { return }
-        self.contentSlidableController.pageSize = self.calculateContentPageSize(direction: self.slideDirection, titleViewAlignment: self.titleSlidableController.titleView.alignment, titleViewPosition: self.titleSlidableController.titleView.position, titleSize: self.titleSlidableController.titleView.titleSize)
-        self.contentSlidableController.scrollView.delegate = self
+        self.contentSlidableController.contentSize = self.calculateContentPageSize(direction: self.slideDirection, titleViewAlignment: self.titleSlidableController.titleView.alignment, titleViewPosition: self.titleSlidableController.titleView.position, titleSize: self.titleSlidableController.titleView.titleSize)
+        self.contentSlidableController.slideContentView.delegate = self
         self.shift(pageIndex: self.currentIndex, animated: false)
     }
     
@@ -149,18 +149,18 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         self.slideDirection = scrollDirection
         titleSlidableController = TitleSlidableController(pagesCount: content.count, scrollDirection: scrollDirection)
         currentIndex = startPageIndex
-        contentSlidableController = ContentSlidableController(pagesCount: content.count, scrollDirection: scrollDirection)
+        contentSlidableController = SlideContentController(pagesCount: content.count, scrollDirection: scrollDirection)
         titleSlidableController.didSelectItemAction = didSelectItemAction
         loadView(pageIndex: currentIndex)
-        containerView.contentView = contentSlidableController.scrollView
+        containerView.contentView = contentSlidableController.slideContentView
         containerView.titleView = titleSlidableController.titleView
         titleSlidableController.titleView.firstLayoutAction = firstLayoutTitleAction
-        contentSlidableController.scrollView.firstLayoutAction = firstLayoutContentAction
+        contentSlidableController.slideContentView.firstLayoutAction = firstLayoutContentAction
     }
     
     var isScrollEnabled: Bool = true {
         didSet {
-            contentSlidableController.scrollView.isScrollEnabled = isScrollEnabled
+            contentSlidableController.slideContentView.isScrollEnabled = isScrollEnabled
         }
     }
 
@@ -171,8 +171,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             content.append(contentsOf: objects)
             contentSlidableController.append(pagesCount: objects.count)
             titleSlidableController.append(pagesCount: objects.count)
-            if contentSlidableController.scrollView.isLayouted {
-                contentSlidableController.scrollView.layoutIfNeeded()
+            if contentSlidableController.slideContentView.isLayouted {
+                contentSlidableController.slideContentView.layoutIfNeeded()
             }
             if titleSlidableController.titleView.isLayouted {
                 titleSlidableController.titleView.layoutIfNeeded()
@@ -186,19 +186,19 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         content.insert(object, at: index)
         contentSlidableController.insert(index: index)
         titleSlidableController.insert(index: index)
-        if contentSlidableController.scrollView.isLayouted {
-           contentSlidableController.scrollView.layoutIfNeeded()
+        if contentSlidableController.slideContentView.isLayouted {
+           contentSlidableController.slideContentView.layoutIfNeeded()
         }
         if titleSlidableController.titleView.isLayouted {
             titleSlidableController.titleView.layoutIfNeeded()
         }
         if index <= currentIndex {
             // FIXME: workaround to fix life cycle calls  
-            contentSlidableController.scrollView.delegate = nil
+            contentSlidableController.slideContentView.delegate = nil
             shift(pageIndex: currentIndex + 1, animated: false)
             currentIndex = currentIndex + 1
             titleSlidableController.jump(index: currentIndex, animated: false)
-            contentSlidableController.scrollView.delegate = self
+            contentSlidableController.slideContentView.delegate = self
             loadViewIfNeeded(pageIndex: index)
         } else {
             loadView(pageIndex: currentIndex)
@@ -218,8 +218,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             indexToRemove = index
         }
 
-        if contentSlidableController.scrollView.isLayouted {
-            contentSlidableController.scrollView.layoutIfNeeded()
+        if contentSlidableController.slideContentView.isLayouted {
+            contentSlidableController.slideContentView.layoutIfNeeded()
         }
         if titleSlidableController.titleView.isLayouted {
             titleSlidableController.titleView.layoutIfNeeded()
@@ -239,15 +239,15 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     public func shift(pageIndex: Int, animated: Bool = true) {
-        if !self.contentSlidableController.scrollView.isLayouted {
+        if !self.contentSlidableController.slideContentView.isLayouted {
             currentIndex = pageIndex
             loadView(pageIndex: currentIndex)
         } else {
-            contentSlidableController.scrollToPage(pageIndex, animated: animated)
+            contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
             if slideDirection == SlideDirection.horizontal {
-                lastContentOffset = contentSlidableController.scrollView.contentOffset.x
+                lastContentOffset = contentSlidableController.slideContentView.contentOffset.x
             } else {
-                lastContentOffset = contentSlidableController.scrollView.contentOffset.y
+                lastContentOffset = contentSlidableController.slideContentView.contentOffset.y
             }
         }
     }
@@ -282,7 +282,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             content[currentIndex].lifeCycleObject.didStartSliding()
             scrollInProgress = true
         }
-        let pageSize = contentSlidableController.pageSize
+        let pageSize = contentSlidableController.contentSize
         var actualContentOffset: CGFloat = 0
         if slideDirection == SlideDirection.horizontal {
             actualContentOffset = scrollView.contentOffset.x
@@ -391,10 +391,10 @@ private extension SlideController {
     
     func loadViewIfNeeded(pageIndex: Int, truePage: Bool = false) {
         if isIndexValid(index: pageIndex) {
-            if !contentSlidableController.controllers[pageIndex].isContentLoaded() {
-                contentSlidableController.controllers[pageIndex].load(childView: content[pageIndex].lifeCycleObject.view)
+            if !contentSlidableController.containers[pageIndex].hasContent {
+                contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
                 content[pageIndex].lifeCycleObject.viewDidLoad()
-                
+
             }
             if truePage {
                 if isOnScreen {

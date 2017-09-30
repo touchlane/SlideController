@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SlideContainerView<T>: UIView, TitleViewConfigurationDelegate where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable {
+class SlideView<T>: UIView, TitleViewConfigurationDelegate where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable {
     
     fileprivate var contentViewConstraints = [NSLayoutConstraint]()
     fileprivate var titleViewConstraints = [NSLayoutConstraint]()
@@ -75,7 +75,7 @@ class SlideContainerView<T>: UIView, TitleViewConfigurationDelegate where T: Vie
 }
 
 // MARK: - PrivateScrollContainerView
-private extension SlideContainerView {
+private extension SlideView {
     func activateContentViewConstraints(view: UIView, titleView: T?) {
         for constraint in contentViewConstraints {
             constraint.isActive = false
