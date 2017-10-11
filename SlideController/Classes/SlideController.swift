@@ -30,13 +30,6 @@ public protocol Initializable: class {
     init()
 }
 
-public protocol TitleScrollable: class {
-    var didSelectItemAction: ((Int, (() -> ())?) -> ())? { get set }
-    func jump(index: Int, animated: Bool)
-    func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int)
-    init(pagesCount: Int, scrollDirection: SlideDirection)
-}
-
 public protocol ViewSlidable: class {
     associatedtype View: UIView
     func appendViews(views: [View])
@@ -54,10 +47,6 @@ public protocol ControllerSlidable: class {
     func insert(object : SlideLifeCycleObjectProvidable, index : Int)
     func append(object : [SlideLifeCycleObjectProvidable])
     func removeAtIndex(index : Int)
-}
-
-public protocol TextSettable {
-    var text: String? { get set }
 }
 
 public protocol Selectable: class {
@@ -87,12 +76,22 @@ public typealias TitleItemControllableObject = ItemViewable & Initializable & Se
 public typealias SlideLifeCycleObject = SlidePageLifeCycle & Viewable & Initializable
 
 public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSlidable, Viewable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
+    private let containerView = SlideView<T>()
+    private var titleSlidableController: TitleSlidableController<T, N>!
+    private var slideDirection: SlideDirection!
+    private var contentSlidableController: SlideContentController!
+    private var currentIndex = 0
+    private var lastContentOffset: CGFloat = 0
+    private var didFinishForceSlide: (() -> ())?
+    private var isForcedToSlide: Bool = false
+    private var isOnScreen = false
+    private var scrollInProgress: Bool = false
     
     public var titleView: T {
         return titleSlidableController.titleView
     }
     
-    internal var currentModel: SlideLifeCycleObjectProvidable? {
+    public var currentModel: SlideLifeCycleObjectProvidable? {
         if isIndexValid(index: currentIndex) {
             return content[currentIndex]
         }
@@ -100,17 +99,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     public fileprivate(set) var content = [SlideLifeCycleObjectProvidable]()
-    
-    fileprivate let containerView = SlideView<T>()
-    fileprivate var titleSlidableController: TitleSlidableController<T, N>!
-    fileprivate var slideDirection: SlideDirection!
-    fileprivate var contentSlidableController: SlideContentController!
-    fileprivate var currentIndex = 0
-    fileprivate var lastContentOffset: CGFloat = 0
-    fileprivate var didFinishForceSlide: (() -> ())?
-    fileprivate var isForcedToSlide: Bool = false
-    fileprivate var isOnScreen = false
-    fileprivate var scrollInProgress: Bool = false
 
     //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
     fileprivate var shouldRemoveContentAfterAnimation: Bool = false
@@ -143,13 +131,13 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         self.didFinishForceSlide = completion
     }
 
-    public init(pagesContent : [SlideLifeCycleObjectProvidable], startPageIndex: Int = 0, scrollDirection : SlideDirection) {
+    public init(pagesContent : [SlideLifeCycleObjectProvidable], startPageIndex: Int = 0, slideDirection : SlideDirection) {
         super.init()
         content = pagesContent
-        self.slideDirection = scrollDirection
-        titleSlidableController = TitleSlidableController(pagesCount: content.count, scrollDirection: scrollDirection)
+        self.slideDirection = slideDirection
+        titleSlidableController = TitleSlidableController(pagesCount: content.count, slideDirection: slideDirection)
         currentIndex = startPageIndex
-        contentSlidableController = SlideContentController(pagesCount: content.count, scrollDirection: scrollDirection)
+        contentSlidableController = SlideContentController(pagesCount: content.count, slideDirection: slideDirection)
         titleSlidableController.didSelectItemAction = didSelectItemAction
         loadView(pageIndex: currentIndex)
         containerView.contentView = contentSlidableController.slideContentView

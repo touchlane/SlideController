@@ -18,7 +18,7 @@ class MainController {
             SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
             SlidePageModel<PageLifeCycleObject>(),
             SlidePageModel<PageLifeCycleObject>()]
-        slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, scrollDirection: SlideDirection.horizontal)
+        slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: SlideDirection.horizontal)
         for index in 0..<slideController.content.count {
             slideController.titleView.items[index].titleLabel.text = String(format: "page %d", index + 1)
         }
