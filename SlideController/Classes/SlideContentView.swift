@@ -117,7 +117,7 @@ extension ViewSlidableImplementation: ViewSlidable {
     
     func removeViewAtIndex(index: Int) {
         guard index < containers.count else { return }
-        let page: SlideContainerView = containers[index]
+        let page = containers[index]
         let prevPage = index > 0 ? containers[index - 1]: nil
         let nextPage = index < containers.count - 1 ? containers[index + 1]: nil
         containers.remove(at: index)
@@ -125,7 +125,7 @@ extension ViewSlidableImplementation: ViewSlidable {
         if let nextPage = nextPage {
             updateConstraints(page: nextPage, prevPage: prevPage, isLast: index == containers.count - 1, direction: slideDirection)
         } else if let prevPage = prevPage {
-            let prevPrevPage: SlideContainerView? = containers.count > 1 ? containers[containers.count - 2]: nil
+            let prevPrevPage = containers.count > 1 ? containers[containers.count - 2]: nil
             updateConstraints(page: prevPage, prevPage: prevPrevPage, isLast: true, direction: slideDirection)
         }
     }
