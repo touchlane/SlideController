@@ -43,7 +43,7 @@ final class SlideContentView: UIScrollView {
 private typealias PrivateContentSlideView = SlideContentView
 private extension PrivateContentSlideView {
     ///Set constraints depend target slide direction
-    func activateConstraints(_ page: SlideContainerView, prevPage: SlideContainerView?, isLast: Bool, direction: SlideDirection) {
+    func activateConstraints(page: SlideContainerView, prevPage: SlideContainerView?, isLast: Bool, direction: SlideDirection) {
         page.constraints.append(page.view.widthAnchor.constraint(equalTo: self.widthAnchor))
         page.constraints.append(page.view.heightAnchor.constraint(equalTo: self.heightAnchor))
         if direction == SlideDirection.horizontal {
@@ -71,12 +71,12 @@ private extension PrivateContentSlideView {
     }
     
     //Update constraints for specific container
-    func updateConstraints(_ page: SlideContainerView, prevPage: SlideContainerView?, isLast: Bool, direction: SlideDirection) {
+    func updateConstraints(page: SlideContainerView, prevPage: SlideContainerView?, isLast: Bool, direction: SlideDirection) {
         for constraint in page.constraints {
             constraint.isActive = false
         }
         page.constraints.removeAll()
-        activateConstraints(page, prevPage: prevPage, isLast: isLast, direction: direction)
+        activateConstraints(page: page, prevPage: prevPage, isLast: isLast, direction: direction)
     }
 }
 
@@ -88,7 +88,7 @@ extension ViewSlidableImplementation: ViewSlidable {
         var prevPage: SlideContainerView? = containers.last
         let prevPrevPage: SlideContainerView? = containers.count > 1 ? containers[containers.count - 2] : nil
         if let prevPage = prevPage {
-            updateConstraints(prevPage, prevPage: prevPrevPage, isLast: false, direction: slideDirection)
+            updateConstraints(page: prevPage, prevPage: prevPrevPage, isLast: false, direction: slideDirection)
         }
         for i in 0...views.count - 1 {
             let view = views[i]
@@ -97,7 +97,7 @@ extension ViewSlidableImplementation: ViewSlidable {
             let viewModel = SlideContainerView(view: view)
             containers.append(viewModel)
             addSubview(view)
-            activateConstraints(viewModel, prevPage: prevPage, isLast: i == views.count - 1, direction: slideDirection)
+            activateConstraints(page: viewModel, prevPage: prevPage, isLast: i == views.count - 1, direction: slideDirection)
             prevPage = viewModel
         }
     }
@@ -109,24 +109,24 @@ extension ViewSlidableImplementation: ViewSlidable {
         let viewModel = SlideContainerView(view: view)
         containers.insert(viewModel, at: index)
         addSubview(view)
-        let prevPage: SlideContainerView? = index > 0 ? containers[index - 1]:  nil
-        let nextPage: SlideContainerView = containers[index + 1]
-        activateConstraints(viewModel, prevPage: prevPage, isLast: false, direction: slideDirection)
-        updateConstraints(nextPage, prevPage: viewModel, isLast: index == containers.count - 2, direction: slideDirection)
+        let prevPage = index > 0 ? containers[index - 1]:  nil
+        let nextPage = containers[index + 1]
+        activateConstraints(page: viewModel, prevPage: prevPage, isLast: false, direction: slideDirection)
+        updateConstraints(page: nextPage, prevPage: viewModel, isLast: index == containers.count - 2, direction: slideDirection)
     }
     
     func removeViewAtIndex(index: Int) {
         guard index < containers.count else { return }
         let page: SlideContainerView = containers[index]
-        let prevPage: SlideContainerView? = index > 0 ? containers[index - 1]: nil
-        let nextPage: SlideContainerView? = index < containers.count - 1 ? containers[index + 1]: nil
+        let prevPage = index > 0 ? containers[index - 1]: nil
+        let nextPage = index < containers.count - 1 ? containers[index + 1]: nil
         containers.remove(at: index)
         page.view.removeFromSuperview()
         if let nextPage = nextPage {
-            updateConstraints(nextPage, prevPage: prevPage, isLast: index == containers.count - 1, direction: slideDirection)
+            updateConstraints(page: nextPage, prevPage: prevPage, isLast: index == containers.count - 1, direction: slideDirection)
         } else if let prevPage = prevPage {
             let prevPrevPage: SlideContainerView? = containers.count > 1 ? containers[containers.count - 2]: nil
-            updateConstraints(prevPage, prevPage: prevPrevPage, isLast: true, direction: slideDirection)
+            updateConstraints(page: prevPage, prevPage: prevPrevPage, isLast: true, direction: slideDirection)
         }
     }
 }

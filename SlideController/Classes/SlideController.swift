@@ -83,9 +83,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var currentIndex = 0
     private var lastContentOffset: CGFloat = 0
     private var didFinishForceSlide: (() -> ())?
-    private var isForcedToSlide: Bool = false
+    private var isForcedToSlide = false
     private var isOnScreen = false
-    private var scrollInProgress: Bool = false
+    private var scrollInProgress = false
     
     public var titleView: T {
         return titleSlidableController.titleView
