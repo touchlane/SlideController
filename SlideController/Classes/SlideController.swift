@@ -87,10 +87,12 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var isOnScreen = false
     private var scrollInProgress = false
     
+    ///Returns title view instanse of specified type
     public var titleView: T {
         return titleSlidableController.titleView
     }
     
+    ///Returns model for access to current LifeCycle object
     public var currentModel: SlideLifeCycleObjectProvidable? {
         if isIndexValid(index: currentIndex) {
             return content[currentIndex]
@@ -98,6 +100,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         return nil
     }
     
+    ///Array of specified models
     public fileprivate(set) var content = [SlideLifeCycleObjectProvidable]()
 
     //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
