@@ -24,9 +24,9 @@ final class SlideContentController {
     
     /// - Parameter pagesCount: number of pages
     /// - Parameter scrollDirection: indicates the target slide direction
-    init(pagesCount: Int, scrollDirection: SlideDirection) {
-        self.slideDirection = scrollDirection
-        slideContentView = SlideContentView(scrollDirection: scrollDirection)
+    init(pagesCount: Int, slideDirection: SlideDirection) {
+        self.slideDirection = slideDirection
+        slideContentView = SlideContentView(slideDirection: slideDirection)
         if pagesCount > 0 {
             append(pagesCount: pagesCount)
         }

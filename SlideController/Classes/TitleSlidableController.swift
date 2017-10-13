@@ -9,6 +9,13 @@
 
 import UIKit
 
+protocol TitleScrollable: class {
+    var didSelectItemAction: ((Int, (() -> ())?) -> ())? { get set }
+    func jump(index: Int, animated: Bool)
+    func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int)
+    init(pagesCount: Int, slideDirection: SlideDirection)
+}
+
 class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
     
     fileprivate var isOffsetChangeAllowed = true
@@ -38,8 +45,8 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     
     //MARK: - TitleScrollableImplementation
     
-    required init(pagesCount: Int, scrollDirection: SlideDirection) {
-        self.scrollDirection = scrollDirection
+    required init(pagesCount: Int, slideDirection: SlideDirection) {
+        self.scrollDirection = slideDirection
         if pagesCount > 0 {
             append(pagesCount: pagesCount)
         }
