@@ -3,7 +3,7 @@
 //  ScrollController
 //
 //  Created by pknd on 08/16/2017.
-//  Copyright (c) 2017 Panda Systems. All rights reserved.
+//  Copyright (c) 2017 Touchlane LLC. All rights reserved.
 //
 
 import UIKit

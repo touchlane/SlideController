@@ -3,7 +3,7 @@
 //  SlideController_Example
 //
 //  Created by Evgeny Dedovets on 8/9/17.
-//  Copyright © 2017 Panda Systems. All rights reserved.
+//  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
 import CoreGraphics
