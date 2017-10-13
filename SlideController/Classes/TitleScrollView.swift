@@ -24,10 +24,8 @@ public protocol TitleViewConfigurationDelegate: class {
 }
 
 open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable where T: UIView, T: TitleItemObject {
-    
     public typealias View = T
     public typealias TitleItem = View
-    
     public private(set) var isLayouted = false
     
     public init() {

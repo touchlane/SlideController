@@ -12,7 +12,7 @@ public protocol SlideLifeCycleObjectProvidable : class {
 
 public class SlidePageModel<T : SlideLifeCycleObject> : SlideLifeCycleObjectProvidable {
     ///Internal LifeCycle Object
-    fileprivate var object: T?
+    private var object: T?
     
     public init() {
         

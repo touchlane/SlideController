@@ -9,7 +9,6 @@
 import UIKit
 
 class TitleItemController<T>: TitleItemControllableObject where T: TitleItemObject, T: UIView {
-
     private var item = T()
     typealias Item = T.Item
     
