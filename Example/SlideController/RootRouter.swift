@@ -21,7 +21,7 @@ class RootRouter {
     
     func showMainPage(animated: Bool) {
         let optionsController = HorizontalOptionsController()
-        optionsController.logOutDidTapAction = logOutDidTapAction
+        optionsController.menuDidTapAction = menuDidTapAction
         let mainController = MainController()
         mainController.optionsController = optionsController
         let vc = LifecycleContentUIViewController<MainController>()
@@ -34,7 +34,7 @@ class RootRouter {
         self.showMainPage(animated: true)
     }
     
-    private lazy var logOutDidTapAction: (() -> ())? = { [weak self] in
+    private lazy var menuDidTapAction: (() -> ())? = { [weak self] in
         guard let `self` = self else { return }
         self.presenter?.popViewController(animated: true)
     }

@@ -9,19 +9,19 @@
 import UIKit
 
 class HorizontalOptionsView : UIView {
-    let logOutBtn = FilledButton()
+    let menuBtn = FilledButton()
     
-    private let logOutInBtnWidth: CGFloat = 120
-    private let logOutBtnHeigh: CGFloat = 32
+    private let btnWidth: CGFloat = 120
+    private let btnHeigh: CGFloat = 32
     
     init() {
         super.init(frame: CGRect.zero)
-        logOutBtn.setTitle("Menu", for: UIControlState())
-        logOutBtn.clipsToBounds = true
-        logOutBtn.layer.cornerRadius = logOutBtnHeigh / 2
-        logOutBtn.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(logOutBtn)
-        activateLogOutBtnConstraints(view: logOutBtn, superView: self)
+        menuBtn.setTitle("Menu", for: UIControlState())
+        menuBtn.clipsToBounds = true
+        menuBtn.layer.cornerRadius = btnHeigh / 2
+        menuBtn.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(menuBtn)
+        activateMenuBtnConstraints(view: menuBtn, superView: self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,7 +29,7 @@ class HorizontalOptionsView : UIView {
     }
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if logOutBtn.frame.contains(point) {
+        if menuBtn.frame.contains(point) {
             return true
         }
         return false
@@ -39,12 +39,12 @@ class HorizontalOptionsView : UIView {
 
 private typealias PrivateHorizontalOptionsView = HorizontalOptionsView
 private extension PrivateHorizontalOptionsView {
-    func activateLogOutBtnConstraints (view: UIView, superView: UIView) {
+    func activateMenuBtnConstraints (view: UIView, superView: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.centerXAnchor.constraint(equalTo: superView.centerXAnchor))
         constraints.append(view.centerYAnchor.constraint(equalTo: superView.centerYAnchor))
-        constraints.append(view.widthAnchor.constraint(equalToConstant: logOutInBtnWidth))
-        constraints.append(view.heightAnchor.constraint(equalToConstant: logOutBtnHeigh))
+        constraints.append(view.widthAnchor.constraint(equalToConstant: btnWidth))
+        constraints.append(view.heightAnchor.constraint(equalToConstant: btnHeigh))
         NSLayoutConstraint.activate(constraints)
     }
 }

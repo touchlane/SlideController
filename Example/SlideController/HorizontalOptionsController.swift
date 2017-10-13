@@ -11,9 +11,9 @@ import UIKit
 class HorizontalOptionsController {
     private let internalView = HorizontalOptionsView()
     
-    var logOutDidTapAction: (() -> ())? {
+    var menuDidTapAction: (() -> ())? {
         didSet {
-            internalView.logOutBtn.didTouchUpInside = logOutDidTapAction
+            internalView.menuBtn.didTouchUpInside = menuDidTapAction
         }
     }
 }
