@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		8610D2DF1F963FC7008848C5 /* VerticalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610D2DE1F963FC7008848C5 /* VerticalController.swift */; };
+		8610D2E11F963FD1008848C5 /* VerticalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610D2E01F963FD1008848C5 /* VerticalView.swift */; };
+		8610D2E41F963FFC008848C5 /* VerticalTitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610D2E31F963FFC008848C5 /* VerticalTitleItem.swift */; };
+		8610D2E61F964007008848C5 /* VerticalTitleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610D2E51F964007008848C5 /* VerticalTitleScrollView.swift */; };
+		8610D2E91F964068008848C5 /* VerticalContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610D2E81F964068008848C5 /* VerticalContentController.swift */; };
+		8610D2EB1F964070008848C5 /* VerticalContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610D2EA1F964070008848C5 /* VerticalContentView.swift */; };
+		8610D2ED1F964090008848C5 /* VerticalPageLifeCycleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610D2EC1F964090008848C5 /* VerticalPageLifeCycleObject.swift */; };
 		86CFA4291F4491F400C4B1A4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86CFA4281F4491F400C4B1A4 /* Images.xcassets */; };
 		86D7AD841F44842E00B65941 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD831F44842E00B65941 /* RootRouter.swift */; };
 		86D7AD871F44843800B65941 /* ClosureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD851F44843800B65941 /* ClosureButton.swift */; };
@@ -58,6 +65,13 @@
 		69140845719AC2F8D792D5A8 /* Pods-SlideController_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlideController_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SlideController_Example/Pods-SlideController_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		73B0B87031A1BF0AA80FC37A /* Pods-SlideController_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlideController_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SlideController_Example/Pods-SlideController_Example.release.xcconfig"; sourceTree = "<group>"; };
 		7B04C0304503DA1562F61347 /* SlideController.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SlideController.podspec; path = ../SlideController.podspec; sourceTree = "<group>"; };
+		8610D2DE1F963FC7008848C5 /* VerticalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalController.swift; sourceTree = "<group>"; };
+		8610D2E01F963FD1008848C5 /* VerticalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalView.swift; sourceTree = "<group>"; };
+		8610D2E31F963FFC008848C5 /* VerticalTitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTitleItem.swift; sourceTree = "<group>"; };
+		8610D2E51F964007008848C5 /* VerticalTitleScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTitleScrollView.swift; sourceTree = "<group>"; };
+		8610D2E81F964068008848C5 /* VerticalContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalContentController.swift; sourceTree = "<group>"; };
+		8610D2EA1F964070008848C5 /* VerticalContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalContentView.swift; sourceTree = "<group>"; };
+		8610D2EC1F964090008848C5 /* VerticalPageLifeCycleObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalPageLifeCycleObject.swift; sourceTree = "<group>"; };
 		86CFA4281F4491F400C4B1A4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		86D7AD831F44842E00B65941 /* RootRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		86D7AD851F44843800B65941 /* ClosureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClosureButton.swift; sourceTree = "<group>"; };
@@ -198,6 +212,36 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		8610D2DD1F963FA2008848C5 /* VerticalController */ = {
+			isa = PBXGroup;
+			children = (
+				8610D2DE1F963FC7008848C5 /* VerticalController.swift */,
+				8610D2E01F963FD1008848C5 /* VerticalView.swift */,
+				8610D2E21F963FE8008848C5 /* Menu */,
+				8610D2E71F96403C008848C5 /* Content */,
+			);
+			name = VerticalController;
+			sourceTree = "<group>";
+		};
+		8610D2E21F963FE8008848C5 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				8610D2E31F963FFC008848C5 /* VerticalTitleItem.swift */,
+				8610D2E51F964007008848C5 /* VerticalTitleScrollView.swift */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
+		8610D2E71F96403C008848C5 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				8610D2EC1F964090008848C5 /* VerticalPageLifeCycleObject.swift */,
+				8610D2E81F964068008848C5 /* VerticalContentController.swift */,
+				8610D2EA1F964070008848C5 /* VerticalContentView.swift */,
+			);
+			name = Content;
+			sourceTree = "<group>";
+		};
 		86D7AD7D1F4483C900B65941 /* Routers */ = {
 			isa = PBXGroup;
 			children = (
@@ -294,6 +338,7 @@
 		B4BB56861F72BC47002D521D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8610D2DD1F963FA2008848C5 /* VerticalController */,
 				86D7AD7E1F4483D200B65941 /* Main */,
 				86D7AD8F1F44847D00B65941 /* ColorController */,
 				B4D742741F604AA60019A0C6 /* OptionsController */,
@@ -535,19 +580,26 @@
 				86D7AD951F44849D00B65941 /* ColorView.swift in Sources */,
 				86D7AD8E1F44844A00B65941 /* LifecycleContentUIViewController.swift in Sources */,
 				86D7AD881F44843800B65941 /* FilledButton.swift in Sources */,
+				8610D2ED1F964090008848C5 /* VerticalPageLifeCycleObject.swift in Sources */,
 				86D7AD841F44842E00B65941 /* RootRouter.swift in Sources */,
+				8610D2E11F963FD1008848C5 /* VerticalView.swift in Sources */,
 				86D7AD911F44849700B65941 /* ClosureButtonDesignable.swift in Sources */,
 				86D7ADAB1F44896300B65941 /* HorizontalOptionsController.swift in Sources */,
 				86D7ADAC1F44896300B65941 /* HorizontalOptionsView.swift in Sources */,
 				86D7ADB01F44896A00B65941 /* MainTitleScrollView.swift in Sources */,
+				8610D2DF1F963FC7008848C5 /* VerticalController.swift in Sources */,
+				8610D2E61F964007008848C5 /* VerticalTitleScrollView.swift in Sources */,
 				B4D742761F604AC80019A0C6 /* OptionsController.swift in Sources */,
 				86D7AD8C1F44844A00B65941 /* RootUINavigationController.swift in Sources */,
 				B4BB56841F72BB98002D521D /* ViewLifeCycleDependable.swift in Sources */,
 				B4BB56801F72B2FC002D521D /* ContentUIViewController.swift in Sources */,
 				86D7AD871F44843800B65941 /* ClosureButton.swift in Sources */,
+				8610D2EB1F964070008848C5 /* VerticalContentView.swift in Sources */,
+				8610D2E91F964068008848C5 /* VerticalContentController.swift in Sources */,
 				86D7ADAF1F44896A00B65941 /* MainTitleItem.swift in Sources */,
 				86D7AD9C1F44892200B65941 /* MainController.swift in Sources */,
 				86EE777B1F4491B6009FCDB3 /* AppDelegate.swift in Sources */,
+				8610D2E41F963FFC008848C5 /* VerticalTitleItem.swift in Sources */,
 				86D7ADA81F44895D00B65941 /* PageLifeCycleObject.swift in Sources */,
 				B4D742781F604AD70019A0C6 /* OptionsView.swift in Sources */,
 			);

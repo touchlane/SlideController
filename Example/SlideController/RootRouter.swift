@@ -13,28 +13,43 @@ class RootRouter {
     
     func openMainScreen(animated: Bool) {
         let optionsControler = OptionsController()
-        optionsControler.openHorizontalDemoAction = openHorizontalDemoAction
+        optionsControler.openHorizontalDemoAction = self.openHorizontalDemoAction
+        optionsControler.openVerticalDemoAction = self.openVerticalDemoAction
         let vc = ContentUIViewController<OptionsController>()
         vc.controller = optionsControler
-        presenter?.setViewControllers([vc], animated: animated)
+        self.presenter?.setViewControllers([vc], animated: animated)
     }
     
     func showMainPage(animated: Bool) {
         let optionsController = HorizontalOptionsController()
-        optionsController.menuDidTapAction = menuDidTapAction
+        optionsController.menuDidTapAction = self.menuDidTapAction
         let mainController = MainController()
         mainController.optionsController = optionsController
         let vc = LifecycleContentUIViewController<MainController>()
         vc.controller = mainController
-        presenter?.pushViewController(vc, animated: animated)
+        self.presenter?.pushViewController(vc, animated: animated)
     }
     
-    private lazy var openHorizontalDemoAction: (() -> ())? = { [weak self] in
+    func showVerticalPage(animated: Bool) {
+        let optionsController = HorizontalOptionsController()
+        optionsController.menuDidTapAction = self.menuDidTapAction
+        let mainController = VerticalController()
+        mainController.optionsController = optionsController
+        let vc = LifecycleContentUIViewController<MainController>()
+        vc.controller = mainController
+    }
+    
+    private lazy var openHorizontalDemoAction: (() -> Void)? = { [weak self] in
         guard let `self` = self else { return }
         self.showMainPage(animated: true)
     }
     
-    private lazy var menuDidTapAction: (() -> ())? = { [weak self] in
+    private lazy var openVerticalDemoAction: (() -> Void)? = { [weak self] in
+        guard let `self` = self else { return }
+        self.showVerticalPage(animated: true)
+    }
+    
+    private lazy var menuDidTapAction: (() -> Void)? = { [weak self] in
         guard let `self` = self else { return }
         self.presenter?.popViewController(animated: true)
     }
