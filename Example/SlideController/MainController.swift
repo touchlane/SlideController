@@ -32,14 +32,14 @@ class MainController {
     }
     
     lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
-        guard let `self` = self else { return }
+        guard let strongSelf = self else { return }
         switch position {
         case 0:
-            self.slideController.titleView.position = TitleViewPosition.beside
-            self.slideController.titleView.isTransparent = false
+            strongSelf.slideController.titleView.position = TitleViewPosition.beside
+            strongSelf.slideController.titleView.isTransparent = false
         case 1:
-            self.slideController.titleView.position = TitleViewPosition.above
-            self.slideController.titleView.isTransparent = true
+            strongSelf.slideController.titleView.position = TitleViewPosition.above
+            strongSelf.slideController.titleView.isTransparent = true
         default:
             break
         }

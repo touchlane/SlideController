@@ -12,17 +12,17 @@ class TitleItemController<T>: TitleItemControllableObject where T: TitleItemObje
     private var item = T()
     typealias Item = T.Item
     
-    //MARK: - InitializableImplementation
+    // MARK: - InitializableImplementation
     required init() {
         
     }
     
-    //MARK: - ItemViewableImplementation
+    // MARK: - ItemViewableImplementation
     var view: Item {
         return item.view
     }
     
-    //MARK: - SelectableImplementation
+    // MARK: - SelectableImplementation
     var isSelected: Bool {
         get {
             return item.isSelected

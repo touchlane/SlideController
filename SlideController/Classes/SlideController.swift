@@ -109,23 +109,27 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     fileprivate var indexToRemove: Int?
 
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
-        guard let `self` = self else { return }
+        guard let strongSelf = self else { return }
     }
     
     private lazy var firstLayoutContentAction: () -> () = { [weak self] in
-        guard let `self` = self else { return }
-        self.contentSlidableController.slideContentView.delegate = self
+        guard let strongSelf = self else { return }
+        strongSelf.contentSlidableController.slideContentView.delegate = self
     }
     
     private lazy var changeTitleSizeAction: () -> () = { [weak self] in
-        guard let `self` = self else { return }
-        self.titleSlidableController.jump(index: self.currentIndex, animated: false)
+        guard let strongSelf = self else { return }
+        strongSelf.titleSlidableController.jump(index: strongSelf.currentIndex, animated: false)
     }
     
     private lazy var changeContentSizeAction: () -> () = { [weak self] in
-        guard let `self` = self else { return }
-        self.contentSlidableController.contentSize = self.calculateContentPageSize(direction: self.slideDirection, titleViewAlignment: self.titleSlidableController.titleView.alignment, titleViewPosition: self.titleSlidableController.titleView.position, titleSize: self.titleSlidableController.titleView.titleSize)
-        self.shift(pageIndex: self.currentIndex, animated: false)
+        guard let strongSelf = self else { return }
+        strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
+            direction: strongSelf.slideDirection,
+            titleViewAlignment: strongSelf.titleSlidableController.titleView.alignment,
+            titleViewPosition: strongSelf.titleSlidableController.titleView.position,
+            titleSize: strongSelf.titleSlidableController.titleView.titleSize)
+        strongSelf.shift(pageIndex: strongSelf.currentIndex, animated: false)
     }
     
     func didSelectTitleItem(index: Int, completion: @escaping () -> ()) {
@@ -136,11 +140,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
-        guard let `self` = self else { return }
-        self.loadViewIfNeeded(pageIndex: index)
-        self.isForcedToSlide = true
-        self.shift(pageIndex: index)
-        self.didFinishForceSlide = completion
+        guard let strongSelf = self else { return }
+        strongSelf.loadViewIfNeeded(pageIndex: index)
+        strongSelf.isForcedToSlide = true
+        strongSelf.shift(pageIndex: index)
+        strongSelf.didFinishForceSlide = completion
     }
 
     public init(pagesContent : [SlideLifeCycleObjectProvidable], startPageIndex: Int = 0, slideDirection : SlideDirection) {
@@ -166,7 +170,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
 
-    //MARK: - ControllerSlidableImplementation
+    // MARK: - ControllerSlidableImplementation
     
     public func append(object objects : [SlideLifeCycleObjectProvidable]) {
         if objects.count > 0 {
@@ -278,7 +282,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
     
-    //MARK: - UIScrollViewDelegateImplementation
+    // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !scrollInProgress {
             content[currentIndex].lifeCycleObject.didStartSliding()
@@ -329,7 +333,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         isForcedToSlide = false
     }
     
-    //MARK: - ViewableImplementation
+    // MARK: - ViewableImplementation
     public var view: UIView {
         return containerView
     }

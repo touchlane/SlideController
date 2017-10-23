@@ -80,7 +80,7 @@ class MainTitleScrollView : TitleScrollView<MainTitleItem> {
         }
     }
     
-    var isTransparent: Bool = false {
+    var isTransparent = false {
         didSet {
             backgroundColor = isTransparent ? UIColor.clear : internalBackgroundColor
         }

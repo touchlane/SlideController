@@ -38,7 +38,7 @@ class SlideView<T>: UIView, TitleViewConfigurationDelegate where T: ViewSlidable
         }
     }
     
-    //MARK: - TitleViewConfigurationDelegateImplementation
+    // MARK: - TitleViewConfigurationDelegateImplementation
     func didChangeAlignment(alignment: TitleViewAlignment) {
         if let contentView = contentView {
             activateContentViewConstraints(view: contentView, titleView: titleView)

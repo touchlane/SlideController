@@ -31,12 +31,12 @@ class RootRouter {
     }
     
     private lazy var openHorizontalDemoAction: (() -> ())? = { [weak self] in
-        guard let `self` = self else { return }
-        self.showMainPage(animated: true)
+        guard let strongSelf = self else { return }
+        strongSelf.showMainPage(animated: true)
     }
     
     private lazy var menuDidTapAction: (() -> ())? = { [weak self] in
-        guard let `self` = self else { return }
-        self.presenter?.popViewController(animated: true)
+        guard let strongSelf = self else { return }
+        strongSelf.presenter?.popViewController(animated: true)
     }
 }

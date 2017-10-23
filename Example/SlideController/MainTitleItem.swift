@@ -52,7 +52,7 @@ class MainTitleItem : UIView, Initializable, ItemViewable, Selectable {
         }
     }
     
-    //MARK: - ItemViewableImplementation
+    // MARK: - ItemViewableImplementation
     
     typealias Item = MainTitleItem
     
@@ -60,7 +60,7 @@ class MainTitleItem : UIView, Initializable, ItemViewable, Selectable {
         return self
     }
     
-    //MARK: - SelectableImplementation
+    // MARK: - SelectableImplementation
     
     var didSelectAction: ((Int) -> ())? {
         get {
