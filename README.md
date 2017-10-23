@@ -22,7 +22,7 @@ pod 'SlideController'
 
 ## Author
 
-Panda-System, tech@panda-systems.com
+Touchlane, tech@touchlane.com
 
 ## License
 
