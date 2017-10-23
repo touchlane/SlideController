@@ -11,42 +11,54 @@ import SlideController
 
 class VerticalController {
     private let internalView = VerticalView()
-    private let slideController: SlideController<MainTitleScrollView, MainTitleItem>
+    private let slideController: SlideController<VerticalTitleScrollView, VerticalTitleItem>
+    
+    var optionsController: (ViewAccessible & VerticalContentControllerActionable)? {
+        didSet {
+            internalView.optionsView = optionsController?.view
+            
+            optionsController?.removeDidTapAction = removePage
+            optionsController?.insertDidTapAction = insertPage
+        }
+    }
     
     init() {
         let pagesContent = [
             SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
-            SlidePageModel<PageLifeCycleObject>(),
-            SlidePageModel<PageLifeCycleObject>()
+            SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
+            SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
         ]
-        self.slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: .vertical)
-        for index in 0..<slideController.content.count {
-            self.slideController.titleView.items[index].titleLabel.text = String(format: "page %d", index + 1)
-        }
-        self.internalView.contentView = slideController.view
+        slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: .vertical)
+        slideController.titleView.position = .above
+        slideController.titleView.alignment = .left
+        
+        internalView.contentView = slideController.view
     }
     
-    var optionsController: ViewAccessible? {
-        didSet {
-            self.internalView.optionsView = optionsController?.view
-        }
+    func removePage() {
+        slideController.removeAtIndex(index: 0)
+    }
+    
+    func insertPage() {
+        let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
+        slideController.insert(object: page, index: slideController.content.count)
     }
 }
 
 private typealias ViewLifeCycleDependableImplementation = VerticalController
 extension ViewLifeCycleDependableImplementation: ViewLifeCycleDependable {
     func viewDidAppear() {
-        self.slideController.viewDidAppear()
+        slideController.viewDidAppear()
     }
     
     func viewDidDisappear() {
-        self.slideController.viewDidDisappear()
+        slideController.viewDidDisappear()
     }
 }
 
 private typealias ViewAccessibleImplementation = VerticalController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
-        return self.internalView
+        return internalView
     }
 }

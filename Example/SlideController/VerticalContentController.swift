@@ -8,12 +8,32 @@
 
 import UIKit
 
-class VerticalContentController {
+protocol VerticalContentControllerActionable {
+    typealias Action = () -> Void
+    
+    var removeDidTapAction: Action? { get set }
+    var insertDidTapAction: Action? { get set }
+    var menuDidTapAction: Action? { get set }
+}
+
+class VerticalContentController: VerticalContentControllerActionable {
     private let internalView = VerticalContentView()
     
-    var menuDidTapAction: (() -> Void)? {
+    var removeDidTapAction: Action? {
         didSet {
-            self.internalView.menuButton.didTouchUpInside = self.menuDidTapAction
+            internalView.removeButton.didTouchUpInside = removeDidTapAction
+        }
+    }
+    
+    var insertDidTapAction: Action? {
+        didSet {
+            internalView.insertButton.didTouchUpInside = insertDidTapAction
+        }
+    }
+    
+    var menuDidTapAction: Action? {
+        didSet {
+            internalView.menuButton.didTouchUpInside = menuDidTapAction
         }
     }
 }
@@ -21,6 +41,6 @@ class VerticalContentController {
 private typealias ViewableImplementation = VerticalContentController
 extension ViewableImplementation: ViewAccessible {
     var view: UIView {
-        return self.internalView
+        return internalView
     }
 }

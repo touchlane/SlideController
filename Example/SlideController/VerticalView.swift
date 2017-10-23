@@ -15,8 +15,8 @@ class VerticalView: UIView {
             oldValue?.removeFromSuperview()
             if let view = contentView {
                 view.translatesAutoresizingMaskIntoConstraints = false
-                self.addSubview(view)
-                self.activateContentViewConstraints(view: view)
+                addSubview(view)
+                activateContentViewConstraints(view: view)
             }
         }
     }
@@ -24,10 +24,10 @@ class VerticalView: UIView {
     var optionsView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
-            if let view = self.optionsView {
+            if let view = optionsView {
                 view.translatesAutoresizingMaskIntoConstraints = false
-                self.addSubview(view)
-                self.activateOptionsViewConstraints(view: view)
+                addSubview(view)
+                activateOptionsViewConstraints(view: view)
             }
         }
     }

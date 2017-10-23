@@ -13,44 +13,51 @@ class RootRouter {
     
     func openMainScreen(animated: Bool) {
         let optionsControler = OptionsController()
-        optionsControler.openHorizontalDemoAction = self.openHorizontalDemoAction
-        optionsControler.openVerticalDemoAction = self.openVerticalDemoAction
+        optionsControler.openHorizontalDemoAction = openHorizontalDemoAction
+        optionsControler.openVerticalDemoAction = openVerticalDemoAction
         let vc = ContentUIViewController<OptionsController>()
         vc.controller = optionsControler
-        self.presenter?.setViewControllers([vc], animated: animated)
+        presenter?.setViewControllers([vc], animated: animated)
     }
     
     func showMainPage(animated: Bool) {
         let optionsController = HorizontalOptionsController()
-        optionsController.menuDidTapAction = self.menuDidTapAction
+        optionsController.menuDidTapAction = menuDidTapAction
         let mainController = MainController()
         mainController.optionsController = optionsController
         let vc = LifecycleContentUIViewController<MainController>()
         vc.controller = mainController
-        self.presenter?.pushViewController(vc, animated: animated)
+        presenter?.pushViewController(vc, animated: animated)
     }
     
     func showVerticalPage(animated: Bool) {
-        let optionsController = HorizontalOptionsController()
-        optionsController.menuDidTapAction = self.menuDidTapAction
-        let mainController = VerticalController()
-        mainController.optionsController = optionsController
-        let vc = LifecycleContentUIViewController<MainController>()
-        vc.controller = mainController
+        let optionsController = VerticalContentController()
+        optionsController.menuDidTapAction = menuDidTapAction
+        let verticalController = VerticalController()
+        verticalController.optionsController = optionsController
+        let lifecycleController = LifecycleContentUIViewController<VerticalController>()
+        lifecycleController.controller = verticalController
+        presenter?.pushViewController(lifecycleController, animated: true)
     }
     
     private lazy var openHorizontalDemoAction: (() -> Void)? = { [weak self] in
-        guard let `self` = self else { return }
-        self.showMainPage(animated: true)
+        guard let strongSelf = self else {
+            return
+        }
+        strongSelf.showMainPage(animated: true)
     }
     
     private lazy var openVerticalDemoAction: (() -> Void)? = { [weak self] in
-        guard let `self` = self else { return }
-        self.showVerticalPage(animated: true)
+        guard let strongSelf = self else {
+            return
+        }
+        strongSelf.showVerticalPage(animated: true)
     }
     
     private lazy var menuDidTapAction: (() -> Void)? = { [weak self] in
-        guard let `self` = self else { return }
-        self.presenter?.popViewController(animated: true)
+        guard let strongSelf = self else {
+            return
+        }
+        strongSelf.presenter?.popViewController(animated: true)
     }
 }
