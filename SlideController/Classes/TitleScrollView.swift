@@ -51,7 +51,7 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
         }
     }
     
-    // MARK: - ViewSlidableImplementation
+    //MARK: - ViewSlidableImplementation
     open func appendViews(views: [View]) {
         
     }
@@ -70,7 +70,7 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     ///Notifies on each view size update
     open var changeSizeAction: (() -> ())?
     
-    // MARK: - TitleConfigurableImplementation
+    //MARK: - TitleConfigurableImplementation
     public var alignment = TitleViewAlignment.top {
         didSet {
             if alignment != oldValue {

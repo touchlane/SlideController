@@ -114,8 +114,8 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     }
 }
 
-// MARK: - PrivateTitleScrollableController
-private extension TitleSlidableController {
+private typealias PrivateTitleSlidableController = TitleSlidableController
+private extension PrivateTitleSlidableController {
     func isIndexValid(_ index: Int) -> Bool {
         if index >= 0 && index < controllers.count {
             return true

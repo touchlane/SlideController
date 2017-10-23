@@ -166,7 +166,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
 
-    //MARK: - ControllerSlidable_Implementation
+    //MARK: - ControllerSlidableImplementation
     
     public func append(object objects : [SlideLifeCycleObjectProvidable]) {
         if objects.count > 0 {
@@ -278,7 +278,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
     
-    // MARK: - UIScrollViewDelegateImplementation
+    //MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !scrollInProgress {
             content[currentIndex].lifeCycleObject.didStartSliding()
@@ -323,28 +323,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
     
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        content[currentIndex].object.didStartDragging()
-//        if scrollDirection == ScrollDirection.Horizontal {
-//            startDraggingContentOffset = scrollView.contentOffset.x
-//        } else {
-//            startDraggingContentOffset = scrollView.contentOffset.y
-//        }
-       // titleScrollableController.jump(currentIndex, animated: false)
-    }
-    
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if scrollDirection == ScrollDirection.Horizontal {
-//            if startDraggingContentOffset == scrollView.contentOffset.x {
-//                content[currentIndex].object.didCancelDragging()
-//            }
-//        } else {
-//            if startDraggingContentOffset == scrollView.contentOffset.y {
-//                content[currentIndex].object.didCancelDragging()
-//            }
-//        }
-    }
-    
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
         didFinishForceSlide?()
@@ -352,14 +330,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         isForcedToSlide = false
     }
     
-    // MARK: - ViewableImplementation
+    //MARK: - ViewableImplementation
     public var view: UIView {
         return containerView
     }
 }
 
-// MARK: - PrivateScrollController
-private extension SlideController {
+private typealias PrivateSlideController = SlideController
+private extension PrivateSlideController {
     func calculateContentPageSize(direction: SlideDirection, titleViewAlignment: TitleViewAlignment, titleViewPosition: TitleViewPosition, titleSize: CGFloat) -> CGFloat {
         var contentPageSize: CGFloat!
         if direction == SlideDirection.horizontal {
