@@ -30,6 +30,20 @@ class MainController {
            internalView.optionsView = optionsController?.view
         }
     }
+    
+    lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
+        guard let strongSelf = self else { return }
+        switch position {
+        case 0:
+            strongSelf.slideController.titleView.position = TitleViewPosition.beside
+            strongSelf.slideController.titleView.isTransparent = false
+        case 1:
+            strongSelf.slideController.titleView.position = TitleViewPosition.above
+            strongSelf.slideController.titleView.isTransparent = true
+        default:
+            break
+        }
+    }
 }
 
 private typealias ViewLifeCycleDependableImplementation = MainController

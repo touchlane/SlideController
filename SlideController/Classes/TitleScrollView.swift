@@ -27,11 +27,15 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     public typealias View = T
     public typealias TitleItem = View
     public private(set) var isLayouted = false
+    private var previousSize = CGSize.zero
     
     public init() {
         super.init(frame: CGRect.zero)
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
+        if #available(iOS 11.0, *) {
+            contentInsetAdjustmentBehavior = .never
+        }
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -43,6 +47,10 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
         if !isLayouted {
             isLayouted = true
             firstLayoutAction?()
+        }
+        if bounds.size != previousSize {
+            previousSize = bounds.size
+            changeSizeAction?()
         }
     }
     
@@ -59,7 +67,11 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
         
     }
     
+    ///Simple hack to be notified when layout completed
     open var firstLayoutAction: (() -> ())?
+    
+    ///Notifies on each view size update
+    open var changeSizeAction: (() -> ())?
     
     // MARK: - TitleConfigurableImplementation
     public var alignment = TitleViewAlignment.top {

@@ -65,8 +65,8 @@ class SlideView<T>: UIView, TitleViewConfigurationDelegate where T: ViewSlidable
     
 }
 
-// MARK: - PrivateScrollContainerView
-private extension SlideView {
+private typealias PrivateSlideView = SlideView
+private extension PrivateSlideView {
     func activateContentViewConstraints(view: UIView, titleView: T?) {
         for constraint in contentViewConstraints {
             constraint.isActive = false

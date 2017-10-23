@@ -16,6 +16,12 @@ class HorizontalOptionsController {
             internalView.menuBtn.didTouchUpInside = menuDidTapAction
         }
     }
+    
+    var changePositionAction: ((Int) -> ())? {
+        didSet {
+            internalView.changePositionAction = changePositionAction
+        }
+    }
 }
 
 private typealias ViewableImplementation = HorizontalOptionsController

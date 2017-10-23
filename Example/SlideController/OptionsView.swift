@@ -24,13 +24,13 @@ class OptionsView : UIView {
     init() {
         super.init(frame: CGRect.zero)
         backgroundColor = UIColor.black
-        internalHorizontalDemoBtn.setTitle("Horizontal Sample", for: UIControlState())
+        internalHorizontalDemoBtn.setTitle(NSLocalizedString("HorizontalSampleButtonTitle", comment: ""), for: UIControlState())
         internalHorizontalDemoBtn.clipsToBounds = true
         internalHorizontalDemoBtn.layer.cornerRadius = optionBtnHeigh / 2
         internalHorizontalDemoBtn.translatesAutoresizingMaskIntoConstraints = false
         addSubview(internalHorizontalDemoBtn)
         activateOptionBtnConstraints(view: internalHorizontalDemoBtn, centerYOffset: horizontalDemoBtnCenterYOffset)
-        internalVerticalDemoBtn.setTitle("Vertical Sample", for: UIControlState())
+        internalVerticalDemoBtn.setTitle(NSLocalizedString("VerticalSampleButtonTitle", comment: ""), for: UIControlState())
         internalVerticalDemoBtn.clipsToBounds = true
         internalVerticalDemoBtn.layer.cornerRadius = optionBtnHeigh / 2
         internalVerticalDemoBtn.translatesAutoresizingMaskIntoConstraints = false

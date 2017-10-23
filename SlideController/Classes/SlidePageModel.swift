@@ -23,7 +23,7 @@ public class SlidePageModel<T : SlideLifeCycleObject> : SlideLifeCycleObjectProv
         self.object = object
     }
     
-    //MARK: - ScrollLifeCycleObjectGeneratableImplementation
+    // MARK: - SlideLifeCycleObjectProvidableImplementation
     public var lifeCycleObject: SlideLifeCycleObject { get { return buildObjectIfNeeded() } }
 }
 

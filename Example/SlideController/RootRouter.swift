@@ -24,6 +24,7 @@ class RootRouter {
         let optionsController = HorizontalOptionsController()
         optionsController.menuDidTapAction = menuDidTapAction
         let mainController = MainController()
+        optionsController.changePositionAction = mainController.changePositionAction
         mainController.optionsController = optionsController
         let vc = LifecycleContentUIViewController<MainController>()
         vc.controller = mainController
@@ -40,11 +41,14 @@ class RootRouter {
         presenter?.pushViewController(lifecycleController, animated: true)
     }
     
-    private lazy var openHorizontalDemoAction: (() -> Void)? = { [weak self] in
-        guard let strongSelf = self else {
-            return
-        }
+    private lazy var openHorizontalDemoAction: (() -> ())? = { [weak self] in
+        guard let strongSelf = self else { return }
         strongSelf.showMainPage(animated: true)
+    }
+    
+    private lazy var menuDidTapAction: (() -> ())? = { [weak self] in
+        guard let strongSelf = self else { return }
+        strongSelf.presenter?.popViewController(animated: true)
     }
     
     private lazy var openVerticalDemoAction: (() -> Void)? = { [weak self] in
@@ -52,12 +56,5 @@ class RootRouter {
             return
         }
         strongSelf.showVerticalPage(animated: true)
-    }
-    
-    private lazy var menuDidTapAction: (() -> Void)? = { [weak self] in
-        guard let strongSelf = self else {
-            return
-        }
-        strongSelf.presenter?.popViewController(animated: true)
     }
 }
