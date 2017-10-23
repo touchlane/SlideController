@@ -176,6 +176,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             if titleSlidableController.titleView.isLayouted {
                 titleSlidableController.titleView.layoutIfNeeded()
             }
+            titleSlidableController.jump(index: currentIndex, animated: false)
             loadView(pageIndex: currentIndex)
         }
     }
