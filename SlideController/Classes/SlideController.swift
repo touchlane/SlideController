@@ -36,6 +36,7 @@ public protocol ViewSlidable: class {
     func insertView(view: View, index: Int)
     func removeViewAtIndex(index: Int)
     var firstLayoutAction: (() -> ())? { get set }
+    var changeSizeAction: (() -> ())? { get set }
     var isLayouted: Bool { get }
 }
 
@@ -109,13 +110,21 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
 
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let `self` = self else { return }
-        self.titleSlidableController.jump(index: self.currentIndex, animated: false)
     }
     
     private lazy var firstLayoutContentAction: () -> () = { [weak self] in
         guard let `self` = self else { return }
-        self.contentSlidableController.contentSize = self.calculateContentPageSize(direction: self.slideDirection, titleViewAlignment: self.titleSlidableController.titleView.alignment, titleViewPosition: self.titleSlidableController.titleView.position, titleSize: self.titleSlidableController.titleView.titleSize)
         self.contentSlidableController.slideContentView.delegate = self
+    }
+    
+    private lazy var changeTitleSizeAction: () -> () = { [weak self] in
+        guard let `self` = self else { return }
+        self.titleSlidableController.jump(index: self.currentIndex, animated: false)
+    }
+    
+    private lazy var changeContentSizeAction: () -> () = { [weak self] in
+        guard let `self` = self else { return }
+        self.contentSlidableController.contentSize = self.calculateContentPageSize(direction: self.slideDirection, titleViewAlignment: self.titleSlidableController.titleView.alignment, titleViewPosition: self.titleSlidableController.titleView.position, titleSize: self.titleSlidableController.titleView.titleSize)
         self.shift(pageIndex: self.currentIndex, animated: false)
     }
     
@@ -147,6 +156,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         containerView.titleView = titleSlidableController.titleView
         titleSlidableController.titleView.firstLayoutAction = firstLayoutTitleAction
         contentSlidableController.slideContentView.firstLayoutAction = firstLayoutContentAction
+        titleSlidableController.titleView.changeSizeAction = changeTitleSizeAction
+        contentSlidableController.slideContentView.changeSizeAction = changeContentSizeAction
     }
     
     var isScrollEnabled: Bool = true {
