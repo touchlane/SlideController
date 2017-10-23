@@ -23,6 +23,7 @@ class RootRouter {
         let optionsController = HorizontalOptionsController()
         optionsController.menuDidTapAction = menuDidTapAction
         let mainController = MainController()
+        optionsController.changePositionAction = mainController.changePositionAction
         mainController.optionsController = optionsController
         let vc = LifecycleContentUIViewController<MainController>()
         vc.controller = mainController

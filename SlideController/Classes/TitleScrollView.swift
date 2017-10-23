@@ -33,6 +33,9 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
         super.init(frame: CGRect.zero)
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
+        if #available(iOS 11.0, *) {
+            contentInsetAdjustmentBehavior = .never
+        }
     }
     
     required public init?(coder aDecoder: NSCoder) {

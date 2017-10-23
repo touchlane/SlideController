@@ -30,6 +30,10 @@ final class SlideContentView: UIScrollView {
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
         isDirectionalLockEnabled = true
+        if #available(iOS 11.0, *) {
+            contentInsetAdjustmentBehavior = .never
+        }
+
     }
     
     required init?(coder aDecoder: NSCoder) {
