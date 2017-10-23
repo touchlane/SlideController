@@ -11,7 +11,6 @@ import SlideController
 
 class MainTitleScrollView : TitleScrollView<MainTitleItem> {
     private var internalItems = [View]()
-    private var internalConstraints = [NSLayoutConstraint]()
     private let internalItemOffsetX: CGFloat = 15
     private let itemOffsetTop: CGFloat = 36
     private let itemHeight: CGFloat = 36
@@ -102,15 +101,18 @@ private extension PrivateMainTitleScrollView {
             constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -itemOffsetX()))
         }
         NSLayoutConstraint.activate(constraints)
-        internalConstraints.append(contentsOf: constraints)
+    }
+    
+    func removeConstraints(view: UIView) {
+        let viewConstraints = self.constraints.filter({ $0.firstItem === view })
+        self.removeConstraints(viewConstraints)
+        let heigthConstraints = view.constraints.filter({ $0.firstAttribute == .height })
+        view.removeConstraints(heigthConstraints)
     }
     
     func updateConstraints(_ view: UIView, prevView: UIView?, isLast: Bool) {
-        for constraint in internalConstraints {
-            constraint.isActive = false
-        }
-        internalConstraints.removeAll()
-        activateConstraints(view, prevView: prevView, isLast: isLast)
+        self.removeConstraints(view: view)
+        self.activateConstraints(view, prevView: prevView, isLast: isLast)
     }
     
     func itemOffsetX() -> CGFloat {

@@ -132,13 +132,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         strongSelf.shift(pageIndex: strongSelf.currentIndex, animated: false)
     }
     
-    func didSelectTitleItem(index: Int, completion: @escaping () -> ()) {
-        loadViewIfNeeded(pageIndex: index)
-        isForcedToSlide = true
-        shift(pageIndex: index)
-        didFinishForceSlide = completion
-    }
-    
     private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
         guard let strongSelf = self else { return }
         strongSelf.loadViewIfNeeded(pageIndex: index)
@@ -202,7 +195,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             // FIXME: workaround to fix life cycle calls  
             contentSlidableController.slideContentView.delegate = nil
             shift(pageIndex: currentIndex + 1, animated: false)
-            currentIndex = currentIndex + 1
+            if self.contentSlidableController.slideContentView.isLayouted {
+                currentIndex = currentIndex + 1
+            }
             titleSlidableController.jump(index: currentIndex, animated: false)
             contentSlidableController.slideContentView.delegate = self
             loadViewIfNeeded(pageIndex: index)
