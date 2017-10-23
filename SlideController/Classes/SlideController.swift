@@ -326,7 +326,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
         didFinishForceSlide?()
-
         isForcedToSlide = false
     }
     
