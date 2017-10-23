@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  SlideController
+
+  Created by Vadim Morozov on 10/23/17.
+  Copyright © 2017 Touchlane LLC. All rights reserved.
+*/
+
+"MenuButtonTitle" = "Menu";
+"HorizontalSampleButtonTitle" = "Horizontal Sample";
+"VerticalSampleButtonTitle" = "Vertical Sample";
+"BesideSegmentTitle" = "Beside";
+"AboveSegmentTitle" = "Above";

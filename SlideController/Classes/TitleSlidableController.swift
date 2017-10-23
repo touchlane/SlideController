@@ -22,15 +22,15 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     private var selectedIndex = 0
     
     private lazy var didCompleteSelectItemAction: () -> () = { [weak self] in
-        guard let `self` = self else { return }
-        self.isOffsetChangeAllowed = true
+        guard let strongSelf = self else { return }
+        strongSelf.isOffsetChangeAllowed = true
     }
     
     private lazy var didSelectTitleItemAction: (Int) -> () = { [weak self] index in
-        guard let `self` = self else { return }
-        self.isOffsetChangeAllowed = false
-        self.jump(index: index, animated: true)
-        self.didSelectItemAction?(index, self.didCompleteSelectItemAction)
+        guard let strongSelf = self else { return }
+        strongSelf.isOffsetChangeAllowed = false
+        strongSelf.jump(index: index, animated: true)
+        strongSelf.didSelectItemAction?(index, strongSelf.didCompleteSelectItemAction)
     }
 
     var didCompleteTitleLayout: (() -> ())?
@@ -42,7 +42,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     private var scrollView = T()
     private var controllers = [TitleItemController<N>]()
     
-    //MARK: - TitleScrollableImplementation
+    // MARK: - TitleScrollableImplementation
     required init(pagesCount: Int, slideDirection: SlideDirection) {
         self.scrollDirection = slideDirection
         if pagesCount > 0 {
@@ -114,8 +114,8 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     }
 }
 
-// MARK: - PrivateTitleScrollableController
-private extension TitleSlidableController {
+private typealias PrivateTitleSlidableController = TitleSlidableController
+private extension PrivateTitleSlidableController {
     func isIndexValid(_ index: Int) -> Bool {
         if index >= 0 && index < controllers.count {
             return true

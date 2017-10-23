@@ -12,7 +12,7 @@ import SlideController
 class PageLifeCycleObject : Initializable {
     private var controller = ColorController()
     
-    //MARK: - InitialazableImplementation
+    // MARK: - InitialazableImplementation
     
     required init() {
     

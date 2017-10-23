@@ -36,6 +36,7 @@ public protocol ViewSlidable: class {
     func insertView(view: View, index: Int)
     func removeViewAtIndex(index: Int)
     var firstLayoutAction: (() -> ())? { get set }
+    var changeSizeAction: (() -> ())? { get set }
     var isLayouted: Bool { get }
 }
 
@@ -108,15 +109,27 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     fileprivate var indexToRemove: Int?
 
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
-        guard let `self` = self else { return }
-        self.titleSlidableController.jump(index: self.currentIndex, animated: false)
+        guard let strongSelf = self else { return }
     }
     
     private lazy var firstLayoutContentAction: () -> () = { [weak self] in
-        guard let `self` = self else { return }
-        self.contentSlidableController.contentSize = self.calculateContentPageSize(direction: self.slideDirection, titleViewAlignment: self.titleSlidableController.titleView.alignment, titleViewPosition: self.titleSlidableController.titleView.position, titleSize: self.titleSlidableController.titleView.titleSize)
-        self.contentSlidableController.slideContentView.delegate = self
-        self.shift(pageIndex: self.currentIndex, animated: false)
+        guard let strongSelf = self else { return }
+        strongSelf.contentSlidableController.slideContentView.delegate = self
+    }
+    
+    private lazy var changeTitleSizeAction: () -> () = { [weak self] in
+        guard let strongSelf = self else { return }
+        strongSelf.titleSlidableController.jump(index: strongSelf.currentIndex, animated: false)
+    }
+    
+    private lazy var changeContentSizeAction: () -> () = { [weak self] in
+        guard let strongSelf = self else { return }
+        strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
+            direction: strongSelf.slideDirection,
+            titleViewAlignment: strongSelf.titleSlidableController.titleView.alignment,
+            titleViewPosition: strongSelf.titleSlidableController.titleView.position,
+            titleSize: strongSelf.titleSlidableController.titleView.titleSize)
+        strongSelf.shift(pageIndex: strongSelf.currentIndex, animated: false)
     }
     
     func didSelectTitleItem(index: Int, completion: @escaping () -> ()) {
@@ -127,11 +140,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
-        guard let `self` = self else { return }
-        self.loadViewIfNeeded(pageIndex: index)
-        self.isForcedToSlide = true
-        self.shift(pageIndex: index)
-        self.didFinishForceSlide = completion
+        guard let strongSelf = self else { return }
+        strongSelf.loadViewIfNeeded(pageIndex: index)
+        strongSelf.isForcedToSlide = true
+        strongSelf.shift(pageIndex: index)
+        strongSelf.didFinishForceSlide = completion
     }
 
     public init(pagesContent : [SlideLifeCycleObjectProvidable], startPageIndex: Int = 0, slideDirection : SlideDirection) {
@@ -147,6 +160,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         containerView.titleView = titleSlidableController.titleView
         titleSlidableController.titleView.firstLayoutAction = firstLayoutTitleAction
         contentSlidableController.slideContentView.firstLayoutAction = firstLayoutContentAction
+        titleSlidableController.titleView.changeSizeAction = changeTitleSizeAction
+        contentSlidableController.slideContentView.changeSizeAction = changeContentSizeAction
     }
     
     var isScrollEnabled: Bool = true {
@@ -155,7 +170,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
 
-    //MARK: - ControllerSlidable_Implementation
+    // MARK: - ControllerSlidableImplementation
     
     public func append(object objects : [SlideLifeCycleObjectProvidable]) {
         if objects.count > 0 {
@@ -312,32 +327,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
     
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        content[currentIndex].object.didStartDragging()
-//        if scrollDirection == ScrollDirection.Horizontal {
-//            startDraggingContentOffset = scrollView.contentOffset.x
-//        } else {
-//            startDraggingContentOffset = scrollView.contentOffset.y
-//        }
-       // titleScrollableController.jump(currentIndex, animated: false)
-    }
-    
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if scrollDirection == ScrollDirection.Horizontal {
-//            if startDraggingContentOffset == scrollView.contentOffset.x {
-//                content[currentIndex].object.didCancelDragging()
-//            }
-//        } else {
-//            if startDraggingContentOffset == scrollView.contentOffset.y {
-//                content[currentIndex].object.didCancelDragging()
-//            }
-//        }
-    }
-    
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
         didFinishForceSlide?()
-
         isForcedToSlide = false
     }
     
@@ -347,8 +339,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
 }
 
-// MARK: - PrivateScrollController
-private extension SlideController {
+private typealias PrivateSlideController = SlideController
+private extension PrivateSlideController {
     func calculateContentPageSize(direction: SlideDirection, titleViewAlignment: TitleViewAlignment, titleViewPosition: TitleViewPosition, titleSize: CGFloat) -> CGFloat {
         var contentPageSize: CGFloat!
         if direction == SlideDirection.horizontal {

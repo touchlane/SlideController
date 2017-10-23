@@ -79,6 +79,12 @@ class MainTitleScrollView : TitleScrollView<MainTitleItem> {
             updateConstraints(prevView, prevView: prevPrevView, isLast: true)
         }
     }
+    
+    var isTransparent = false {
+        didSet {
+            backgroundColor = isTransparent ? UIColor.clear : internalBackgroundColor
+        }
+    }
 }
 
 private typealias PrivateMainTitleScrollView = MainTitleScrollView
