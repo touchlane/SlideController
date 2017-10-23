@@ -13,6 +13,7 @@ protocol VerticalContentControllerActionable {
     
     var removeDidTapAction: Action? { get set }
     var insertDidTapAction: Action? { get set }
+    var appendDidTapAction: Action? { get set }
     var menuDidTapAction: Action? { get set }
 }
 
@@ -28,6 +29,12 @@ class VerticalContentController: VerticalContentControllerActionable {
     var insertDidTapAction: Action? {
         didSet {
             internalView.insertButton.didTouchUpInside = insertDidTapAction
+        }
+    }
+    
+    var appendDidTapAction: Action? {
+        didSet {
+            internalView.appendButton.didTouchUpInside = appendDidTapAction
         }
     }
     

@@ -85,7 +85,9 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     
     func jump(index: Int, animated: Bool) {
         if isIndexValid(index) {
-            controllers[selectedIndex].isSelected = false
+            if controllers.indices.contains(selectedIndex) {
+                controllers[selectedIndex].isSelected = false
+            }
             selectedIndex = index
             controllers[index].isSelected = true
             // TODO: calculate offset for vertical scroll direction

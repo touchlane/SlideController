@@ -12,6 +12,7 @@ class VerticalContentView: UIView {
     
     let removeButton = FilledButton()
     let insertButton = FilledButton()
+    let appendButton = FilledButton()
     let menuButton = FilledButton()
     
     private let buttonWidth: CGFloat = 120
@@ -35,6 +36,13 @@ class VerticalContentView: UIView {
         addSubview(insertButton)
         activateInsertButtonConstraints(view: insertButton)
         
+        appendButton.setTitle("Append", for: .normal)
+        appendButton.clipsToBounds = true
+        appendButton.layer.cornerRadius = buttonHeight / 2
+        appendButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(appendButton)
+        activateAppendButtonConstraints(view: appendButton)
+        
         menuButton.setTitle("Menu", for: .normal)
         menuButton.clipsToBounds = true
         menuButton.layer.cornerRadius = buttonHeight / 2
@@ -48,7 +56,7 @@ class VerticalContentView: UIView {
     }
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return [removeButton, insertButton, menuButton]
+        return [removeButton, insertButton, appendButton, menuButton]
             .contains { $0.frame.contains(point) }
     }
 }
@@ -62,7 +70,7 @@ private extension PrivateVerticalContentView {
         }
         NSLayoutConstraint.activate([
             view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
-            view.centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: -(buttonVerticalOffset * 2)),
+            view.centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: -(buttonVerticalOffset * 3)),
             view.widthAnchor.constraint(equalToConstant: self.buttonWidth),
             view.heightAnchor.constraint(equalToConstant: self.buttonHeight)
             ])
@@ -80,13 +88,25 @@ private extension PrivateVerticalContentView {
             ])
     }
     
-    func activateMenuButtonConstraints(view: UIView) {
+    func activateAppendButtonConstraints(view: UIView) {
         guard let superview = view.superview else {
             return
         }
         NSLayoutConstraint.activate([
             view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
             view.topAnchor.constraint(equalTo: insertButton.bottomAnchor, constant: buttonVerticalOffset),
+            view.widthAnchor.constraint(equalToConstant: buttonWidth),
+            view.heightAnchor.constraint(equalToConstant: buttonHeight)
+            ])
+    }
+    
+    func activateMenuButtonConstraints(view: UIView) {
+        guard let superview = view.superview else {
+            return
+        }
+        NSLayoutConstraint.activate([
+            view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+            view.topAnchor.constraint(equalTo: appendButton.bottomAnchor, constant: buttonVerticalOffset),
             view.widthAnchor.constraint(equalToConstant: buttonWidth),
             view.heightAnchor.constraint(equalToConstant: buttonHeight)
             ])

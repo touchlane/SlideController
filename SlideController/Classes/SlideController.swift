@@ -172,8 +172,10 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
 
-    public func insert(object : SlideLifeCycleObjectProvidable, index : Int) {
-        guard index < content.count else { return }
+    public func insert(object: SlideLifeCycleObjectProvidable, index: Int) {
+        guard index < content.count else {
+            return
+        }
         content.insert(object, at: index)
         contentSlidableController.insert(index: index)
         titleSlidableController.insert(index: index)
@@ -208,20 +210,13 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         } else {
             indexToRemove = index
         }
-
-        if contentSlidableController.slideContentView.isLayouted {
-            contentSlidableController.slideContentView.layoutIfNeeded()
-        }
-        if titleSlidableController.titleView.isLayouted {
-            titleSlidableController.titleView.layoutIfNeeded()
-        }
         if index < currentIndex {
             shift(pageIndex: currentIndex - 1, animated: false)
         } else if index == currentIndex {
             if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) {
-                titleSlidableController.jump(index: currentIndex, animated: false)
 
                 removeContentIfNeeded()
+                titleSlidableController.jump(index: currentIndex, animated: false)
             } else {
                 shift(pageIndex: currentIndex - 1, animated: true)
             }
@@ -270,7 +265,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !scrollInProgress {
-            content[currentIndex].lifeCycleObject.didStartSliding()
+            if content.indices.contains(currentIndex) {
+                content[currentIndex].lifeCycleObject.didStartSliding()
+            }
             scrollInProgress = true
         }
         let pageSize = contentSlidableController.contentSize
@@ -390,22 +387,23 @@ private extension SlideController {
             if truePage {
                 if isOnScreen {
                     if currentIndex != pageIndex {
-                        content[currentIndex].lifeCycleObject.didDissapear()
+                        if content.indices.contains(currentIndex) {
+                            content[currentIndex].lifeCycleObject.didDissapear()
+                        }
                         currentIndex = pageIndex
                     }
                     content[pageIndex].lifeCycleObject.didAppear()
-
-
                 } else {
                     currentIndex = pageIndex
                 }
-
-
             }
         }
     }
     
     func shiftKeyboardIfNeeded(offset: CGFloat) {
+        guard content.indices.contains(currentIndex) else {
+            return
+        }
         if content[currentIndex].lifeCycleObject.isKeyboardResponsive && slideDirection == SlideDirection.horizontal {
             if let keyBoardView = findKeyboardWindow() {
                 var frame = keyBoardView.frame

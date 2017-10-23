@@ -19,6 +19,7 @@ class VerticalController {
             
             optionsController?.removeDidTapAction = removePage
             optionsController?.insertDidTapAction = insertPage
+            optionsController?.appendDidTapAction = appendPage
         }
     }
     
@@ -41,7 +42,13 @@ class VerticalController {
     
     func insertPage() {
         let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
-        slideController.insert(object: page, index: slideController.content.count)
+        let index = slideController.content.count == 0 ? 0 : slideController.content.count - 1
+        slideController.insert(object: page, index: index)
+    }
+    
+    func appendPage() {
+        let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
+        slideController.append(object: [page])
     }
 }
 

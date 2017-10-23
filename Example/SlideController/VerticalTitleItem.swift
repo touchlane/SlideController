@@ -55,7 +55,7 @@ private extension PrivateVideoTitleItem {
         NSLayoutConstraint.activate([
             view.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
-            view.bottomAnchor.constraint(equalTo: superview.bottomAnchor),
+            view.topAnchor.constraint(equalTo: superview.topAnchor),
             view.heightAnchor.constraint(equalTo: superview.heightAnchor, multiplier: backgoundViewHeightMultiplier)
             ])
     }

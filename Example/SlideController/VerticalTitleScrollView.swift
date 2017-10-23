@@ -11,8 +11,8 @@ import SlideController
 
 class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
     
-    private let itemsViewTopOffset: CGFloat = 80
-    private let itemsViewBottomOffset: CGFloat = 100
+    private let itemsViewTopOffset: CGFloat = 20
+    private let itemsViewBottomOffset: CGFloat = 20
     private let itemsViewWidth: CGFloat = 22
     private let itemWidth: CGFloat = 2.5
     private let itemHeight: CGFloat = 120
@@ -66,8 +66,10 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
         itemsView.addSubview(view)
         // Activate inserted view constraints
         activateConstraints(view: view, previousView: prevView, heightMultiplier: heightMultiplier)
+        if let constraints = nextView.superview?.constraints.filter({ $0.firstItem === nextView}) {
+            nextView.superview?.removeConstraints(constraints)
+        }
         // Activate next view constraints
-        nextView.removeConstraints(nextView.constraints)
         activateConstraints(view: nextView, previousView: view, heightMultiplier: heightMultiplier)
         // Update all view heights
         internalItems.forEach { updateConstraints(view: $0, heightMultiplier: heightMultiplier) }
@@ -84,7 +86,9 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
         view.removeFromSuperview()
         let heightMultiplier = 1 / CGFloat(internalItems.count)
         if let nextView = nextView {
-            nextView.removeConstraints(nextView.constraints)
+            if let constraints = nextView.superview?.constraints.filter({ $0.firstItem === nextView}) {
+                nextView.superview?.removeConstraints(constraints)
+            }
             activateConstraints(view: nextView, previousView: prevView, heightMultiplier: heightMultiplier)
         }
         internalItems.forEach { updateConstraints(view: $0, heightMultiplier: heightMultiplier) }
@@ -112,7 +116,7 @@ private extension PrivateVerticalTitleScrollView {
         }
         NSLayoutConstraint.activate([
             view.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
-            view.topAnchor.constraint(equalTo: self.topAnchor, constant: itemsViewWidth),
+            view.topAnchor.constraint(equalTo: superview.topAnchor, constant: itemsViewWidth),
             view.widthAnchor.constraint(equalToConstant: itemsViewWidth),
             view.heightAnchor.constraint(equalTo: superview.heightAnchor, constant: -(itemsViewBottomOffset + itemsViewTopOffset))
             ])
@@ -149,15 +153,15 @@ private extension PrivateVerticalTitleScrollView {
             return
         }
         
-        let filterHeightConstraint = itemsView.constraints.filter { constraint in
+        let filterHeightConstraints = itemsView.constraints.filter { constraint in
             let areHeightAttributes = constraint.firstAttribute == .height && constraint.secondAttribute == .height
             let areAppropriateViews = constraint.firstItem === view && constraint.secondItem === itemsView
             return areHeightAttributes && areAppropriateViews
-        }.first
-        filterHeightConstraint.map { itemsView.removeConstraint($0) }
+        }
+        itemsView.removeConstraints(filterHeightConstraints)
         
-        let height = view.heightAnchor.constraint(equalTo: superview.heightAnchor, multiplier: heightMultiplier)
-        height.priority = UILayoutPriority(rawValue: 750)
-        height.isActive = true
+        let heightConstraint = view.heightAnchor.constraint(equalTo: superview.heightAnchor, multiplier: heightMultiplier)
+        heightConstraint.priority = UILayoutPriority(rawValue: 750)
+        heightConstraint.isActive = true
     }
 }
