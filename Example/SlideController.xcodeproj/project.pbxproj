@@ -32,6 +32,7 @@
 		B4BB56841F72BB98002D521D /* ViewLifeCycleDependable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BB56831F72BB98002D521D /* ViewLifeCycleDependable.swift */; };
 		B4D742761F604AC80019A0C6 /* OptionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D742751F604AC80019A0C6 /* OptionsController.swift */; };
 		B4D742781F604AD70019A0C6 /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D742771F604AD70019A0C6 /* OptionsView.swift */; };
+		DDE9D49F1F9E362A001EBB2F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDE9D49E1F9E362A001EBB2F /* Localizable.strings */; };
 		F0DB67F7CEC13D1EAF4D13C5 /* Pods_SlideController_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEC61E3A4E0A664CF3A05DEF /* Pods_SlideController_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		B4BB56831F72BB98002D521D /* ViewLifeCycleDependable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewLifeCycleDependable.swift; sourceTree = "<group>"; };
 		B4D742751F604AC80019A0C6 /* OptionsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsController.swift; sourceTree = "<group>"; };
 		B4D742771F604AD70019A0C6 /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
+		DDE9D49E1F9E362A001EBB2F /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E1AEA2A998395087E8500157 /* Pods-SlideController_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SlideController_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SlideController_Tests/Pods-SlideController_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		EEC61E3A4E0A664CF3A05DEF /* Pods_SlideController_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SlideController_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F82E08E1A9F482FC66A45FD2 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACD41AFB9204008FA782 /* Info.plist */,
+				DDE9D49E1F9E362A001EBB2F /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				DDE9D49F1F9E362A001EBB2F /* Localizable.strings in Resources */,
 				86CFA4291F4491F400C4B1A4 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,10 @@ import UIKit
 
 class HorizontalOptionsView : UIView {
     let menuBtn = FilledButton()
-    let positionControl = UISegmentedControl(items: ["Beside", "Above"])
+    let positionControl = UISegmentedControl(items: [
+        NSLocalizedString("BesideSegmentTitle", comment: ""),
+        NSLocalizedString("AboveSegmentTitle", comment: "")])
+    
     var changePositionAction: ((Int) -> ())?
     
     private let btnWidth: CGFloat = 120
@@ -22,7 +25,7 @@ class HorizontalOptionsView : UIView {
     
     init() {
         super.init(frame: CGRect.zero)
-        menuBtn.setTitle("Menu", for: UIControlState())
+        menuBtn.setTitle(NSLocalizedString("MenuButtonTitle", comment: ""), for: UIControlState())
         menuBtn.clipsToBounds = true
         menuBtn.layer.cornerRadius = btnHeigh / 2
         menuBtn.translatesAutoresizingMaskIntoConstraints = false
