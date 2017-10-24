@@ -32,6 +32,7 @@
 		86D7ADAC1F44896300B65941 /* HorizontalOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADAA1F44896300B65941 /* HorizontalOptionsView.swift */; };
 		86D7ADAF1F44896A00B65941 /* MainTitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADAD1F44896A00B65941 /* MainTitleItem.swift */; };
 		86D7ADB01F44896A00B65941 /* MainTitleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADAE1F44896A00B65941 /* MainTitleScrollView.swift */; };
+		86E340541F9F229E006F71C6 /* ContentActionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E340531F9F229E006F71C6 /* ContentActionable.swift */; };
 		86EE777B1F4491B6009FCDB3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EE777A1F4491B6009FCDB3 /* AppDelegate.swift */; };
 		AD817F5C8752A3A99B45F29F /* Pods_SlideController_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E9E6A30D87A3394BD3AD62 /* Pods_SlideController_Example.framework */; };
 		B4BB56801F72B2FC002D521D /* ContentUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BB567F1F72B2FC002D521D /* ContentUIViewController.swift */; };
@@ -89,6 +90,7 @@
 		86D7ADAA1F44896300B65941 /* HorizontalOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalOptionsView.swift; sourceTree = "<group>"; };
 		86D7ADAD1F44896A00B65941 /* MainTitleItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTitleItem.swift; sourceTree = "<group>"; };
 		86D7ADAE1F44896A00B65941 /* MainTitleScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTitleScrollView.swift; sourceTree = "<group>"; };
+		86E340531F9F229E006F71C6 /* ContentActionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentActionable.swift; sourceTree = "<group>"; };
 		86EE777A1F4491B6009FCDB3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4BB567F1F72B2FC002D521D /* ContentUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentUIViewController.swift; sourceTree = "<group>"; };
 		B4BB56811F72B5AE002D521D /* ViewAccessible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAccessible.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 				86D7AD901F44849700B65941 /* ClosureButtonDesignable.swift */,
 				B4BB56831F72BB98002D521D /* ViewLifeCycleDependable.swift */,
 				B4BB56811F72B5AE002D521D /* ViewAccessible.swift */,
+				86E340531F9F229E006F71C6 /* ContentActionable.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				86D7AD941F44849D00B65941 /* ColorController.swift in Sources */,
 				86D7AD951F44849D00B65941 /* ColorView.swift in Sources */,
 				86D7AD8E1F44844A00B65941 /* LifecycleContentUIViewController.swift in Sources */,
+				86E340541F9F229E006F71C6 /* ContentActionable.swift in Sources */,
 				86D7AD881F44843800B65941 /* FilledButton.swift in Sources */,
 				8610D2ED1F964090008848C5 /* VerticalPageLifeCycleObject.swift in Sources */,
 				86D7AD841F44842E00B65941 /* RootRouter.swift in Sources */,

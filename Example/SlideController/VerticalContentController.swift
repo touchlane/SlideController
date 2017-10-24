@@ -8,16 +8,7 @@
 
 import UIKit
 
-protocol VerticalContentControllerActionable {
-    typealias Action = () -> Void
-    
-    var removeDidTapAction: Action? { get set }
-    var insertDidTapAction: Action? { get set }
-    var appendDidTapAction: Action? { get set }
-    var menuDidTapAction: Action? { get set }
-}
-
-class VerticalContentController: VerticalContentControllerActionable {
+class VerticalContentController: ContentActionable {
     private let internalView = VerticalContentView()
     
     var removeDidTapAction: Action? {

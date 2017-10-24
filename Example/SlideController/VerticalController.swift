@@ -13,7 +13,7 @@ class VerticalController {
     private let internalView = VerticalView()
     private let slideController: SlideController<VerticalTitleScrollView, VerticalTitleItem>
     
-    var optionsController: (ViewAccessible & VerticalContentControllerActionable)? {
+    var optionsController: (ViewAccessible & ContentActionable)? {
         didSet {
             internalView.optionsView = optionsController?.view
             
