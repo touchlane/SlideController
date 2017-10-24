@@ -10,7 +10,6 @@ import UIKit
 import SlideController
 
 class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
-    
     private let itemsViewTopOffset: CGFloat = 20
     private let itemsViewBottomOffset: CGFloat = 20
     private let itemsViewWidth: CGFloat = 22
@@ -18,13 +17,11 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
     private let itemHeight: CGFloat = 120
     private let itemHeightMultiplier: CGFloat = 0.67
     private var internalItems: [View] = []
-    
     private let itemsView = UIView()
     
     override required init() {
         super.init()
         self.isScrollEnabled = false
-        
         itemsView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(itemsView)
         activateItemsViewConstraints(view: itemsView)
@@ -93,11 +90,7 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
         }
         internalItems.forEach { updateConstraints(view: $0, heightMultiplier: heightMultiplier) }
     }
-    
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        return false
-    }
-    
+        
     var itemsHidden: Bool = false {
         didSet {
             if itemsHidden != oldValue {
@@ -109,7 +102,6 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
 
 private typealias PrivateVerticalTitleScrollView = VerticalTitleScrollView
 private extension PrivateVerticalTitleScrollView {
-    
     func activateItemsViewConstraints(view: UIView) {
         guard let superview = view.superview else {
             return

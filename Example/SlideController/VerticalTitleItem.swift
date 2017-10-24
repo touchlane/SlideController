@@ -30,6 +30,9 @@ class VerticalTitleItem: UIView, Initializable, Selectable, ItemViewable {
     }
     
     var index: Int = 0
+    
+    // MARK: - SelectableImplementation
+    
     var didSelectAction: ((Int) -> Void)?
     
     var isSelected: Bool {
@@ -38,6 +41,8 @@ class VerticalTitleItem: UIView, Initializable, Selectable, ItemViewable {
         }
     }
     
+    // MARK: - ItemViewableImplementation
+    
     typealias Item = VerticalTitleItem
     
     var view: Item {
@@ -45,8 +50,8 @@ class VerticalTitleItem: UIView, Initializable, Selectable, ItemViewable {
     }
 }
 
-private typealias PrivateVideoTitleItem = VerticalTitleItem
-private extension PrivateVideoTitleItem {
+private typealias PrivateVerticalTitleItem = VerticalTitleItem
+private extension PrivateVerticalTitleItem {
     func activateBackgroundViewConstraints(view: UIView) {
         guard let superview = view.superview else {
             return

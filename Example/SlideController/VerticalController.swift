@@ -13,42 +13,45 @@ class VerticalController {
     private let internalView = VerticalView()
     private let slideController: SlideController<VerticalTitleScrollView, VerticalTitleItem>
     
+    private lazy var removeAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else { return }
+        strongSelf.slideController.removeAtIndex(index: 0)
+    }
+    
+    private lazy var insertAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else { return }
+        let page = SlidePageModel<PageLifeCycleObject>()
+        let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
+        strongSelf.slideController.insert(object: page, index: index)
+    }
+    
+    private lazy var appendAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else { return }
+        let page = SlidePageModel<PageLifeCycleObject>()
+        strongSelf.slideController.append(object: [page])
+    }
+    
     var optionsController: (ViewAccessible & ContentActionable)? {
         didSet {
             internalView.optionsView = optionsController?.view
             
-            optionsController?.removeDidTapAction = removePage
-            optionsController?.insertDidTapAction = insertPage
-            optionsController?.appendDidTapAction = appendPage
+            optionsController?.removeDidTapAction = removeAction
+            optionsController?.insertDidTapAction = insertAction
+            optionsController?.appendDidTapAction = appendAction
         }
     }
     
     init() {
         let pagesContent = [
-            SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
-            SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
-            SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
+            SlidePageModel<PageLifeCycleObject>(),
+            SlidePageModel<PageLifeCycleObject>(),
+            SlidePageModel<PageLifeCycleObject>()
         ]
         slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: .vertical)
         slideController.titleView.position = .above
         slideController.titleView.alignment = .left
         
         internalView.contentView = slideController.view
-    }
-    
-    func removePage() {
-        slideController.removeAtIndex(index: 0)
-    }
-    
-    func insertPage() {
-        let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
-        let index = slideController.content.count == 0 ? 0 : slideController.content.count - 1
-        slideController.insert(object: page, index: index)
-    }
-    
-    func appendPage() {
-        let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
-        slideController.append(object: [page])
     }
 }
 

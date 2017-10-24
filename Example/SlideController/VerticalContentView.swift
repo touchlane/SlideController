@@ -9,7 +9,6 @@
 import UIKit
 
 class VerticalContentView: UIView {
-    
     let removeButton = FilledButton()
     let insertButton = FilledButton()
     let appendButton = FilledButton()
@@ -63,7 +62,6 @@ class VerticalContentView: UIView {
 
 private typealias PrivateVerticalContentView = VerticalContentView
 private extension PrivateVerticalContentView {
-    
     func activateRemoveButtonConstraints(view: UIView) {
         guard let superview = view.superview else {
             return
