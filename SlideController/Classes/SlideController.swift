@@ -95,7 +95,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     ///Returns model for access to current LifeCycle object
     public var currentModel: SlideLifeCycleObjectProvidable? {
-        if isIndexValid(index: currentIndex) {
+        if content.indices.contains(currentIndex) {
             return content[currentIndex]
         }
         return nil
@@ -265,14 +265,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     public func viewDidAppear() {
         isOnScreen = true
-        if isIndexValid(index: currentIndex) {
+        if content.indices.contains(currentIndex) {
             content[currentIndex].lifeCycleObject.didAppear()
         }
     }
     
     public func viewDidDisappear() {
         isOnScreen = false
-        if isIndexValid(index: currentIndex) {
+        if content.indices.contains(currentIndex) {
             content[currentIndex].lifeCycleObject.didDissapear()
         }
     }
@@ -356,13 +356,6 @@ private extension PrivateSlideController {
         return contentPageSize
     }
     
-    func isIndexValid(index: Int) -> Bool {
-        if index >= content.count || index < 0 {
-            return false
-        }
-        return true
-    }
-    
     func loadView(pageIndex: Int) {
         loadViewIfNeeded(pageIndex: pageIndex - 1)
         loadViewIfNeeded(pageIndex: pageIndex, truePage: true)
@@ -370,7 +363,7 @@ private extension PrivateSlideController {
     }
     
     func loadViewIfNeeded(pageIndex: Int, truePage: Bool = false) {
-        if isIndexValid(index: pageIndex) {
+        if content.indices.contains(pageIndex) {
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
                 content[pageIndex].lifeCycleObject.viewDidLoad()
