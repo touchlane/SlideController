@@ -15,7 +15,7 @@ class MainTitleScrollView : TitleScrollView<MainTitleItem> {
     private let itemOffsetTop: CGFloat = 36
     private let itemHeight: CGFloat = 36
     private let shadowOpacity: Float = 0.16
-    private let internalBackgroundColor = UIColor(red: 80.0/255.0, green: 44.0/255.0, blue: 146.0/255.0, alpha: 1.0)
+    private let internalBackgroundColor = UIColor.purple
     
     override required init() {
         super.init()
@@ -43,7 +43,6 @@ class MainTitleScrollView : TitleScrollView<MainTitleItem> {
         }
         for i in 0...views.count - 1 {
             let view = views[i]
-            view.cornerRadius = itemHeight / 2
             view.translatesAutoresizingMaskIntoConstraints = false
             internalItems.append(view)
             addSubview(view)
@@ -54,7 +53,6 @@ class MainTitleScrollView : TitleScrollView<MainTitleItem> {
     
     override func insertView(view: View, index: Int) {
         guard index < internalItems.count else { return }
-        view.cornerRadius = itemHeight / 2
         view.translatesAutoresizingMaskIntoConstraints = false
         internalItems.insert(view, at: index)
         addSubview(view)
