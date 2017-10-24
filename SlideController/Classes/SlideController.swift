@@ -36,7 +36,7 @@ public protocol ViewSlidable: class {
     func insertView(view: View, index: Int)
     func removeViewAtIndex(index: Int)
     var firstLayoutAction: (() -> ())? { get set }
-    var changeSizeAction: (() -> ())? { get set }
+    var changeLayoutAction: (() -> ())? { get set }
     var isLayouted: Bool { get }
 }
 
@@ -117,12 +117,12 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         strongSelf.contentSlidableController.slideContentView.delegate = self
     }
     
-    private lazy var changeTitleSizeAction: () -> () = { [weak self] in
+    private lazy var changeTitleLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.titleSlidableController.jump(index: strongSelf.currentIndex, animated: false)
     }
     
-    private lazy var changeContentSizeAction: () -> () = { [weak self] in
+    private lazy var changeContentLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
             direction: strongSelf.slideDirection,
@@ -153,8 +153,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         containerView.titleView = titleSlidableController.titleView
         titleSlidableController.titleView.firstLayoutAction = firstLayoutTitleAction
         contentSlidableController.slideContentView.firstLayoutAction = firstLayoutContentAction
-        titleSlidableController.titleView.changeSizeAction = changeTitleSizeAction
-        contentSlidableController.slideContentView.changeSizeAction = changeContentSizeAction
+        titleSlidableController.titleView.changeLayoutAction = changeTitleLayoutAction
+        contentSlidableController.slideContentView.changeLayoutAction = changeContentLayoutAction
     }
     
     var isScrollEnabled: Bool = true {
@@ -229,7 +229,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if index < currentIndex {
             shift(pageIndex: currentIndex - 1, animated: false)
         } else if index == currentIndex {
-            if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) {
+            if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) || content.count == 1 {
                 titleSlidableController.jump(index: currentIndex, animated: false)
 
                 removeContentIfNeeded()

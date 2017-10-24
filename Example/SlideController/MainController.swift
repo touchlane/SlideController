@@ -71,8 +71,10 @@ class MainController {
         let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
         let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
         strongSelf.slideController.insert(object: page, index: index)
-        strongSelf.slideController.titleView.items[index].titleLabel.text = String(format: "page %d", strongSelf.pageIndex)
-        strongSelf.pageIndex += 1
+        if index < strongSelf.slideController.content.count {
+            strongSelf.slideController.titleView.items[index].titleLabel.text = String(format: "page %d", strongSelf.pageIndex)
+            strongSelf.pageIndex += 1
+        }
     }
     
     lazy var appendAction: (() -> Void)? = { [weak self] in

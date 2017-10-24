@@ -16,10 +16,10 @@ final class SlideContentView: UIScrollView {
     var firstLayoutAction: (() -> ())?
     internal private(set) var isLayouted = false
     
-    ///Notifies on each view size update
-    var changeSizeAction: (() -> ())?
+    ///Notifies on each size or content size update
+    var changeLayoutAction: (() -> ())?
     private var previousSize = CGSize.zero
-    
+    private var previousContentSize = CGSize.zero
     
     /// - Parameter scrollDirection: indicates the target slide direction
     init(slideDirection: SlideDirection) {
@@ -46,9 +46,10 @@ final class SlideContentView: UIScrollView {
             isLayouted = true
             firstLayoutAction?()
         }
-        if bounds.size != previousSize {
+        if bounds.size != previousSize || contentSize != previousContentSize {
             previousSize = bounds.size
-            changeSizeAction?()
+            previousContentSize = contentSize
+            changeLayoutAction?()
         }
     }
 }
