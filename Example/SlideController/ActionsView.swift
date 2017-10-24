@@ -1,5 +1,5 @@
 //
-//  VerticalContentView.swift
+//  ActionsView.swift
 //  SlideController_Example
 //
 //  Created by Pavel Kondrashkov on 10/17/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VerticalContentView: UIView {
+class ActionsView: UIView {
     let removeButton = FilledButton()
     let insertButton = FilledButton()
     let appendButton = FilledButton()
@@ -60,8 +60,8 @@ class VerticalContentView: UIView {
     }
 }
 
-private typealias PrivateVerticalContentView = VerticalContentView
-private extension PrivateVerticalContentView {
+private typealias PrivateActionsView = ActionsView
+private extension PrivateActionsView {
     func activateRemoveButtonConstraints(view: UIView) {
         guard let superview = view.superview else {
             return

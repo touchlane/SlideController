@@ -1,5 +1,5 @@
 //
-//  VerticalContentController.swift
+//  ActionsController.swift
 //  SlideController_Example
 //
 //  Created by Pavel Kondrashkov on 10/17/17.
@@ -8,8 +8,10 @@
 
 import UIKit
 
-class VerticalContentController: ContentActionable {
-    private let internalView = VerticalContentView()
+class ActionsController: ContentActionable {
+    private let internalView = ActionsView()
+    
+    // MARK: ContentActionableImplementation
     
     var removeDidTapAction: Action? {
         didSet {
@@ -36,8 +38,8 @@ class VerticalContentController: ContentActionable {
     }
 }
 
-private typealias ViewableImplementation = VerticalContentController
-extension ViewableImplementation: ViewAccessible {
+private typealias ViewAccessibleImplementation = ActionsController
+extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
         return internalView
     }

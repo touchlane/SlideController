@@ -34,7 +34,6 @@ class VerticalController {
     var optionsController: (ViewAccessible & ContentActionable)? {
         didSet {
             internalView.optionsView = optionsController?.view
-            
             optionsController?.removeDidTapAction = removeAction
             optionsController?.insertDidTapAction = insertAction
             optionsController?.appendDidTapAction = appendAction
@@ -50,7 +49,6 @@ class VerticalController {
         slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: .vertical)
         slideController.titleView.position = .above
         slideController.titleView.alignment = .left
-        
         internalView.contentView = slideController.view
     }
 }

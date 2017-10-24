@@ -32,10 +32,10 @@ class RootRouter {
     }
     
     func showVerticalPage(animated: Bool) {
-        let optionsController = VerticalContentController()
-        optionsController.menuDidTapAction = menuDidTapAction
+        let actionsController = ActionsController()
+        actionsController.menuDidTapAction = menuDidTapAction
         let verticalController = VerticalController()
-        verticalController.optionsController = optionsController
+        verticalController.optionsController = actionsController
         let lifecycleController = LifecycleContentUIViewController<VerticalController>()
         lifecycleController.controller = verticalController
         presenter?.pushViewController(lifecycleController, animated: true)
