@@ -16,12 +16,14 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
     private let itemWidth: CGFloat = 2.5
     private let itemHeight: CGFloat = 120
     private let itemHeightMultiplier: CGFloat = 0.67
+    private let internalBackgroundColor = UIColor.purple
     private var internalItems: [View] = []
     private let itemsView = UIView()
     
     override required init() {
         super.init()
-        self.isScrollEnabled = false
+        backgroundColor = internalBackgroundColor
+        isScrollEnabled = false
         itemsView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(itemsView)
         activateItemsViewConstraints(view: itemsView)
@@ -96,6 +98,12 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
             if itemsHidden != oldValue {
                 internalItems.forEach { $0.isHidden = itemsHidden }
             }
+        }
+    }
+    
+    var isTransparent = false {
+        didSet {
+            backgroundColor = isTransparent ? UIColor.clear : internalBackgroundColor
         }
     }
 }

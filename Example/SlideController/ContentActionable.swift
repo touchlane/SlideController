@@ -13,4 +13,5 @@ protocol ContentActionable {
     var insertDidTapAction: Action? { get set }
     var appendDidTapAction: Action? { get set }
     var menuDidTapAction: Action? { get set }
+    var changePositionAction: ((Int) -> ())? { get set }
 }

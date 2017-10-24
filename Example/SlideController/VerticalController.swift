@@ -10,6 +10,7 @@ import UIKit
 import SlideController
 
 class VerticalController {
+    private let titleSize: CGFloat = 22.5
     private let internalView = VerticalView()
     private let slideController: SlideController<VerticalTitleScrollView, VerticalTitleItem>
     
@@ -31,12 +32,27 @@ class VerticalController {
         strongSelf.slideController.append(object: [page])
     }
     
+    private lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
+        guard let strongSelf = self else { return }
+        switch position {
+        case 0:
+            strongSelf.slideController.titleView.position = TitleViewPosition.beside
+            strongSelf.slideController.titleView.isTransparent = false
+        case 1:
+            strongSelf.slideController.titleView.position = TitleViewPosition.above
+            strongSelf.slideController.titleView.isTransparent = true
+        default:
+            break
+        }
+    }
+    
     var optionsController: (ViewAccessible & ContentActionable)? {
         didSet {
             internalView.optionsView = optionsController?.view
             optionsController?.removeDidTapAction = removeAction
             optionsController?.insertDidTapAction = insertAction
             optionsController?.appendDidTapAction = appendAction
+            optionsController?.changePositionAction = changePositionAction
         }
     }
     
@@ -49,6 +65,7 @@ class VerticalController {
         slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: .vertical)
         slideController.titleView.position = .above
         slideController.titleView.alignment = .left
+        slideController.titleView.titleSize = titleSize
         internalView.contentView = slideController.view
     }
 }

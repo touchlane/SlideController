@@ -36,6 +36,12 @@ class ActionsController: ContentActionable {
             internalView.menuButton.didTouchUpInside = menuDidTapAction
         }
     }
+    
+    var changePositionAction: ((Int) -> ())? {
+        didSet {
+            internalView.changePositionAction = changePositionAction
+        }
+    }
 }
 
 private typealias ViewAccessibleImplementation = ActionsController
