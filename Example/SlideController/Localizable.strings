@@ -11,3 +11,6 @@
 "VerticalSampleButtonTitle" = "Vertical Sample";
 "BesideSegmentTitle" = "Beside";
 "AboveSegmentTitle" = "Above";
+"InsertButtonTitle" = "Insert";
+"RemoveButtonTitle" = "Remove";
+"AppendButtonTitle" = "Append";

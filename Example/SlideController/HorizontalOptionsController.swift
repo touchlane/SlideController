@@ -8,18 +8,38 @@
 
 import UIKit
 
-class HorizontalOptionsController {
+class HorizontalOptionsController: ContentActionable {
     private let internalView = HorizontalOptionsView()
-    
-    var menuDidTapAction: (() -> ())? {
-        didSet {
-            internalView.menuBtn.didTouchUpInside = menuDidTapAction
-        }
-    }
     
     var changePositionAction: ((Int) -> ())? {
         didSet {
             internalView.changePositionAction = changePositionAction
+        }
+    }
+    
+    // MARK: ContentActionableImplementation
+    
+    var removeDidTapAction: Action? {
+        didSet {
+            internalView.removeButton.didTouchUpInside = removeDidTapAction
+        }
+    }
+    
+    var insertDidTapAction: Action? {
+        didSet {
+            internalView.insertButton.didTouchUpInside = insertDidTapAction
+        }
+    }
+    
+    var appendDidTapAction: ContentActionable.Action? {
+        didSet {
+            internalView.appendButton.didTouchUpInside = appendDidTapAction
+        }
+    }
+    
+    var menuDidTapAction: ContentActionable.Action? {
+        didSet {
+            internalView.menuButton.didTouchUpInside = menuDidTapAction
         }
     }
 }

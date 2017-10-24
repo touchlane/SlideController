@@ -9,9 +9,21 @@
 import UIKit
 import SlideController
 
+// TODO: remove after merging of verticalSlide branch
+protocol ContentActionable {
+    typealias Action = () -> Void
+    
+    var removeDidTapAction: Action? { get set }
+    var insertDidTapAction: Action? { get set }
+    var appendDidTapAction: Action? { get set }
+    var menuDidTapAction: Action? { get set }
+}
+
 class MainController {
     private let internalView = MainView()
     private let slideController: SlideController<MainTitleScrollView, MainTitleItem>!
+    
+    private var pageIndex = 1
     
     init() {
         let pagesContent = [
@@ -20,18 +32,22 @@ class MainController {
             SlidePageModel<PageLifeCycleObject>()]
         slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: SlideDirection.horizontal)
         for index in 0..<slideController.content.count {
-            slideController.titleView.items[index].titleLabel.text = String(format: "page %d", index + 1)
+            slideController.titleView.items[index].titleLabel.text = String(format: "page %d", pageIndex)
+            pageIndex += 1
         }
         internalView.contentView = slideController.view
     }
     
-    var optionsController: ViewAccessible? {
+    var optionsController: (ViewAccessible & ContentActionable)? {
         didSet {
-           internalView.optionsView = optionsController?.view
+            internalView.optionsView = optionsController?.view
+            optionsController?.removeDidTapAction = removeAction
+            optionsController?.insertDidTapAction = insertAction
+            optionsController?.appendDidTapAction = appendAction
         }
     }
     
-    lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
+    lazy var changePositionAction: ((Int) -> Void)? = { [weak self] position in
         guard let strongSelf = self else { return }
         switch position {
         case 0:
@@ -44,10 +60,32 @@ class MainController {
             break
         }
     }
+    
+    lazy var removeAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else { return }
+        strongSelf.slideController.removeAtIndex(index: 0)
+    }
+    
+    lazy var insertAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else { return }
+        let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
+        let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
+        strongSelf.slideController.insert(object: page, index: index)
+        strongSelf.slideController.titleView.items[index].titleLabel.text = String(format: "page %d", strongSelf.pageIndex)
+        strongSelf.pageIndex += 1
+    }
+    
+    lazy var appendAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else { return }
+        let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
+        strongSelf.slideController.append(object: [page])
+        strongSelf.slideController.titleView.items[strongSelf.slideController.content.count - 1].titleLabel.text = String(format: "page %d", strongSelf.pageIndex)
+        strongSelf.pageIndex += 1
+    }
 }
 
 private typealias ViewLifeCycleDependableImplementation = MainController
-extension ViewLifeCycleDependableImplementation : ViewLifeCycleDependable {
+extension ViewLifeCycleDependableImplementation: ViewLifeCycleDependable {
     func viewDidAppear() {
         slideController.viewDidAppear()
     }
@@ -58,12 +96,8 @@ extension ViewLifeCycleDependableImplementation : ViewLifeCycleDependable {
 }
 
 private typealias ViewAccessibleImplementation = MainController
-extension ViewAccessibleImplementation : ViewAccessible {
-    var view : UIView {
+extension ViewAccessibleImplementation: ViewAccessible {
+    var view: UIView {
         return internalView
     }
 }
-
-
-
-
