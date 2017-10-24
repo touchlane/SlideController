@@ -296,7 +296,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             let nextIndex = actualIndex
             if nextIndex != currentIndex {
                 loadView(pageIndex: nextIndex)
-                titleSlidableController.jump(index: nextIndex, animated: false)
+                if !isForcedToSlide {
+                    titleSlidableController.jump(index: nextIndex, animated: false)
+                }
             } else {
                 content[currentIndex].lifeCycleObject.didCancelSliding()
             }
