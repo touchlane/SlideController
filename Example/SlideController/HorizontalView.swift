@@ -1,5 +1,5 @@
 //
-//  MainView.swift
+//  HorizontalView.swift
 //  SlideController_Example
 //
 //  Created by Evgeny Dedovets on 8/10/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainView : UIView {
+class HorizontalView : UIView {
     var contentView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -32,8 +32,8 @@ class MainView : UIView {
     }
 }
 
-private typealias PrivateMainView = MainView
-private extension PrivateMainView {
+private typealias PrivateHorizontalView = HorizontalView
+private extension PrivateHorizontalView {
     func activateContentViewConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))

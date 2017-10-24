@@ -1,5 +1,5 @@
 //
-//  MainRouter.swift
+//  RootRouter.swift
 //  SlideController_Example
 //
 //  Created by Evgeny Dedovets on 8/9/17.
@@ -20,14 +20,14 @@ class RootRouter {
         presenter?.setViewControllers([vc], animated: animated)
     }
     
-    func showMainPage(animated: Bool) {
+    func showHorizontalPage(animated: Bool) {
         let optionsController = HorizontalOptionsController()
         optionsController.menuDidTapAction = menuDidTapAction
-        let mainController = MainController()
-        optionsController.changePositionAction = mainController.changePositionAction
-        mainController.optionsController = optionsController
-        let vc = LifecycleContentUIViewController<MainController>()
-        vc.controller = mainController
+        let horizontalController = HorizontalController()
+        optionsController.changePositionAction = horizontalController.changePositionAction
+        horizontalController.optionsController = optionsController
+        let vc = LifecycleContentUIViewController<HorizontalController>()
+        vc.controller = horizontalController
         presenter?.pushViewController(vc, animated: animated)
     }
     
@@ -43,12 +43,7 @@ class RootRouter {
     
     private lazy var openHorizontalDemoAction: (() -> ())? = { [weak self] in
         guard let strongSelf = self else { return }
-        strongSelf.showMainPage(animated: true)
-    }
-    
-    private lazy var menuDidTapAction: (() -> ())? = { [weak self] in
-        guard let strongSelf = self else { return }
-        strongSelf.presenter?.popViewController(animated: true)
+        strongSelf.showHorizontalPage(animated: true)
     }
     
     private lazy var openVerticalDemoAction: (() -> Void)? = { [weak self] in
@@ -56,5 +51,10 @@ class RootRouter {
             return
         }
         strongSelf.showVerticalPage(animated: true)
+    }
+    
+    private lazy var menuDidTapAction: (() -> ())? = { [weak self] in
+        guard let strongSelf = self else { return }
+        strongSelf.presenter?.popViewController(animated: true)
     }
 }

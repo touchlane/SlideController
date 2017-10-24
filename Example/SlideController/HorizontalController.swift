@@ -1,5 +1,5 @@
 //
-//  MainController.swift
+//  HorizontalController.swift
 //  SlideController_Example
 //
 //  Created by Evgeny Dedovets on 8/10/17.
@@ -9,9 +9,9 @@
 import UIKit
 import SlideController
 
-class MainController {
-    private let internalView = MainView()
-    private let slideController: SlideController<MainTitleScrollView, MainTitleItem>!
+class HorizontalController {
+    private let internalView = HorizontalView()
+    private let slideController: SlideController<HorizontalTitleScrollView, HorizontalTitleItem>!
     
     init() {
         let pagesContent = [
@@ -46,7 +46,7 @@ class MainController {
     }
 }
 
-private typealias ViewLifeCycleDependableImplementation = MainController
+private typealias ViewLifeCycleDependableImplementation = HorizontalController
 extension ViewLifeCycleDependableImplementation : ViewLifeCycleDependable {
     func viewDidAppear() {
         slideController.viewDidAppear()
@@ -57,7 +57,7 @@ extension ViewLifeCycleDependableImplementation : ViewLifeCycleDependable {
     }
 }
 
-private typealias ViewAccessibleImplementation = MainController
+private typealias ViewAccessibleImplementation = HorizontalController
 extension ViewAccessibleImplementation : ViewAccessible {
     var view : UIView {
         return internalView
