@@ -21,11 +21,10 @@ class RootRouter {
     }
     
     func showHorizontalPage(animated: Bool) {
-        let optionsController = HorizontalOptionsController()
-        optionsController.menuDidTapAction = menuDidTapAction
+        let actionsController = ActionsController()
+        actionsController.menuDidTapAction = menuDidTapAction
         let horizontalController = HorizontalController()
-        optionsController.changePositionAction = horizontalController.changePositionAction
-        horizontalController.optionsController = optionsController
+        horizontalController.optionsController = actionsController
         let vc = LifecycleContentUIViewController<HorizontalController>()
         vc.controller = horizontalController
         presenter?.pushViewController(vc, animated: animated)

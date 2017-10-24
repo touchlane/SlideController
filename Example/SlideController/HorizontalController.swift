@@ -13,6 +13,38 @@ class HorizontalController {
     private let internalView = HorizontalView()
     private let slideController: SlideController<HorizontalTitleScrollView, HorizontalTitleItem>!
     
+    private lazy var removeAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else { return }
+        strongSelf.slideController.removeAtIndex(index: 0)
+    }
+    
+    private lazy var insertAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else { return }
+        let page = SlidePageModel<PageLifeCycleObject>()
+        let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
+        strongSelf.slideController.insert(object: page, index: index)
+    }
+    
+    private lazy var appendAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else { return }
+        let page = SlidePageModel<PageLifeCycleObject>()
+        strongSelf.slideController.append(object: [page])
+    }
+    
+    private lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
+        guard let strongSelf = self else { return }
+        switch position {
+        case 0:
+            strongSelf.slideController.titleView.position = TitleViewPosition.beside
+            strongSelf.slideController.titleView.isTransparent = false
+        case 1:
+            strongSelf.slideController.titleView.position = TitleViewPosition.above
+            strongSelf.slideController.titleView.isTransparent = true
+        default:
+            break
+        }
+    }
+    
     init() {
         let pagesContent = [
             SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
@@ -25,23 +57,13 @@ class HorizontalController {
         internalView.contentView = slideController.view
     }
     
-    var optionsController: ViewAccessible? {
+    var optionsController: (ViewAccessible & ContentActionable)? {
         didSet {
            internalView.optionsView = optionsController?.view
-        }
-    }
-    
-    lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
-        guard let strongSelf = self else { return }
-        switch position {
-        case 0:
-            strongSelf.slideController.titleView.position = TitleViewPosition.beside
-            strongSelf.slideController.titleView.isTransparent = false
-        case 1:
-            strongSelf.slideController.titleView.position = TitleViewPosition.above
-            strongSelf.slideController.titleView.isTransparent = true
-        default:
-            break
+            optionsController?.removeDidTapAction = removeAction
+            optionsController?.insertDidTapAction = insertAction
+            optionsController?.appendDidTapAction = appendAction
+            optionsController?.changePositionAction = changePositionAction
         }
     }
 }

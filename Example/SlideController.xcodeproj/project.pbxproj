@@ -27,8 +27,6 @@
 		86D7AD9C1F44892200B65941 /* HorizontalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD9A1F44892200B65941 /* HorizontalController.swift */; };
 		86D7AD9D1F44892200B65941 /* HorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7AD9B1F44892200B65941 /* HorizontalView.swift */; };
 		86D7ADA81F44895D00B65941 /* PageLifeCycleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADA71F44895D00B65941 /* PageLifeCycleObject.swift */; };
-		86D7ADAB1F44896300B65941 /* HorizontalOptionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADA91F44896300B65941 /* HorizontalOptionsController.swift */; };
-		86D7ADAC1F44896300B65941 /* HorizontalOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADAA1F44896300B65941 /* HorizontalOptionsView.swift */; };
 		86D7ADAF1F44896A00B65941 /* HorizontalTitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADAD1F44896A00B65941 /* HorizontalTitleItem.swift */; };
 		86D7ADB01F44896A00B65941 /* HorizontalTitleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D7ADAE1F44896A00B65941 /* HorizontalTitleScrollView.swift */; };
 		86E340541F9F229E006F71C6 /* ContentActionable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E340531F9F229E006F71C6 /* ContentActionable.swift */; };
@@ -84,8 +82,6 @@
 		86D7AD9A1F44892200B65941 /* HorizontalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalController.swift; sourceTree = "<group>"; };
 		86D7AD9B1F44892200B65941 /* HorizontalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalView.swift; sourceTree = "<group>"; };
 		86D7ADA71F44895D00B65941 /* PageLifeCycleObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageLifeCycleObject.swift; sourceTree = "<group>"; };
-		86D7ADA91F44896300B65941 /* HorizontalOptionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalOptionsController.swift; sourceTree = "<group>"; };
-		86D7ADAA1F44896300B65941 /* HorizontalOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalOptionsView.swift; sourceTree = "<group>"; };
 		86D7ADAD1F44896A00B65941 /* HorizontalTitleItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalTitleItem.swift; sourceTree = "<group>"; };
 		86D7ADAE1F44896A00B65941 /* HorizontalTitleScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalTitleScrollView.swift; sourceTree = "<group>"; };
 		86E340531F9F229E006F71C6 /* ContentActionable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentActionable.swift; sourceTree = "<group>"; };
@@ -248,7 +244,6 @@
 				86D7AD9A1F44892200B65941 /* HorizontalController.swift */,
 				86D7AD9B1F44892200B65941 /* HorizontalView.swift */,
 				86D7ADA21F44894200B65941 /* Menu */,
-				86D7ADA11F44893900B65941 /* BottomController */,
 				86D7ADA01F44893300B65941 /* PageContent */,
 			);
 			name = HorizontalController;
@@ -298,15 +293,6 @@
 				86D7ADA71F44895D00B65941 /* PageLifeCycleObject.swift */,
 			);
 			name = PageContent;
-			sourceTree = "<group>";
-		};
-		86D7ADA11F44893900B65941 /* BottomController */ = {
-			isa = PBXGroup;
-			children = (
-				86D7ADA91F44896300B65941 /* HorizontalOptionsController.swift */,
-				86D7ADAA1F44896300B65941 /* HorizontalOptionsView.swift */,
-			);
-			name = BottomController;
 			sourceTree = "<group>";
 		};
 		86D7ADA21F44894200B65941 /* Menu */ = {
@@ -588,8 +574,6 @@
 				86D7AD841F44842E00B65941 /* RootRouter.swift in Sources */,
 				8610D2E11F963FD1008848C5 /* VerticalView.swift in Sources */,
 				86D7AD911F44849700B65941 /* ClosureButtonDesignable.swift in Sources */,
-				86D7ADAB1F44896300B65941 /* HorizontalOptionsController.swift in Sources */,
-				86D7ADAC1F44896300B65941 /* HorizontalOptionsView.swift in Sources */,
 				86D7ADB01F44896A00B65941 /* HorizontalTitleScrollView.swift in Sources */,
 				8610D2DF1F963FC7008848C5 /* VerticalController.swift in Sources */,
 				8610D2E61F964007008848C5 /* VerticalTitleScrollView.swift in Sources */,
