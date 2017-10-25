@@ -52,6 +52,66 @@ final class SlideContentView: UIScrollView {
             changeLayoutAction?()
         }
     }
+    
+    func hideContainers(at indices: [Int]) {
+        let pages = containers
+            .enumerated()
+            .filter({ indices.contains($0.offset) })
+            .map({ $0.element })
+        var removeConstraints: [NSLayoutConstraint] = []
+        var addConstraints: [NSLayoutConstraint] = []
+        for page in pages {
+            if slideDirection == .horizontal {
+                if let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .width }) {
+                    removeConstraints.append(page.constraints[constraintIndex])
+                    page.constraints.remove(at: constraintIndex)
+                    let widthConstraint = page.view.widthAnchor.constraint(equalToConstant: 0)
+                    addConstraints.append(widthConstraint)
+                    page.constraints.append(widthConstraint)
+                }
+            } else {
+                if let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .width }) {
+                    removeConstraints.append(page.constraints[constraintIndex])
+                    page.constraints.remove(at: constraintIndex)
+                    let heightConstraint = page.view.heightAnchor.constraint(equalToConstant: 0)
+                    addConstraints.append(heightConstraint)
+                    page.constraints.append(heightConstraint)
+                }
+            }
+        }
+        NSLayoutConstraint.deactivate(removeConstraints)
+        NSLayoutConstraint.activate(addConstraints)
+    }
+    
+    func showContainers(at indices: [Int]) {
+        let pages = containers
+            .enumerated()
+            .filter({ indices.contains($0.offset) })
+            .map({ $0.element })
+        var removeConstraints: [NSLayoutConstraint] = []
+        var addConstraints: [NSLayoutConstraint] = []
+        for page in pages {
+            if slideDirection == .horizontal {
+                if let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .width }) {
+                    removeConstraints.append(page.constraints[constraintIndex])
+                    page.constraints.remove(at: constraintIndex)
+                    let widthConstraint = page.view.widthAnchor.constraint(equalTo: self.widthAnchor)
+                    addConstraints.append(widthConstraint)
+                    page.constraints.append(widthConstraint)
+                }
+            } else {
+                if let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .width }) {
+                    removeConstraints.append(page.constraints[constraintIndex])
+                    page.constraints.remove(at: constraintIndex)
+                    let heightConstraint = page.view.heightAnchor.constraint(equalTo: self.heightAnchor)
+                    addConstraints.append(heightConstraint)
+                    page.constraints.append(heightConstraint)
+                }
+            }
+        }
+        NSLayoutConstraint.deactivate(removeConstraints)
+        NSLayoutConstraint.activate(addConstraints)
+    }
 }
 
 private typealias PrivateContentSlideView = SlideContentView
