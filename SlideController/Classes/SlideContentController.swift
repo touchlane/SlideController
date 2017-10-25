@@ -59,7 +59,7 @@ final class SlideContentController {
     
     ///Scroll to target container
     func scrollToPage(index: Int, animated: Bool) {
-        if isIndexValid(index: index) {
+        if containers.indices.contains(index) {
             var offsetPoint: CGPoint
             if slideDirection == SlideDirection.horizontal {
                 offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
@@ -70,16 +70,3 @@ final class SlideContentController {
         }
     }
 }
-
-private typealias PrivateSlideContentController = SlideContentController
-private extension PrivateSlideContentController {
-    ///Check if container by index availbale to avoid index out of range exception
-    func isIndexValid(index: Int) -> Bool {
-        if index >= 0 && index < containers.count {
-            return true
-        }
-        return false
-    }
-}
-
-

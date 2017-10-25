@@ -95,7 +95,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     ///Returns model for access to current LifeCycle object
     public var currentModel: SlideLifeCycleObjectProvidable? {
-        if isIndexValid(index: currentIndex) {
+        if content.indices.contains(currentIndex) {
             return content[currentIndex]
         }
         return nil
@@ -187,8 +187,10 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
 
-    public func insert(object : SlideLifeCycleObjectProvidable, index : Int) {
-        guard index < content.count else { return }
+    public func insert(object: SlideLifeCycleObjectProvidable, index: Int) {
+        guard index < content.count else {
+            return
+        }
         content.insert(object, at: index)
         contentSlidableController.insert(index: index)
         titleSlidableController.insert(index: index)
@@ -223,20 +225,13 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         } else {
             indexToRemove = index
         }
-
-        if contentSlidableController.slideContentView.isLayouted {
-            contentSlidableController.slideContentView.layoutIfNeeded()
-        }
-        if titleSlidableController.titleView.isLayouted {
-            titleSlidableController.titleView.layoutIfNeeded()
-        }
         if index < currentIndex {
             shift(pageIndex: currentIndex - 1, animated: false)
         } else if index == currentIndex {
             if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) {
-                titleSlidableController.jump(index: currentIndex, animated: false)
 
                 removeContentIfNeeded()
+                titleSlidableController.jump(index: currentIndex, animated: false)
             } else {
                 shift(pageIndex: currentIndex - 1, animated: true)
             }
@@ -270,14 +265,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     public func viewDidAppear() {
         isOnScreen = true
-        if isIndexValid(index: currentIndex) {
+        if content.indices.contains(currentIndex) {
             content[currentIndex].lifeCycleObject.didAppear()
         }
     }
     
     public func viewDidDisappear() {
         isOnScreen = false
-        if isIndexValid(index: currentIndex) {
+        if content.indices.contains(currentIndex) {
             content[currentIndex].lifeCycleObject.didDissapear()
         }
     }
@@ -285,7 +280,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !scrollInProgress {
-            content[currentIndex].lifeCycleObject.didStartSliding()
+            if content.indices.contains(currentIndex) {
+                content[currentIndex].lifeCycleObject.didStartSliding()
+            }
             scrollInProgress = true
         }
         let pageSize = contentSlidableController.contentSize
@@ -359,13 +356,6 @@ private extension PrivateSlideController {
         return contentPageSize
     }
     
-    func isIndexValid(index: Int) -> Bool {
-        if index >= content.count || index < 0 {
-            return false
-        }
-        return true
-    }
-    
     func loadView(pageIndex: Int) {
         loadViewIfNeeded(pageIndex: pageIndex - 1)
         loadViewIfNeeded(pageIndex: pageIndex, truePage: true)
@@ -373,7 +363,7 @@ private extension PrivateSlideController {
     }
     
     func loadViewIfNeeded(pageIndex: Int, truePage: Bool = false) {
-        if isIndexValid(index: pageIndex) {
+        if content.indices.contains(pageIndex) {
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
                 content[pageIndex].lifeCycleObject.viewDidLoad()
@@ -382,22 +372,23 @@ private extension PrivateSlideController {
             if truePage {
                 if isOnScreen {
                     if currentIndex != pageIndex {
-                        content[currentIndex].lifeCycleObject.didDissapear()
+                        if content.indices.contains(currentIndex) {
+                            content[currentIndex].lifeCycleObject.didDissapear()
+                        }
                         currentIndex = pageIndex
                     }
                     content[pageIndex].lifeCycleObject.didAppear()
-
-
                 } else {
                     currentIndex = pageIndex
                 }
-
-
             }
         }
     }
     
     func shiftKeyboardIfNeeded(offset: CGFloat) {
+        guard content.indices.contains(currentIndex) else {
+            return
+        }
         if content[currentIndex].lifeCycleObject.isKeyboardResponsive && slideDirection == SlideDirection.horizontal {
             if let keyBoardView = findKeyboardWindow() {
                 var frame = keyBoardView.frame

@@ -9,7 +9,7 @@
 import UIKit
 import SlideController
 
-class MainTitleItem : UIView, Initializable, ItemViewable, Selectable {
+class HorizontalTitleItem : UIView, Initializable, ItemViewable, Selectable {
     let titleLabel = UILabel()
     
     private var titleLabelOffsetX: CGFloat = 21
@@ -54,7 +54,7 @@ class MainTitleItem : UIView, Initializable, ItemViewable, Selectable {
     
     // MARK: - ItemViewableImplementation
     
-    typealias Item = MainTitleItem
+    typealias Item = HorizontalTitleItem
     
     var view: Item {
         return self
@@ -97,8 +97,8 @@ class MainTitleItem : UIView, Initializable, ItemViewable, Selectable {
     }
 }
 
-private typealias PrivateMainTitleItem = MainTitleItem
-private extension PrivateMainTitleItem {
+private typealias PrivateHorizontalTitleItem = HorizontalTitleItem
+private extension PrivateHorizontalTitleItem {
     func activateBackgroundViewConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
