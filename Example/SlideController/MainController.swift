@@ -23,18 +23,16 @@ class MainController {
     private let internalView = MainView()
     private let slideController: SlideController<MainTitleScrollView, MainTitleItem>!
     
-    private var pageIndex = 1
-    
     init() {
         let pagesContent = [
             SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
             SlidePageModel<PageLifeCycleObject>(),
             SlidePageModel<PageLifeCycleObject>()]
-        slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: SlideDirection.horizontal)
-        for index in 0..<slideController.content.count {
-            slideController.titleView.items[index].titleLabel.text = String(format: "page %d", pageIndex)
-            pageIndex += 1
-        }
+        slideController = SlideController(
+            pagesContent: pagesContent,
+            startPageIndex: 0,
+            slideDirection: SlideDirection.horizontal)
+        updateTitles()
         internalView.contentView = slideController.view
     }
     
@@ -64,6 +62,7 @@ class MainController {
     lazy var removeAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.slideController.removeAtIndex(index: 0)
+        strongSelf.updateTitles()
     }
     
     lazy var insertAction: (() -> Void)? = { [weak self] in
@@ -71,18 +70,23 @@ class MainController {
         let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
         let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
         strongSelf.slideController.insert(object: page, index: index)
-        if index < strongSelf.slideController.content.count {
-            strongSelf.slideController.titleView.items[index].titleLabel.text = String(format: "page %d", strongSelf.pageIndex)
-            strongSelf.pageIndex += 1
-        }
+        strongSelf.updateTitles()
     }
     
     lazy var appendAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
         let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
         strongSelf.slideController.append(object: [page])
-        strongSelf.slideController.titleView.items[strongSelf.slideController.content.count - 1].titleLabel.text = String(format: "page %d", strongSelf.pageIndex)
-        strongSelf.pageIndex += 1
+        strongSelf.updateTitles()
+    }
+}
+
+private typealias PrivateMainController = MainController
+private extension PrivateMainController {
+    func updateTitles() {
+        for index in 0..<slideController.content.count {
+            slideController.titleView.items[index].titleLabel.text = "page \(index + 1)"
+        }
     }
 }
 
