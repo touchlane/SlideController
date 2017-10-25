@@ -370,10 +370,9 @@ private extension PrivateSlideController {
             }
             if truePage {
                 if FeatureManager().viewUnloading.isEnabled {
-                    var unloadIndices = [currentIndex - 1, currentIndex, currentIndex + 1]
+                    let unloadIndices = [currentIndex - 1, currentIndex, currentIndex + 1]
                     let loadIndices = [pageIndex - 1, pageIndex, pageIndex + 1]
-                    unloadIndices = unloadIndices.filter({ !loadIndices.contains($0) })
-                    for index in unloadIndices {
+                    for index in unloadIndices.filter({ !loadIndices.contains($0) }) {
                         unloadView(at: index)
                     }
                 }
