@@ -93,7 +93,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
             case .horizontal:
-                scrollView.setContentOffset(CGPoint(x: calculateTargetOffset(index), y: 0), animated: animated)
+                scrollView.setContentOffset(CGPoint(x: calculateTargetOffset(index: index), y: 0), animated: animated)
             case .vertical:
                 scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: animated)
             }
@@ -102,8 +102,8 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     
     func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int) {
         if isOffsetChangeAllowed && controllers.indices.contains(startIndex) && controllers.indices.contains(destinationIndex) {
-            let targetOffset = calculateTargetOffset(destinationIndex)
-            let startOffset = calculateTargetOffset(startIndex)
+            let targetOffset = calculateTargetOffset(index: destinationIndex)
+            let startOffset = calculateTargetOffset(index: startIndex)
             let shift = delta * abs(startOffset - targetOffset) / scrollView.frame.width
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
@@ -118,7 +118,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
 
 private typealias PrivateTitleSlidableController = TitleSlidableController
 private extension PrivateTitleSlidableController {
-    func calculateTargetOffset(_ index: Int) -> CGFloat {
+    func calculateTargetOffset(index: Int) -> CGFloat {
         var newOffsetX = scrollView.contentOffset.x
         if controllers.indices.contains(index) {
             let title = controllers[index].view

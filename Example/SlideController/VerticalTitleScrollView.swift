@@ -42,7 +42,6 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
         internalItems.append(contentsOf: views)
         let heightMultiplier = 1 / CGFloat(internalItems.count)
         for view in views {
-            view.isHidden = itemsHidden
             view.translatesAutoresizingMaskIntoConstraints = false
             itemsView.addSubview(view)
             activateConstraints(view: view, previousView: prevView, heightMultiplier: heightMultiplier)
@@ -60,7 +59,6 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
         let prevView: TitleItem? = index > 0 ? internalItems[index - 1] :  nil
         let nextView: TitleItem = internalItems[index + 1]
         let heightMultiplier = 1 / CGFloat(internalItems.count)
-        view.isHidden = itemsHidden
         view.translatesAutoresizingMaskIntoConstraints = false
         itemsView.addSubview(view)
         // Activate inserted view constraints
@@ -91,14 +89,6 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
             activateConstraints(view: nextView, previousView: prevView, heightMultiplier: heightMultiplier)
         }
         internalItems.forEach { updateConstraints(view: $0, heightMultiplier: heightMultiplier) }
-    }
-        
-    var itemsHidden: Bool = false {
-        didSet {
-            if itemsHidden != oldValue {
-                internalItems.forEach { $0.isHidden = itemsHidden }
-            }
-        }
     }
     
     var isTransparent = false {

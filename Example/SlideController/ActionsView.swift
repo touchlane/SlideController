@@ -16,7 +16,6 @@ class ActionsView: UIView {
     let insertButton = FilledButton()
     let appendButton = FilledButton()
     let menuButton = FilledButton()
-    private let stackView = UIStackView()
     var changePositionAction: ((Int) -> ())?
     
     private let buttonWidth: CGFloat = 120
@@ -25,6 +24,7 @@ class ActionsView: UIView {
     private let positionControlWidth: CGFloat = 200
     private let positionControlBackgroundColor = UIColor.purple
     private let positionControlTintColor = UIColor.white
+    private let stackView = UIStackView()
     
     init() {
         super.init(frame: CGRect.zero)
