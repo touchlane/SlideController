@@ -11,12 +11,11 @@ import SlideController
 
 class HorizontalTitleScrollView : TitleScrollView<HorizontalTitleItem> {
     private var internalItems = [View]()
-    private var internalConstraints = [NSLayoutConstraint]()
     private let internalItemOffsetX: CGFloat = 15
     private let itemOffsetTop: CGFloat = 36
     private let itemHeight: CGFloat = 36
     private let shadowOpacity: Float = 0.16
-    private let internalBackgroundColor = UIColor(red: 80.0/255.0, green: 44.0/255.0, blue: 146.0/255.0, alpha: 1.0)
+    private let internalBackgroundColor = UIColor.purple
     
     override required init() {
         super.init()
@@ -44,7 +43,6 @@ class HorizontalTitleScrollView : TitleScrollView<HorizontalTitleItem> {
         }
         for i in 0...views.count - 1 {
             let view = views[i]
-            view.cornerRadius = itemHeight / 2
             view.translatesAutoresizingMaskIntoConstraints = false
             internalItems.append(view)
             addSubview(view)
@@ -55,7 +53,6 @@ class HorizontalTitleScrollView : TitleScrollView<HorizontalTitleItem> {
     
     override func insertView(view: View, index: Int) {
         guard index < internalItems.count else { return }
-        view.cornerRadius = itemHeight / 2
         view.translatesAutoresizingMaskIntoConstraints = false
         internalItems.insert(view, at: index)
         addSubview(view)
@@ -102,15 +99,17 @@ private extension PrivateHorizontalTitleScrollView {
             constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -itemOffsetX()))
         }
         NSLayoutConstraint.activate(constraints)
-        internalConstraints.append(contentsOf: constraints)
+    }
+    
+    func removeConstraints(view: UIView) {
+        let viewConstraints = constraints.filter({ $0.firstItem === view })
+        let heigthConstraints = view.constraints.filter({ $0.firstAttribute == .height })
+        NSLayoutConstraint.deactivate(viewConstraints + heigthConstraints)
     }
     
     func updateConstraints(_ view: UIView, prevView: UIView?, isLast: Bool) {
-        for constraint in internalConstraints {
-            constraint.isActive = false
-        }
-        internalConstraints.removeAll()
-        activateConstraints(view, prevView: prevView, isLast: isLast)
+        self.removeConstraints(view: view)
+        self.activateConstraints(view, prevView: prevView, isLast: isLast)
     }
     
     func itemOffsetX() -> CGFloat {

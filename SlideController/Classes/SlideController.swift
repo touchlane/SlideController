@@ -36,7 +36,7 @@ public protocol ViewSlidable: class {
     func insertView(view: View, index: Int)
     func removeViewAtIndex(index: Int)
     var firstLayoutAction: (() -> ())? { get set }
-    var changeSizeAction: (() -> ())? { get set }
+    var changeLayoutAction: (() -> ())? { get set }
     var isLayouted: Bool { get }
 }
 
@@ -117,12 +117,12 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         strongSelf.contentSlidableController.slideContentView.delegate = self
     }
     
-    private lazy var changeTitleSizeAction: () -> () = { [weak self] in
+    private lazy var changeTitleLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.titleSlidableController.jump(index: strongSelf.currentIndex, animated: false)
     }
     
-    private lazy var changeContentSizeAction: () -> () = { [weak self] in
+    private lazy var changeContentLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
             direction: strongSelf.slideDirection,
@@ -130,13 +130,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             titleViewPosition: strongSelf.titleSlidableController.titleView.position,
             titleSize: strongSelf.titleSlidableController.titleView.titleSize)
         strongSelf.shift(pageIndex: strongSelf.currentIndex, animated: false)
-    }
-    
-    func didSelectTitleItem(index: Int, completion: @escaping () -> ()) {
-        loadViewIfNeeded(pageIndex: index)
-        isForcedToSlide = true
-        shift(pageIndex: index)
-        didFinishForceSlide = completion
     }
     
     private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
@@ -160,8 +153,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         containerView.titleView = titleSlidableController.titleView
         titleSlidableController.titleView.firstLayoutAction = firstLayoutTitleAction
         contentSlidableController.slideContentView.firstLayoutAction = firstLayoutContentAction
-        titleSlidableController.titleView.changeSizeAction = changeTitleSizeAction
-        contentSlidableController.slideContentView.changeSizeAction = changeContentSizeAction
+        titleSlidableController.titleView.changeLayoutAction = changeTitleLayoutAction
+        contentSlidableController.slideContentView.changeLayoutAction = changeContentLayoutAction
     }
     
     var isScrollEnabled: Bool = true {
@@ -183,6 +176,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             if titleSlidableController.titleView.isLayouted {
                 titleSlidableController.titleView.layoutIfNeeded()
             }
+            titleSlidableController.jump(index: currentIndex, animated: false)
             loadView(pageIndex: currentIndex)
         }
     }
@@ -204,7 +198,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             // FIXME: workaround to fix life cycle calls  
             contentSlidableController.slideContentView.delegate = nil
             shift(pageIndex: currentIndex + 1, animated: false)
-            currentIndex = currentIndex + 1
+            if self.contentSlidableController.slideContentView.isLayouted {
+                currentIndex = currentIndex + 1
+            }
             titleSlidableController.jump(index: currentIndex, animated: false)
             contentSlidableController.slideContentView.delegate = self
             loadViewIfNeeded(pageIndex: index)
@@ -228,8 +224,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if index < currentIndex {
             shift(pageIndex: currentIndex - 1, animated: false)
         } else if index == currentIndex {
-            if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) {
-
+            if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) || content.count == 1 {
                 removeContentIfNeeded()
                 titleSlidableController.jump(index: currentIndex, animated: false)
             } else {
@@ -297,7 +292,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             let nextIndex = actualIndex
             if nextIndex != currentIndex {
                 loadView(pageIndex: nextIndex)
-                titleSlidableController.jump(index: nextIndex, animated: false)
+                if !isForcedToSlide {
+                    titleSlidableController.jump(index: nextIndex, animated: false)
+                }
             } else {
                 content[currentIndex].lifeCycleObject.didCancelSliding()
             }

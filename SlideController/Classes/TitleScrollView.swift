@@ -28,6 +28,7 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     public typealias TitleItem = View
     public private(set) var isLayouted = false
     private var previousSize = CGSize.zero
+    private var previousContentSize = CGSize.zero
     
     public init() {
         super.init(frame: CGRect.zero)
@@ -48,9 +49,10 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
             isLayouted = true
             firstLayoutAction?()
         }
-        if bounds.size != previousSize {
+        if bounds.size != previousSize || contentSize != previousContentSize {
             previousSize = bounds.size
-            changeSizeAction?()
+            previousContentSize = contentSize
+            changeLayoutAction?()
         }
     }
     
@@ -70,8 +72,8 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     ///Simple hack to be notified when layout completed
     open var firstLayoutAction: (() -> ())?
     
-    ///Notifies on each view size update
-    open var changeSizeAction: (() -> ())?
+    ///Notifies on each size or content size update
+    open var changeLayoutAction: (() -> ())?
     
     // MARK: - TitleConfigurableImplementation
     public var alignment = TitleViewAlignment.top {

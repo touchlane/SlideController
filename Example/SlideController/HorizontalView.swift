@@ -30,6 +30,15 @@ class HorizontalView : UIView {
             }
         }
     }
+    
+    init() {
+        super.init(frame: .zero)
+        backgroundColor = UIColor.black
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 private typealias PrivateHorizontalView = HorizontalView

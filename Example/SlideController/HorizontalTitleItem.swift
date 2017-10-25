@@ -12,6 +12,7 @@ import SlideController
 class HorizontalTitleItem : UIView, Initializable, ItemViewable, Selectable {
     let titleLabel = UILabel()
     
+    private var backgroundViewHeight: CGFloat = 2
     private var titleLabelOffsetX: CGFloat = 21
     private var newIndicatorRadius: CGFloat = 9
     private var internalIsSelected: Bool = false
@@ -20,14 +21,13 @@ class HorizontalTitleItem : UIView, Initializable, ItemViewable, Selectable {
     private let backgroundView = UIView()
     private let backgroundSelectedColor = UIColor.white
     private let titleLabelFont = UIFont.systemFont(ofSize: 16.5)
-    private let internalBackgroundColor = UIColor(red: 58.0/255.0, green: 28.0/255.0, blue: 115.0/255.0, alpha: 1.0)
-    private let titleFontDefaultColor = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.5)
-    private let titleFontSelectedColor = UIColor(red: 30.0/255.0, green: 186.0/255.0, blue: 198.0/255.0, alpha: 1.0)
+    private let internalBackgroundColor = UIColor.clear
+    private let titleFontDefaultColor = UIColor(white: 1, alpha: 0.7)
+    private let titleFontSelectedColor = UIColor(white: 1, alpha: 1)
     
     required init() {
         super.init(frame: CGRect.zero)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.layer.masksToBounds = true
         self.addSubview(backgroundView)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = titleLabelFont
@@ -41,15 +41,6 @@ class HorizontalTitleItem : UIView, Initializable, ItemViewable, Selectable {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    var cornerRadius: CGFloat {
-        get {
-            return backgroundView.layer.cornerRadius
-        }
-        set {
-            backgroundView.layer.cornerRadius = newValue
-        }
     }
     
     // MARK: - ItemViewableImplementation
@@ -104,7 +95,7 @@ private extension PrivateHorizontalTitleItem {
         constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
         constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
         constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
-        constraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
+        constraints.append(view.heightAnchor.constraint(equalToConstant: backgroundViewHeight))
         NSLayoutConstraint.activate(constraints)
     }
     
