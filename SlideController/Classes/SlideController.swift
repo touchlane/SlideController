@@ -134,7 +134,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
         guard let strongSelf = self else { return }
-        strongSelf.loadViewIfNeeded(pageIndex: index)
         strongSelf.isForcedToSlide = true
         strongSelf.shift(pageIndex: index)
         strongSelf.didFinishForceSlide = completion
@@ -364,7 +363,6 @@ private extension PrivateSlideController {
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
                 content[pageIndex].lifeCycleObject.viewDidLoad()
-
             }
             if truePage {
                 if isOnScreen {
