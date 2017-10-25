@@ -102,10 +102,9 @@ private extension PrivateMainTitleScrollView {
     }
     
     func removeConstraints(view: UIView) {
-        let viewConstraints = self.constraints.filter({ $0.firstItem === view })
-        self.removeConstraints(viewConstraints)
+        let viewConstraints = constraints.filter({ $0.firstItem === view })
         let heigthConstraints = view.constraints.filter({ $0.firstAttribute == .height })
-        view.removeConstraints(heigthConstraints)
+        NSLayoutConstraint.deactivate(viewConstraints + heigthConstraints)
     }
     
     func updateConstraints(_ view: UIView, prevView: UIView?, isLast: Bool) {
