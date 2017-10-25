@@ -1,21 +1,15 @@
 //
-//  BottomBarController.swift
+//  ActionsController.swift
 //  SlideController_Example
 //
-//  Created by Evgeny Dedovets on 8/10/17.
+//  Created by Pavel Kondrashkov on 10/17/17.
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
 import UIKit
 
-class HorizontalOptionsController: ContentActionable {
-    private let internalView = HorizontalOptionsView()
-    
-    var changePositionAction: ((Int) -> ())? {
-        didSet {
-            internalView.changePositionAction = changePositionAction
-        }
-    }
+class ActionsController: ContentActionable {
+    private let internalView = ActionsView()
     
     // MARK: ContentActionableImplementation
     
@@ -31,22 +25,28 @@ class HorizontalOptionsController: ContentActionable {
         }
     }
     
-    var appendDidTapAction: ContentActionable.Action? {
+    var appendDidTapAction: Action? {
         didSet {
             internalView.appendButton.didTouchUpInside = appendDidTapAction
         }
     }
     
-    var menuDidTapAction: ContentActionable.Action? {
+    var menuDidTapAction: Action? {
         didSet {
             internalView.menuButton.didTouchUpInside = menuDidTapAction
         }
     }
+    
+    var changePositionAction: ((Int) -> ())? {
+        didSet {
+            internalView.changePositionAction = changePositionAction
+        }
+    }
 }
 
-private typealias ViewableImplementation = HorizontalOptionsController
-extension ViewableImplementation : ViewAccessible {
-    var view : UIView {
+private typealias ViewAccessibleImplementation = ActionsController
+extension ViewAccessibleImplementation: ViewAccessible {
+    var view: UIView {
         return internalView
     }
 }

@@ -84,14 +84,16 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     }
     
     func jump(index: Int, animated: Bool) {
-        if isIndexValid(index) {
-            controllers[selectedIndex].isSelected = false
+        if controllers.indices.contains(index) {
+            if controllers.indices.contains(selectedIndex) {
+                controllers[selectedIndex].isSelected = false
+            }
             selectedIndex = index
             controllers[index].isSelected = true
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
             case .horizontal:
-                scrollView.setContentOffset(CGPoint(x: calculateTargetOffset(index), y: 0), animated: animated)
+                scrollView.setContentOffset(CGPoint(x: calculateTargetOffset(index: index), y: 0), animated: animated)
             case .vertical:
                 scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: animated)
             }
@@ -99,9 +101,9 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     }
     
     func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int) {
-        if isOffsetChangeAllowed && isIndexValid(startIndex) && isIndexValid(destinationIndex) {
-            let targetOffset = calculateTargetOffset(destinationIndex)
-            let startOffset = calculateTargetOffset(startIndex)
+        if isOffsetChangeAllowed && controllers.indices.contains(startIndex) && controllers.indices.contains(destinationIndex) {
+            let targetOffset = calculateTargetOffset(index: destinationIndex)
+            let startOffset = calculateTargetOffset(index: startIndex)
             let shift = delta * abs(startOffset - targetOffset) / scrollView.frame.width
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
@@ -116,16 +118,9 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
 
 private typealias PrivateTitleSlidableController = TitleSlidableController
 private extension PrivateTitleSlidableController {
-    func isIndexValid(_ index: Int) -> Bool {
-        if index >= 0 && index < controllers.count {
-            return true
-        }
-        return false
-    }
-    
-    func calculateTargetOffset(_ index: Int) -> CGFloat {
+    func calculateTargetOffset(index: Int) -> CGFloat {
         var newOffsetX = scrollView.contentOffset.x
-        if isIndexValid(index) {
+        if controllers.indices.contains(index) {
             let title = controllers[index].view
             if scrollView.frame.width >= scrollView.contentSize.width {
                 newOffsetX = scrollView.contentSize.width / 2 - scrollView.frame.width / 2

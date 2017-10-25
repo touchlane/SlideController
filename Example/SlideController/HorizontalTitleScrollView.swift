@@ -1,5 +1,5 @@
 //
-//  MainTitleScrollView.swift
+//  HorizontalTitleScrollView.swift
 //  SlideController_Example
 //
 //  Created by Vadim Morozov on 4/20/17.
@@ -9,7 +9,7 @@
 import UIKit
 import SlideController
 
-class MainTitleScrollView : TitleScrollView<MainTitleItem> {
+class HorizontalTitleScrollView : TitleScrollView<HorizontalTitleItem> {
     private var internalItems = [View]()
     private let internalItemOffsetX: CGFloat = 15
     private let itemOffsetTop: CGFloat = 36
@@ -84,8 +84,8 @@ class MainTitleScrollView : TitleScrollView<MainTitleItem> {
     }
 }
 
-private typealias PrivateMainTitleScrollView = MainTitleScrollView
-private extension PrivateMainTitleScrollView {
+private typealias PrivateHorizontalTitleScrollView = HorizontalTitleScrollView
+private extension PrivateHorizontalTitleScrollView {
     func activateConstraints(_ view: UIView, prevView: UIView?, isLast: Bool) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.topAnchor.constraint(equalTo: self.topAnchor, constant: itemOffsetTop))
