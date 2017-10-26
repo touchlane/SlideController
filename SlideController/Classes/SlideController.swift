@@ -85,6 +85,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var currentIndex = 0
     private var lastContentOffset: CGFloat = 0
     private var didFinishForceSlide: (() -> ())?
+    private var didFinishScroll: (() -> ())?
     private var isForcedToSlide = false
     private var isOnScreen = false
     private var scrollInProgress = false
@@ -111,6 +112,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
 
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
+        strongSelf.changeContentLayoutAction()
     }
     
     private lazy var firstLayoutContentAction: () -> () = { [weak self] in
@@ -125,6 +127,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     private lazy var changeContentLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
+        guard !strongSelf.isForcedToSlide else { return }
         strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
             direction: strongSelf.slideDirection,
             titleViewAlignment: strongSelf.titleSlidableController.titleView.alignment,
@@ -242,7 +245,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if !self.contentSlidableController.slideContentView.isLayouted {
             loadView(pageIndex: pageIndex)
         } else {
-            contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
+            didFinishScroll = contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
             if slideDirection == SlideDirection.horizontal {
                 lastContentOffset = contentSlidableController.slideContentView.contentOffset.x
             } else {
@@ -327,6 +330,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
         didFinishForceSlide?()
+        didFinishScroll?()
+        didFinishScroll = nil
         isForcedToSlide = false
     }
     
@@ -366,6 +371,7 @@ private extension PrivateSlideController {
         if content.indices.contains(pageIndex) {
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
+                print("Load view at index \(pageIndex)")
                 content[pageIndex].lifeCycleObject.viewDidLoad()
             }
             if truePage {
@@ -395,6 +401,7 @@ private extension PrivateSlideController {
         guard content.indices.contains(index) else {
             return
         }
+        print("Unload view at index \(index)")
         contentSlidableController.containers[index].unloadView()
         content[index].lifeCycleObject.viewDidUnload()
     }

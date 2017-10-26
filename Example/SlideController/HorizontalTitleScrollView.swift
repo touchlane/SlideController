@@ -19,7 +19,7 @@ class HorizontalTitleScrollView : TitleScrollView<HorizontalTitleItem> {
     
     override required init() {
         super.init()
-        self.isScrollEnabled = false
+        self.isScrollEnabled = true
         self.clipsToBounds = false
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 1)

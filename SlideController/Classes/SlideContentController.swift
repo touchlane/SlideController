@@ -41,7 +41,7 @@ final class SlideContentController {
             newControllers.append(controller)
         }
         containers.append(contentsOf: newControllers)
-        slideContentView.appendViews(views: newControllers.map{$0.view})
+        slideContentView.appendViews(views: newControllers.map { $0.view })
     }
     
     ///Insert container at specified index
@@ -58,15 +58,72 @@ final class SlideContentController {
     }
     
     ///Scroll to target container
-    func scrollToPage(index: Int, animated: Bool) {
+    func scrollToPage(index: Int, animated: Bool) -> (() -> Void)? {
         if containers.indices.contains(index) {
             var offsetPoint: CGPoint
-            if slideDirection == SlideDirection.horizontal {
-                offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
+            if FeatureManager().smartTransition.isEnabled {
+                var startOffsetPoint = slideContentView.contentOffset
+                var endOffsetPoint: CGPoint
+                var currentIndex = 0
+                if slideDirection == .horizontal {
+                    currentIndex = Int(slideContentView.contentOffset.x / contentSize)
+                    if index < currentIndex {
+                        offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
+                        startOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index + 1), y: 0)
+                        endOffsetPoint = offsetPoint
+                    } else {
+                        offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: currentIndex + 1), y: 0)
+                        endOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
+                    }
+                } else {
+                    currentIndex = Int(slideContentView.contentOffset.y / contentSize)
+                    if index < currentIndex {
+                        offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
+                        startOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index + 1))
+                        endOffsetPoint = offsetPoint
+                    } else {
+                        offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: currentIndex + 1))
+                        endOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
+                    }
+                }
+                print("Transition from \(currentIndex) to \(index)")
+                var viewIndices: [Int] = []
+                if currentIndex - index > 1 {
+                    for i in index + 1...currentIndex - 1 {
+                        viewIndices.append(i)
+                    }
+                } else if index - currentIndex > 1 {
+                    for i in currentIndex + 1...index - 1 {
+                        viewIndices.append(i)
+                    }
+                }
+                // Before animation
+                slideContentView.hideContainers(at: viewIndices)
+                slideContentView.setContentOffset(startOffsetPoint, animated: false)
+                // Animation
+                slideContentView.setContentOffset(offsetPoint, animated: animated)
+                
+                let afterAnimation = { [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.slideContentView.showContainers(at: viewIndices)
+                    strongSelf.slideContentView.setContentOffset(endOffsetPoint, animated: false)
+                }
+                if animated {
+                    return afterAnimation
+                } else {
+                    afterAnimation()
+                }
             } else {
-                offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
+                if slideDirection == SlideDirection.horizontal {
+                    offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
+                } else {
+                    offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
+                }
+                slideContentView.setContentOffset(offsetPoint, animated: animated)
             }
-            slideContentView.setContentOffset(offsetPoint, animated: animated)
         }
+        return nil
     }
 }
