@@ -12,6 +12,7 @@ public protocol SlidePageLifeCycle: class {
     func didAppear()
     func didDissapear()
     func viewDidLoad()
+    func viewDidUnload()
     func didStartSliding()
     func didCancelSliding()
     var isKeyboardResponsive: Bool { get }
@@ -203,6 +204,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             }
             titleSlidableController.jump(index: currentIndex, animated: false)
             contentSlidableController.slideContentView.delegate = self
+            if FeatureManager().viewUnloading.isEnabled {
+                unloadView(at: index - 1)
+            }
             loadViewIfNeeded(pageIndex: index)
         } else {
             loadView(pageIndex: currentIndex)
@@ -236,8 +240,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     public func shift(pageIndex: Int, animated: Bool = true) {
         if !self.contentSlidableController.slideContentView.isLayouted {
-            currentIndex = pageIndex
-            loadView(pageIndex: currentIndex)
+            loadView(pageIndex: pageIndex)
         } else {
             contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
             if slideDirection == SlideDirection.horizontal {
@@ -364,9 +367,15 @@ private extension PrivateSlideController {
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
                 content[pageIndex].lifeCycleObject.viewDidLoad()
-
             }
             if truePage {
+                if FeatureManager().viewUnloading.isEnabled {
+                    let unloadIndices = [currentIndex - 1, currentIndex, currentIndex + 1]
+                    let loadIndices = [pageIndex - 1, pageIndex, pageIndex + 1]
+                    for index in unloadIndices.filter({ !loadIndices.contains($0) }) {
+                        unloadView(at: index)
+                    }
+                }
                 if isOnScreen {
                     if currentIndex != pageIndex {
                         if content.indices.contains(currentIndex) {
@@ -380,6 +389,14 @@ private extension PrivateSlideController {
                 }
             }
         }
+    }
+    
+    func unloadView(at index: Int) {
+        guard content.indices.contains(index) else {
+            return
+        }
+        contentSlidableController.containers[index].unloadView()
+        content[index].lifeCycleObject.viewDidUnload()
     }
     
     func shiftKeyboardIfNeeded(offset: CGFloat) {

@@ -31,6 +31,8 @@ extension SlidePageLifeCycleImplementation : SlidePageLifeCycle {
     
     func viewDidLoad() { }
     
+    func viewDidUnload() { }
+    
     func didStartSliding() { }
     
     func didCancelSliding() { }
