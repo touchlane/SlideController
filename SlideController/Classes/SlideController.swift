@@ -294,12 +294,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             if nextIndex != currentIndex {
                 loadView(pageIndex: nextIndex)
                 if !isForcedToSlide {
+                    if FeatureManager().viewUnloading.isEnabled {
+                        unloadView(around: currentIndex)
+                    }
                     titleSlidableController.jump(index: nextIndex, animated: false)
                 }
             } else {
                 content[currentIndex].lifeCycleObject.didCancelSliding()
             }
-
             removeContentIfNeeded()
             scrollInProgress = false
         } else {
@@ -331,6 +333,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         didFinishForceSlide?()
         didFinishSlideAction?()
         didFinishSlideAction = nil
+        if FeatureManager().viewUnloading.isEnabled {
+            if isForcedToSlide {
+                unloadView(around: currentIndex)
+            }
+        }
         isForcedToSlide = false
     }
     
@@ -366,6 +373,20 @@ private extension PrivateSlideController {
         loadViewIfNeeded(pageIndex: pageIndex + 1)
     }
     
+    func unloadView(around currentIndex: Int) {
+        let loadedViewIndices = [currentIndex - 1, currentIndex, currentIndex + 1]
+        let unloadIndices = content.indices.filter{ !loadedViewIndices.contains($0) }
+        unloadIndices.forEach { unloadView(at: $0) }
+    }
+    
+    func unloadView(at index: Int) {
+        guard content.indices.contains(index) else {
+            return
+        }
+        contentSlidableController.containers[index].unloadView()
+        content[index].lifeCycleObject.viewDidUnload()
+    }
+    
     func loadViewIfNeeded(pageIndex: Int, truePage: Bool = false) {
         if content.indices.contains(pageIndex) {
             if !contentSlidableController.containers[pageIndex].hasContent {
@@ -374,13 +395,6 @@ private extension PrivateSlideController {
                 content[pageIndex].lifeCycleObject.viewDidLoad()
             }
             if truePage {
-                if FeatureManager().viewUnloading.isEnabled {
-                    let unloadIndices = [currentIndex - 1, currentIndex, currentIndex + 1]
-                    let loadIndices = [pageIndex - 1, pageIndex, pageIndex + 1]
-                    for index in unloadIndices.filter({ !loadIndices.contains($0) }) {
-                        unloadView(at: index)
-                    }
-                }
                 if isOnScreen {
                     if currentIndex != pageIndex {
                         if content.indices.contains(currentIndex) {
@@ -394,15 +408,6 @@ private extension PrivateSlideController {
                 }
             }
         }
-    }
-    
-    func unloadView(at index: Int) {
-        guard content.indices.contains(index) else {
-            return
-        }
-        print("Unload view at index \(index)")
-        contentSlidableController.containers[index].unloadView()
-        content[index].lifeCycleObject.viewDidUnload()
     }
     
     func shiftKeyboardIfNeeded(offset: CGFloat) {
