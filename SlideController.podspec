@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  More meaningful description of SlideController that is not shorter than summary.
                        DESC
 
   s.homepage         = 'https://github.com/PandaSystems/SlideController'
