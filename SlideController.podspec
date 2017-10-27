@@ -19,6 +19,8 @@ Pod::Spec.new do |s|
 
   s.description      = <<-DESC
   More meaningful description of SlideController that is not shorter than summary.
+  Think: What does it do? Why did you write it? What is the focus?
+  Try to keep it short, snappy and to the point.
                        DESC
 
   s.homepage         = 'https://github.com/PandaSystems/SlideController'
