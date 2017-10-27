@@ -1,7 +1,7 @@
 # SlideController
 
-[![Build Status](https://travis-ci.org/touchlane/SlideController.svg?branch=develop)](https://travis-ci.org/touchlane/SlideController)
-[![codecov.io](https://codecov.io/gh/touchlane/SlideController/branch/develop/graphs/badge.svg)](https://codecov.io/gh/codecov/example-swift/branch/master)
+[![Build Status](https://travis-ci.org/touchlane/SlideController.svg?branch=master)](https://travis-ci.org/touchlane/SlideController)
+[![codecov.io](https://codecov.io/gh/touchlane/SlideController/branch/master/graphs/badge.svg)](https://codecov.io/gh/codecov/example-swift/branch/master)
 [![Version](https://img.shields.io/cocoapods/v/ScrollController.svg?style=flat)](http://cocoapods.org/pods/ScrollController)
 [![License](https://img.shields.io/cocoapods/l/ScrollController.svg?style=flat)](http://cocoapods.org/pods/ScrollController)
 [![Platform](https://img.shields.io/cocoapods/p/ScrollController.svg?style=flat)](http://cocoapods.org/pods/ScrollController)

@@ -15,6 +15,6 @@ before_install:
   - pod install --project-directory=Example
 script:
   - set -o pipefail && xcodebuild -scheme SlideController-Example -workspace Example/SlideController.xcworkspace -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6S,OS=11.0' build test | xcpretty --color
-  - pod lib lint --allow-warnings
+  - pod lib lint
 after_success:
   - bash <(curl -s https://codecov.io/bash)
