@@ -303,7 +303,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             removeContentIfNeeded()
             scrollInProgress = false
         } else {
-            updateTitleScrollOffset(contentOffset: actualContentOffset, pageSize: pageSize)
+            if !isForcedToSlide {
+                updateTitleScrollOffset(contentOffset: actualContentOffset, pageSize: pageSize)
+            }
             shiftKeyboardIfNeeded(offset: -(actualContentOffset - lastContentOffset))
             lastContentOffset = actualContentOffset
         }
@@ -311,7 +313,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     private func updateTitleScrollOffset(contentOffset: CGFloat, pageSize: CGFloat) {
         let actualIndex = Int(contentOffset / pageSize)
-
         let offset = contentOffset - lastContentOffset
         var startIndex: Int
         var destinationIndex: Int
@@ -322,9 +323,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             startIndex = actualIndex
             destinationIndex = startIndex + 1
         }
-        if !isForcedToSlide {
-            titleSlidableController.shift(delta: offset, startIndex: startIndex, destinationIndex: destinationIndex)
-        }
+        titleSlidableController.shift(delta: offset, startIndex: startIndex, destinationIndex: destinationIndex)
     }
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
