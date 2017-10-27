@@ -10,10 +10,10 @@ import UIKit
 
 final class SlideContentView: UIScrollView {
     private var slideDirection: SlideDirection!
-    private var containers = [SlideContainerView]()
+    private var containers: [SlideContainerView] = []
     
     ///Simple hack to be notified when layout completed
-    var firstLayoutAction: (() -> ())?
+    var firstLayoutAction: (() -> Void)?
     internal private(set) var isLayouted = false
     
     ///Notifies on each size or content size update

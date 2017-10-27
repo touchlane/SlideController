@@ -45,7 +45,7 @@ final class SlideContentController {
     }
     
     ///Insert container at specified index
-    func insert(index : Int) {
+    func insert(index: Int) {
         let controller = SlideContainerController()
         containers.insert(controller, at: index)
         slideContentView.insertView(view: controller.view, index: index)

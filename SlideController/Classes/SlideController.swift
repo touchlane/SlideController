@@ -36,8 +36,8 @@ public protocol ViewSlidable: class {
     func appendViews(views: [View])
     func insertView(view: View, index: Int)
     func removeViewAtIndex(index: Int)
-    var firstLayoutAction: (() -> ())? { get set }
-    var changeLayoutAction: (() -> ())? { get set }
+    var firstLayoutAction: (() -> Void)? { get set }
+    var changeLayoutAction: (() -> Void)? { get set }
     var isLayouted: Bool { get }
 }
 
@@ -46,14 +46,14 @@ public protocol ControllerSlidable: class {
     func showNext(animated: Bool)
     func viewDidAppear()
     func viewDidDisappear()
-    func insert(object : SlideLifeCycleObjectProvidable, index : Int)
-    func append(object : [SlideLifeCycleObjectProvidable])
+    func insert(object: SlideLifeCycleObjectProvidable, index: Int)
+    func append(object: [SlideLifeCycleObjectProvidable])
     func removeAtIndex(index : Int)
 }
 
 public protocol Selectable: class {
     var isSelected: Bool { get set }
-    var didSelectAction: ((Int) -> ())? { get set }
+    var didSelectAction: ((Int) -> Void)? { get set }
     var index: Int { get set }
 }
 
@@ -169,7 +169,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
 
     // MARK: - ControllerSlidableImplementation
     
-    public func append(object objects : [SlideLifeCycleObjectProvidable]) {
+    public func append(object objects: [SlideLifeCycleObjectProvidable]) {
         if objects.count > 0 {
             content.append(contentsOf: objects)
             contentSlidableController.append(pagesCount: objects.count)

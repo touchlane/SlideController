@@ -6,11 +6,11 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-public protocol SlideLifeCycleObjectProvidable : class {
+public protocol SlideLifeCycleObjectProvidable: class {
     var lifeCycleObject: SlideLifeCycleObject { get }
 }
 
-public class SlidePageModel<T : SlideLifeCycleObject> : SlideLifeCycleObjectProvidable {
+public class SlidePageModel<T: SlideLifeCycleObject>: SlideLifeCycleObjectProvidable {
     ///Internal LifeCycle Object
     private var object: T?
     
