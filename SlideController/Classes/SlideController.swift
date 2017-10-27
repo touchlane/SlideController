@@ -287,15 +287,10 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             scrollInProgress = true
         }
         let pageSize = contentSlidableController.contentSize
-        var actualContentOffset: CGFloat = 0
-        if slideDirection == SlideDirection.horizontal {
-            actualContentOffset = scrollView.contentOffset.x
-        } else {
-            actualContentOffset = scrollView.contentOffset.y
-        }
-        let actualIndex = Int(actualContentOffset / pageSize)
-        if actualContentOffset.truncatingRemainder(dividingBy: pageSize) == 0.0 {
-            let nextIndex = actualIndex
+        let actualContentOffset = slideDirection == .horizontal ? scrollView.contentOffset.x : scrollView.contentOffset.y
+        let didReachContentEdge = actualContentOffset.truncatingRemainder(dividingBy: pageSize) == 0.0
+        if didReachContentEdge {
+            let nextIndex = Int(actualContentOffset / pageSize)
             if nextIndex != currentIndex {
                 loadView(pageIndex: nextIndex)
                 if !isForcedToSlide {
@@ -306,24 +301,29 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             }
 
             removeContentIfNeeded()
-
             scrollInProgress = false
         } else {
-            let offset = actualContentOffset - lastContentOffset
-            var startIndex: Int
-            var destinationIndex: Int
-            if  offset < 0 {
-                startIndex = actualIndex + 1
-                destinationIndex = startIndex - 1
-            } else {
-                startIndex = actualIndex
-                destinationIndex = startIndex + 1
-            }
-            shiftKeyboardIfNeeded(offset: -offset)
-            if !isForcedToSlide {
-                titleSlidableController.shift(delta: offset, startIndex: startIndex, destinationIndex: destinationIndex)
-            }
+            updateTitleScrollOffset(contentOffset: actualContentOffset, pageSize: pageSize)
+            shiftKeyboardIfNeeded(offset: -(actualContentOffset - lastContentOffset))
             lastContentOffset = actualContentOffset
+        }
+    }
+    
+    private func updateTitleScrollOffset(contentOffset: CGFloat, pageSize: CGFloat) {
+        let actualIndex = Int(contentOffset / pageSize)
+
+        let offset = contentOffset - lastContentOffset
+        var startIndex: Int
+        var destinationIndex: Int
+        if  offset < 0 {
+            startIndex = actualIndex + 1
+            destinationIndex = startIndex - 1
+        } else {
+            startIndex = actualIndex
+            destinationIndex = startIndex + 1
+        }
+        if !isForcedToSlide {
+            titleSlidableController.shift(delta: offset, startIndex: startIndex, destinationIndex: destinationIndex)
         }
     }
     
