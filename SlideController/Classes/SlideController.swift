@@ -85,7 +85,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var currentIndex = 0
     private var lastContentOffset: CGFloat = 0
     private var didFinishForceSlide: (() -> ())?
-    private var didFinishScroll: (() -> ())?
+    private var didFinishSlideAction: (() -> Void)?
     private var isForcedToSlide = false
     private var isOnScreen = false
     private var scrollInProgress = false
@@ -245,7 +245,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if !self.contentSlidableController.slideContentView.isLayouted {
             loadView(pageIndex: pageIndex)
         } else {
-            didFinishScroll = contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
+            didFinishSlideAction = contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
             if slideDirection == SlideDirection.horizontal {
                 lastContentOffset = contentSlidableController.slideContentView.contentOffset.x
             } else {
@@ -330,8 +330,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
         didFinishForceSlide?()
-        didFinishScroll?()
-        didFinishScroll = nil
+        didFinishSlideAction?()
+        didFinishSlideAction = nil
         isForcedToSlide = false
     }
     
