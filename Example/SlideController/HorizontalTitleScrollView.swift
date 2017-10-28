@@ -9,8 +9,8 @@
 import UIKit
 import SlideController
 
-class HorizontalTitleScrollView : TitleScrollView<HorizontalTitleItem> {
-    private var internalItems = [View]()
+class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
+    private var internalItems: [View] = []
     private let internalItemOffsetX: CGFloat = 15
     private let itemOffsetTop: CGFloat = 36
     private let itemHeight: CGFloat = 36
@@ -19,8 +19,7 @@ class HorizontalTitleScrollView : TitleScrollView<HorizontalTitleItem> {
     
     override required init() {
         super.init()
-        self.isScrollEnabled = true
-        self.clipsToBounds = false
+        clipsToBounds = false
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 1)
         layer.shadowOpacity = shadowOpacity
@@ -52,7 +51,9 @@ class HorizontalTitleScrollView : TitleScrollView<HorizontalTitleItem> {
     }
     
     override func insertView(view: View, index: Int) {
-        guard index < internalItems.count else { return }
+        guard index < internalItems.count else {
+            return
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         internalItems.insert(view, at: index)
         addSubview(view)
@@ -63,7 +64,9 @@ class HorizontalTitleScrollView : TitleScrollView<HorizontalTitleItem> {
     }
     
     override func removeViewAtIndex(index: Int) {
-        guard index < internalItems.count else { return }
+        guard index < internalItems.count else {
+            return
+        }
         let view: View = internalItems[index]
         let prevView: View? = index > 0 ? internalItems[index - 1] : nil
         let nextView: View? = index < internalItems.count - 1 ? internalItems[index + 1] : nil
@@ -87,16 +90,16 @@ class HorizontalTitleScrollView : TitleScrollView<HorizontalTitleItem> {
 private typealias PrivateHorizontalTitleScrollView = HorizontalTitleScrollView
 private extension PrivateHorizontalTitleScrollView {
     func activateConstraints(_ view: UIView, prevView: UIView?, isLast: Bool) {
-        var constraints = [NSLayoutConstraint]()
-        constraints.append(view.topAnchor.constraint(equalTo: self.topAnchor, constant: itemOffsetTop))
+        var constraints: [NSLayoutConstraint] = []
+        constraints.append(view.topAnchor.constraint(equalTo: topAnchor, constant: itemOffsetTop))
         constraints.append(view.heightAnchor.constraint(equalToConstant: itemHeight))
         if let prevView = prevView {
             constraints.append(view.leadingAnchor.constraint(equalTo: prevView.trailingAnchor, constant: 2 * itemOffsetX()))
         } else {
-            constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: itemOffsetX()))
+            constraints.append(view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: itemOffsetX()))
         }
         if isLast {
-            constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -itemOffsetX()))
+            constraints.append(view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -itemOffsetX()))
         }
         NSLayoutConstraint.activate(constraints)
     }
