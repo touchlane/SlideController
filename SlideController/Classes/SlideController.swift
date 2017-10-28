@@ -289,7 +289,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         let pageSize = contentSlidableController.contentSize
         let actualContentOffset = slideDirection == .horizontal ? scrollView.contentOffset.x : scrollView.contentOffset.y
         let didReachContentEdge = actualContentOffset.truncatingRemainder(dividingBy: pageSize) == 0.0
-        if didReachContentEdge {
+        
+        let scrollingDistance = fabs(actualContentOffset - lastContentOffset)
+        let isFastScrolling = scrollingDistance > 35 && !isForcedToSlide
+        
+        if didReachContentEdge || isFastScrolling {
             let nextIndex = Int(actualContentOffset / pageSize)
             if nextIndex != currentIndex {
                 loadView(pageIndex: nextIndex)
@@ -309,8 +313,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 updateTitleScrollOffset(contentOffset: actualContentOffset, pageSize: pageSize)
             }
             shiftKeyboardIfNeeded(offset: -(actualContentOffset - lastContentOffset))
-            lastContentOffset = actualContentOffset
         }
+        lastContentOffset = actualContentOffset
     }
     
     private func updateTitleScrollOffset(contentOffset: CGFloat, pageSize: CGFloat) {
