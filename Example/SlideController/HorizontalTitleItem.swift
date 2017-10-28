@@ -9,7 +9,7 @@
 import UIKit
 import SlideController
 
-class HorizontalTitleItem : UIView, Initializable, ItemViewable, Selectable {
+class HorizontalTitleItem: UIView, Initializable, ItemViewable, Selectable {
     let titleLabel = UILabel()
     
     private var backgroundViewHeight: CGFloat = 2
@@ -17,7 +17,7 @@ class HorizontalTitleItem : UIView, Initializable, ItemViewable, Selectable {
     private var newIndicatorRadius: CGFloat = 9
     private var internalIsSelected: Bool = false
     private var internalIndex: Int = 0
-    private var internalDidSelectAction: ((Int) -> ())?
+    private var internalDidSelectAction: ((Int) -> Void)?
     private let backgroundView = UIView()
     private let backgroundSelectedColor = UIColor.white
     private let titleLabelFont = UIFont.systemFont(ofSize: 16.5)
@@ -28,15 +28,15 @@ class HorizontalTitleItem : UIView, Initializable, ItemViewable, Selectable {
     required init() {
         super.init(frame: CGRect.zero)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(backgroundView)
+        addSubview(backgroundView)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = titleLabelFont
-        self.addSubview(titleLabel)
+        addSubview(titleLabel)
         activateBackgroundViewConstraints(view: backgroundView)
         activateTitleLabelConstraints(view: titleLabel)
         isSelected = false
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapDetected(_:)))
-        self.addGestureRecognizer(tapRecognizer)
+        addGestureRecognizer(tapRecognizer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -92,18 +92,18 @@ private typealias PrivateHorizontalTitleItem = HorizontalTitleItem
 private extension PrivateHorizontalTitleItem {
     func activateBackgroundViewConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
-        constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
-        constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
-        constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
+        constraints.append(view.bottomAnchor.constraint(equalTo: bottomAnchor))
+        constraints.append(view.trailingAnchor.constraint(equalTo: trailingAnchor))
+        constraints.append(view.leadingAnchor.constraint(equalTo: leadingAnchor))
         constraints.append(view.heightAnchor.constraint(equalToConstant: backgroundViewHeight))
         NSLayoutConstraint.activate(constraints)
     }
     
     func activateTitleLabelConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
-        constraints.append(view.centerYAnchor.constraint(equalTo: self.centerYAnchor))
-        constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -titleLabelOffsetX))
-        constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: titleLabelOffsetX))
+        constraints.append(view.centerYAnchor.constraint(equalTo: centerYAnchor))
+        constraints.append(view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -titleLabelOffsetX))
+        constraints.append(view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: titleLabelOffsetX))
         NSLayoutConstraint.activate(constraints)
     }
     

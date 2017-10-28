@@ -133,6 +133,3 @@ private extension PrivateSlideView {
         NSLayoutConstraint.activate(titleViewConstraints)
     }
 }
-
-
-

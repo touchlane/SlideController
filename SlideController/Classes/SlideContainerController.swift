@@ -51,5 +51,3 @@ extension ViewableImplementation: Viewable {
         return internalView
     }
 }
-
-
