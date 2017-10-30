@@ -8,17 +8,15 @@
 
 import UIKit
 
-class LifecycleContentUIViewController <T> : UIViewController where T : ViewAccessible & ViewLifeCycleDependable {
+class LifecycleContentUIViewController<T>: UIViewController where T: ViewAccessible & ViewLifeCycleDependable {
     var controller: T? {
         didSet {
-            if let controller = controller {
-                view = controller.view
+            guard let controller = controller else {
+                return
             }
+            view = controller.view
+            automaticallyAdjustsScrollViewInsets = false
         }
-    }
-    
-    override func viewDidLoad() {
-        automaticallyAdjustsScrollViewInsets = false
     }
     
     override func viewDidAppear(_ animated: Bool) {

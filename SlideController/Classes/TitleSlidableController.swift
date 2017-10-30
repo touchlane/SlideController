@@ -33,7 +33,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
         strongSelf.didSelectItemAction?(index, strongSelf.didCompleteSelectItemAction)
     }
 
-    var didCompleteTitleLayout: (() -> ())?
+    var didCompleteTitleLayout: (() -> Void)?
     
     var titleView: T {
         return scrollView
@@ -41,6 +41,12 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     
     private var scrollView = T()
     private var controllers = [TitleItemController<N>]()
+    
+    var isJumpingAllowed: Bool = true {
+        didSet {
+            titleView.isScrollEnabled = isJumpingAllowed
+        }
+    }
     
     // MARK: - TitleScrollableImplementation
     required init(pagesCount: Int, slideDirection: SlideDirection) {
@@ -50,7 +56,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
         }
     }
     
-    var didSelectItemAction: ((Int, (() -> ())?) -> ())?
+    var didSelectItemAction: ((Int, (() -> Void)?) -> Void)?
     
     func append(pagesCount: Int) {
         var newControllers = [TitleItemController<N>]()
@@ -84,6 +90,9 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     }
     
     func jump(index: Int, animated: Bool) {
+        guard isJumpingAllowed else {
+            return
+        }
         if controllers.indices.contains(index) {
             if controllers.indices.contains(selectedIndex) {
                 controllers[selectedIndex].isSelected = false

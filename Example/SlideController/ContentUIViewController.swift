@@ -8,12 +8,14 @@
 
 import UIKit
 
-class ContentUIViewController<T> : UIViewController where T : ViewAccessible {
-    var controller : T? {
+class ContentUIViewController<T>: UIViewController where T: ViewAccessible {
+    var controller: T? {
         didSet {
-            if let controller = controller {
-                view = controller.view
+            guard let controller = controller else {
+                return
             }
+            view = controller.view
+            automaticallyAdjustsScrollViewInsets = false
         }
     }
 }
