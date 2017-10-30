@@ -9,7 +9,7 @@
 import UIKit
 
 final class SlideContentView: UIScrollView {
-    private var slideDirection: SlideDirection!
+    private let slideDirection: SlideDirection
     private var containers: [SlideContainerView] = []
     
     ///Simple hack to be notified when layout completed
@@ -37,7 +37,7 @@ final class SlideContentView: UIScrollView {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
@@ -61,22 +61,25 @@ final class SlideContentView: UIScrollView {
         var removeConstraints: [NSLayoutConstraint] = []
         var addConstraints: [NSLayoutConstraint] = []
         for page in pages {
-            if slideDirection == .horizontal {
-                if let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .width }) {
-                    removeConstraints.append(page.constraints[constraintIndex])
-                    page.constraints.remove(at: constraintIndex)
-                    let widthConstraint = page.view.widthAnchor.constraint(equalToConstant: 0)
-                    addConstraints.append(widthConstraint)
-                    page.constraints.append(widthConstraint)
+            switch slideDirection {
+            case .horizontal:
+                guard let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .width }) else {
+                    return
                 }
-            } else {
-                if let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .width }) {
-                    removeConstraints.append(page.constraints[constraintIndex])
-                    page.constraints.remove(at: constraintIndex)
-                    let heightConstraint = page.view.heightAnchor.constraint(equalToConstant: 0)
-                    addConstraints.append(heightConstraint)
-                    page.constraints.append(heightConstraint)
+                removeConstraints.append(page.constraints[constraintIndex])
+                page.constraints.remove(at: constraintIndex)
+                let widthConstraint = page.view.widthAnchor.constraint(equalToConstant: 0)
+                addConstraints.append(widthConstraint)
+                page.constraints.append(widthConstraint)
+            case .vertical:
+                guard let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .height }) else {
+                    return
                 }
+                removeConstraints.append(page.constraints[constraintIndex])
+                page.constraints.remove(at: constraintIndex)
+                let heightConstraint = page.view.heightAnchor.constraint(equalToConstant: 0)
+                addConstraints.append(heightConstraint)
+                page.constraints.append(heightConstraint)
             }
         }
         NSLayoutConstraint.deactivate(removeConstraints)
@@ -91,22 +94,25 @@ final class SlideContentView: UIScrollView {
         var removeConstraints: [NSLayoutConstraint] = []
         var addConstraints: [NSLayoutConstraint] = []
         for page in pages {
-            if slideDirection == .horizontal {
-                if let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .width }) {
-                    removeConstraints.append(page.constraints[constraintIndex])
-                    page.constraints.remove(at: constraintIndex)
-                    let widthConstraint = page.view.widthAnchor.constraint(equalTo: self.widthAnchor)
-                    addConstraints.append(widthConstraint)
-                    page.constraints.append(widthConstraint)
+            switch slideDirection {
+            case .horizontal:
+                guard let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .width }) else {
+                    return
                 }
-            } else {
-                if let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .width }) {
-                    removeConstraints.append(page.constraints[constraintIndex])
-                    page.constraints.remove(at: constraintIndex)
-                    let heightConstraint = page.view.heightAnchor.constraint(equalTo: self.heightAnchor)
-                    addConstraints.append(heightConstraint)
-                    page.constraints.append(heightConstraint)
+                removeConstraints.append(page.constraints[constraintIndex])
+                page.constraints.remove(at: constraintIndex)
+                let widthConstraint = page.view.widthAnchor.constraint(equalTo: self.widthAnchor)
+                addConstraints.append(widthConstraint)
+                page.constraints.append(widthConstraint)
+            case .vertical:
+                guard let constraintIndex = page.constraints.index(where: { $0.firstAttribute == .height }) else {
+                    return
                 }
+                removeConstraints.append(page.constraints[constraintIndex])
+                page.constraints.remove(at: constraintIndex)
+                let heightConstraint = page.view.heightAnchor.constraint(equalTo: self.heightAnchor)
+                addConstraints.append(heightConstraint)
+                page.constraints.append(heightConstraint)
             }
         }
         NSLayoutConstraint.deactivate(removeConstraints)
