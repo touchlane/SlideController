@@ -13,7 +13,7 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
     private let itemsViewTopOffset: CGFloat = 20
     private let itemsViewBottomOffset: CGFloat = 20
     private let itemsViewWidth: CGFloat = 22
-    private let itemWidth: CGFloat = 5
+    private let itemWidth: CGFloat = 2.5
     private let itemHeight: CGFloat = 120
     private let itemHeightMultiplier: CGFloat = 0.67
     private let internalBackgroundColor = UIColor.purple

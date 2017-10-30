@@ -12,7 +12,7 @@ import SlideController
 class VerticalTitleItem: UIView, Initializable, Selectable, ItemViewable {
     private let backgroundSelectedColor = UIColor.white
     private let backgroundViewColor = UIColor.white.withAlphaComponent(0.3)
-    private let backgoundViewHeightMultiplier : CGFloat = 0.67
+    private let backgoundViewHeightMultiplier: CGFloat = 0.67
     private let backgroundView = UIView()
     
     required init() {
