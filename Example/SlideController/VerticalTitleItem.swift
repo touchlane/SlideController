@@ -22,6 +22,8 @@ class VerticalTitleItem: UIView, Initializable, Selectable, ItemViewable {
         backgroundView.backgroundColor = backgroundViewColor
         addSubview(backgroundView)
         activateBackgroundViewConstraints(view: backgroundView)
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(VerticalTitleItem.tapHandler))
+        addGestureRecognizer(tapRecognizer)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,7 +34,7 @@ class VerticalTitleItem: UIView, Initializable, Selectable, ItemViewable {
     
     // MARK: - SelectableImplementation
     
-    var didSelectAction: ((Int) -> Void)?
+    @objc var didSelectAction: ((Int) -> Void)?
     
     var isSelected: Bool {
         didSet {
@@ -62,5 +64,11 @@ private extension PrivateVerticalTitleItem {
             view.topAnchor.constraint(equalTo: superview.topAnchor),
             view.heightAnchor.constraint(equalTo: superview.heightAnchor, multiplier: backgoundViewHeightMultiplier)
             ])
+    }
+    
+    @objc func tapHandler(_ recognizer: UITapGestureRecognizer) {
+        if !isSelected {
+            didSelectAction?(index)
+        }
     }
 }

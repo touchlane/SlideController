@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  SlideController: fa364fc3bb777fd48b134aa01144eca8160eb9f5
+  SlideController: 53d22e0dc3e790de702442717c8eb0c323a2ed9d
 
 PODFILE CHECKSUM: 446bbfa2b8eb0e17baf27b55bafd5f6a44a84f15
 
