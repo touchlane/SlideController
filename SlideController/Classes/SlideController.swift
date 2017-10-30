@@ -88,7 +88,13 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var didFinishSlideAction: (() -> Void)?
     private var isForcedToSlide = false
     private var isOnScreen = false
-    private var scrollInProgress = false
+    private var scrollInProgress = false {
+        didSet {
+            if oldValue != scrollInProgress {
+                isJumpingAllowed = !scrollInProgress
+            }
+        }
+    }
     
     ///Returns title view instanse of specified type
     public var titleView: T {
@@ -109,6 +115,16 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
     fileprivate var shouldRemoveContentAfterAnimation: Bool = false
     fileprivate var indexToRemove: Int?
+    
+    private var isJumpingAllowed: Bool = true {
+        didSet {
+            titleSlidableController.isJumpingAllowed = isJumpingAllowed
+            if isJumpingAllowed && isForcedToSlide {
+                didFinishForceSlide?()
+                isForcedToSlide = false
+            }
+        }
+    }
 
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
@@ -241,12 +257,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         loadView(pageIndex: currentIndex)
     }
     
-    var isJumpingAllowed: Bool = true {
-        didSet {
-            titleSlidableController.isJumpingAllowed = isJumpingAllowed
-        }
-    }
-    
     public func shift(pageIndex: Int, animated: Bool = true) {
         guard isJumpingAllowed else {
             return
@@ -289,7 +299,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        isJumpingAllowed = !scrollView.isTracking
         if !scrollInProgress {
             if content.indices.contains(currentIndex) {
                 content[currentIndex].lifeCycleObject.didStartSliding()
@@ -301,6 +310,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         let didReachContentEdge = actualContentOffset.truncatingRemainder(dividingBy: pageSize) == 0.0
         if didReachContentEdge {
             let nextIndex = Int(actualContentOffset / pageSize)
+            
+            scrollInProgress = false
             if nextIndex != currentIndex {
                 loadView(pageIndex: nextIndex)
                 if !isForcedToSlide {
@@ -313,21 +324,12 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 content[currentIndex].lifeCycleObject.didCancelSliding()
             }
             removeContentIfNeeded()
-            scrollInProgress = false
         } else {
             if !isForcedToSlide {
                 updateTitleScrollOffset(contentOffset: actualContentOffset, pageSize: pageSize)
             }
             shiftKeyboardIfNeeded(offset: -(actualContentOffset - lastContentOffset))
             lastContentOffset = actualContentOffset
-        }
-    }
-    
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        isJumpingAllowed = true
-        if isForcedToSlide {
-            didFinishForceSlide?()
-            isForcedToSlide = false
         }
     }
     
