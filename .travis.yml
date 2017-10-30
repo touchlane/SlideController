@@ -4,7 +4,7 @@ language: objective-c
 
 deploy:
   provider: script
-  script: ./scripts/push.sh
+  script: ./scripts/deploy.sh
   on:
     tags: true
 
