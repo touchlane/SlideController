@@ -73,6 +73,13 @@ public enum TitleViewPosition {
     case above
 }
 
+public enum ScrollingDirection {
+    case right
+    case left
+    case up
+    case down
+}
+
 public typealias TitleItemObject = Selectable & ItemViewable
 public typealias TitleItemControllableObject = ItemViewable & Initializable & Selectable
 public typealias SlideLifeCycleObject = SlidePageLifeCycle & Viewable & Initializable
@@ -88,8 +95,15 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var didFinishSlideAction: (() -> Void)?
     private var isForcedToSlide = false
     private var isOnScreen = false
-    private var scrollInProgress = false
-    
+    private var scrollInProgress = false {
+        didSet {
+            if oldValue != scrollInProgress {
+                if scrollInProgress && !isForcedToSlide {
+                    titleSlidableController.jump(index: currentIndex, animated: false)
+                }
+            }
+        }
+    }
     ///Returns title view instanse of specified type
     public var titleView: T {
         return titleSlidableController.titleView
@@ -288,13 +302,18 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         let pageSize = contentSlidableController.contentSize
         let actualContentOffset = slideDirection == .horizontal ? scrollView.contentOffset.x : scrollView.contentOffset.y
+        
+        let nextIndex = Int(actualContentOffset / pageSize)
+        let scrollingDirection = determineScrollingDirection(lastContentOffset: lastContentOffset, currentContentOffset: scrollView.contentOffset)
+        switch scrollingDirection {
+        case .up, .right:
+            loadViewIfNeeded(pageIndex: nextIndex - 1)
+        case .down, .left:
+            loadViewIfNeeded(pageIndex: nextIndex + 1)
+        }
+
         let didReachContentEdge = actualContentOffset.truncatingRemainder(dividingBy: pageSize) == 0.0
-        
-        let scrollingDistance = fabs(actualContentOffset - lastContentOffset)
-        let isFastScrolling = scrollingDistance > 35 && !isForcedToSlide
-        
-        if didReachContentEdge || isFastScrolling {
-            let nextIndex = Int(actualContentOffset / pageSize)
+        if didReachContentEdge {
             if nextIndex != currentIndex {
                 loadView(pageIndex: nextIndex)
                 if !isForcedToSlide {
@@ -305,6 +324,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 }
             } else {
                 content[currentIndex].lifeCycleObject.didCancelSliding()
+                unloadView(around: currentIndex)
             }
             removeContentIfNeeded()
             scrollInProgress = false
@@ -344,6 +364,24 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         isForcedToSlide = false
     }
+    
+    private func determineScrollingDirection(lastContentOffset: CGFloat, currentContentOffset: CGPoint) -> ScrollingDirection {
+        switch slideDirection! {
+        case .vertical:
+            if lastContentOffset > currentContentOffset.y {
+                return .up
+            } else {
+                return .down
+            }
+        case .horizontal:
+            if lastContentOffset > currentContentOffset.x {
+                return .right
+            } else {
+                return .left
+            }
+        }
+    }
+
     
     // MARK: - ViewableImplementation
     public var view: UIView {
@@ -395,7 +433,6 @@ private extension PrivateSlideController {
         if content.indices.contains(pageIndex) {
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
-                print("Load view at index \(pageIndex)")
                 content[pageIndex].lifeCycleObject.viewDidLoad()
             }
             if truePage {
