@@ -241,7 +241,16 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         loadView(pageIndex: currentIndex)
     }
     
+    var isJumpingAllowed: Bool = true {
+        didSet {
+            titleSlidableController.isJumpingAllowed = isJumpingAllowed
+        }
+    }
+    
     public func shift(pageIndex: Int, animated: Bool = true) {
+        guard isJumpingAllowed else {
+            return
+        }
         if !self.contentSlidableController.slideContentView.isLayouted {
             loadView(pageIndex: pageIndex)
         } else {
@@ -280,6 +289,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        isJumpingAllowed = !scrollView.isTracking
         if !scrollInProgress {
             if content.indices.contains(currentIndex) {
                 content[currentIndex].lifeCycleObject.didStartSliding()
@@ -313,6 +323,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
     
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        isJumpingAllowed = true
+        if isForcedToSlide {
+            didFinishForceSlide?()
+            isForcedToSlide = false
+        }
+    }
+    
     private func updateTitleScrollOffset(contentOffset: CGFloat, pageSize: CGFloat) {
         let actualIndex = Int(contentOffset / pageSize)
         let offset = contentOffset - lastContentOffset
@@ -330,6 +348,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
+        isJumpingAllowed = true
         didFinishForceSlide?()
         didFinishSlideAction?()
         didFinishSlideAction = nil
