@@ -31,7 +31,11 @@ pod 'SlideController'
 First you have to initialize SlideController with required types and SlideDirection (``.horizontal`` or ``.vertical``)
 
 ```swift
-SlideController<HorizontalTitleScrollView, HorizontalTitleItem>(pagesContent: pagesContent, startPageIndex: 0, slideDirection: SlideDirection.horizontal)
+SlideController<HorizontalTitleScrollView, HorizontalTitleItem>(
+    pagesContent: pagesContent,
+    startPageIndex: 0,
+    slideDirection: SlideDirection.horizontal
+)
 ```
 
 * ``HorizontalTitleScrollView`` type for title view. Subclass of ``TitleScrollView<HorizontalTitleItem>``;
