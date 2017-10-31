@@ -1,30 +1,42 @@
-# SlideController
-
 [![Build Status](https://travis-ci.org/touchlane/SlideController.svg?branch=master)](https://travis-ci.org/touchlane/SlideController)
 [![codecov.io](https://codecov.io/gh/touchlane/SlideController/branch/master/graphs/badge.svg)](https://codecov.io/gh/codecov/example-swift/branch/master)
 [![Version](https://img.shields.io/cocoapods/v/ScrollController.svg?style=flat)](http://cocoapods.org/pods/ScrollController)
 [![License](https://img.shields.io/cocoapods/l/ScrollController.svg?style=flat)](http://cocoapods.org/pods/ScrollController)
 [![Platform](https://img.shields.io/cocoapods/p/ScrollController.svg?style=flat)](http://cocoapods.org/pods/ScrollController)
 
-SlideController is replacement for Apple's UIPageControl completely written in Swift using power of generic types.
+SlideController is simple and flexible MVP-based UI component completely written in Swift. It is nice alternative for UIPageViewController built using power of generic types.
+
+# Features
+
+# Requirements
+
+* iOS 9.0+
+* Xcode 9.0+
+* Swift 4.0+
+
+# Installation
+
+## CocoaPods
+
+[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+
+```$ gem install cocoapods```
+
+To integrate SlideController into your Xcode project using CocoaPods, specify it in your ```Podfile```:
+
+```
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '10.0'
+use_frameworks!
+
+target '<Your Target Name>' do
+    pod 'SlideController'
+end
+```
 
 ## Sample Project
 
 There is a sample project in Example directory. To use it run `pod install`.
-
-## Requirements
-
-* iOS 9.0+
-* Swift 4.0+
-
-## Installation
-
-ScrollController is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'SlideController'
-```
 
 ## Usage
 
