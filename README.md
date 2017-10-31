@@ -76,7 +76,7 @@ In the above example:
  override func viewDidAppear(_ animated: Bool) {
      super.viewDidAppear(animated)
      controller.viewDidAppear()
- } ```
+ }```
  
  ```swift
 override func viewDidDisappear(_ animated: Bool) {
