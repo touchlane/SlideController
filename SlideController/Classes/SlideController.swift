@@ -106,6 +106,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                     titleSlidableController.isSelectionAllowed = false
                     titleSlidableController.titleView.isScrollEnabled = false
                     titleSlidableController.jump(index: currentIndex, animated: false)
+                    titleSlidableController.isSelectionAllowed = true
+                    titleSlidableController.titleView.isScrollEnabled = true
                 }
             }
         }
@@ -384,6 +386,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         didFinishForceSlide?()
         didFinishSlideAction?()
         didFinishSlideAction = nil
+        titleSlidableController.isSelectionAllowed = true
+        titleSlidableController.titleView.isScrollEnabled = true
         if FeatureManager().viewUnloading.isEnabled {
             if isForcedToSlide {
                 unloadView(around: currentIndex)
