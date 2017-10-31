@@ -57,7 +57,7 @@ let content = [
 
 2) Initialize SlideController
 ```swift
-SlideController<CustomTitleView, CustomTitleItem>(
+slideController = SlideController<CustomTitleView, CustomTitleItem>(
     pagesContent: content,
     startPageIndex: 0,
     slideDirection: .horizontal
@@ -75,25 +75,24 @@ In the above example:
  ```swift
  override func viewDidAppear(_ animated: Bool) {
      super.viewDidAppear(animated)
-     controller.viewDidAppear()
+     slideController.viewDidAppear()
  }
  ```
  
  ```swift
 override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    controller.viewDidDisappear()
+    slideController.viewDidDisappear()
 }
 ```
-   
 
 # Sample Project
 
-There is a sample project in Example directory. To use it run `pod install`.
+Before compilation run `pod install` in Example directory.
 
 # Author
 
-Touchlane LLC, tech@touchlane.com
+Touchlane LLC
 
 # License
 
