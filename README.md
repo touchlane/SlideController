@@ -50,6 +50,8 @@ let content = [
             SlidePageModel<PageLifeCycleObject>()
         ]
  ```
+ 
+* ``PageLifeCycleObject`` is any object conforms to ``Initializable, Viewable, SlidePageLifeCycle `` protocols
 
 2) Initialize SlideController
 ```swift
@@ -59,8 +61,7 @@ slideController = SlideController<CustomTitleView, CustomTitleItem>(
     slideDirection: .horizontal
 )
 ```
-In the above example:
-* ``PageLifeCycleObject`` is any object conforms to ``Initializable, Viewable, SlidePageLifeCycle `` protocols
+
 * ``CustomTitleView`` is subclass of ``TitleScrollView<CustomTitleItem>``
 * ``CustomTitleItem`` is subclass of ``UIView`` and conforms to ``Initializable, ItemViewable, Selectable`` protocols
 
