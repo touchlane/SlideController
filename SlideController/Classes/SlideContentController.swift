@@ -86,7 +86,6 @@ final class SlideContentController {
                         endOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
                     }
                 }
-                print("Transition from \(currentIndex) to \(index)")
                 var viewIndices: [Int] = []
                 if currentIndex - index > 1 {
                     for i in index + 1...currentIndex - 1 {
