@@ -46,6 +46,7 @@ Then, run the following command:
 import SlideController
 ```
 
+1) Create content
 ```swift
 let content = [
             SlidePageModel<PageLifeCycleObject>(),
@@ -54,33 +55,35 @@ let content = [
         ]
  ```
 
+2) Initialize SlideController
 ```swift
 SlideController<CustomTitleView, CustomTitleItem>(
     pagesContent: content,
     startPageIndex: 0,
-    slideDirection: direction
+    slideDirection: .horizontal
 )
 ```
 In the above example:
 * ``PageLifeCycleObject`` is any object conforms to ``Initializable, Viewable, SlidePageLifeCycle `` protocols
 * ``CustomTitleView`` is subclass of ``TitleScrollView<CustomTitleItem>``
-* ``CustomTitleItem`` is subclass of ``UIView conforms`` and conforms to ``Initializable, ItemViewable, Selectable`` protocols
+* ``CustomTitleItem`` is subclass of ``UIView`` and conforms to ``Initializable, ItemViewable, Selectable`` protocols
 
-Add ``slideController.view`` to view hierarchy
+3) Add ``slideController.view`` to view hierarchy
 
-call ``slideController.viewDidAppear()`` and ``slideController.viewDidDisappear()`` in appropriate UIViewController methods:
+4) Call ``slideController.viewDidAppear()`` and ``slideController.viewDidDisappear()`` in appropriate UIViewController methods:
 
  ```swift
  override func viewDidAppear(_ animated: Bool) {
      super.viewDidAppear(animated)
      controller.viewDidAppear()
- }
-    
+ } ```
+ 
+ ```swift
 override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     controller.viewDidDisappear()
-}
-    ```
+}```
+   
 
 # Sample Project
 
