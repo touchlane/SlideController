@@ -7,6 +7,8 @@
 SlideController is simple and flexible MVP-based UI component completely written in Swift. It is nice alternative for UIPageViewController built using power of generic types.
 
 # Features
+- [x] Lazy load
+- [x] 
 
 # Requirements
 
