@@ -34,36 +34,62 @@ target '<Your Target Name>' do
 end
 ```
 
-## Sample Project
+Then, run the following command:
+
+```$ pod install```
+
+## Manually
+
+# Usage
+
+```swift
+import SlideController
+```
+
+```swift
+let content = [
+            SlidePageModel<PageLifeCycleObject>(),
+            SlidePageModel<PageLifeCycleObject>(),
+            SlidePageModel<PageLifeCycleObject>()
+        ]
+ ```
+
+```swift
+SlideController<CustomTitleView, CustomTitleItem>(
+    pagesContent: content,
+    startPageIndex: 0,
+    slideDirection: direction
+)
+```
+In the above example:
+* ``PageLifeCycleObject`` is any object conforms to ``Initializable, Viewable, SlidePageLifeCycle `` protocols
+* ``CustomTitleView`` is subclass of ``TitleScrollView<CustomTitleItem>``
+* ``CustomTitleItem`` is subclass of ``UIView conforms`` and conforms to ``Initializable, ItemViewable, Selectable`` protocols
+
+Add ``slideController.view`` to view hierarchy
+
+call ``slideController.viewDidAppear()`` and ``slideController.viewDidDisappear()`` in appropriate UIViewController methods:
+
+ ```swift
+ override func viewDidAppear(_ animated: Bool) {
+     super.viewDidAppear(animated)
+     controller.viewDidAppear()
+ }
+    
+override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    controller.viewDidDisappear()
+}
+    ```
+
+# Sample Project
 
 There is a sample project in Example directory. To use it run `pod install`.
 
-## Usage
-
-First you have to initialize SlideController with required types and SlideDirection (``.horizontal`` or ``.vertical``)
-
-```swift
-SlideController<HorizontalTitleScrollView, HorizontalTitleItem>(
-    pagesContent: pagesContent,
-    startPageIndex: 0,
-    slideDirection: SlideDirection.horizontal
-)
-```
-
-* ``HorizontalTitleScrollView`` type for title view. Subclass of ``TitleScrollView<HorizontalTitleItem>``;
-* ``HorizontalTitleItem`` item in title view. UIView that conforms to ``Initializable, ItemViewable, Selectable`` protocols;
-* ``pagesContent`` is an array of ``SlidePageModel`` which represents pages that SlideController will display;
-
-``SlidePageModel<T: SlideLifeCycleObject>`` holds an object responsible for page life cycle. Here you can react to changes for the page.
-
-Add ``slideController.view`` on your ViewController with ``view.addSubview()`` method.
-
-For SlideController to work you have to call ``slideController.viewDidAppear()`` and ``slideController.viewDidDisappear()`` in appropriate UIViewController methods.
-
-## Author
+# Author
 
 Touchlane LLC, tech@touchlane.com
 
-## License
+# License
 
 SlideController is available under the MIT license. See the LICENSE file for more info.
