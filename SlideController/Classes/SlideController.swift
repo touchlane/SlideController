@@ -154,12 +154,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private lazy var changeContentLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         guard !strongSelf.isForcedToSlide else { return }
+        strongSelf.contentSlidableController.slideContentView.delegate = nil
         strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
             direction: strongSelf.slideDirection,
             titleViewAlignment: strongSelf.titleSlidableController.titleView.alignment,
             titleViewPosition: strongSelf.titleSlidableController.titleView.position,
             titleSize: strongSelf.titleSlidableController.titleView.titleSize)
         strongSelf.shift(pageIndex: strongSelf.currentIndex, animated: false)
+        strongSelf.contentSlidableController.slideContentView.delegate = strongSelf
     }
     
     private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
@@ -440,8 +442,10 @@ private extension PrivateSlideController {
         guard content.indices.contains(index) else {
             return
         }
-        contentSlidableController.containers[index].unloadView()
-        content[index].lifeCycleObject.viewDidUnload()
+        if contentSlidableController.containers[index].hasContent {
+            contentSlidableController.containers[index].unloadView()
+            content[index].lifeCycleObject.viewDidUnload()
+        }
     }
     
     func loadViewIfNeeded(pageIndex: Int, truePage: Bool = false) {
