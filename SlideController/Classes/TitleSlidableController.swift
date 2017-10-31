@@ -28,6 +28,9 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     
     private lazy var didSelectTitleItemAction: (Int) -> () = { [weak self] index in
         guard let strongSelf = self else { return }
+        guard strongSelf.isSelectionAllowed else {
+            return
+        }
         strongSelf.isOffsetChangeAllowed = false
         strongSelf.jump(index: index, animated: true)
         strongSelf.didSelectItemAction?(index, strongSelf.didCompleteSelectItemAction)
@@ -42,11 +45,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     private var scrollView = T()
     private var controllers = [TitleItemController<N>]()
     
-    var isJumpingAllowed: Bool = true {
-        didSet {
-            titleView.isScrollEnabled = isJumpingAllowed
-        }
-    }
+    var isSelectionAllowed: Bool = true
     
     // MARK: - TitleScrollableImplementation
     required init(pagesCount: Int, slideDirection: SlideDirection) {
@@ -90,9 +89,6 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     }
     
     func jump(index: Int, animated: Bool) {
-        guard isJumpingAllowed else {
-            return
-        }
         if controllers.indices.contains(index) {
             if controllers.indices.contains(selectedIndex) {
                 controllers[selectedIndex].isSelected = false

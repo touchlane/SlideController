@@ -95,13 +95,39 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var didFinishSlideAction: (() -> Void)?
     private var isForcedToSlide = false
     private var isOnScreen = false
+    
+    /// Indicates if the scroll in progress.
+    /// Used for lifecycle. Used for setting title item selection.
     private var scrollInProgress = false {
         didSet {
             if oldValue != scrollInProgress {
-                isJumpingAllowed = !scrollInProgress
+                /// Once scrolling is started to show title that out of the screen
                 if scrollInProgress && !isForcedToSlide {
+                    titleSlidableController.isSelectionAllowed = false
+                    titleSlidableController.titleView.isScrollEnabled = false
                     titleSlidableController.jump(index: currentIndex, animated: false)
                 }
+            }
+        }
+    }
+    
+    /// Used to determine when user is scrolling
+    /// exluding calls of scrollViewDidScroll programmatically.
+    private var isManualScroll: Bool = false {
+        didSet {
+            guard oldValue != isManualScroll else {
+                return
+            }
+            /// Makes title view not handle page selection when user is scrolling
+            /// Also sets isScrollEnabled of title view appropriately
+            titleSlidableController.isSelectionAllowed = !isManualScroll
+            titleSlidableController.titleView.isScrollEnabled = !isManualScroll
+            
+            /// Resets isForcedToSlide in case this was locked
+            /// by pressing title item and scrolling simultaneously
+            if !isManualScroll && isForcedToSlide {
+                didFinishForceSlide?()
+                isForcedToSlide = false
             }
         }
     }
@@ -126,16 +152,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     fileprivate var shouldRemoveContentAfterAnimation: Bool = false
     fileprivate var indexToRemove: Int?
     
-    private var isJumpingAllowed: Bool = true {
-        didSet {
-            titleSlidableController.isJumpingAllowed = isJumpingAllowed
-            if isJumpingAllowed && isForcedToSlide {
-                didFinishForceSlide?()
-                isForcedToSlide = false
-            }
-        }
-    }
-
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.changeContentLayoutAction()
@@ -172,7 +188,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         strongSelf.didFinishForceSlide = completion
     }
 
-    public init(pagesContent : [SlideLifeCycleObjectProvidable], startPageIndex: Int = 0, slideDirection : SlideDirection) {
+    public init(pagesContent: [SlideLifeCycleObjectProvidable], startPageIndex: Int = 0, slideDirection: SlideDirection) {
         super.init()
         content = pagesContent
         self.slideDirection = slideDirection
@@ -227,14 +243,13 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             titleSlidableController.titleView.layoutIfNeeded()
         }
         if index <= currentIndex {
-            // FIXME: workaround to fix life cycle calls  
-            contentSlidableController.slideContentView.delegate = nil
+            self.contentSlidableController.slideContentView.delegate = nil
             shift(pageIndex: currentIndex + 1, animated: false)
-            if self.contentSlidableController.slideContentView.isLayouted {
+            if contentSlidableController.slideContentView.isLayouted {
                 currentIndex = currentIndex + 1
             }
             titleSlidableController.jump(index: currentIndex, animated: false)
-            contentSlidableController.slideContentView.delegate = self
+            self.contentSlidableController.slideContentView.delegate = self
             if FeatureManager().viewUnloading.isEnabled {
                 unloadView(at: index - 1)
             }
@@ -270,9 +285,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     public func shift(pageIndex: Int, animated: Bool = true) {
-        guard isJumpingAllowed else {
-            return
-        }
         if !self.contentSlidableController.slideContentView.isLayouted {
             loadView(pageIndex: pageIndex)
         } else {
@@ -353,10 +365,22 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         lastContentOffset = actualContentOffset
     }
+
     
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        isManualScroll = true
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        isManualScroll = false
+    }
+    
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        isManualScroll = false
+    }
+
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
-        isJumpingAllowed = true
         didFinishForceSlide?()
         didFinishSlideAction?()
         didFinishSlideAction = nil
