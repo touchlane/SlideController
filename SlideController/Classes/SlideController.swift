@@ -163,7 +163,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
         guard let strongSelf = self else { return }
-        
         strongSelf.shift(pageIndex: index)
         strongSelf.didFinishForceSlide = completion
     }
@@ -268,8 +267,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         guard pageIndex != currentIndex else {
             return
         }
-        self.isForcedToSlide = true
-        self.loadViewIfNeeded(pageIndex: pageIndex)
+        isForcedToSlide = true
+        loadViewIfNeeded(pageIndex: pageIndex)
         
         if !self.contentSlidableController.slideContentView.isLayouted {
             loadView(pageIndex: pageIndex)
