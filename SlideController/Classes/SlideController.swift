@@ -97,39 +97,18 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var isOnScreen = false
     
     /// Indicates if the scroll in progress.
-    /// Used for lifecycle. Used for setting title item selection.
+    /// Used for lifecycle.
+    /// Used for setting title item selection.
     private var scrollInProgress = false {
         didSet {
             if oldValue != scrollInProgress {
+                /// Disable selection and scrolling of title view
+                titleSlidableController.isSelectionAllowed = !scrollInProgress
+                titleSlidableController.titleView.isScrollEnabled = !scrollInProgress
                 /// Once scrolling is started to show title that out of the screen
                 if scrollInProgress && !isForcedToSlide {
-                    titleSlidableController.isSelectionAllowed = false
-                    titleSlidableController.titleView.isScrollEnabled = false
                     titleSlidableController.jump(index: currentIndex, animated: false)
-                    titleSlidableController.isSelectionAllowed = true
-                    titleSlidableController.titleView.isScrollEnabled = true
                 }
-            }
-        }
-    }
-    
-    /// Used to determine when user is scrolling
-    /// exluding calls of scrollViewDidScroll programmatically.
-    private var isManualScroll: Bool = false {
-        didSet {
-            guard oldValue != isManualScroll else {
-                return
-            }
-            /// Makes title view not handle page selection when user is scrolling
-            /// Also sets isScrollEnabled of title view appropriately
-            titleSlidableController.isSelectionAllowed = !isManualScroll
-            titleSlidableController.titleView.isScrollEnabled = !isManualScroll
-            
-            /// Resets isForcedToSlide in case this was locked
-            /// by pressing title item and scrolling simultaneously
-            if !isManualScroll && isForcedToSlide {
-                didFinishForceSlide?()
-                isForcedToSlide = false
             }
         }
     }
@@ -184,8 +163,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
         guard let strongSelf = self else { return }
-        strongSelf.loadViewIfNeeded(pageIndex: index)
-        strongSelf.isForcedToSlide = true
+        
         strongSelf.shift(pageIndex: index)
         strongSelf.didFinishForceSlide = completion
     }
@@ -287,9 +265,16 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     public func shift(pageIndex: Int, animated: Bool = true) {
+        guard pageIndex != currentIndex else {
+            return
+        }
+        self.isForcedToSlide = true
+        self.loadViewIfNeeded(pageIndex: pageIndex)
+        
         if !self.contentSlidableController.slideContentView.isLayouted {
             loadView(pageIndex: pageIndex)
         } else {
+            titleSlidableController.jump(index: pageIndex, animated: animated)
             didFinishSlideAction = contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
             if slideDirection == SlideDirection.horizontal {
                 lastContentOffset = contentSlidableController.slideContentView.contentOffset.x
@@ -367,20 +352,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         lastContentOffset = actualContentOffset
     }
-
     
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        isManualScroll = true
-    }
-    
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        isManualScroll = false
-    }
-    
-    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        isManualScroll = false
-    }
-
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
         didFinishForceSlide?()
