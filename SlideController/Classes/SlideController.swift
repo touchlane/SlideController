@@ -157,7 +157,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             titleViewAlignment: strongSelf.titleSlidableController.titleView.alignment,
             titleViewPosition: strongSelf.titleSlidableController.titleView.position,
             titleSize: strongSelf.titleSlidableController.titleView.titleSize)
-        strongSelf.shift(pageIndex: strongSelf.currentIndex, animated: false)
+        strongSelf.scrollToPage(pageIndex: strongSelf.currentIndex, animated: false)
         strongSelf.contentSlidableController.slideContentView.delegate = strongSelf
     }
     
@@ -273,13 +273,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if !self.contentSlidableController.slideContentView.isLayouted {
             loadView(pageIndex: pageIndex)
         } else {
-            titleSlidableController.jump(index: pageIndex, animated: animated)
-            didFinishSlideAction = contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
-            if slideDirection == SlideDirection.horizontal {
-                lastContentOffset = contentSlidableController.slideContentView.contentOffset.x
-            } else {
-                lastContentOffset = contentSlidableController.slideContentView.contentOffset.y
-            }
+            scrollToPage(pageIndex: pageIndex, animated: animated)
         }
     }
     
@@ -393,7 +387,18 @@ private extension PrivateSlideController {
         return contentPageSize
     }
     
-    private func updateTitleScrollOffset(contentOffset: CGFloat, pageSize: CGFloat) {
+    private func scrollToPage(pageIndex: Int, animated: Bool) {
+        titleSlidableController.jump(index: pageIndex, animated: animated)
+        didFinishSlideAction = contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
+        if slideDirection == SlideDirection.horizontal {
+            lastContentOffset = contentSlidableController.slideContentView.contentOffset.x
+        } else {
+            lastContentOffset = contentSlidableController.slideContentView.contentOffset.y
+        }
+        scrollInProgress = false
+    }
+    
+    func updateTitleScrollOffset(contentOffset: CGFloat, pageSize: CGFloat) {
         let actualIndex = Int(contentOffset / pageSize)
         let offset = contentOffset - lastContentOffset
         var startIndex: Int
@@ -408,7 +413,7 @@ private extension PrivateSlideController {
         titleSlidableController.shift(delta: offset, startIndex: startIndex, destinationIndex: destinationIndex)
     }
     
-    private func determineScrollingDirection(lastContentOffset: CGFloat, currentContentOffset: CGPoint) -> ScrollingDirection {
+    func determineScrollingDirection(lastContentOffset: CGFloat, currentContentOffset: CGPoint) -> ScrollingDirection {
         switch slideDirection! {
         case .vertical:
             if lastContentOffset > currentContentOffset.y {
