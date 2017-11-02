@@ -32,7 +32,6 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             return
         }
         strongSelf.isOffsetChangeAllowed = false
-        strongSelf.jump(index: index, animated: true)
         strongSelf.didSelectItemAction?(index, strongSelf.didCompleteSelectItemAction)
     }
 
