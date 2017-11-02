@@ -228,6 +228,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 currentIndex = currentIndex + 1
             }
             titleSlidableController.jump(index: currentIndex, animated: false)
+            isForcedToSlide = false
             self.contentSlidableController.slideContentView.delegate = self
             if FeatureManager().viewUnloading.isEnabled {
                 unloadView(at: index - 1)
@@ -252,6 +253,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         if index < currentIndex {
             shift(pageIndex: currentIndex - 1, animated: false)
+            isForcedToSlide = false
         } else if index == currentIndex {
             if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) || content.count == 1 {
                 removeContentIfNeeded()
@@ -267,7 +269,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         guard pageIndex != currentIndex else {
             return
         }
-        isForcedToSlide = true
+        if animated {
+            isForcedToSlide = true
+        }
         loadViewIfNeeded(pageIndex: pageIndex)
         
         if !self.contentSlidableController.slideContentView.isLayouted {
