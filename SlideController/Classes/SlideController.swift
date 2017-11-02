@@ -151,6 +151,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private lazy var changeContentLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         guard !strongSelf.isForcedToSlide else { return }
+        guard !strongSelf.contentSlidableController.isContentTransiting else {
+            return
+        }
         strongSelf.contentSlidableController.slideContentView.delegate = nil
         strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
             direction: strongSelf.slideDirection,
@@ -307,6 +310,10 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !contentSlidableController.isContentTransiting else {
+            return
+        }
+        
         if !scrollInProgress {
             if content.indices.contains(currentIndex) {
                 content[currentIndex].lifeCycleObject.didStartSliding()
