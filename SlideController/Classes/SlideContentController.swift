@@ -16,6 +16,9 @@ final class SlideContentController {
     ///Depend on set SlideDirection contentSize indicate width or height of the SlideContentView
     var contentSize: CGFloat = 0
     
+    /// Indicates if conent is in transition. Used to disable unnecessary scrolling calls
+    var isContentTransiting: Bool = false
+    
     ///Container controllers
     internal private(set) var containers = [SlideContainerController]()
     
@@ -96,9 +99,17 @@ final class SlideContentController {
                         viewIndices.append(i)
                     }
                 }
+                isContentTransiting = true
                 // Before animation
                 slideContentView.hideContainers(at: viewIndices)
                 slideContentView.setContentOffset(startOffsetPoint, animated: false)
+                
+                /// Transition should end before setContentOffset so scrollViewDidScroll will change currentIndex
+                if currentIndex > index {
+                    isContentTransiting = false
+                } else if index - currentIndex == 1 {
+                    isContentTransiting = false
+                }
                 // Animation
                 slideContentView.setContentOffset(offsetPoint, animated: animated)
                 
@@ -107,6 +118,8 @@ final class SlideContentController {
                         return
                     }
                     strongSelf.slideContentView.showContainers(at: viewIndices)
+                    /// Transition should end after content is layouted and it will not scroll to wrong index
+                    strongSelf.isContentTransiting = false
                     strongSelf.slideContentView.setContentOffset(endOffsetPoint, animated: false)
                 }
                 if animated {
