@@ -61,15 +61,13 @@ final class SlideContentController {
     }
     
     ///Scroll to target container
-    func scrollToPage(index: Int, animated: Bool) -> (() -> Void)? {
+    func scroll(fromPage currentIndex: Int, toPage index: Int, animated: Bool) -> (() -> Void)? {
         if containers.indices.contains(index) {
             var offsetPoint: CGPoint
             if FeatureManager().smartTransition.isEnabled {
                 var startOffsetPoint = slideContentView.contentOffset
                 var endOffsetPoint: CGPoint
-                var currentIndex = 0
                 if slideDirection == .horizontal {
-                    currentIndex = Int(slideContentView.contentOffset.x / contentSize)
                     if index < currentIndex {
                         offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
                         startOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index + 1), y: 0)
@@ -79,7 +77,6 @@ final class SlideContentController {
                         endOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
                     }
                 } else {
-                    currentIndex = Int(slideContentView.contentOffset.y / contentSize)
                     if index < currentIndex {
                         offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
                         startOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index + 1))
