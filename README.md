@@ -1,57 +1,96 @@
-# SlideController
-
 [![Build Status](https://travis-ci.org/touchlane/SlideController.svg?branch=master)](https://travis-ci.org/touchlane/SlideController)
 [![codecov.io](https://codecov.io/gh/touchlane/SlideController/branch/master/graphs/badge.svg)](https://codecov.io/gh/codecov/example-swift/branch/master)
-[![Version](https://img.shields.io/cocoapods/v/SlideController.svg?style=flat)](http://cocoapods.org/pods/ScrollController)
-[![License](https://img.shields.io/cocoapods/l/SlideController.svg?style=flat)](http://cocoapods.org/pods/ScrollController)
-[![Platform](https://img.shields.io/cocoapods/p/SlideController.svg?style=flat)](http://cocoapods.org/pods/ScrollController)
+[![Version](https://img.shields.io/cocoapods/v/SlideController.svg?style=flat)](http://cocoapods.org/pods/SlideController)
+[![License](https://img.shields.io/cocoapods/l/SlideController.svg?style=flat)](http://cocoapods.org/pods/SlideController)
+[![Platform](https://img.shields.io/cocoapods/p/SlideController.svg?style=flat)](http://cocoapods.org/pods/SlideController)
 
-SlideController is replacement for Apple's UIPageControl completely written in Swift using power of generic types.
+SlideController is simple and flexible MVP-based UI component completely written in Swift. It is nice alternative for UIPageViewController built using power of generic types.
 
-## Sample Project
-
-There is a sample project in Example directory. To use it run `pod install`.
-
-## Requirements
+# Requirements
 
 * iOS 9.0+
+* Xcode 9.0+
 * Swift 4.0+
 
-## Installation
+# Installation
 
-ScrollController is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+## CocoaPods
 
-```ruby
-pod 'SlideController'
+[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+
+```$ gem install cocoapods```
+
+To integrate SlideController into your Xcode project using CocoaPods, specify it in your ```Podfile```:
+
+```
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '10.0'
+use_frameworks!
+
+target '<Your Target Name>' do
+    pod 'SlideController'
+end
 ```
 
-## Usage
+Then, run the following command:
 
-First you have to initialize SlideController with required types and SlideDirection (``.horizontal`` or ``.vertical``)
+```$ pod install```
+
+# Usage
 
 ```swift
-SlideController<HorizontalTitleScrollView, HorizontalTitleItem>(
-    pagesContent: pagesContent,
+import SlideController
+```
+
+1) Create content
+```swift
+let content = [
+            SlidePageModel<PageLifeCycleObject>(),
+            SlidePageModel<PageLifeCycleObject>(),
+            SlidePageModel<PageLifeCycleObject>()
+        ]
+ ```
+ 
+* ``PageLifeCycleObject`` is any object conforms to ``Initializable, Viewable, SlidePageLifeCycle `` protocols
+
+2) Initialize SlideController
+```swift
+slideController = SlideController<CustomTitleView, CustomTitleItem>(
+    pagesContent: content,
     startPageIndex: 0,
-    slideDirection: SlideDirection.horizontal
+    slideDirection: .horizontal
 )
 ```
 
-* ``HorizontalTitleScrollView`` type for title view. Subclass of ``TitleScrollView<HorizontalTitleItem>``;
-* ``HorizontalTitleItem`` item in title view. UIView that conforms to ``Initializable, ItemViewable, Selectable`` protocols;
-* ``pagesContent`` is an array of ``SlidePageModel`` which represents pages that SlideController will display;
+* ``CustomTitleView`` is subclass of ``TitleScrollView<CustomTitleItem>``
+* ``CustomTitleItem`` is subclass of ``UIView`` and conforms to ``Initializable, ItemViewable, Selectable`` protocols
 
-``SlidePageModel<T: SlideLifeCycleObject>`` holds an object responsible for page life cycle. Here you can react to changes for the page.
+3) Add ``slideController.view`` to view hierarchy
 
-Add ``slideController.view`` on your ViewController with ``view.addSubview()`` method.
+4) Call ``slideController.viewDidAppear()`` and ``slideController.viewDidDisappear()`` in appropriate UIViewController methods:
 
-For SlideController to work you have to call ``slideController.viewDidAppear()`` and ``slideController.viewDidDisappear()`` in appropriate UIViewController methods.
+ ```swift
+ override func viewDidAppear(_ animated: Bool) {
+     super.viewDidAppear(animated)
+     slideController.viewDidAppear()
+ }
+ ```
+ 
+ ```swift
+override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    slideController.viewDidDisappear()
+}
+```
 
-## Author
+# Sample Project
 
-Touchlane LLC, tech@touchlane.com
+Before compilation run `pod install` in Example directory.
 
-## License
+# Author
+
+Touchlane LLC
+
+# License
 
 SlideController is available under the MIT license. See the LICENSE file for more info.

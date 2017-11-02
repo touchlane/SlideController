@@ -95,10 +95,17 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var didFinishSlideAction: (() -> Void)?
     private var isForcedToSlide = false
     private var isOnScreen = false
+    
+    /// Indicates if the scroll in progress.
+    /// Used for lifecycle.
+    /// Used for setting title item selection.
     private var scrollInProgress = false {
         didSet {
             if oldValue != scrollInProgress {
-                isJumpingAllowed = !scrollInProgress
+                /// Disable selection and scrolling of title view
+                titleSlidableController.isSelectionAllowed = !scrollInProgress
+                titleSlidableController.titleView.isScrollEnabled = !scrollInProgress
+                /// Once scrolling is started to show title that out of the screen
                 if scrollInProgress && !isForcedToSlide {
                     titleSlidableController.jump(index: currentIndex, animated: false)
                 }
@@ -126,16 +133,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     fileprivate var shouldRemoveContentAfterAnimation: Bool = false
     fileprivate var indexToRemove: Int?
     
-    private var isJumpingAllowed: Bool = true {
-        didSet {
-            titleSlidableController.isJumpingAllowed = isJumpingAllowed
-            if isJumpingAllowed && isForcedToSlide {
-                didFinishForceSlide?()
-                isForcedToSlide = false
-            }
-        }
-    }
-
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.changeContentLayoutAction()
@@ -154,23 +151,26 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private lazy var changeContentLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         guard !strongSelf.isForcedToSlide else { return }
+        guard !strongSelf.contentSlidableController.isContentTransiting else {
+            return
+        }
+        strongSelf.contentSlidableController.slideContentView.delegate = nil
         strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
             direction: strongSelf.slideDirection,
             titleViewAlignment: strongSelf.titleSlidableController.titleView.alignment,
             titleViewPosition: strongSelf.titleSlidableController.titleView.position,
             titleSize: strongSelf.titleSlidableController.titleView.titleSize)
-        strongSelf.shift(pageIndex: strongSelf.currentIndex, animated: false)
+        strongSelf.scrollToPage(pageIndex: strongSelf.currentIndex, animated: false)
+        strongSelf.contentSlidableController.slideContentView.delegate = strongSelf
     }
     
     private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
         guard let strongSelf = self else { return }
-        strongSelf.loadViewIfNeeded(pageIndex: index)
-        strongSelf.isForcedToSlide = true
         strongSelf.shift(pageIndex: index)
         strongSelf.didFinishForceSlide = completion
     }
 
-    public init(pagesContent : [SlideLifeCycleObjectProvidable], startPageIndex: Int = 0, slideDirection : SlideDirection) {
+    public init(pagesContent: [SlideLifeCycleObjectProvidable], startPageIndex: Int = 0, slideDirection: SlideDirection) {
         super.init()
         content = pagesContent
         self.slideDirection = slideDirection
@@ -225,14 +225,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             titleSlidableController.titleView.layoutIfNeeded()
         }
         if index <= currentIndex {
-            // FIXME: workaround to fix life cycle calls  
-            contentSlidableController.slideContentView.delegate = nil
+            self.contentSlidableController.slideContentView.delegate = nil
             shift(pageIndex: currentIndex + 1, animated: false)
-            if self.contentSlidableController.slideContentView.isLayouted {
+            if contentSlidableController.slideContentView.isLayouted {
                 currentIndex = currentIndex + 1
             }
             titleSlidableController.jump(index: currentIndex, animated: false)
-            contentSlidableController.slideContentView.delegate = self
+            isForcedToSlide = false
+            self.contentSlidableController.slideContentView.delegate = self
             if FeatureManager().viewUnloading.isEnabled {
                 unloadView(at: index - 1)
             }
@@ -256,6 +256,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         if index < currentIndex {
             shift(pageIndex: currentIndex - 1, animated: false)
+            isForcedToSlide = false
         } else if index == currentIndex {
             if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) || content.count == 1 {
                 removeContentIfNeeded()
@@ -268,18 +269,18 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     public func shift(pageIndex: Int, animated: Bool = true) {
-        guard isJumpingAllowed else {
+        guard pageIndex != currentIndex else {
             return
         }
+        if animated {
+            isForcedToSlide = true
+        }
+        loadViewIfNeeded(pageIndex: pageIndex)
+        
         if !self.contentSlidableController.slideContentView.isLayouted {
             loadView(pageIndex: pageIndex)
         } else {
-            didFinishSlideAction = contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
-            if slideDirection == SlideDirection.horizontal {
-                lastContentOffset = contentSlidableController.slideContentView.contentOffset.x
-            } else {
-                lastContentOffset = contentSlidableController.slideContentView.contentOffset.y
-            }
+            scrollToPage(pageIndex: pageIndex, animated: animated)
         }
     }
     
@@ -309,6 +310,10 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !contentSlidableController.isContentTransiting else {
+            return
+        }
+        
         if !scrollInProgress {
             if content.indices.contains(currentIndex) {
                 content[currentIndex].lifeCycleObject.didStartSliding()
@@ -354,10 +359,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         removeContentIfNeeded()
-        isJumpingAllowed = true
         didFinishForceSlide?()
         didFinishSlideAction?()
         didFinishSlideAction = nil
+        titleSlidableController.isSelectionAllowed = true
+        titleSlidableController.titleView.isScrollEnabled = true
         if FeatureManager().viewUnloading.isEnabled {
             if isForcedToSlide {
                 unloadView(around: currentIndex)
@@ -392,7 +398,18 @@ private extension PrivateSlideController {
         return contentPageSize
     }
     
-    private func updateTitleScrollOffset(contentOffset: CGFloat, pageSize: CGFloat) {
+    private func scrollToPage(pageIndex: Int, animated: Bool) {
+        titleSlidableController.jump(index: pageIndex, animated: animated)
+        didFinishSlideAction = contentSlidableController.scroll(fromPage: currentIndex, toPage: pageIndex, animated: animated)
+        if slideDirection == SlideDirection.horizontal {
+            lastContentOffset = contentSlidableController.slideContentView.contentOffset.x
+        } else {
+            lastContentOffset = contentSlidableController.slideContentView.contentOffset.y
+        }
+        scrollInProgress = false
+    }
+    
+    func updateTitleScrollOffset(contentOffset: CGFloat, pageSize: CGFloat) {
         let actualIndex = Int(contentOffset / pageSize)
         let offset = contentOffset - lastContentOffset
         var startIndex: Int
@@ -407,7 +424,7 @@ private extension PrivateSlideController {
         titleSlidableController.shift(delta: offset, startIndex: startIndex, destinationIndex: destinationIndex)
     }
     
-    private func determineScrollingDirection(lastContentOffset: CGFloat, currentContentOffset: CGPoint) -> ScrollingDirection {
+    func determineScrollingDirection(lastContentOffset: CGFloat, currentContentOffset: CGPoint) -> ScrollingDirection {
         switch slideDirection! {
         case .vertical:
             if lastContentOffset > currentContentOffset.y {
@@ -440,8 +457,10 @@ private extension PrivateSlideController {
         guard content.indices.contains(index) else {
             return
         }
-        contentSlidableController.containers[index].unloadView()
-        content[index].lifeCycleObject.viewDidUnload()
+        if contentSlidableController.containers[index].hasContent {
+            contentSlidableController.containers[index].unloadView()
+            content[index].lifeCycleObject.viewDidUnload()
+        }
     }
     
     func loadViewIfNeeded(pageIndex: Int, truePage: Bool = false) {

@@ -16,6 +16,9 @@ final class SlideContentController {
     ///Depend on set SlideDirection contentSize indicate width or height of the SlideContentView
     var contentSize: CGFloat = 0
     
+    /// Indicates if conent is in transition. Used to disable unnecessary scrolling calls
+    var isContentTransiting: Bool = false
+    
     ///Container controllers
     internal private(set) var containers = [SlideContainerController]()
     
@@ -58,15 +61,13 @@ final class SlideContentController {
     }
     
     ///Scroll to target container
-    func scrollToPage(index: Int, animated: Bool) -> (() -> Void)? {
+    func scroll(fromPage currentIndex: Int, toPage index: Int, animated: Bool) -> (() -> Void)? {
         if containers.indices.contains(index) {
             var offsetPoint: CGPoint
             if FeatureManager().smartTransition.isEnabled {
                 var startOffsetPoint = slideContentView.contentOffset
                 var endOffsetPoint: CGPoint
-                var currentIndex = 0
                 if slideDirection == .horizontal {
-                    currentIndex = Int(slideContentView.contentOffset.x / contentSize)
                     if index < currentIndex {
                         offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
                         startOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index + 1), y: 0)
@@ -76,7 +77,6 @@ final class SlideContentController {
                         endOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
                     }
                 } else {
-                    currentIndex = Int(slideContentView.contentOffset.y / contentSize)
                     if index < currentIndex {
                         offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
                         startOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index + 1))
@@ -86,7 +86,6 @@ final class SlideContentController {
                         endOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
                     }
                 }
-                print("Transition from \(currentIndex) to \(index)")
                 var viewIndices: [Int] = []
                 if currentIndex - index > 1 {
                     for i in index + 1...currentIndex - 1 {
@@ -97,9 +96,17 @@ final class SlideContentController {
                         viewIndices.append(i)
                     }
                 }
+                isContentTransiting = true
                 // Before animation
                 slideContentView.hideContainers(at: viewIndices)
                 slideContentView.setContentOffset(startOffsetPoint, animated: false)
+                
+                /// Transition should end before setContentOffset so scrollViewDidScroll will change currentIndex
+                if currentIndex > index {
+                    isContentTransiting = false
+                } else if index - currentIndex == 1 {
+                    isContentTransiting = false
+                }
                 // Animation
                 slideContentView.setContentOffset(offsetPoint, animated: animated)
                 
@@ -108,6 +115,8 @@ final class SlideContentController {
                         return
                     }
                     strongSelf.slideContentView.showContainers(at: viewIndices)
+                    /// Transition should end after content is layouted and it will not scroll to wrong index
+                    strongSelf.isContentTransiting = false
                     strongSelf.slideContentView.setContentOffset(endOffsetPoint, animated: false)
                 }
                 if animated {
