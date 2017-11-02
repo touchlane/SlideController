@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name             = 'SlideController'
   s.version          = '1.0.0'
-  s.summary          = 'SlideController is a controller built for managing page-based UI.'
+  s.summary          = 'SlideController is replacement for Apple\'s UIPageControl completely written in Swift using power of generic types.'
   s.description      = <<-DESC
-  SlideController is replacement for Apple's UIPageControl completely written in Swift using power of generic types.
+  Swipe between pages with an interactive title navigation control. Configure horizontal or vertical chains for unlimited pages amount.
                        DESC
   s.homepage         = 'https://github.com/touchlane/SlideController'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
