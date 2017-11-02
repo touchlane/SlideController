@@ -400,7 +400,7 @@ private extension PrivateSlideController {
     
     private func scrollToPage(pageIndex: Int, animated: Bool) {
         titleSlidableController.jump(index: pageIndex, animated: animated)
-        didFinishSlideAction = contentSlidableController.scrollToPage(index: pageIndex, animated: animated)
+        didFinishSlideAction = contentSlidableController.scroll(fromPage: currentIndex, toPage: pageIndex, animated: animated)
         if slideDirection == SlideDirection.horizontal {
             lastContentOffset = contentSlidableController.slideContentView.contentOffset.x
         } else {
