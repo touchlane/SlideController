@@ -23,7 +23,7 @@ extension EnablableImplementation: Enablable {
     var isEnabled: Bool {
         switch self {
         case .feature(let release, let development):
-            #if DEBUG
+            #if SLIDECONTROLLER_DEVELOPMENT
                 return development
             #else
                 return release
