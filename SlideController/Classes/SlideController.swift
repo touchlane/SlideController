@@ -207,7 +207,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 titleSlidableController.titleView.layoutIfNeeded()
             }
             titleSlidableController.jump(index: currentIndex, animated: false)
-            loadView(pageIndex: currentIndex)
+            if FeatureManager().viewUnloading.isEnabled {
+                // Load next view if we were at the last position
+                if currentIndex == content.count - 2 {
+                    loadViewIfNeeded(pageIndex: currentIndex + 1)
+                }
+            } else {
+                loadView(pageIndex: currentIndex)
+            }
         }
     }
 
