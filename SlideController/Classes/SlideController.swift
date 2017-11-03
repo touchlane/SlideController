@@ -105,7 +105,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     /// Used for setting title item selection.
     private var scrollInProgress = false {
         didSet {
-//            print("scrollInProgress \(scrollInProgress)")
             if oldValue != scrollInProgress {
                 /// Disable selection and scrolling of title view
                 titleSlidableController.isSelectionAllowed = !scrollInProgress
@@ -165,6 +164,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             titleSize: strongSelf.titleSlidableController.titleView.titleSize)
         strongSelf.scrollToPage(pageIndex: strongSelf.currentIndex, animated: false)
         strongSelf.contentSlidableController.slideContentView.delegate = strongSelf
+        strongSelf.titleSlidableController.isSelectionAllowed = true
+        strongSelf.titleSlidableController.titleView.isScrollEnabled = true
     }
     
     private lazy var didSelectItemAction: (Int, (() -> ())?) -> () = { [weak self] (index, completion) in
@@ -241,7 +242,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             }
             loadViewIfNeeded(pageIndex: index)
         } else {
-            loadView(pageIndex: currentIndex)
+            if !FeatureManager().viewUnloading.isEnabled {
+                loadView(pageIndex: currentIndex)
+            }
         }
     }
     
@@ -258,7 +261,13 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             indexToRemove = index
         }
         if index < currentIndex {
+            if FeatureManager().viewUnloading.isEnabled {
+                contentSlidableController.slideContentView.delegate = nil
+            }
             shift(pageIndex: currentIndex - 1, animated: false)
+            if FeatureManager().viewUnloading.isEnabled {
+                contentSlidableController.slideContentView.delegate = self
+            }
             isForcedToSlide = false
         } else if index == currentIndex {
             if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) || content.count == 1 {
@@ -268,7 +277,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 shift(pageIndex: currentIndex - 1, animated: true)
             }
         }
-        loadView(pageIndex: currentIndex)
+        if !FeatureManager().viewUnloading.isEnabled {
+            loadView(pageIndex: currentIndex)
+        }
     }
     
     public func shift(pageIndex: Int, animated: Bool = true) {
@@ -280,6 +291,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         loadViewIfNeeded(pageIndex: pageIndex)
         if animated {
+            if content.indices.contains(currentIndex) {
+                content[currentIndex].lifeCycleObject.didStartSliding()
+                print("sliding 1: \(currentIndex)")
+                scrollInProgress = true
+            }
             sourceIndex = currentIndex
             destinationIndex = pageIndex
         } else {
@@ -307,6 +323,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         isOnScreen = true
         if content.indices.contains(currentIndex) {
             content[currentIndex].lifeCycleObject.didAppear()
+            print("didAppear: \(currentIndex)")
         }
     }
     
@@ -314,6 +331,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         isOnScreen = false
         if content.indices.contains(currentIndex) {
             content[currentIndex].lifeCycleObject.didDissapear()
+            print("didDissapear: \(currentIndex)")
         }
     }
     
@@ -323,29 +341,35 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         let actualContentOffset = slideDirection == .horizontal ? scrollView.contentOffset.x : scrollView.contentOffset.y
         let nextIndex = Int(actualContentOffset / pageSize)
 
-        let isDestinationTransition = nextIndex == destinationIndex ?? nextIndex
+        let isDestinationTransition = nextIndex == (destinationIndex ?? nextIndex)
         let objectIndex = sourceIndex ?? currentIndex
         
-        if !scrollInProgress {
-            if isDestinationTransition && content.indices.contains(objectIndex) {
+        if !scrollInProgress && !isForcedToSlide {
+            if content.indices.contains(objectIndex) {
                 content[objectIndex].lifeCycleObject.didStartSliding()
+                print("sliding: \(objectIndex)")
                 scrollInProgress = true
             }
         }
+        
 
         let scrollingDirection = determineScrollingDirection(lastContentOffset: lastContentOffset, currentContentOffset: scrollView.contentOffset)
-        switch scrollingDirection {
-        case .up, .right:
-            loadViewIfNeeded(pageIndex: nextIndex - 1)
-        case .down, .left:
-            loadViewIfNeeded(pageIndex: nextIndex + 1)
-        }
+        if !isForcedToSlide {
+            switch scrollingDirection {
+            case .up, .right:
+                loadViewIfNeeded(pageIndex: nextIndex - 1)
+            case .down, .left:
+                loadViewIfNeeded(pageIndex: nextIndex + 1)
+            }
 
+        }
         let didReachContentEdge = actualContentOffset.truncatingRemainder(dividingBy: pageSize) == 0.0
         if didReachContentEdge {
             scrollInProgress = false
             if nextIndex != currentIndex {
-                loadView(pageIndex: nextIndex)
+                if isDestinationTransition {
+                    loadView(pageIndex: nextIndex)
+                }
                 if !isForcedToSlide {
                     if FeatureManager().viewUnloading.isEnabled {
                         unloadView(around: currentIndex)
@@ -354,6 +378,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 }
             } else {
                 content[currentIndex].lifeCycleObject.didCancelSliding()
+                print("didCancelSliding: \(currentIndex)")
                 unloadView(around: currentIndex)
             }
             removeContentIfNeeded()
@@ -417,7 +442,7 @@ private extension PrivateSlideController {
         } else {
             lastContentOffset = contentSlidableController.slideContentView.contentOffset.y
         }
-        scrollInProgress = false
+        //scrollInProgress = false
     }
     
     func updateTitleScrollOffset(contentOffset: CGFloat, pageSize: CGFloat) {
@@ -471,6 +496,8 @@ private extension PrivateSlideController {
         if contentSlidableController.containers[index].hasContent {
             contentSlidableController.containers[index].unloadView()
             content[index].lifeCycleObject.viewDidUnload()
+            print("viewDidUnload: \(index)")
+
         }
     }
     
@@ -478,6 +505,7 @@ private extension PrivateSlideController {
         if content.indices.contains(pageIndex) {
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
+                print("load: \(pageIndex)")
                 content[pageIndex].lifeCycleObject.viewDidLoad()
             }
             if truePage {
@@ -485,10 +513,12 @@ private extension PrivateSlideController {
                     if currentIndex != pageIndex {
                         if content.indices.contains(currentIndex) {
                             content[currentIndex].lifeCycleObject.didDissapear()
+                            print("didDissapear: \(currentIndex)")
                         }
                         currentIndex = pageIndex
                     }
                     content[pageIndex].lifeCycleObject.didAppear()
+                    print("didAppear: \(pageIndex)")
                 } else {
                     currentIndex = pageIndex
                 }

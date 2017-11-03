@@ -81,6 +81,9 @@ final class SlideContentController {
                         offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
                         startOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index + 1))
                         endOffsetPoint = offsetPoint
+                    } else if index == currentIndex{
+                        offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: currentIndex))
+                        endOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
                     } else {
                         offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: currentIndex + 1))
                         endOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
