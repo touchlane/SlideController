@@ -90,6 +90,10 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var slideDirection: SlideDirection!
     private var contentSlidableController: SlideContentController!
     private var currentIndex = 0
+    
+    private var sourceIndex: Int? = nil
+    private var destinationIndex: Int? = nil
+    
     private var lastContentOffset: CGFloat = 0
     private var didFinishForceSlide: (() -> ())?
     private var didFinishSlideAction: (() -> Void)?
@@ -101,6 +105,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     /// Used for setting title item selection.
     private var scrollInProgress = false {
         didSet {
+//            print("scrollInProgress \(scrollInProgress)")
             if oldValue != scrollInProgress {
                 /// Disable selection and scrolling of title view
                 titleSlidableController.isSelectionAllowed = !scrollInProgress
@@ -151,9 +156,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private lazy var changeContentLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         guard !strongSelf.isForcedToSlide else { return }
-        guard !strongSelf.contentSlidableController.isContentTransiting else {
-            return
-        }
+        
         strongSelf.contentSlidableController.slideContentView.delegate = nil
         strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
             direction: strongSelf.slideDirection,
@@ -276,7 +279,13 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             isForcedToSlide = true
         }
         loadViewIfNeeded(pageIndex: pageIndex)
-        
+        if animated {
+            sourceIndex = currentIndex
+            destinationIndex = pageIndex
+        } else {
+            sourceIndex = nil
+            destinationIndex = nil
+        }
         if !self.contentSlidableController.slideContentView.isLayouted {
             loadView(pageIndex: pageIndex)
         } else {
@@ -310,20 +319,20 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !contentSlidableController.isContentTransiting else {
-            return
-        }
-        
-        if !scrollInProgress {
-            if content.indices.contains(currentIndex) {
-                content[currentIndex].lifeCycleObject.didStartSliding()
-            }
-            scrollInProgress = true
-        }
         let pageSize = contentSlidableController.contentSize
         let actualContentOffset = slideDirection == .horizontal ? scrollView.contentOffset.x : scrollView.contentOffset.y
-        
         let nextIndex = Int(actualContentOffset / pageSize)
+
+        let isDestinationTransition = nextIndex == destinationIndex ?? nextIndex
+        let objectIndex = sourceIndex ?? currentIndex
+        
+        if !scrollInProgress {
+            if isDestinationTransition && content.indices.contains(objectIndex) {
+                content[objectIndex].lifeCycleObject.didStartSliding()
+                scrollInProgress = true
+            }
+        }
+
         let scrollingDirection = determineScrollingDirection(lastContentOffset: lastContentOffset, currentContentOffset: scrollView.contentOffset)
         switch scrollingDirection {
         case .up, .right:
@@ -370,6 +379,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             }
         }
         isForcedToSlide = false
+        sourceIndex = nil
+        destinationIndex = nil
     }
     
     // MARK: - ViewableImplementation
