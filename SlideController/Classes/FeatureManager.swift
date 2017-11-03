@@ -14,8 +14,8 @@ final class FeatureManager {
         case feature(release: Bool, development: Bool)
     }
     
-    let viewUnloading: Feature = .feature(release: false, development: true)
-    let smartTransition: Feature = .feature(release: false, development: true)
+    let viewUnloading: Feature = .feature(release: true, development: true)
+    let smartTransition: Feature = .feature(release: true, development: true)
 }
 
 private typealias EnablableImplementation = FeatureManager.Feature
