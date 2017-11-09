@@ -273,7 +273,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                     shift(pageIndex: currentIndex, animated: false)
                 } else {
                     shift(pageIndex: currentIndex - 1, animated: false)
-                    currentIndex = currentIndex - 1
+                    if currentIndex != 0 {
+                        currentIndex = currentIndex - 1
+                    }
                 }
             }
             contentSlidableController.slideContentView.delegate = self
