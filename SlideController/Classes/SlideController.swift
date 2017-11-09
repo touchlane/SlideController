@@ -293,7 +293,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if animated {
             if content.indices.contains(currentIndex) {
                 content[currentIndex].lifeCycleObject.didStartSliding()
-                print("sliding 1: \(currentIndex)")
                 scrollInProgress = true
             }
             sourceIndex = currentIndex
@@ -323,7 +322,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         isOnScreen = true
         if content.indices.contains(currentIndex) {
             content[currentIndex].lifeCycleObject.didAppear()
-            print("didAppear: \(currentIndex)")
         }
     }
     
@@ -331,7 +329,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         isOnScreen = false
         if content.indices.contains(currentIndex) {
             content[currentIndex].lifeCycleObject.didDissapear()
-            print("didDissapear: \(currentIndex)")
         }
     }
     
@@ -347,7 +344,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if !scrollInProgress && !isForcedToSlide {
             if content.indices.contains(objectIndex) {
                 content[objectIndex].lifeCycleObject.didStartSliding()
-                print("sliding: \(objectIndex)")
                 scrollInProgress = true
             }
         }
@@ -378,7 +374,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 }
             } else {
                 content[currentIndex].lifeCycleObject.didCancelSliding()
-                print("didCancelSliding: \(currentIndex)")
                 unloadView(around: currentIndex)
             }
             removeContentIfNeeded()
@@ -496,8 +491,6 @@ private extension PrivateSlideController {
         if contentSlidableController.containers[index].hasContent {
             contentSlidableController.containers[index].unloadView()
             content[index].lifeCycleObject.viewDidUnload()
-            print("viewDidUnload: \(index)")
-
         }
     }
     
@@ -505,7 +498,6 @@ private extension PrivateSlideController {
         if content.indices.contains(pageIndex) {
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
-                print("load: \(pageIndex)")
                 content[pageIndex].lifeCycleObject.viewDidLoad()
             }
             if truePage {
@@ -513,12 +505,10 @@ private extension PrivateSlideController {
                     if currentIndex != pageIndex {
                         if content.indices.contains(currentIndex) {
                             content[currentIndex].lifeCycleObject.didDissapear()
-                            print("didDissapear: \(currentIndex)")
                         }
                         currentIndex = pageIndex
                     }
                     content[pageIndex].lifeCycleObject.didAppear()
-                    print("didAppear: \(pageIndex)")
                 } else {
                     currentIndex = pageIndex
                 }
