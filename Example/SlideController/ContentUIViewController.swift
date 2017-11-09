@@ -14,6 +14,7 @@ class ContentUIViewController<T>: UIViewController where T: ViewAccessible {
             guard let controller = controller else {
                 return
             }
+            //Bad design, but this is just a demo :)
             view = controller.view
             automaticallyAdjustsScrollViewInsets = false
         }
