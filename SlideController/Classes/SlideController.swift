@@ -437,7 +437,6 @@ private extension PrivateSlideController {
         } else {
             lastContentOffset = contentSlidableController.slideContentView.contentOffset.y
         }
-        //scrollInProgress = false
     }
     
     func updateTitleScrollOffset(contentOffset: CGFloat, pageSize: CGFloat) {
