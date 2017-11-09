@@ -267,7 +267,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             if index < currentIndex {
                 shift(pageIndex: currentIndex - 1, animated: false)
                 currentIndex = currentIndex - 1
-            } else if index == current {
+            } else if index == currentIndex {
                 /// TODO: check this case
                 if currentIndex < content.count {
                     shift(pageIndex: currentIndex, animated: false)
