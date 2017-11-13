@@ -250,34 +250,56 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     public func removeAtIndex(index: Int) {
         guard index < content.count else { return }
-
-        //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
-        shouldRemoveContentAfterAnimation = index == currentIndex
-        if !shouldRemoveContentAfterAnimation {
+        if FeatureManager().viewUnloading.isEnabled {
+            contentSlidableController.slideContentView.delegate = nil
+            
             content.remove(at: index)
             contentSlidableController.removeAtIndex(index: index)
             titleSlidableController.removeAtIndex(index: index)
+            
+            let isNearCurrentIndex = currentIndex + 1 == index || currentIndex - 1 == index
+            if isNearCurrentIndex || currentIndex == index {
+                loadViewIfNeeded(pageIndex: index + 1)
+                loadViewIfNeeded(pageIndex: index)
+                loadViewIfNeeded(pageIndex: index - 1)
+            }
+            
+            if index < currentIndex {
+                shift(pageIndex: currentIndex - 1, animated: false)
+                currentIndex = currentIndex - 1
+            } else if index == currentIndex {
+                /// TODO: check this case
+                if currentIndex < content.count {
+                    shift(pageIndex: currentIndex, animated: false)
+                } else {
+                    shift(pageIndex: currentIndex - 1, animated: false)
+                    if currentIndex != 0 {
+                        currentIndex = currentIndex - 1
+                    }
+                }
+            }
+            contentSlidableController.slideContentView.delegate = self
         } else {
-            indexToRemove = index
-        }
-        if index < currentIndex {
-            if FeatureManager().viewUnloading.isEnabled {
-                contentSlidableController.slideContentView.delegate = nil
-            }
-            shift(pageIndex: currentIndex - 1, animated: false)
-            if FeatureManager().viewUnloading.isEnabled {
-                contentSlidableController.slideContentView.delegate = self
-            }
-            isForcedToSlide = false
-        } else if index == currentIndex {
-            if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) || content.count == 1 {
-                removeContentIfNeeded()
-                titleSlidableController.jump(index: currentIndex, animated: false)
+            //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
+            shouldRemoveContentAfterAnimation = index == currentIndex
+            if !shouldRemoveContentAfterAnimation {
+                content.remove(at: index)
+                contentSlidableController.removeAtIndex(index: index)
+                titleSlidableController.removeAtIndex(index: index)
             } else {
-                shift(pageIndex: currentIndex - 1, animated: true)
+                indexToRemove = index
             }
-        }
-        if !FeatureManager().viewUnloading.isEnabled {
+            if index < currentIndex {
+                shift(pageIndex: currentIndex - 1, animated: false)
+                isForcedToSlide = false
+            } else if index == currentIndex {
+                if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) || content.count == 1 {
+                    removeContentIfNeeded()
+                    titleSlidableController.jump(index: currentIndex, animated: false)
+                } else {
+                    shift(pageIndex: currentIndex - 1, animated: true)
+                }
+            }
             loadView(pageIndex: currentIndex)
         }
     }
