@@ -201,9 +201,18 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     public func append(object objects: [SlideLifeCycleObjectProvidable]) {
         if objects.count > 0 {
+            let shouldLoadView = content.isEmpty
             content.append(contentsOf: objects)
             contentSlidableController.append(pagesCount: objects.count)
             titleSlidableController.append(pagesCount: objects.count)
+            
+            if FeatureManager().viewUnloading.isEnabled {
+                if shouldLoadView {
+                    loadViewIfNeeded(pageIndex: currentIndex)
+                    loadViewIfNeeded(pageIndex: currentIndex + 1)
+                }
+            }
+            
             if contentSlidableController.slideContentView.isLayouted {
                 contentSlidableController.slideContentView.layoutIfNeeded()
             }
@@ -211,7 +220,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 titleSlidableController.titleView.layoutIfNeeded()
             }
             titleSlidableController.jump(index: currentIndex, animated: false)
-            loadView(pageIndex: currentIndex)
+            if FeatureManager().viewUnloading.isEnabled {
+                // Load next view if we were at the last position
+                if currentIndex == content.count - 2 {
+                    loadViewIfNeeded(pageIndex: currentIndex + 1)
+                }
+            } else {
+                loadView(pageIndex: currentIndex)
+            }
         }
     }
 
