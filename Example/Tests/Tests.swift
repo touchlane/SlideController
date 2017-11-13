@@ -51,7 +51,7 @@ class Tests: XCTestCase {
             let secondPage = page2.lifeCycleObject as? TestableLifeCycleObject,
             let thirdPage = page3.lifeCycleObject as? TestableLifeCycleObject,
             let fourthPage = page4.lifeCycleObject as? TestableLifeCycleObject else {
-            XCTFail("Current page is not TestableLifeCycleObject")
+            XCTFail("page is not TestableLifeCycleObject")
             return
         }
         utils.assertPresentedLifeCycleObject(object: currentPage, wasSlided: false)
