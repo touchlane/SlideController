@@ -100,6 +100,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var isForcedToSlide = false
     private var isOnScreen = false
     
+    /// Used for disabling scrollViewDidScroll calls when changeContentLayoutAction is triggered
+    private var isLayouting = false
+    
     /// Indicates if the scroll in progress.
     /// Used for lifecycle.
     /// Used for setting title item selection.
@@ -155,7 +158,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private lazy var changeContentLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         guard !strongSelf.isForcedToSlide else { return }
-        
+        strongSelf.isLayouting = true
         strongSelf.contentSlidableController.slideContentView.delegate = nil
         strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
             direction: strongSelf.slideDirection,
@@ -373,6 +376,10 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !isLayouting else {
+            isLayouting = false
+            return
+        }
         let pageSize = contentSlidableController.contentSize
         let actualContentOffset = slideDirection == .horizontal ? scrollView.contentOffset.x : scrollView.contentOffset.y
         let nextIndex = Int(actualContentOffset / pageSize)
