@@ -1,5 +1,5 @@
 PODS:
-  - SlideController (0.1.1)
+  - SlideController (1.0.0)
 
 DEPENDENCIES:
   - SlideController (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  SlideController: 53d22e0dc3e790de702442717c8eb0c323a2ed9d
+  SlideController: 3b0b1c2618d6302e91468d4dc7934fbc22a4aa9c
 
 PODFILE CHECKSUM: 446bbfa2b8eb0e17baf27b55bafd5f6a44a84f15
 
