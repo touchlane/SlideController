@@ -332,15 +332,17 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         loadViewIfNeeded(pageIndex: pageIndex)
         
-        sourceIndex = currentIndex
-        destinationIndex = pageIndex
+        
         if animated {
+            sourceIndex = currentIndex
+            destinationIndex = pageIndex
             if content.indices.contains(currentIndex) {
                 content[currentIndex].lifeCycleObject.didStartSliding()
-                sourceIndex = nil
-                destinationIndex = nil
                 scrollInProgress = true
             }
+        } else {
+            sourceIndex = nil
+            destinationIndex = nil
         }
         
         if !self.contentSlidableController.slideContentView.isLayouted {
