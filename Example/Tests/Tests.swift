@@ -4,26 +4,33 @@ import SlideController
 
 class Tests: XCTestCase {
     
+    private var slideController: SlideController<HorizontalTitleScrollView, HorizontalTitleItem>!
+    
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        slideController = SlideController(
+            pagesContent: [],
+            startPageIndex: 0,
+            slideDirection: SlideDirection.horizontal)
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+    func testAppended() {
+        let page1 = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
+        let page2 = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
+        let page3 = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
+        let givenContent = [page1, page2, page3]
+        slideController.append(object: givenContent)
+
+        let contentCount = slideController.content.count
+        let currentIndex = slideController.content.index(where: {
+            $0 === slideController.currentModel
+        })
+        
+        XCTAssertEqual(contentCount, givenContent.count)
+        XCTAssertEqual(currentIndex, 0)
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure() {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }
