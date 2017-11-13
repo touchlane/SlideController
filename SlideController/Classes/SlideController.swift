@@ -290,17 +290,18 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             isForcedToSlide = true
         }
         loadViewIfNeeded(pageIndex: pageIndex)
+        
+        sourceIndex = currentIndex
+        destinationIndex = pageIndex
         if animated {
             if content.indices.contains(currentIndex) {
                 content[currentIndex].lifeCycleObject.didStartSliding()
+                sourceIndex = nil
+                destinationIndex = nil
                 scrollInProgress = true
             }
-            sourceIndex = currentIndex
-            destinationIndex = pageIndex
-        } else {
-            sourceIndex = nil
-            destinationIndex = nil
         }
+        
         if !self.contentSlidableController.slideContentView.isLayouted {
             loadView(pageIndex: pageIndex)
         } else {
@@ -341,7 +342,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         let isDestinationTransition = nextIndex == (destinationIndex ?? nextIndex)
         let objectIndex = sourceIndex ?? currentIndex
         
-        if !scrollInProgress && !isForcedToSlide {
+        if !scrollInProgress && !isForcedToSlide && isDestinationTransition {
             if content.indices.contains(objectIndex) {
                 content[objectIndex].lifeCycleObject.didStartSliding()
                 scrollInProgress = true
