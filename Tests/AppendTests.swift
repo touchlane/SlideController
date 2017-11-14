@@ -2,7 +2,7 @@ import UIKit
 import XCTest
 import SlideController
 
-class Tests: BaseTestCase {
+class AppendTests: BaseTestCase {
     
     func testAppended() {
         let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
