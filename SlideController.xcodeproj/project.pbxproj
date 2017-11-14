@@ -24,6 +24,7 @@
 		86473D781FBB165700055999 /* TestTitleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D771FBB165700055999 /* TestTitleScrollView.swift */; };
 		86473D7A1FBB166900055999 /* TestTitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D791FBB166900055999 /* TestTitleItem.swift */; };
 		86C452561FBB454500BB1542 /* BaseTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C452551FBB454500BB1542 /* BaseTestCase.swift */; };
+		86C452581FBB463A00BB1542 /* InsertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C452571FBB463A00BB1542 /* InsertTests.swift */; };
 		86EF198D1FBB219900BD8E73 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 86EF198A1FBB219900BD8E73 /* README.md */; };
 		86EF198E1FBB219900BD8E73 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 86EF198B1FBB219900BD8E73 /* LICENSE */; };
 		86EF198F1FBB219900BD8E73 /* SlideController.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 86EF198C1FBB219900BD8E73 /* SlideController.podspec */; };
@@ -60,6 +61,7 @@
 		86473D771FBB165700055999 /* TestTitleScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTitleScrollView.swift; sourceTree = "<group>"; };
 		86473D791FBB166900055999 /* TestTitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTitleItem.swift; sourceTree = "<group>"; };
 		86C452551FBB454500BB1542 /* BaseTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTestCase.swift; sourceTree = "<group>"; };
+		86C452571FBB463A00BB1542 /* InsertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertTests.swift; sourceTree = "<group>"; };
 		86EF198A1FBB219900BD8E73 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		86EF198B1FBB219900BD8E73 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		86EF198C1FBB219900BD8E73 /* SlideController.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SlideController.podspec; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			children = (
 				86EF19911FBB221500BD8E73 /* Core */,
 				86473D741FBB15A400055999 /* AppendTests.swift */,
+				86C452571FBB463A00BB1542 /* InsertTests.swift */,
 				86473D5B1FBB157300055999 /* Supporting Files */,
 			);
 			path = Tests;
@@ -302,6 +305,7 @@
 			files = (
 				86473D781FBB165700055999 /* TestTitleScrollView.swift in Sources */,
 				86473D7A1FBB166900055999 /* TestTitleItem.swift in Sources */,
+				86C452581FBB463A00BB1542 /* InsertTests.swift in Sources */,
 				86C452561FBB454500BB1542 /* BaseTestCase.swift in Sources */,
 				86473D761FBB15A400055999 /* AppendTests.swift in Sources */,
 				86473D751FBB15A400055999 /* TestableLifeCycleObject.swift in Sources */,
