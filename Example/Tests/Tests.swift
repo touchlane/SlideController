@@ -12,7 +12,7 @@ class Tests: XCTestCase {
             pagesContent: [],
             startPageIndex: 0,
             slideDirection: SlideDirection.horizontal)
-        slideController.viewDidAppear()
+        
     }
     
     override func tearDown() {
@@ -44,6 +44,7 @@ class Tests: XCTestCase {
         let page4 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3, page4]
         slideController.append(object: givenContent)
+        slideController.viewDidAppear()
         
         guard let currentPage = slideController.currentModel?.lifeCycleObject as? TestableLifeCycleObject,
             let secondPage = page2.lifeCycleObject as? TestableLifeCycleObject,
