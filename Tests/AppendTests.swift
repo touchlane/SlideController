@@ -2,23 +2,7 @@ import UIKit
 import XCTest
 import SlideController
 
-class Tests: XCTestCase {
-    
-    private var slideController: SlideController<TestTitleScrollView, TestTitleItem>!
-    
-    override func setUp() {
-        super.setUp()
-        slideController = SlideController(
-            pagesContent: [],
-            startPageIndex: 0,
-            slideDirection: SlideDirection.horizontal)
-        slideController.viewDidAppear()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        slideController = nil
-    }
+class AppendTests: BaseTestCase {
     
     func testAppended() {
         let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
