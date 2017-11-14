@@ -210,8 +210,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         contentSlidableController.append(pagesCount: objects.count)
         titleSlidableController.append(pagesCount: objects.count)
         
-        loadViewIfNeeded(pageIndex: currentIndex)
-        loadViewIfNeeded(pageIndex: currentIndex + 1)
+        loadView(pageIndex: currentIndex)
         
         if contentSlidableController.slideContentView.isLayouted {
             contentSlidableController.slideContentView.layoutIfNeeded()
