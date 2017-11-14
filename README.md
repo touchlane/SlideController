@@ -84,7 +84,3 @@ override func viewDidDisappear(_ animated: Bool) {
     slideController.viewDidDisappear()
 }
 ```
-
-# License
-
-SlideController is available under the MIT license.
