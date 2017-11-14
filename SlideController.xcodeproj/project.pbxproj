@@ -13,7 +13,6 @@
 		86473D691FBB158C00055999 /* SlideContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D5E1FBB158B00055999 /* SlideContainerView.swift */; };
 		86473D6A1FBB158C00055999 /* SlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D5F1FBB158B00055999 /* SlideView.swift */; };
 		86473D6B1FBB158C00055999 /* SlideContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D601FBB158B00055999 /* SlideContentView.swift */; };
-		86473D6C1FBB158C00055999 /* FeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D611FBB158B00055999 /* FeatureManager.swift */; };
 		86473D6D1FBB158C00055999 /* TitleItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D621FBB158B00055999 /* TitleItemController.swift */; };
 		86473D6E1FBB158C00055999 /* SlideContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D631FBB158B00055999 /* SlideContentController.swift */; };
 		86473D6F1FBB158C00055999 /* TitleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D641FBB158C00055999 /* TitleScrollView.swift */; };
@@ -49,7 +48,6 @@
 		86473D5E1FBB158B00055999 /* SlideContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideContainerView.swift; sourceTree = "<group>"; };
 		86473D5F1FBB158B00055999 /* SlideView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideView.swift; sourceTree = "<group>"; };
 		86473D601FBB158B00055999 /* SlideContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideContentView.swift; sourceTree = "<group>"; };
-		86473D611FBB158B00055999 /* FeatureManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureManager.swift; sourceTree = "<group>"; };
 		86473D621FBB158B00055999 /* TitleItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleItemController.swift; sourceTree = "<group>"; };
 		86473D631FBB158B00055999 /* SlideContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideContentController.swift; sourceTree = "<group>"; };
 		86473D641FBB158C00055999 /* TitleScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleScrollView.swift; sourceTree = "<group>"; };
@@ -106,7 +104,6 @@
 		86473D411FBB150A00055999 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				86473D611FBB158B00055999 /* FeatureManager.swift */,
 				86473D661FBB158C00055999 /* SlideContainerController.swift */,
 				86473D5E1FBB158B00055999 /* SlideContainerView.swift */,
 				86473D631FBB158B00055999 /* SlideContentController.swift */,
@@ -285,7 +282,6 @@
 			files = (
 				86473D6B1FBB158C00055999 /* SlideContentView.swift in Sources */,
 				86473D6A1FBB158C00055999 /* SlideView.swift in Sources */,
-				86473D6C1FBB158C00055999 /* FeatureManager.swift in Sources */,
 				86473D691FBB158C00055999 /* SlideContainerView.swift in Sources */,
 				86473D721FBB158C00055999 /* SlidePageModel.swift in Sources */,
 				86473D701FBB158C00055999 /* TitleSlidableController.swift in Sources */,
@@ -445,7 +441,7 @@
 				INFOPLIST_FILE = "Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_SWIFT_FLAGS = "-D DEVELOPMENT";
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.touchlane.SlideController;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -468,7 +464,7 @@
 				INFOPLIST_FILE = "Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				OTHER_SWIFT_FLAGS = "-D DEVELOPMENT";
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.touchlane.SlideController;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

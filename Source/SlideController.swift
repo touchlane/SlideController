@@ -203,33 +203,26 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     // MARK: - ControllerSlidableImplementation
     
     public func append(object objects: [SlideLifeCycleObjectProvidable]) {
-        if objects.count > 0 {
-            let shouldLoadView = content.isEmpty
-            content.append(contentsOf: objects)
-            contentSlidableController.append(pagesCount: objects.count)
-            titleSlidableController.append(pagesCount: objects.count)
-            
-            if FeatureManager().viewUnloading.isEnabled {
-                if shouldLoadView {
-                    loadView(pageIndex: currentIndex)
-                }
-            }
-            
-            if contentSlidableController.slideContentView.isLayouted {
-                contentSlidableController.slideContentView.layoutIfNeeded()
-            }
-            if titleSlidableController.titleView.isLayouted {
-                titleSlidableController.titleView.layoutIfNeeded()
-            }
-            titleSlidableController.jump(index: currentIndex, animated: false)
-            if FeatureManager().viewUnloading.isEnabled {
-                // Load next view if we were at the last position
-                if currentIndex == content.count - 2 {
-                    loadViewIfNeeded(pageIndex: currentIndex + 1)
-                }
-            } else {
-                loadView(pageIndex: currentIndex)
-            }
+        guard objects.count > 0 else {
+            return
+        }
+        content.append(contentsOf: objects)
+        contentSlidableController.append(pagesCount: objects.count)
+        titleSlidableController.append(pagesCount: objects.count)
+        
+        loadView(pageIndex: currentIndex)
+        
+        if contentSlidableController.slideContentView.isLayouted {
+            contentSlidableController.slideContentView.layoutIfNeeded()
+        }
+        if titleSlidableController.titleView.isLayouted {
+            titleSlidableController.titleView.layoutIfNeeded()
+        }
+        titleSlidableController.jump(index: currentIndex, animated: false)
+        
+        // Load next view if we were at the last position
+        if currentIndex == content.count - 2 {
+            loadViewIfNeeded(pageIndex: currentIndex + 1)
         }
     }
 
@@ -255,71 +248,44 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             titleSlidableController.jump(index: currentIndex, animated: false)
             isForcedToSlide = false
             self.contentSlidableController.slideContentView.delegate = self
-            if FeatureManager().viewUnloading.isEnabled {
-                unloadView(at: index - 1)
-            }
+            unloadView(at: index - 1)
             loadViewIfNeeded(pageIndex: index)
-        } else {
-            if !FeatureManager().viewUnloading.isEnabled {
-                loadView(pageIndex: currentIndex)
-            }
         }
     }
     
     public func removeAtIndex(index: Int) {
-        guard index < content.count else { return }
-        if FeatureManager().viewUnloading.isEnabled {
-            contentSlidableController.slideContentView.delegate = nil
+        guard index < content.count else {
+            return
             
-            content.remove(at: index)
-            contentSlidableController.removeAtIndex(index: index)
-            titleSlidableController.removeAtIndex(index: index)
-            
-            let isNearCurrentIndex = currentIndex + 1 == index || currentIndex - 1 == index
-            if isNearCurrentIndex || currentIndex == index {
-                loadViewIfNeeded(pageIndex: index + 1)
-                loadViewIfNeeded(pageIndex: index)
-                loadViewIfNeeded(pageIndex: index - 1)
-            }
-            
-            if index < currentIndex {
-                shift(pageIndex: currentIndex - 1, animated: false)
-                currentIndex = currentIndex - 1
-            } else if index == currentIndex {
-                /// TODO: check this case
-                if currentIndex < content.count {
-                    shift(pageIndex: currentIndex, animated: false)
-                } else {
-                    shift(pageIndex: currentIndex - 1, animated: false)
-                    if currentIndex != 0 {
-                        currentIndex = currentIndex - 1
-                    }
-                }
-            }
-            contentSlidableController.slideContentView.delegate = self
-        } else {
-            //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
-            shouldRemoveContentAfterAnimation = index == currentIndex
-            if !shouldRemoveContentAfterAnimation {
-                content.remove(at: index)
-                contentSlidableController.removeAtIndex(index: index)
-                titleSlidableController.removeAtIndex(index: index)
-            } else {
-                indexToRemove = index
-            }
-            if index < currentIndex {
-                shift(pageIndex: currentIndex - 1, animated: false)
-                isForcedToSlide = false
-            } else if index == currentIndex {
-                if currentIndex < content.count - (shouldRemoveContentAfterAnimation ? 1: 0) || content.count == 1 {
-                    removeContentIfNeeded()
-                    titleSlidableController.jump(index: currentIndex, animated: false)
-                } else {
-                    shift(pageIndex: currentIndex - 1, animated: true)
-                }
-            }
-            loadView(pageIndex: currentIndex)
         }
+        contentSlidableController.slideContentView.delegate = nil
+        
+        content.remove(at: index)
+        contentSlidableController.removeAtIndex(index: index)
+        titleSlidableController.removeAtIndex(index: index)
+        
+        let isNearCurrentIndex = currentIndex + 1 == index || currentIndex - 1 == index
+        if isNearCurrentIndex || currentIndex == index {
+            loadViewIfNeeded(pageIndex: index + 1)
+            loadViewIfNeeded(pageIndex: index)
+            loadViewIfNeeded(pageIndex: index - 1)
+        }
+        
+        if index < currentIndex {
+            shift(pageIndex: currentIndex - 1, animated: false)
+            currentIndex = currentIndex - 1
+        } else if index == currentIndex {
+            /// TODO: check this case
+            if currentIndex < content.count {
+                shift(pageIndex: currentIndex, animated: false)
+            } else {
+                shift(pageIndex: currentIndex - 1, animated: false)
+                if currentIndex != 0 {
+                    currentIndex = currentIndex - 1
+                }
+            }
+        }
+        contentSlidableController.slideContentView.delegate = self
     }
     
     public func shift(pageIndex: Int, animated: Bool = true) {
@@ -330,7 +296,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             isForcedToSlide = true
         }
         loadViewIfNeeded(pageIndex: pageIndex)
-        
         
         if animated {
             sourceIndex = currentIndex
@@ -387,14 +352,12 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
 
         let isDestinationTransition = nextIndex == (destinationIndex ?? nextIndex)
         let objectIndex = sourceIndex ?? currentIndex
-        
         if !scrollInProgress && !isForcedToSlide && isDestinationTransition {
             if content.indices.contains(objectIndex) {
                 content[objectIndex].lifeCycleObject.didStartSliding()
                 scrollInProgress = true
             }
         }
-        
 
         let scrollingDirection = determineScrollingDirection(lastContentOffset: lastContentOffset, currentContentOffset: scrollView.contentOffset)
         if !isForcedToSlide {
@@ -404,8 +367,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             case .down, .left:
                 loadViewIfNeeded(pageIndex: nextIndex + 1)
             }
-
         }
+        
         let didReachContentEdge = actualContentOffset.truncatingRemainder(dividingBy: pageSize) == 0.0
         if didReachContentEdge {
             scrollInProgress = false
@@ -414,9 +377,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                     loadView(pageIndex: nextIndex)
                 }
                 if !isForcedToSlide {
-                    if FeatureManager().viewUnloading.isEnabled {
-                        unloadView(around: currentIndex)
-                    }
+                    unloadView(around: currentIndex)
                     titleSlidableController.jump(index: nextIndex, animated: false)
                 }
             } else {
@@ -440,10 +401,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         didFinishSlideAction = nil
         titleSlidableController.isSelectionAllowed = true
         titleSlidableController.titleView.isScrollEnabled = true
-        if FeatureManager().viewUnloading.isEnabled {
-            if isForcedToSlide {
-                unloadView(around: currentIndex)
-            }
+        if isForcedToSlide {
+            unloadView(around: currentIndex)
         }
         isForcedToSlide = false
         sourceIndex = nil
