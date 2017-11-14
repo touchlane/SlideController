@@ -243,15 +243,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             titleSlidableController.titleView.layoutIfNeeded()
         }
         if index <= currentIndex {
-            self.contentSlidableController.slideContentView.delegate = nil
+            contentSlidableController.slideContentView.delegate = nil
             shift(pageIndex: currentIndex + 1, animated: false)
-            if contentSlidableController.slideContentView.isLayouted {
-                currentIndex = currentIndex + 1
-            }
-            titleSlidableController.jump(index: currentIndex, animated: false)
+            currentIndex = currentIndex + 1
             isForcedToSlide = false
-            self.contentSlidableController.slideContentView.delegate = self
-            unloadView(at: index - 1)
+            contentSlidableController.slideContentView.delegate = self
+            if index != currentIndex {
+                unloadView(at: index - 1)
+            }
             loadViewIfNeeded(pageIndex: index)
         }
     }
@@ -313,7 +312,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         
         if !self.contentSlidableController.slideContentView.isLayouted {
-            loadView(pageIndex: pageIndex)
+            loadViewIfNeeded(pageIndex: pageIndex)
         } else {
             scrollToPage(pageIndex: pageIndex, animated: animated)
         }
