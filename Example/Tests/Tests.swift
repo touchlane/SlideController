@@ -12,11 +12,12 @@ class Tests: XCTestCase {
             pagesContent: [],
             startPageIndex: 0,
             slideDirection: SlideDirection.horizontal)
-        
+        slideController.viewDidAppear()
     }
     
     override func tearDown() {
         super.tearDown()
+        slideController = nil
     }
     
     func testAppended() {
@@ -26,7 +27,6 @@ class Tests: XCTestCase {
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         slideController.viewDidAppear()
-        
         
         let contentCount = slideController.content.count
         let currentIndex = slideController.content.index(where: {
@@ -38,14 +38,12 @@ class Tests: XCTestCase {
     }
     
     func testAppendedLifeCycle() {
-        let utils = TestLifeCycleObjectUtils()
         let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let page4 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3, page4]
         slideController.append(object: givenContent)
-        slideController.viewDidAppear()
         
         guard let currentPage = slideController.currentModel?.lifeCycleObject as? TestableLifeCycleObject,
             let secondPage = page2.lifeCycleObject as? TestableLifeCycleObject,
@@ -54,9 +52,34 @@ class Tests: XCTestCase {
             XCTFail("page is not TestableLifeCycleObject")
             return
         }
-        utils.assertPresentedLifeCycleObject(object: currentPage, wasSlided: false)
-        utils.assertOutsideScreenLifeCycleObject(object: secondPage, shouldBeLoad: true)
-        utils.assertOutsideScreenLifeCycleObject(object: thirdPage, shouldBeLoad: false)
-        utils.assertOutsideScreenLifeCycleObject(object: fourthPage, shouldBeLoad: false)
+        
+        /// Presented page
+        XCTAssert(currentPage.didAppearTriggered)
+        XCTAssert(!currentPage.didDissapearTriggered)
+        XCTAssert(currentPage.viewDidLoadTriggered)
+        XCTAssert(!currentPage.viewDidUnloadTriggered)
+        XCTAssert(!currentPage.didStartSlidingTriggered)
+        XCTAssert(!currentPage.didCancelSlidingTriggered)
+        
+        XCTAssert(!secondPage.didAppearTriggered)
+        XCTAssert(!secondPage.didDissapearTriggered)
+        XCTAssert(secondPage.viewDidLoadTriggered)
+        XCTAssert(!secondPage.viewDidUnloadTriggered)
+        XCTAssert(!secondPage.didStartSlidingTriggered)
+        XCTAssert(!secondPage.didCancelSlidingTriggered)
+        
+        XCTAssert(!thirdPage.didAppearTriggered)
+        XCTAssert(!thirdPage.didDissapearTriggered)
+        XCTAssert(!thirdPage.viewDidLoadTriggered)
+        XCTAssert(!thirdPage.viewDidUnloadTriggered)
+        XCTAssert(!thirdPage.didStartSlidingTriggered)
+        XCTAssert(!thirdPage.didCancelSlidingTriggered)
+        
+        XCTAssert(!fourthPage.didAppearTriggered)
+        XCTAssert(!fourthPage.didDissapearTriggered)
+        XCTAssert(!fourthPage.viewDidLoadTriggered)
+        XCTAssert(!fourthPage.viewDidUnloadTriggered)
+        XCTAssert(!fourthPage.didStartSlidingTriggered)
+        XCTAssert(!fourthPage.didCancelSlidingTriggered)
     }
 }
