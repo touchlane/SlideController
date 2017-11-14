@@ -206,11 +206,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         guard objects.count > 0 else {
             return
         }
+        let shoudLoadView = content.isEmpty
         content.append(contentsOf: objects)
         contentSlidableController.append(pagesCount: objects.count)
         titleSlidableController.append(pagesCount: objects.count)
         
-        loadView(pageIndex: currentIndex)
+        if shoudLoadView {
+            loadView(pageIndex: currentIndex)
+        }
         
         if contentSlidableController.slideContentView.isLayouted {
             contentSlidableController.slideContentView.layoutIfNeeded()
