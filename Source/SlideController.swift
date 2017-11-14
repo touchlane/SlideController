@@ -211,8 +211,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             
             if FeatureManager().viewUnloading.isEnabled {
                 if shouldLoadView {
-                    loadViewIfNeeded(pageIndex: currentIndex)
-                    loadViewIfNeeded(pageIndex: currentIndex + 1)
+                    loadView(pageIndex: currentIndex)
                 }
             }
             
