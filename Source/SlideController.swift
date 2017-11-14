@@ -384,7 +384,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 content[currentIndex].lifeCycleObject.didCancelSliding()
                 unloadView(around: currentIndex)
             }
-            removeContentIfNeeded()
         } else {
             if !isForcedToSlide {
                 updateTitleScrollOffset(contentOffset: actualContentOffset, pageSize: pageSize)
@@ -395,7 +394,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        removeContentIfNeeded()
         didFinishForceSlide?()
         didFinishSlideAction?()
         didFinishSlideAction = nil
@@ -541,16 +539,5 @@ private extension PrivateSlideController {
             }
         }
         return nil
-    }
-
-    func removeContentIfNeeded() {
-        guard let index = indexToRemove, shouldRemoveContentAfterAnimation else {
-            return
-        }
-        shouldRemoveContentAfterAnimation = false
-        indexToRemove = nil
-        content.remove(at: index)
-        contentSlidableController.removeAtIndex(index: index)
-        titleSlidableController.removeAtIndex(index: index)
     }
 }
