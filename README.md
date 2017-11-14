@@ -83,14 +83,6 @@ override func viewDidDisappear(_ animated: Bool) {
 }
 ```
 
-# Sample Project
-
-Before compilation run `pod install` in Example directory.
-
-# Author
-
-Touchlane LLC
-
 # License
 
-SlideController is available under the MIT license. See the LICENSE file for more info.
+SlideController is available under the MIT license.
