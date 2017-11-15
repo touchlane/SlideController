@@ -8,6 +8,9 @@
 
 SlideController is simple and flexible MVP-based UI component completely written in Swift. It is nice alternative for UIPageViewController built using power of generic types.
 
+![Horizontal](Example/Assets/horizontal.gif)
+![Vertical](Example/Assets/vertical.gif)
+
 # Requirements
 
 * iOS 9.0+
@@ -24,7 +27,7 @@ SlideController is simple and flexible MVP-based UI component completely written
 
 To integrate SlideController into your Xcode project using CocoaPods, specify it in your ```Podfile```:
 
-```
+```ruby
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '10.0'
 use_frameworks!
