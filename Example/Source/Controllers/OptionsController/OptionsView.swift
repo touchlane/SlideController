@@ -24,7 +24,7 @@ class OptionsView: UIView {
     
     init() {
         super.init(frame: CGRect.zero)
-        backgroundColor = UIColor.black
+        backgroundColor = UIColor.white
         
         internalHorizontalDemoButton.setTitle(NSLocalizedString("HorizontalSampleButtonTitle", comment: ""), for: .normal)
         internalHorizontalDemoButton.clipsToBounds = true
