@@ -8,34 +8,36 @@
 
 import UIKit
 
-protocol OptionsViewProtocol : class {
-    var horizontalDemoBtn: Actionable { get }
-    var verticalDemoBtn: Actionable { get }
+protocol OptionsViewProtocol: class {
+    var horizontalDemoButton: Actionable { get }
+    var verticalDemoButton: Actionable { get }
 }
 
-class OptionsView : UIView {
-    private let optionBtnWidth: CGFloat = 220
-    private let optionBtnHeigh: CGFloat = 32
-    private let horizontalDemoBtnCenterYOffset: CGFloat = -16
-    private let verticalDemoBtnCenterYOffset: CGFloat = 16
-    private let internalHorizontalDemoBtn = FilledButton()
-    private let internalVerticalDemoBtn = FilledButton()
+class OptionsView: UIView {
+    private let optionButtonWidth: CGFloat = 220
+    private let optionButtonHeigh: CGFloat = 32
+    private let horizontalDemoButtonCenterYOffset: CGFloat = -16
+    private let verticalDemoButtonCenterYOffset: CGFloat = 16
+    private let internalHorizontalDemoButton = FilledButton()
+    private let internalVerticalDemoButton = FilledButton()
     
     init() {
         super.init(frame: CGRect.zero)
         backgroundColor = UIColor.black
-        internalHorizontalDemoBtn.setTitle(NSLocalizedString("HorizontalSampleButtonTitle", comment: ""), for: UIControlState())
-        internalHorizontalDemoBtn.clipsToBounds = true
-        internalHorizontalDemoBtn.layer.cornerRadius = optionBtnHeigh / 2
-        internalHorizontalDemoBtn.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(internalHorizontalDemoBtn)
-        activateOptionBtnConstraints(view: internalHorizontalDemoBtn, centerYOffset: horizontalDemoBtnCenterYOffset)
-        internalVerticalDemoBtn.setTitle(NSLocalizedString("VerticalSampleButtonTitle", comment: ""), for: UIControlState())
-        internalVerticalDemoBtn.clipsToBounds = true
-        internalVerticalDemoBtn.layer.cornerRadius = optionBtnHeigh / 2
-        internalVerticalDemoBtn.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(internalVerticalDemoBtn)
-        activateOptionBtnConstraints(view: internalVerticalDemoBtn, centerYOffset: verticalDemoBtnCenterYOffset)
+        internalHorizontalDemoButton.setTitle(NSLocalizedString("HorizontalSampleButtonTitle", comment: ""),
+                                              for: .normal)
+        internalHorizontalDemoButton.clipsToBounds = true
+        internalHorizontalDemoButton.layer.cornerRadius = optionButtonHeigh / 2
+        internalHorizontalDemoButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(internalHorizontalDemoButton)
+        activateOptionBtnConstraints(view: internalHorizontalDemoButton, centerYOffset: horizontalDemoButtonCenterYOffset)
+        internalVerticalDemoButton.setTitle(NSLocalizedString("VerticalSampleButtonTitle", comment: ""),
+                                            for: .normal)
+        internalVerticalDemoButton.clipsToBounds = true
+        internalVerticalDemoButton.layer.cornerRadius = optionButtonHeigh / 2
+        internalVerticalDemoButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(internalVerticalDemoButton)
+        activateOptionBtnConstraints(view: internalVerticalDemoButton, centerYOffset: verticalDemoButtonCenterYOffset)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,19 +51,19 @@ private extension PrivateOptionsView {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.centerXAnchor.constraint(equalTo: self.centerXAnchor))
         constraints.append(view.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: centerYOffset * 2))
-        constraints.append(view.heightAnchor.constraint(equalToConstant: optionBtnHeigh))
-        constraints.append(view.widthAnchor.constraint(equalToConstant: optionBtnWidth))
+        constraints.append(view.heightAnchor.constraint(equalToConstant: optionButtonHeigh))
+        constraints.append(view.widthAnchor.constraint(equalToConstant: optionButtonWidth))
         NSLayoutConstraint.activate(constraints)
     }
 }
 
 private typealias OptionsViewProtocolImplementation = OptionsView
-extension OptionsViewProtocolImplementation : OptionsViewProtocol {
-    var horizontalDemoBtn: Actionable {
-        return internalHorizontalDemoBtn
+extension OptionsViewProtocolImplementation: OptionsViewProtocol {
+    var horizontalDemoButton: Actionable {
+        return internalHorizontalDemoButton
     }
     
-    var verticalDemoBtn: Actionable {
-        return internalVerticalDemoBtn
+    var verticalDemoButton: Actionable {
+        return internalVerticalDemoButton
     }
 }
