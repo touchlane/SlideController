@@ -262,6 +262,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         contentSlidableController.slideContentView.delegate = nil
         
+        if index == currentIndex && content.indices.contains(index) {
+            content[index].lifeCycleObject.didDissapear()
+        }
+        unloadView(at: index)
+        
         content.remove(at: index)
         contentSlidableController.removeAtIndex(index: index)
         titleSlidableController.removeAtIndex(index: index)
