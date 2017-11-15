@@ -20,24 +20,30 @@ class OptionsView: UIView {
     private let verticalDemoButtonCenterYOffset: CGFloat = 16
     private let internalHorizontalDemoButton = FilledButton()
     private let internalVerticalDemoButton = FilledButton()
+    private let copyrightLabel = UILabel()
     
     init() {
         super.init(frame: CGRect.zero)
         backgroundColor = UIColor.black
-        internalHorizontalDemoButton.setTitle(NSLocalizedString("HorizontalSampleButtonTitle", comment: ""),
-                                              for: .normal)
+        
+        internalHorizontalDemoButton.setTitle(NSLocalizedString("HorizontalSampleButtonTitle", comment: ""), for: .normal)
         internalHorizontalDemoButton.clipsToBounds = true
         internalHorizontalDemoButton.layer.cornerRadius = optionButtonHeigh / 2
         internalHorizontalDemoButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(internalHorizontalDemoButton)
-        activateOptionBtnConstraints(view: internalHorizontalDemoButton, centerYOffset: horizontalDemoButtonCenterYOffset)
-        internalVerticalDemoButton.setTitle(NSLocalizedString("VerticalSampleButtonTitle", comment: ""),
-                                            for: .normal)
+        activateOptionButtonConstraints(view: internalHorizontalDemoButton, centerYOffset: horizontalDemoButtonCenterYOffset)
+        
+        internalVerticalDemoButton.setTitle(NSLocalizedString("VerticalSampleButtonTitle", comment: ""), for: .normal)
         internalVerticalDemoButton.clipsToBounds = true
         internalVerticalDemoButton.layer.cornerRadius = optionButtonHeigh / 2
         internalVerticalDemoButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(internalVerticalDemoButton)
-        activateOptionBtnConstraints(view: internalVerticalDemoButton, centerYOffset: verticalDemoButtonCenterYOffset)
+        activateOptionButtonConstraints(view: internalVerticalDemoButton, centerYOffset: verticalDemoButtonCenterYOffset)
+
+        copyrightLabel.text = NSLocalizedString("CopyrightText", comment: "")
+        copyrightLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(copyrightLabel)
+        activateCopyrightLabelConstraints(view: copyrightLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,13 +53,26 @@ class OptionsView: UIView {
 
 private typealias PrivateOptionsView = OptionsView
 private extension PrivateOptionsView {
-    func activateOptionBtnConstraints (view: UIView, centerYOffset: CGFloat) {
-        var constraints = [NSLayoutConstraint]()
-        constraints.append(view.centerXAnchor.constraint(equalTo: self.centerXAnchor))
-        constraints.append(view.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: centerYOffset * 2))
-        constraints.append(view.heightAnchor.constraint(equalToConstant: optionButtonHeigh))
-        constraints.append(view.widthAnchor.constraint(equalToConstant: optionButtonWidth))
-        NSLayoutConstraint.activate(constraints)
+    func activateOptionButtonConstraints (view: UIView, centerYOffset: CGFloat) {
+        guard let superview = view.superview else {
+            return
+        }
+        NSLayoutConstraint.activate([
+            view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+            view.centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: centerYOffset * 2),
+            view.heightAnchor.constraint(equalToConstant: optionButtonHeigh),
+            view.widthAnchor.constraint(equalToConstant: optionButtonWidth)
+            ])
+    }
+    
+    func activateCopyrightLabelConstraints(view: UIView) {
+        guard let superview = view.superview else {
+            return
+        }
+        NSLayoutConstraint.activate([
+            view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+            view.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -20)
+            ])
     }
 }
 
