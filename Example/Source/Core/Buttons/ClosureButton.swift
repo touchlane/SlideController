@@ -8,12 +8,12 @@
 
 import UIKit
 
-protocol Actionable : class {
-    var didTouchUpInside: (() -> ())? { get set }
+protocol Actionable: class {
+    var didTouchUpInside: (() -> Void)? { get set }
 }
 
 class ClosureButton: UIButton {
-    private var internalDidTouchUpInside: (() -> ())? {
+    private var internalDidTouchUpInside: (() -> Void)? {
         didSet {
             if internalDidTouchUpInside != nil {
                 addTarget(self, action: #selector(didTouchUpInside(_:)), for: .touchUpInside)
@@ -33,7 +33,7 @@ private extension PrivateClosureButton {
 
 private typealias ActionableImplementation = ClosureButton
 extension ActionableImplementation : Actionable {
-     var didTouchUpInside: (() -> ())? {
+     var didTouchUpInside: (() -> Void)? {
         get {
             return internalDidTouchUpInside
         }

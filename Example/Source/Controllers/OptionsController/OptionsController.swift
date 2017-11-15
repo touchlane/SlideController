@@ -8,9 +8,9 @@
 
 import UIKit
 
-protocol OptionsControllerProtocol : class {
-    var openHorizontalDemoAction: (() -> ())? { get set }
-    var openVerticalDemoAction: (() -> ())? { get set }
+protocol OptionsControllerProtocol: class {
+    var openHorizontalDemoAction: (() -> Void)? { get set }
+    var openVerticalDemoAction: (() -> Void)? { get set }
 }
 
 class OptionsController {
@@ -19,27 +19,27 @@ class OptionsController {
 
 private typealias OptionsControllerProtocolImplementation = OptionsController
 extension OptionsControllerProtocolImplementation : OptionsControllerProtocol {
-    var openHorizontalDemoAction: (() -> ())? {
+    var openHorizontalDemoAction: (() -> Void)? {
         get {
-            return internalView.horizontalDemoBtn.didTouchUpInside
+            return internalView.horizontalDemoButton.didTouchUpInside
         }
         set {
-            internalView.horizontalDemoBtn.didTouchUpInside = newValue
+            internalView.horizontalDemoButton.didTouchUpInside = newValue
         }
     }
     
-    var openVerticalDemoAction: (() -> ())? {
+    var openVerticalDemoAction: (() -> Void)? {
         get {
-            return internalView.verticalDemoBtn.didTouchUpInside
+            return internalView.verticalDemoButton.didTouchUpInside
         }
         set {
-            internalView.verticalDemoBtn.didTouchUpInside = newValue
+            internalView.verticalDemoButton.didTouchUpInside = newValue
         }
     }
 }
 
 private typealias ViewAccessibleImplementation = OptionsController
-extension ViewAccessibleImplementation : ViewAccessible {
+extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
         get {
             return internalView
