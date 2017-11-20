@@ -134,11 +134,10 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     ///Array of specified models
-    public fileprivate(set) var content = [SlideLifeCycleObjectProvidable]()
-
-    //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
-    fileprivate var shouldRemoveContentAfterAnimation: Bool = false
-    fileprivate var indexToRemove: Int?
+    public private(set) var content = [SlideLifeCycleObjectProvidable]()
+    
+    ///Allows views unloading
+    public var isContentUnloadingEnabled = true
     
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
@@ -489,12 +488,18 @@ private extension PrivateSlideController {
     }
     
     func unloadView(around currentIndex: Int) {
+        guard isContentUnloadingEnabled else {
+            return
+        }
         let loadedViewIndices = [currentIndex - 1, currentIndex, currentIndex + 1]
         let unloadIndices = content.indices.filter{ !loadedViewIndices.contains($0) }
         unloadIndices.forEach { unloadView(at: $0) }
     }
     
     func unloadView(at index: Int) {
+        guard isContentUnloadingEnabled else {
+            return
+        }
         guard content.indices.contains(index) else {
             return
         }
