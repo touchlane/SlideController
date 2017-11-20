@@ -244,8 +244,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         if index <= currentIndex {
             contentSlidableController.slideContentView.delegate = nil
-            shift(pageIndex: currentIndex + 1, animated: false)
-            currentIndex = currentIndex + 1
+            let newCurrentIndex = currentIndex + 1
+            shift(pageIndex: newCurrentIndex, animated: false)
+            currentIndex = newCurrentIndex
             isForcedToSlide = false
             contentSlidableController.slideContentView.delegate = self
             if index != currentIndex {
