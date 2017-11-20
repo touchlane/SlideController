@@ -137,7 +137,26 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     public private(set) var content = [SlideLifeCycleObjectProvidable]()
     
     ///Allows views unloading
-    public var isContentUnloadingEnabled = true
+    public var isContentUnloadingEnabled = true {
+        didSet {
+            guard oldValue != isContentUnloadingEnabled else {
+                return
+            }
+            if isContentUnloadingEnabled {
+                // Unload all views, besides current view and views around
+                content.indices.forEach { (index) in
+                    if abs(index - currentIndex) <= 1 {
+                        unloadView(at: index)
+                    }
+                }
+            } else {
+                // Load all views
+                content.indices.forEach { (index) in
+                    loadViewIfNeeded(pageIndex: index)
+                }
+            }
+        }
+    }
     
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
@@ -226,6 +245,12 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if currentIndex == content.count - 2 {
             loadViewIfNeeded(pageIndex: currentIndex + 1)
         }
+        if !isContentUnloadingEnabled {
+            // Load all views
+            content.indices.forEach { (index) in
+                loadViewIfNeeded(pageIndex: index)
+            }
+        }
     }
 
     public func insert(object: SlideLifeCycleObjectProvidable, index: Int) {
@@ -247,9 +272,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             currentIndex = currentIndex + 1
             isForcedToSlide = false
             contentSlidableController.slideContentView.delegate = self
-            if index != currentIndex {
+            if index != currentIndex && isContentUnloadingEnabled {
                 unloadView(at: index - 1)
             }
+            loadViewIfNeeded(pageIndex: index)
+        } else if !isContentUnloadingEnabled {
             loadViewIfNeeded(pageIndex: index)
         }
     }
@@ -383,12 +410,16 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                     loadView(pageIndex: nextIndex)
                 }
                 if !isForcedToSlide {
-                    unloadView(around: currentIndex)
+                    if isContentUnloadingEnabled {
+                        unloadView(around: currentIndex)
+                    }
                     titleSlidableController.jump(index: nextIndex, animated: false)
                 }
             } else {
                 content[currentIndex].lifeCycleObject.didCancelSliding()
-                unloadView(around: currentIndex)
+                if isContentUnloadingEnabled {
+                    unloadView(around: currentIndex)
+                }
             }
         } else {
             if !isForcedToSlide {
@@ -405,7 +436,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         didFinishSlideAction = nil
         titleSlidableController.isSelectionAllowed = true
         titleSlidableController.titleView.isScrollEnabled = true
-        if isForcedToSlide {
+        if isForcedToSlide && isContentUnloadingEnabled {
             unloadView(around: currentIndex)
         }
         isForcedToSlide = false
@@ -488,18 +519,12 @@ private extension PrivateSlideController {
     }
     
     func unloadView(around currentIndex: Int) {
-        guard isContentUnloadingEnabled else {
-            return
-        }
         let loadedViewIndices = [currentIndex - 1, currentIndex, currentIndex + 1]
         let unloadIndices = content.indices.filter{ !loadedViewIndices.contains($0) }
         unloadIndices.forEach { unloadView(at: $0) }
     }
     
     func unloadView(at index: Int) {
-        guard isContentUnloadingEnabled else {
-            return
-        }
         guard content.indices.contains(index) else {
             return
         }
