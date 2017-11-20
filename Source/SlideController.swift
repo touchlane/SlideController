@@ -317,7 +317,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         
         if !self.contentSlidableController.slideContentView.isLayouted {
-            loadViewIfNeeded(pageIndex: pageIndex)
+            loadViewIfNeeded(pageIndex: pageIndex, truePage: true)
         } else {
             scrollToPage(pageIndex: pageIndex, animated: animated)
         }
