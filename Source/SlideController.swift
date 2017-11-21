@@ -134,11 +134,29 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     ///Array of specified models
-    public fileprivate(set) var content = [SlideLifeCycleObjectProvidable]()
-
-    //TODO: Refactoring. we had to add the flag to prevent crash when the current page is being removed
-    fileprivate var shouldRemoveContentAfterAnimation: Bool = false
-    fileprivate var indexToRemove: Int?
+    public private(set) var content = [SlideLifeCycleObjectProvidable]()
+    
+    ///Allows views unloading
+    public var isContentUnloadingEnabled = true {
+        didSet {
+            guard oldValue != isContentUnloadingEnabled else {
+                return
+            }
+            if isContentUnloadingEnabled {
+                // Unload all views, besides current view and views around
+                content.indices.forEach { (index) in
+                    if abs(index - currentIndex) > 1 {
+                        unloadView(at: index)
+                    }
+                }
+            } else {
+                // Load all views
+                content.indices.forEach { (index) in
+                    loadViewIfNeeded(pageIndex: index)
+                }
+            }
+        }
+    }
     
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
@@ -224,8 +242,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         titleSlidableController.jump(index: currentIndex, animated: false)
         
         // Load next view if we were at the last position
-        if currentIndex == content.count - 2 {
+        if currentIndex == content.count - 1 - objects.count {
             loadViewIfNeeded(pageIndex: currentIndex + 1)
+        }
+        if !isContentUnloadingEnabled {
+            // Load all views
+            content.indices.forEach { (index) in
+                loadViewIfNeeded(pageIndex: index)
+            }
         }
     }
 
@@ -252,15 +276,19 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             isForcedToSlide = false
             contentSlidableController.slideContentView.delegate = self
             // Load view if it's around current
-            if currentIndex - index <= 1 {
+            if currentIndex - index <= 1 || !isContentUnloadingEnabled {
                 loadViewIfNeeded(pageIndex: index)
             }
-            if index != currentIndex {
+            if index != currentIndex && isContentUnloadingEnabled {
                 unloadView(at: index - 1)
             }
         } else if index - currentIndex == 1 {
             loadViewIfNeeded(pageIndex: index)
-            unloadView(at: index + 1)
+            if isContentUnloadingEnabled {
+                unloadView(at: index + 1)
+            }
+        } else if !isContentUnloadingEnabled {
+            loadViewIfNeeded(pageIndex: index)
         }
     }
     
@@ -393,12 +421,16 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                     loadView(pageIndex: nextIndex)
                 }
                 if !isForcedToSlide {
-                    unloadView(around: currentIndex)
+                    if isContentUnloadingEnabled {
+                        unloadView(around: currentIndex)
+                    }
                     titleSlidableController.jump(index: nextIndex, animated: false)
                 }
             } else {
                 content[currentIndex].lifeCycleObject.didCancelSliding()
-                unloadView(around: currentIndex)
+                if isContentUnloadingEnabled {
+                    unloadView(around: currentIndex)
+                }
             }
         } else {
             if !isForcedToSlide {
@@ -415,7 +447,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         didFinishSlideAction = nil
         titleSlidableController.isSelectionAllowed = true
         titleSlidableController.titleView.isScrollEnabled = true
-        if isForcedToSlide {
+        if isForcedToSlide && isContentUnloadingEnabled {
             unloadView(around: currentIndex)
         }
         isForcedToSlide = false
