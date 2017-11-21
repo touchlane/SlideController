@@ -14,15 +14,10 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
     private let internalItemOffsetX: CGFloat = 15
     private let itemOffsetTop: CGFloat = 36
     private let itemHeight: CGFloat = 36
-    private let shadowOpacity: Float = 0.16
     private let internalBackgroundColor = UIColor.purple
     
     override required init() {
         super.init()
-        clipsToBounds = false
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 1)
-        layer.shadowOpacity = shadowOpacity
         backgroundColor = internalBackgroundColor
     }
 
@@ -38,14 +33,14 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
         var prevView: View? = internalItems.last
         let prevPrevView: UIView? = internalItems.count > 1 ? internalItems[items.count - 2] : nil
         if let prevItem = prevView {
-            updateConstraints(prevItem, prevView: prevPrevView, isLast: false)
+            updateConstraints(view: prevItem, prevView: prevPrevView, isLast: false)
         }
         for i in 0...views.count - 1 {
             let view = views[i]
             view.translatesAutoresizingMaskIntoConstraints = false
             internalItems.append(view)
             addSubview(view)
-            activateConstraints(view, prevView: prevView, isLast: i == views.count - 1)
+            activateConstraints(view: view, prevView: prevView, isLast: i == views.count - 1)
             prevView = view
         }
     }
@@ -59,8 +54,8 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
         addSubview(view)
         let prevView: View? = index > 0 ? internalItems[index - 1] :  nil
         let nextView: View = internalItems[index + 1]
-        activateConstraints(view, prevView: prevView, isLast: false)
-        updateConstraints(nextView, prevView: view, isLast: index == internalItems.count - 2)
+        activateConstraints(view: view, prevView: prevView, isLast: false)
+        updateConstraints(view: nextView, prevView: view, isLast: index == internalItems.count - 2)
     }
     
     override func removeViewAtIndex(index: Int) {
@@ -73,10 +68,10 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
         internalItems.remove(at: index)
         view.removeFromSuperview()
         if let nextView = nextView {
-            updateConstraints(nextView, prevView: prevView, isLast: index == internalItems.count - 1)
+            updateConstraints(view: nextView, prevView: prevView, isLast: index == internalItems.count - 1)
         } else if let prevView = prevView {
             let prevPrevView: View? = internalItems.count > 1 ? internalItems[internalItems.count - 2] : nil
-            updateConstraints(prevView, prevView: prevPrevView, isLast: true)
+            updateConstraints(view: prevView, prevView: prevPrevView, isLast: true)
         }
     }
     
@@ -89,7 +84,7 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
 
 private typealias PrivateHorizontalTitleScrollView = HorizontalTitleScrollView
 private extension PrivateHorizontalTitleScrollView {
-    func activateConstraints(_ view: UIView, prevView: UIView?, isLast: Bool) {
+    func activateConstraints(view: UIView, prevView: UIView?, isLast: Bool) {
         var constraints: [NSLayoutConstraint] = []
         constraints.append(view.topAnchor.constraint(equalTo: topAnchor, constant: itemOffsetTop))
         constraints.append(view.heightAnchor.constraint(equalToConstant: itemHeight))
@@ -110,9 +105,9 @@ private extension PrivateHorizontalTitleScrollView {
         NSLayoutConstraint.deactivate(viewConstraints + heigthConstraints)
     }
     
-    func updateConstraints(_ view: UIView, prevView: UIView?, isLast: Bool) {
+    func updateConstraints(view: UIView, prevView: UIView?, isLast: Bool) {
         self.removeConstraints(view: view)
-        self.activateConstraints(view, prevView: prevView, isLast: isLast)
+        self.activateConstraints(view: view, prevView: prevView, isLast: isLast)
     }
     
     func itemOffsetX() -> CGFloat {

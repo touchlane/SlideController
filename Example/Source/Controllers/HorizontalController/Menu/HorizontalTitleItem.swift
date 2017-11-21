@@ -14,7 +14,6 @@ class HorizontalTitleItem: UIView, Initializable, ItemViewable, Selectable {
     
     private var backgroundViewHeight: CGFloat = 2
     private var titleLabelOffsetX: CGFloat = 21
-    private var newIndicatorRadius: CGFloat = 9
     private var internalIsSelected: Bool = false
     private var internalIndex: Int = 0
     private var internalDidSelectAction: ((Int) -> Void)?
