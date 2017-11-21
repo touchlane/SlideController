@@ -252,7 +252,13 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             if index != currentIndex {
                 unloadView(at: index - 1)
             }
+            // Load view if it's around current
+            if currentIndex - index <= 1 {
+                loadViewIfNeeded(pageIndex: index)
+            }
+        } else if index - currentIndex == 1 {
             loadViewIfNeeded(pageIndex: index)
+            unloadView(at: index + 1)
         }
     }
     
