@@ -245,16 +245,18 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if index <= currentIndex {
             contentSlidableController.slideContentView.delegate = nil
             let newCurrentIndex = currentIndex + 1
-            shift(pageIndex: newCurrentIndex, animated: false)
+            if self.contentSlidableController.slideContentView.isLayouted {
+               shift(pageIndex: newCurrentIndex, animated: false)
+            }
             currentIndex = newCurrentIndex
             isForcedToSlide = false
             contentSlidableController.slideContentView.delegate = self
-            if index != currentIndex {
-                unloadView(at: index - 1)
-            }
             // Load view if it's around current
             if currentIndex - index <= 1 {
                 loadViewIfNeeded(pageIndex: index)
+            }
+            if index != currentIndex {
+                unloadView(at: index - 1)
             }
         } else if index - currentIndex == 1 {
             loadViewIfNeeded(pageIndex: index)
