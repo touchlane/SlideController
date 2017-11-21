@@ -145,7 +145,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             if isContentUnloadingEnabled {
                 // Unload all views, besides current view and views around
                 content.indices.forEach { (index) in
-                    if abs(index - currentIndex) <= 1 {
+                    if abs(index - currentIndex) > 1 {
                         unloadView(at: index)
                     }
                 }
@@ -242,7 +242,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         titleSlidableController.jump(index: currentIndex, animated: false)
         
         // Load next view if we were at the last position
-        if currentIndex == content.count - 2 {
+        if currentIndex == content.count - 1 - objects.count {
             loadViewIfNeeded(pageIndex: currentIndex + 1)
         }
         if !isContentUnloadingEnabled {
