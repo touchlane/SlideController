@@ -24,7 +24,7 @@ public class SlidePageModel<T: SlideLifeCycleObject>: SlideLifeCycleObjectProvid
     }
     
     // MARK: - SlideLifeCycleObjectProvidableImplementation
-    public var lifeCycleObject: SlideLifeCycleObject { get { return buildObjectIfNeeded() } }
+    open var lifeCycleObject: SlideLifeCycleObject { get { return buildObjectIfNeeded() } }
 }
 
 private typealias PrivateSlidePageModel = SlidePageModel
