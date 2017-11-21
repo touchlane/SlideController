@@ -10,7 +10,7 @@ public protocol SlideLifeCycleObjectProvidable: class {
     var lifeCycleObject: SlideLifeCycleObject { get }
 }
 
-public class SlidePageModel<T: SlideLifeCycleObject>: SlideLifeCycleObjectProvidable {
+open class SlidePageModel<T: SlideLifeCycleObject>: SlideLifeCycleObjectProvidable {
     ///Internal LifeCycle Object
     private var object: T?
     
