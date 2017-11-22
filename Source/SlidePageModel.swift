@@ -10,18 +10,17 @@ public protocol SlideLifeCycleObjectProvidable: class {
     var lifeCycleObject: SlideLifeCycleObject { get }
 }
 
-open class SlidePageModel<T: SlideLifeCycleObject>: SlideLifeCycleObjectProvidable {
+open class SlidePageModel<T: SlideLifeCycleObject>: SlideLifeCycleObjectProvidable, Initializable {
     ///Internal LifeCycle Object
     private var object: T?
-    
-    public init() {
-        
-    }
     
     ///Use to create model with prebuilt LifeCycle object
     public init(object: T) {
         self.object = object
     }
+    
+    // MARK: - InitializableImplementation
+    required public init() { }
     
     // MARK: - SlideLifeCycleObjectProvidableImplementation
     open var lifeCycleObject: SlideLifeCycleObject { get { return buildObjectIfNeeded() } }
