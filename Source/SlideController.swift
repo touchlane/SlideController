@@ -261,7 +261,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         contentSlidableController.insert(index: index)
         titleSlidableController.insert(index: index)
         if contentSlidableController.slideContentView.isLayouted {
-           contentSlidableController.slideContentView.layoutIfNeeded()
+            contentSlidableController.slideContentView.layoutIfNeeded()
         }
         if titleSlidableController.titleView.isLayouted {
             titleSlidableController.titleView.layoutIfNeeded()
@@ -270,7 +270,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             contentSlidableController.slideContentView.delegate = nil
             let newCurrentIndex = currentIndex + 1
             if self.contentSlidableController.slideContentView.isLayouted {
-               shift(pageIndex: newCurrentIndex, animated: false)
+                shift(pageIndex: newCurrentIndex, animated: false)
             }
             currentIndex = newCurrentIndex
             isForcedToSlide = false
@@ -448,7 +448,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         titleSlidableController.isSelectionAllowed = true
         titleSlidableController.titleView.isScrollEnabled = true
         if isForcedToSlide && isContentUnloadingEnabled {
-            unloadView(around: currentIndex)
+            DispatchQueue.main.async {
+                self.unloadView(around: self.currentIndex)
+            }
         }
         isForcedToSlide = false
         sourceIndex = nil
