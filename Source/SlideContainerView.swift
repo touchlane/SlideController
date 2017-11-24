@@ -35,40 +35,37 @@ final class SlideContainerView {
     func hide(direction: SlideDirection) {
         var removeConstraints: [NSLayoutConstraint] = []
         var addConstraints: [NSLayoutConstraint] = []
+        
+        let layoutAttribute: NSLayoutAttribute
+        let containerViewAnchor: NSLayoutDimension
+        let internalViewAnchor: NSLayoutDimension
+        let constraintConstant: CGFloat
         switch direction {
         case .horizontal:
-            guard let constraintIndex = constraints.index(where: { $0.firstAttribute == .width }) else {
-                return
-            }
-            removeConstraints.append(constraints[constraintIndex])
-            constraints.remove(at: constraintIndex)
-            let widthConstraint = containerView.widthAnchor.constraint(equalToConstant: 0)
-            addConstraints.append(widthConstraint)
-            constraints.append(widthConstraint)
-            
-            guard let viewConstraintIndex = containerView.constraints.index(where: { $0.firstAttribute == .width }) else {
-                return
-            }
-            removeConstraints.append(containerView.constraints[viewConstraintIndex])
-            let viewWidthConstraint = internalView.widthAnchor.constraint(equalToConstant: containerView.frame.size.width)
-            addConstraints.append(viewWidthConstraint)
+            layoutAttribute = .width
+            containerViewAnchor = containerView.widthAnchor
+            internalViewAnchor = internalView.widthAnchor
+            constraintConstant = containerView.frame.size.width
         case .vertical:
-            guard let constraintIndex = constraints.index(where: { $0.firstAttribute == .height }) else {
-                return
-            }
-            removeConstraints.append(constraints[constraintIndex])
-            constraints.remove(at: constraintIndex)
-            let heightConstraint = containerView.heightAnchor.constraint(equalToConstant: 0)
-            addConstraints.append(heightConstraint)
-            constraints.append(heightConstraint)
-            
-            guard let viewConstraintIndex = containerView.constraints.index(where: { $0.firstAttribute == .height }) else {
-                return
-            }
-            removeConstraints.append(containerView.constraints[viewConstraintIndex])
-            let viewHeightConstraint = internalView.heightAnchor.constraint(equalToConstant: containerView.frame.size.height)
-            addConstraints.append(viewHeightConstraint)
+            layoutAttribute = .height
+            containerViewAnchor = containerView.heightAnchor
+            internalViewAnchor = internalView.heightAnchor
+            constraintConstant = containerView.frame.size.height
         }
+        
+        guard let constraintIndex = constraints.index(where: { $0.firstAttribute == layoutAttribute }),
+            let viewConstraintIndex = containerView.constraints.index(where: { $0.firstAttribute == layoutAttribute }) else {
+            return
+        }
+        removeConstraints.append(constraints[constraintIndex])
+        constraints.remove(at: constraintIndex)
+        let constraint = containerViewAnchor.constraint(equalToConstant: 0)
+        addConstraints.append(constraint)
+        constraints.append(constraint)
+        
+        removeConstraints.append(containerView.constraints[viewConstraintIndex])
+        let viewConstraint = internalViewAnchor.constraint(equalToConstant: constraintConstant)
+        addConstraints.append(viewConstraint)
         NSLayoutConstraint.deactivate(removeConstraints)
         NSLayoutConstraint.activate(addConstraints)
     }
@@ -80,40 +77,37 @@ final class SlideContainerView {
         }
         var removeConstraints: [NSLayoutConstraint] = []
         var addConstraints: [NSLayoutConstraint] = []
+        
+        let layoutAttribute: NSLayoutAttribute
+        let containerViewAnchor: NSLayoutDimension
+        let internalViewAnchor: NSLayoutDimension
+        let superviewAnchor: NSLayoutDimension
         switch direction {
         case .horizontal:
-            guard let constraintIndex = constraints.index(where: { $0.firstAttribute == .width }) else {
-                return
-            }
-            removeConstraints.append(constraints[constraintIndex])
-            constraints.remove(at: constraintIndex)
-            let widthConstraint = containerView.widthAnchor.constraint(equalTo: superView.widthAnchor)
-            addConstraints.append(widthConstraint)
-            constraints.append(widthConstraint)
-            
-            guard let viewConstraintIndex = internalView.constraints.index(where: { $0.firstAttribute == .width }) else {
-                return
-            }
-            removeConstraints.append(internalView.constraints[viewConstraintIndex])
-            let viewWidthConstraint = internalView.widthAnchor.constraint(equalTo: containerView.widthAnchor)
-            addConstraints.append(viewWidthConstraint)
+            layoutAttribute = .width
+            containerViewAnchor = containerView.widthAnchor
+            internalViewAnchor = internalView.widthAnchor
+            superviewAnchor = superView.widthAnchor
         case .vertical:
-            guard let constraintIndex = constraints.index(where: { $0.firstAttribute == .height }) else {
-                return
-            }
-            removeConstraints.append(constraints[constraintIndex])
-            constraints.remove(at: constraintIndex)
-            let heightConstraint = containerView.heightAnchor.constraint(equalTo: superView.heightAnchor)
-            addConstraints.append(heightConstraint)
-            constraints.append(heightConstraint)
-            
-            guard let viewConstraintIndex = internalView.constraints.index(where: { $0.firstAttribute == .height }) else {
-                return
-            }
-            removeConstraints.append(internalView.constraints[viewConstraintIndex])
-            let viewHeightConstraint = internalView.heightAnchor.constraint(equalTo: containerView.heightAnchor)
-            addConstraints.append(viewHeightConstraint)
+            layoutAttribute = .height
+            containerViewAnchor = containerView.heightAnchor
+            internalViewAnchor = internalView.heightAnchor
+            superviewAnchor = superView.heightAnchor
         }
+        
+        guard let constraintIndex = constraints.index(where: { $0.firstAttribute == layoutAttribute }),
+            let viewConstraintIndex = internalView.constraints.index(where: { $0.firstAttribute == layoutAttribute }) else {
+            return
+        }
+        removeConstraints.append(constraints[constraintIndex])
+        constraints.remove(at: constraintIndex)
+        let constraint = containerViewAnchor.constraint(equalTo: superviewAnchor)
+        addConstraints.append(constraint)
+        constraints.append(constraint)
+        
+        removeConstraints.append(internalView.constraints[viewConstraintIndex])
+        let viewConstraint = internalViewAnchor.constraint(equalTo: containerViewAnchor)
+        addConstraints.append(viewConstraint)
         NSLayoutConstraint.deactivate(removeConstraints)
         NSLayoutConstraint.activate(addConstraints)
     }
