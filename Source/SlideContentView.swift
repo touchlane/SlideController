@@ -176,7 +176,7 @@ extension ViewSlidableImplementation: ViewSlidable {
             view.translatesAutoresizingMaskIntoConstraints = false
             let viewModel = SlideContainerView(view: view)
             containers.append(viewModel)
-            addSubview(view)
+            addSubview(viewModel.view)
             activateConstraints(page: viewModel, prevPage: prevPage, isLast: i == views.count - 1, direction: slideDirection)
             prevPage = viewModel
         }
@@ -188,7 +188,7 @@ extension ViewSlidableImplementation: ViewSlidable {
         view.translatesAutoresizingMaskIntoConstraints = false
         let viewModel = SlideContainerView(view: view)
         containers.insert(viewModel, at: index)
-        addSubview(view)
+        addSubview(viewModel.view)
         let prevPage = index > 0 ? containers[index - 1]:  nil
         let nextPage = containers[index + 1]
         activateConstraints(page: viewModel, prevPage: prevPage, isLast: false, direction: slideDirection)
