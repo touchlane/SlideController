@@ -110,8 +110,10 @@ final class SlideContentController {
             guard let strongSelf = self else {
                 return
             }
-            strongSelf.slideContentView.showContainers(at: viewIndices)
-            strongSelf.slideContentView.setContentOffset(endOffsetPoint, animated: false)
+            DispatchQueue.main.async {
+                strongSelf.slideContentView.showContainers(at: viewIndices)
+                strongSelf.slideContentView.setContentOffset(endOffsetPoint, animated: false)
+            }
         }
         if animated {
             return afterAnimation
