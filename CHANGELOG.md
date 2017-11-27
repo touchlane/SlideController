@@ -1,3 +1,7 @@
+# Changelog for SlideController 1.0.4
+## Fixed
+* Fix transition between tabs performance
+
 # Changelog for SlideController 1.0.3
 ## Added
 * ``isContentUnloadingEnabled`` setting that allows disable pages unloading
@@ -34,3 +38,4 @@
 * Lock ``TitleView`` for scrolling and selection while ``SlideController's`` is sliding.
 ## Fixed
 * ScrollView automatically adjusted ``contentInsets``.
+
