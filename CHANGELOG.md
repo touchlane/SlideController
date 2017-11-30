@@ -1,13 +1,19 @@
+# Changelog for SlideController 1.1.0
+## Added
+* **Breaking Change** `SlidePageModel` renamed to `SlideLifeCycleObjectBuilder`.
+* Callback method `func indicator(position: CGFloat, size: CGFloat, animated: Bool)` in TitleScrollView to implement sliding indicator.
+* Sliding indicator HorizontalTitleScrollView sample. 
+
 # Changelog for SlideController 1.0.4
 ## Fixed
-* Fix transition between tabs performance
+* Transition between tabs performance.
 
 # Changelog for SlideController 1.0.3
 ## Added
-* ``isContentUnloadingEnabled`` setting that allows disable pages unloading
+* ``isContentUnloadingEnabled`` setting that allows disable pages unloading.
 ## Fixed
-* ``SlidePageLifeCycle`` calls on ``insert(object:, index:)`` 
-* ``SlidePageLifeCycle`` calls on ``shift(pageIndex:, animated:)``
+* ``SlidePageLifeCycle`` calls on ``insert(object:, index:)`` .
+* ``SlidePageLifeCycle`` calls on ``shift(pageIndex:, animated:)``.
 
 # Changelog for SlideController 1.0.2
 ## Added
