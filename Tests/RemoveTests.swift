@@ -5,9 +5,9 @@ import SlideController
 class RemoveTests: BaseTestCase {
     
     func testRemovedCurrent() {
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         
@@ -27,9 +27,9 @@ class RemoveTests: BaseTestCase {
     }
     
     func testRemovedAll() {
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         
@@ -44,9 +44,9 @@ class RemoveTests: BaseTestCase {
     }
     
     func testRemovedVisibleLifeCycle() {
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
 
@@ -66,9 +66,9 @@ class RemoveTests: BaseTestCase {
     }
     
     func testRemovedNearVisibleLifeCycle() {
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         
@@ -88,9 +88,9 @@ class RemoveTests: BaseTestCase {
     }
     
     func testRemovedFarVisibleLifeCycle() {
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         

@@ -5,13 +5,13 @@ import SlideController
 class InsertTests: BaseTestCase {
     
     func testInserted() {
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         
-        let insertingPage = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let insertingPage = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         slideController.insert(object: insertingPage, index: 0)
         
         let contentCount = slideController.content.count
@@ -22,12 +22,12 @@ class InsertTests: BaseTestCase {
     }
     
     func testInsertedAtFirstLifeCycle() {
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2]
         slideController.append(object: givenContent)
         
-        let insertingPage = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let insertingPage = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         slideController.insert(object: insertingPage, index: 0)
         
         guard let insertingObject = insertingPage.lifeCycleObject as? TestableLifeCycleObject,
@@ -60,12 +60,12 @@ class InsertTests: BaseTestCase {
     }
     
     func testInsertedAtLastLifeCycle() {
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2]
         slideController.append(object: givenContent)
         
-        let insertingPage = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let insertingPage = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         slideController.insert(object: insertingPage, index: slideController.content.count - 1)
         
         guard let insertingObject = insertingPage.lifeCycleObject as? TestableLifeCycleObject,
@@ -98,13 +98,13 @@ class InsertTests: BaseTestCase {
     }
     
     func testInsertedBeforeCurrentLifeCycle() {
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2]
         slideController.append(object: givenContent)
         slideController.shift(pageIndex: 1, animated: false)
         
-        let insertingPage = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let insertingPage = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         slideController.insert(object: insertingPage, index: 0)
         
         guard let insertingObject = insertingPage.lifeCycleObject as? TestableLifeCycleObject,

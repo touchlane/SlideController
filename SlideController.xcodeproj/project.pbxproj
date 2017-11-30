@@ -18,7 +18,7 @@
 		86473D6F1FBB158C00055999 /* TitleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D641FBB158C00055999 /* TitleScrollView.swift */; };
 		86473D701FBB158C00055999 /* TitleSlidableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D651FBB158C00055999 /* TitleSlidableController.swift */; };
 		86473D711FBB158C00055999 /* SlideContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D661FBB158C00055999 /* SlideContainerController.swift */; };
-		86473D721FBB158C00055999 /* SlidePageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D671FBB158C00055999 /* SlidePageModel.swift */; };
+		86473D721FBB158C00055999 /* SlideLifeCycleObjectBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D671FBB158C00055999 /* SlideLifeCycleObjectBuilder.swift */; };
 		86473D751FBB15A400055999 /* TestableLifeCycleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D731FBB15A400055999 /* TestableLifeCycleObject.swift */; };
 		86473D761FBB15A400055999 /* AppendTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D741FBB15A400055999 /* AppendTests.swift */; };
 		86473D781FBB165700055999 /* TestTitleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D771FBB165700055999 /* TestTitleScrollView.swift */; };
@@ -57,7 +57,7 @@
 		86473D641FBB158C00055999 /* TitleScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleScrollView.swift; sourceTree = "<group>"; };
 		86473D651FBB158C00055999 /* TitleSlidableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleSlidableController.swift; sourceTree = "<group>"; };
 		86473D661FBB158C00055999 /* SlideContainerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideContainerController.swift; sourceTree = "<group>"; };
-		86473D671FBB158C00055999 /* SlidePageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlidePageModel.swift; sourceTree = "<group>"; };
+		86473D671FBB158C00055999 /* SlideLifeCycleObjectBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideLifeCycleObjectBuilder.swift; sourceTree = "<group>"; };
 		86473D731FBB15A400055999 /* TestableLifeCycleObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestableLifeCycleObject.swift; sourceTree = "<group>"; };
 		86473D741FBB15A400055999 /* AppendTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppendTests.swift; sourceTree = "<group>"; };
 		86473D771FBB165700055999 /* TestTitleScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTitleScrollView.swift; sourceTree = "<group>"; };
@@ -117,7 +117,7 @@
 				86473D631FBB158B00055999 /* SlideContentController.swift */,
 				86473D601FBB158B00055999 /* SlideContentView.swift */,
 				86473D5D1FBB158B00055999 /* SlideController.swift */,
-				86473D671FBB158C00055999 /* SlidePageModel.swift */,
+				86473D671FBB158C00055999 /* SlideLifeCycleObjectBuilder.swift */,
 				86473D5F1FBB158B00055999 /* SlideView.swift */,
 				86473D621FBB158B00055999 /* TitleItemController.swift */,
 				86473D641FBB158C00055999 /* TitleScrollView.swift */,
@@ -295,7 +295,7 @@
 				86473D6B1FBB158C00055999 /* SlideContentView.swift in Sources */,
 				86473D6A1FBB158C00055999 /* SlideView.swift in Sources */,
 				86473D691FBB158C00055999 /* SlideContainerView.swift in Sources */,
-				86473D721FBB158C00055999 /* SlidePageModel.swift in Sources */,
+				86473D721FBB158C00055999 /* SlideLifeCycleObjectBuilder.swift in Sources */,
 				86473D701FBB158C00055999 /* TitleSlidableController.swift in Sources */,
 				86473D6F1FBB158C00055999 /* TitleScrollView.swift in Sources */,
 				86473D681FBB158C00055999 /* SlideController.swift in Sources */,

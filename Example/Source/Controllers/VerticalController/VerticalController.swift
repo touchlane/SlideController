@@ -21,14 +21,14 @@ class VerticalController {
     
     private lazy var insertAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlidePageModel<PageLifeCycleObject>()
+        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
         let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
         strongSelf.slideController.insert(object: page, index: index)
     }
     
     private lazy var appendAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlidePageModel<PageLifeCycleObject>()
+        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
         strongSelf.slideController.append(object: [page])
     }
     
@@ -58,9 +58,9 @@ class VerticalController {
     
     init() {
         let pagesContent = [
-            SlidePageModel<PageLifeCycleObject>(),
-            SlidePageModel<PageLifeCycleObject>(),
-            SlidePageModel<PageLifeCycleObject>()
+            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
         ]
         slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: .vertical)
         slideController.titleView.position = .above

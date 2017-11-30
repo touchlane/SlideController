@@ -21,7 +21,7 @@ class HorizontalController {
     
     lazy var insertAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
+        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject())
         let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
         strongSelf.slideController.insert(object: page, index: index)
         strongSelf.updateTitles()
@@ -29,7 +29,7 @@ class HorizontalController {
     
     lazy var appendAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject())
+        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject())
         strongSelf.slideController.append(object: [page])
         strongSelf.updateTitles()
     }
@@ -50,9 +50,9 @@ class HorizontalController {
     
     init() {
         let pagesContent = [
-            SlidePageModel<PageLifeCycleObject>(object: PageLifeCycleObject()),
-            SlidePageModel<PageLifeCycleObject>(),
-            SlidePageModel<PageLifeCycleObject>()]
+            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject()),
+            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<PageLifeCycleObject>()]
         slideController = SlideController(
             pagesContent: pagesContent,
             startPageIndex: 0,
