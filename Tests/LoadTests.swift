@@ -6,9 +6,9 @@ class LoadTests: BaseTestCase {
     
     func testLoadOnContentUnloadingEnabled() {
         slideController.isContentUnloadingEnabled = true
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         
@@ -26,9 +26,9 @@ class LoadTests: BaseTestCase {
     
     func testLoadOnContentUnloadingDisabled() {
         slideController.isContentUnloadingEnabled = false
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         
@@ -46,9 +46,9 @@ class LoadTests: BaseTestCase {
     
     func testContentUnloadingModeChangeToDisabled() {
         slideController.isContentUnloadingEnabled = true
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         slideController.isContentUnloadingEnabled = false
@@ -67,9 +67,9 @@ class LoadTests: BaseTestCase {
     
     func testContentUnloadingModeChangeToEnabled() {
         slideController.isContentUnloadingEnabled = false
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         slideController.isContentUnloadingEnabled = true
@@ -88,13 +88,13 @@ class LoadTests: BaseTestCase {
     
     func testInsertOnContentLoadingModeDisabled() {
         slideController.isContentUnloadingEnabled = false
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         
-        let insertingPage = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let insertingPage = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         slideController.insert(object: insertingPage, index: 0)
         
         guard let insertingObject = insertingPage.lifeCycleObject as? TestableLifeCycleObject,
@@ -114,13 +114,13 @@ class LoadTests: BaseTestCase {
     
     func testAppendOnContentLoadingModeDisabled() {
         slideController.isContentUnloadingEnabled = false
-        let page1 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page2 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
-        let page3 = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let page3 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let givenContent = [page1, page2, page3]
         slideController.append(object: givenContent)
         
-        let appendingPage = SlidePageModel<TestableLifeCycleObject>(object: TestableLifeCycleObject())
+        let appendingPage = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         slideController.insert(object: appendingPage, index: 2)
         
         guard let appendingObject = appendingPage.lifeCycleObject as? TestableLifeCycleObject,

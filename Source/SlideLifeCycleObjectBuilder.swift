@@ -10,7 +10,7 @@ public protocol SlideLifeCycleObjectProvidable: class {
     var lifeCycleObject: SlideLifeCycleObject { get }
 }
 
-open class SlidePageModel<T: SlideLifeCycleObject>: SlideLifeCycleObjectProvidable, Initializable {
+open class SlideLifeCycleObjectBuilder<T: SlideLifeCycleObject>: SlideLifeCycleObjectProvidable {
     ///Internal LifeCycle Object
     private var object: T?
     
@@ -19,14 +19,15 @@ open class SlidePageModel<T: SlideLifeCycleObject>: SlideLifeCycleObjectProvidab
         self.object = object
     }
     
-    // MARK: - InitializableImplementation
-    required public init() { }
+    public init() { }
     
     // MARK: - SlideLifeCycleObjectProvidableImplementation
-    open var lifeCycleObject: SlideLifeCycleObject { get { return buildObjectIfNeeded() } }
+    open var lifeCycleObject: SlideLifeCycleObject {
+        return buildObjectIfNeeded()
+    }
 }
 
-private typealias PrivateSlidePageModel = SlidePageModel
+private typealias PrivateSlidePageModel = SlideLifeCycleObjectBuilder
 extension PrivateSlidePageModel  {
     ///Genarate LifeCycle object of specified type when needed
     func buildObjectIfNeeded() -> SlideLifeCycleObject {
