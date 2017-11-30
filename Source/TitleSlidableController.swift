@@ -10,26 +10,31 @@
 import UIKit
 
 protocol TitleScrollable: class {
-    var didSelectItemAction: ((Int, (() -> ())?) -> ())? { get set }
+    var didSelectItemAction: ((Int, (() -> Void)?) -> Void)? { get set }
     func jump(index: Int, animated: Bool)
     func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int)
+    func indicatorSlide(offset: CGFloat, pageSize: CGFloat, startIndex: Int, destinationIndex: Int)
     init(pagesCount: Int, slideDirection: SlideDirection)
 }
 
 class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
+
     private var isOffsetChangeAllowed = true
     private var scrollDirection: SlideDirection
     private var selectedIndex = 0
     
-    private lazy var didCompleteSelectItemAction: () -> () = { [weak self] in
+    private lazy var didCompleteSelectItemAction: () -> Void = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.isOffsetChangeAllowed = true
     }
     
-    private lazy var didSelectTitleItemAction: (Int) -> () = { [weak self] index in
+    private lazy var didSelectTitleItemAction: (Int) -> Void = { [weak self] index in
         guard let strongSelf = self else { return }
         guard strongSelf.isSelectionAllowed else {
             return
+        }
+        if strongSelf.controllers.indices.contains(index) {
+            strongSelf.updateSlideIndicator(index: index, slideDirection: strongSelf.scrollDirection, animated: true)
         }
         strongSelf.isOffsetChangeAllowed = false
         strongSelf.didSelectItemAction?(index, strongSelf.didCompleteSelectItemAction)
@@ -87,6 +92,43 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
         scrollView.removeViewAtIndex(index: index)
     }
     
+    func indicatorSlide(offset: CGFloat, pageSize: CGFloat, startIndex: Int, destinationIndex: Int) {
+        guard controllers.indices.contains(startIndex),
+            controllers.indices.contains(destinationIndex) else {
+            return
+        }
+        let multipler = offset / pageSize
+        
+        var startingPosition: CGFloat = 0
+        var destinationPosition: CGFloat = 0
+        switch scrollDirection {
+        case .horizontal:
+            startingPosition = controllers[startIndex].view.frame.origin.x
+            destinationPosition = controllers[destinationIndex].view.frame.origin.x
+        case .vertical:
+            startingPosition = controllers[startIndex].view.frame.origin.y
+            destinationPosition = controllers[destinationIndex].view.frame.origin.y
+        }
+        
+        
+        let indicatorOffset = startingPosition + multipler * abs(destinationPosition - startingPosition)
+        
+        var startingSize: CGFloat = 0
+        var destinationSize: CGFloat = 0
+        switch scrollDirection {
+        case .horizontal:
+            startingSize = controllers[startIndex].view.frame.width
+            destinationSize = controllers[destinationIndex].view.frame.width
+        case .vertical:
+            startingSize = controllers[startIndex].view.frame.height
+            destinationSize = controllers[startIndex].view.frame.height
+        }
+        
+        let size = startingSize + abs(multipler) * (destinationSize - startingSize)
+ 
+        titleView.indicator(position: indicatorOffset, size: size, animated: false)
+    }
+    
     func jump(index: Int, animated: Bool) {
         if controllers.indices.contains(index) {
             if controllers.indices.contains(selectedIndex) {
@@ -94,6 +136,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             }
             selectedIndex = index
             controllers[index].isSelected = true
+            updateSlideIndicator(index: index, slideDirection: scrollDirection, animated: animated)
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
             case .horizontal:
@@ -142,6 +185,19 @@ private extension PrivateTitleSlidableController {
         }
         return newOffsetX
     }
+    
+    func updateSlideIndicator(index: Int, slideDirection: SlideDirection, animated: Bool) {
+        var position: CGFloat = 0
+        var size: CGFloat = 0
+        switch slideDirection {
+        case .horizontal:
+            position = controllers[index].view.frame.origin.x
+            size = controllers[index].view.frame.width
+        case .vertical:
+            position = controllers[index].view.frame.origin.y
+            size = controllers[index].view.frame.height
+        }
+        
+        titleView.indicator(position: position, size: size, animated: animated)
+    }
 }
-
-

@@ -14,6 +14,15 @@ public protocol TitleConfigurable: class {
     var alignment: TitleViewAlignment { get set }
     var position: TitleViewPosition { get set }
     var titleSize: CGFloat { get set }
+    
+    /// Called when user slides or shifts content,
+    /// Use this method to implement sliding indicator
+    /// - Parameters:
+    ///   - position: updated position for sliding indicator (x or y depends for horizontal and vertical respectively)
+    ///   - size: updated size for indicator (width or height for horizontal and vertical respectively)
+    ///   - animated: should update position and size animated
+    func indicator(position: CGFloat, size: CGFloat, animated: Bool)
+    
     weak var titleViewConfigurationDelegate: TitleViewConfigurationDelegate? { get set }
 }
 
@@ -57,17 +66,11 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     }
     
     // MARK: - ViewSlidableImplementation
-    open func appendViews(views: [View]) {
-        
-    }
+    open func appendViews(views: [View]) { }
     
-    open func insertView(view: View, index: Int) {
-        
-    }
+    open func insertView(view: View, index: Int) { }
     
-    open func removeViewAtIndex(index: Int) {
-        
-    }
+    open func removeViewAtIndex(index: Int) { }
     
     ///Simple hack to be notified when layout completed
     open var firstLayoutAction: (() -> ())?
@@ -99,6 +102,8 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
             }
         }
     }
+    
+    open func indicator(position: CGFloat, size: CGFloat, animated: Bool) { }
     
     weak public var titleViewConfigurationDelegate: TitleViewConfigurationDelegate?
     
