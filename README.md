@@ -50,9 +50,9 @@ import SlideController
 1) Create content
 ```swift
 let content = [
-            SlidePageModel<PageLifeCycleObject>(),
-            SlidePageModel<PageLifeCycleObject>(),
-            SlidePageModel<PageLifeCycleObject>()
+            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
         ]
  ```
  
