@@ -12,13 +12,11 @@ import SlideController
 class HorizontalTitleItem: UIView, Initializable, ItemViewable, Selectable {
     let titleLabel = UILabel()
     
-    private var backgroundViewHeight: CGFloat = 2
     private var titleLabelOffsetX: CGFloat = 21
     private var internalIsSelected: Bool = false
     private var internalIndex: Int = 0
     private var internalDidSelectAction: ((Int) -> Void)?
-    private let backgroundView = UIView()
-    private let backgroundSelectedColor = UIColor.white
+    
     private let titleLabelFont = UIFont.systemFont(ofSize: 16.5)
     private let internalBackgroundColor = UIColor.clear
     private let titleFontDefaultColor = UIColor(white: 1, alpha: 0.7)
@@ -26,12 +24,9 @@ class HorizontalTitleItem: UIView, Initializable, ItemViewable, Selectable {
     
     required init() {
         super.init(frame: CGRect.zero)
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(backgroundView)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = titleLabelFont
         addSubview(titleLabel)
-        activateBackgroundViewConstraints(view: backgroundView)
         activateTitleLabelConstraints(view: titleLabel)
         isSelected = false
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapDetected(_:)))
@@ -67,10 +62,8 @@ class HorizontalTitleItem: UIView, Initializable, ItemViewable, Selectable {
         }
         set {
             if newValue {
-                backgroundView.backgroundColor = backgroundSelectedColor
                 titleLabel.textColor = titleFontSelectedColor
             } else {
-                backgroundView.backgroundColor = internalBackgroundColor
                 titleLabel.textColor = titleFontDefaultColor
             }
             internalIsSelected = newValue
@@ -89,15 +82,6 @@ class HorizontalTitleItem: UIView, Initializable, ItemViewable, Selectable {
 
 private typealias PrivateHorizontalTitleItem = HorizontalTitleItem
 private extension PrivateHorizontalTitleItem {
-    func activateBackgroundViewConstraints(view: UIView) {
-        var constraints = [NSLayoutConstraint]()
-        constraints.append(view.bottomAnchor.constraint(equalTo: bottomAnchor))
-        constraints.append(view.trailingAnchor.constraint(equalTo: trailingAnchor))
-        constraints.append(view.leadingAnchor.constraint(equalTo: leadingAnchor))
-        constraints.append(view.heightAnchor.constraint(equalToConstant: backgroundViewHeight))
-        NSLayoutConstraint.activate(constraints)
-    }
-    
     func activateTitleLabelConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.centerYAnchor.constraint(equalTo: centerYAnchor))

@@ -438,6 +438,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             }
             shiftKeyboardIfNeeded(offset: -(actualContentOffset - lastContentOffset))
         }
+        if !isForcedToSlide {
+            updateSelectIndicator(contentOffset: scrollView.contentOffset, pageSize: pageSize)
+        }
         lastContentOffset = actualContentOffset
     }
     
@@ -506,6 +509,32 @@ private extension PrivateSlideController {
             destinationIndex = startIndex + 1
         }
         titleSlidableController.shift(delta: offset, startIndex: startIndex, destinationIndex: destinationIndex)
+    }
+    
+    func updateSelectIndicator(contentOffset: CGPoint, pageSize: CGFloat) {
+        var contentAxisOffset: CGFloat = 0
+        switch slideDirection! {
+        case .horizontal:
+            contentAxisOffset = contentOffset.x
+        case .vertical:
+            contentAxisOffset = contentOffset.y
+        }
+        let actualIndex = Int(contentAxisOffset / pageSize)
+
+        var startIndex: Int
+        var destinationIndex: Int
+        let direction = determineScrollingDirection(lastContentOffset: lastContentOffset, currentContentOffset: contentOffset)
+        switch direction {
+        case .up, .right:
+            startIndex = actualIndex + 1
+            destinationIndex = startIndex - 1
+        case .down, .left:
+            startIndex = actualIndex
+            destinationIndex = startIndex + 1
+        }
+        let offset = contentAxisOffset - CGFloat(startIndex) * pageSize
+        
+        titleSlidableController.indicatorSlide(offset: offset, pageSize: pageSize, startIndex: startIndex, destinationIndex: destinationIndex)
     }
     
     func determineScrollingDirection(lastContentOffset: CGFloat, currentContentOffset: CGPoint) -> ScrollingDirection {
