@@ -34,7 +34,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             return
         }
         if strongSelf.controllers.indices.contains(index) {
-            strongSelf.updateSlideIndicator(index: index, slideDirection: strongSelf.scrollDirection, animated: true)
+            strongSelf.updateSlideIndicator(index: index, slideDirection: strongSelf.scrollDirection, animated: false)
         }
         strongSelf.isOffsetChangeAllowed = false
         strongSelf.didSelectItemAction?(index, strongSelf.didCompleteSelectItemAction)
@@ -136,7 +136,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             }
             selectedIndex = index
             controllers[index].isSelected = true
-            updateSlideIndicator(index: index, slideDirection: scrollDirection, animated: animated)
+            updateSlideIndicator(index: index, slideDirection: scrollDirection, animated: false)
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
             case .horizontal:
