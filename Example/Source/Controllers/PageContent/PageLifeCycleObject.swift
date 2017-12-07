@@ -25,17 +25,30 @@ extension SlidePageLifeCycleImplementation : SlidePageLifeCycle {
         return false
     }
     
-    func didAppear() { }
+    func didAppear() {
+        print(#function)
+        sleep(1)
+    }
     
-    func didDissapear() { }
+    func didDissapear() {
+        print(#function)
+    }
     
-    func viewDidLoad() { }
+    func viewDidLoad() {
+        print(#function)
+    }
     
-    func viewDidUnload() { }
+    func viewDidUnload() {
+        print(#function)
+    }
     
-    func didStartSliding() { }
+    func didStartSliding() {
+        print(#function)
+    }
     
-    func didCancelSliding() { }
+    func didCancelSliding() {
+        print(#function)
+    }
 }
 
 private typealias ViewableImplementation = PageLifeCycleObject

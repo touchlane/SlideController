@@ -110,10 +110,13 @@ final class SlideContentController {
             guard let strongSelf = self else {
                 return
             }
-            DispatchQueue.main.async {
-                strongSelf.slideContentView.showContainers(at: viewIndices)
-                strongSelf.slideContentView.setContentOffset(endOffsetPoint, animated: false)
-            }
+            /// Disable scrollView delegate so we won't get scrollViewDidScroll calls
+            /// when transition through multiple pages is finished
+            let delegate = strongSelf.slideContentView.delegate
+//            strongSelf.slideContentView.delegate = nil
+            strongSelf.slideContentView.showContainers(at: viewIndices)
+            strongSelf.slideContentView.setContentOffset(endOffsetPoint, animated: false)
+//            strongSelf.slideContentView.delegate = delegate
         }
         if animated {
             return afterAnimation
