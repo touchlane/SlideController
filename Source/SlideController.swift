@@ -89,7 +89,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var titleSlidableController: TitleSlidableController<T, N>!
     private var slideDirection: SlideDirection!
     private var contentSlidableController: SlideContentController!
-    private var currentIndex = 0
+    private var currentIndex = 0 {
+        didSet {
+            print("currentIndex: \(currentIndex)")
+        }
+    }
     
     private var sourceIndex: Int? = nil
     private var destinationIndex: Int? = nil
@@ -204,6 +208,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         contentSlidableController = SlideContentController(pagesCount: content.count, slideDirection: slideDirection)
         titleSlidableController.didSelectItemAction = didSelectItemAction
         loadView(pageIndex: currentIndex)
+        updateCurrentIndex(pageIndex: currentIndex)
         containerView.contentView = contentSlidableController.slideContentView
         containerView.titleView = titleSlidableController.titleView
         titleSlidableController.titleView.firstLayoutAction = firstLayoutTitleAction
@@ -231,6 +236,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         
         if shoudLoadView {
             loadView(pageIndex: currentIndex)
+            updateCurrentIndex(pageIndex: currentIndex)
         }
         
         if contentSlidableController.slideContentView.isLayouted {
@@ -354,7 +360,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         
         if !self.contentSlidableController.slideContentView.isLayouted {
-            loadViewIfNeeded(pageIndex: pageIndex, truePage: true)
+            loadViewIfNeeded(pageIndex: pageIndex)
+            updateCurrentIndex(pageIndex: pageIndex)
         } else {
             scrollToPage(pageIndex: pageIndex, animated: animated)
         }
@@ -419,6 +426,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             if nextIndex != currentIndex {
                 if isDestinationTransition {
                     loadView(pageIndex: nextIndex)
+                    updateCurrentIndex(pageIndex: nextIndex)
                 }
                 if !isForcedToSlide {
                     if isContentUnloadingEnabled {
@@ -556,7 +564,7 @@ private extension PrivateSlideController {
     
     func loadView(pageIndex: Int) {
         loadViewIfNeeded(pageIndex: pageIndex - 1)
-        loadViewIfNeeded(pageIndex: pageIndex, truePage: true)
+        loadViewIfNeeded(pageIndex: pageIndex)
         loadViewIfNeeded(pageIndex: pageIndex + 1)
     }
     
@@ -576,24 +584,28 @@ private extension PrivateSlideController {
         }
     }
     
-    func loadViewIfNeeded(pageIndex: Int, truePage: Bool = false) {
+    func updateCurrentIndex(pageIndex: Int) {
+        guard content.indices.contains(pageIndex) else {
+            return
+        }
+        if isOnScreen {
+            if currentIndex != pageIndex {
+                if content.indices.contains(currentIndex) {
+                    content[currentIndex].lifeCycleObject.didDissapear()
+                }
+                currentIndex = pageIndex
+            }
+            content[pageIndex].lifeCycleObject.didAppear()
+        } else {
+            currentIndex = pageIndex
+        }
+    }
+    
+    func loadViewIfNeeded(pageIndex: Int) {
         if content.indices.contains(pageIndex) {
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
                 content[pageIndex].lifeCycleObject.viewDidLoad()
-            }
-            if truePage {
-                if isOnScreen {
-                    if currentIndex != pageIndex {
-                        if content.indices.contains(currentIndex) {
-                            content[currentIndex].lifeCycleObject.didDissapear()
-                        }
-                        currentIndex = pageIndex
-                    }
-                    content[pageIndex].lifeCycleObject.didAppear()
-                } else {
-                    currentIndex = pageIndex
-                }
             }
         }
     }
