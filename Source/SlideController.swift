@@ -95,7 +95,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var destinationIndex: Int? = nil
     
     private var lastContentOffset: CGFloat = 0
-    private var didFinishForceSlide: (() -> ())?
+    private var didFinishForceSlide: (() -> Void)?
     private var didFinishSlideAction: (() -> Void)?
     private var isForcedToSlide = false
     private var isOnScreen = false
@@ -439,7 +439,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         scrollInProgress = false
         
         let nextIndex = destinationIndex ?? pageIndex(for: scrollView.contentOffset)
-        
         loadView(pageIndex: nextIndex)
         if nextIndex != currentIndex {
             if !isForcedToSlide {
@@ -490,7 +489,7 @@ private extension PrivateSlideController {
                 contentPageSize = containerView.frame.width
             }
         } else {
-            if titleViewPosition == TitleViewPosition.beside &&  titleViewAlignment == TitleViewAlignment.top {
+            if titleViewPosition == TitleViewPosition.beside && titleViewAlignment == TitleViewAlignment.top {
                 contentPageSize = containerView.frame.height - titleSlidableController.titleView.titleSize
             } else {
                 contentPageSize = containerView.frame.height
@@ -499,7 +498,7 @@ private extension PrivateSlideController {
         return contentPageSize
     }
     
-    private func scrollToPage(pageIndex: Int, animated: Bool) {
+    func scrollToPage(pageIndex: Int, animated: Bool) {
         titleSlidableController.jump(index: pageIndex, animated: animated)
         didFinishSlideAction = contentSlidableController.scroll(fromPage: currentIndex, toPage: pageIndex, animated: animated)
         if slideDirection == SlideDirection.horizontal {

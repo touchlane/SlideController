@@ -9,7 +9,7 @@
 import UIKit
 import SlideController
 
-class PageLifeCycleObject : Initializable {
+class PageLifeCycleObject: Initializable {
     private var controller = ColorController()
     
     // MARK: - InitialazableImplementation
@@ -20,39 +20,26 @@ class PageLifeCycleObject : Initializable {
 }
 
 private typealias SlidePageLifeCycleImplementation = PageLifeCycleObject
-extension SlidePageLifeCycleImplementation : SlidePageLifeCycle {
+extension SlidePageLifeCycleImplementation: SlidePageLifeCycle {
     var isKeyboardResponsive: Bool {
         return false
     }
     
-    func didAppear() {
-        print(#function)
-        sleep(1)
-    }
+    func didAppear() { }
     
-    func didDissapear() {
-        print(#function)
-    }
+    func didDissapear() { }
     
-    func viewDidLoad() {
-        print(#function)
-    }
+    func viewDidLoad() { }
     
-    func viewDidUnload() {
-        print(#function)
-    }
+    func viewDidUnload() { }
     
-    func didStartSliding() {
-        print(#function)
-    }
+    func didStartSliding() { }
     
-    func didCancelSliding() {
-        print(#function)
-    }
+    func didCancelSliding() { }
 }
 
 private typealias ViewableImplementation = PageLifeCycleObject
-extension ViewableImplementation : Viewable {
+extension ViewableImplementation: Viewable {
     var view: UIView {
         get {
             return controller.view
