@@ -113,10 +113,10 @@ final class SlideContentController {
             /// Disable scrollView delegate so we won't get scrollViewDidScroll calls
             /// when transition through multiple pages is finished
             let delegate = strongSelf.slideContentView.delegate
-//            strongSelf.slideContentView.delegate = nil
+            strongSelf.slideContentView.delegate = nil
             strongSelf.slideContentView.showContainers(at: viewIndices)
             strongSelf.slideContentView.setContentOffset(endOffsetPoint, animated: false)
-//            strongSelf.slideContentView.delegate = delegate
+            strongSelf.slideContentView.delegate = delegate
         }
         if animated {
             return afterAnimation
