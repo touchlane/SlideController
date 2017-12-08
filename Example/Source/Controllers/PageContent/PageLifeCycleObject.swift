@@ -9,7 +9,7 @@
 import UIKit
 import SlideController
 
-class PageLifeCycleObject : Initializable {
+class PageLifeCycleObject: Initializable {
     private var controller = ColorController()
     
     // MARK: - InitialazableImplementation
@@ -20,7 +20,7 @@ class PageLifeCycleObject : Initializable {
 }
 
 private typealias SlidePageLifeCycleImplementation = PageLifeCycleObject
-extension SlidePageLifeCycleImplementation : SlidePageLifeCycle {
+extension SlidePageLifeCycleImplementation: SlidePageLifeCycle {
     var isKeyboardResponsive: Bool {
         return false
     }
@@ -39,7 +39,7 @@ extension SlidePageLifeCycleImplementation : SlidePageLifeCycle {
 }
 
 private typealias ViewableImplementation = PageLifeCycleObject
-extension ViewableImplementation : Viewable {
+extension ViewableImplementation: Viewable {
     var view: UIView {
         get {
             return controller.view
