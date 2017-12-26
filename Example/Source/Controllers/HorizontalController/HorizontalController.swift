@@ -36,7 +36,6 @@ class HorizontalController {
     
     private lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
         guard let strongSelf = self else { return }
-        self?.slideController.shift(pageIndex: 3, animated: false)
         switch position {
         case 0:
             strongSelf.slideController.titleView.position = TitleViewPosition.beside
