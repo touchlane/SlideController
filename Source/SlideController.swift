@@ -399,7 +399,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         
         let pageSize = contentSlidableController.contentSize
-        let actualContentOffset = slideDirection == .horizontal ? scrollView.contentOffset.x : scrollView.contentOffset.y
+        let offsetCorrection = contentSlidableController.edgeContainers == nil ? 0 : pageSize
+        let actualContentOffset = (slideDirection == .horizontal ? scrollView.contentOffset.x : scrollView.contentOffset.y) - offsetCorrection
         let nextIndex = Int(actualContentOffset / pageSize)
 
         let isDestinationTransition = nextIndex == (destinationIndex ?? nextIndex)
@@ -525,13 +526,14 @@ private extension PrivateSlideController {
     
     func updateSelectIndicator(contentOffset: CGPoint, pageSize: CGFloat) {
         var contentAxisOffset: CGFloat = 0
+        let offsetCorrection = contentSlidableController.edgeContainers == nil ? 0 : pageSize
         switch slideDirection! {
         case .horizontal:
-            contentAxisOffset = contentOffset.x
+            contentAxisOffset = contentOffset.x - offsetCorrection
         case .vertical:
-            contentAxisOffset = contentOffset.y
+            contentAxisOffset = contentOffset.y - offsetCorrection
         }
-        let actualIndex = Int(contentAxisOffset / pageSize)
+        let actualIndex = contentAxisOffset > 0 ? Int(contentAxisOffset / pageSize) : -1
 
         var startIndex: Int
         var destinationIndex: Int
@@ -616,8 +618,9 @@ private extension PrivateSlideController {
     
     func pageIndex(for contentOffset: CGPoint) -> Int {
         let pageSize = contentSlidableController.contentSize
+        let indexCorrection = contentSlidableController.edgeContainers == nil ? 0 : 1
         let actualContentOffset = slideDirection == .horizontal ? contentOffset.x : contentOffset.y
-        let index = Int(actualContentOffset / pageSize)
+        let index = Int(actualContentOffset / pageSize) - indexCorrection
         return index
     }
     
