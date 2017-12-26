@@ -104,7 +104,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var isLayouting = false
     
     /// Default delay for sending end animation selector scrollViewEndAnimating(_ scrollView: UIScrollView)
-    private let dafaultSlidingAnimationDuration = 0.05
+    private let defaultSlidingAnimationDuration = 0.05
     
     /// Indicates if the scroll in progress.
     /// Used for lifecycle.
@@ -391,7 +391,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             return
         }
         NSObject.cancelPreviousPerformRequests(withTarget: self)
-        perform(#selector(SlideController.scrollViewEndAnimating(_:)), with: scrollView, afterDelay: dafaultSlidingAnimationDuration)
+        perform(#selector(SlideController.scrollViewEndAnimating(_:)), with: scrollView, afterDelay: defaultSlidingAnimationDuration)
         
         /// Finish scrolling animation after force slide before user starts dragging content
         if isForcedToSlide && scrollView.isDragging {
