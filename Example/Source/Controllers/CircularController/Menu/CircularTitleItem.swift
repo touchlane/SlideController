@@ -10,24 +10,22 @@ import UIKit
 import SlideController
 
 class CircularTitleItem: UIView, Initializable, ItemViewable, Selectable {
-    let titleLabel = UILabel()
+    let dotView = UIView()
     
-    private var titleLabelOffsetX: CGFloat = 21
+    private let dotViewOffsetX: CGFloat = 5
+    private let dotViewSizeValue: CGFloat = 10
+    private let dotDefaultColor = UIColor(white: 1, alpha: 0.5)
+    private let dotSelectedColor = UIColor(white: 1, alpha: 1)
     private var internalIsSelected: Bool = false
     private var internalIndex: Int = 0
     private var internalDidSelectAction: ((Int) -> Void)?
     
-    private let titleLabelFont = UIFont.systemFont(ofSize: 16.5)
-    private let internalBackgroundColor = UIColor.clear
-    private let titleFontDefaultColor = UIColor(white: 1, alpha: 0.7)
-    private let titleFontSelectedColor = UIColor(white: 1, alpha: 1)
-    
     required init() {
         super.init(frame: CGRect.zero)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = titleLabelFont
-        addSubview(titleLabel)
-        activateTitleLabelConstraints(view: titleLabel)
+        dotView.layer.cornerRadius = dotViewSizeValue / 2
+        dotView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(dotView)
+        activateDotViewConstraints(view: dotView)
         isSelected = false
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapDetected(_:)))
         addGestureRecognizer(tapRecognizer)
@@ -62,9 +60,9 @@ class CircularTitleItem: UIView, Initializable, ItemViewable, Selectable {
         }
         set {
             if newValue {
-                titleLabel.textColor = titleFontSelectedColor
+                dotView.backgroundColor = dotSelectedColor
             } else {
-                titleLabel.textColor = titleFontDefaultColor
+                dotView.backgroundColor = dotDefaultColor
             }
             internalIsSelected = newValue
         }
@@ -82,11 +80,13 @@ class CircularTitleItem: UIView, Initializable, ItemViewable, Selectable {
 
 private typealias PrivateCircularTitleItem = CircularTitleItem
 private extension PrivateCircularTitleItem {
-    func activateTitleLabelConstraints(view: UIView) {
+    func activateDotViewConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.centerYAnchor.constraint(equalTo: centerYAnchor))
-        constraints.append(view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -titleLabelOffsetX))
-        constraints.append(view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: titleLabelOffsetX))
+        constraints.append(view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -dotViewOffsetX))
+        constraints.append(view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: dotViewOffsetX))
+        constraints.append(view.widthAnchor.constraint(equalToConstant: dotViewSizeValue))
+        constraints.append(view.heightAnchor.constraint(equalToConstant: dotViewSizeValue))
         NSLayoutConstraint.activate(constraints)
     }
     

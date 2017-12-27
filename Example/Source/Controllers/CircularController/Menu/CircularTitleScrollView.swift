@@ -10,29 +10,16 @@ import UIKit
 import SlideController
 
 class CircularTitleScrollView: TitleScrollView<CircularTitleItem> {
-    private var internalItems: [View] = [] {
-        didSet {
-            indicatorView.isHidden = internalItems.isEmpty
-        }
-    }
-    private let internalItemOffsetX: CGFloat = 15
+    private var internalItems: [View] = []
+    
+    private let internalItemOffsetX: CGFloat = 0
     private let itemOffsetTop: CGFloat = 36
     private let itemHeight: CGFloat = 36
     private let internalBackgroundColor = UIColor.purple
     
-    private var indicatorLeadingAnchor: NSLayoutConstraint?
-    private var indicatorWidthAnchor: NSLayoutConstraint?
-    private var indicatorHeight: CGFloat = 2
-    private var indicatorColor: UIColor = .white
-    private let indicatorView = UIView()
-    
     override required init() {
         super.init()
         backgroundColor = internalBackgroundColor
-        
-        indicatorView.translatesAutoresizingMaskIntoConstraints = false
-        indicatorView.backgroundColor = indicatorColor
-        addSubview(indicatorView)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -89,21 +76,6 @@ class CircularTitleScrollView: TitleScrollView<CircularTitleItem> {
         }
     }
     
-    override func indicator(position: CGFloat, size: CGFloat, animated: Bool) {
-        if let indicatorLeadingAnchor = indicatorLeadingAnchor,
-            let indicatorWidthAnchor = indicatorWidthAnchor {
-            indicatorLeadingAnchor.constant = position
-            indicatorWidthAnchor.constant = size
-        } else {
-            activateBackgroundViewConstraints(view: indicatorView, position: position, width: size)
-        }
-        if animated {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.layoutIfNeeded()
-            })
-        }
-    }
-    
     var isTransparent = false {
         didSet {
             backgroundColor = isTransparent ? UIColor.clear : internalBackgroundColor
@@ -117,12 +89,9 @@ private extension PrivateCircularTitleScrollView {
         var constraints: [NSLayoutConstraint] = []
         constraints.append(view.topAnchor.constraint(equalTo: topAnchor, constant: itemOffsetTop + itemHeight))
         let leading = view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: position)
-        indicatorLeadingAnchor = leading
         constraints.append(leading)
         let width = view.widthAnchor.constraint(equalToConstant: width)
-        indicatorWidthAnchor = width
         constraints.append(width)
-        constraints.append(view.heightAnchor.constraint(equalToConstant: indicatorHeight))
         NSLayoutConstraint.activate(constraints)
     }
     

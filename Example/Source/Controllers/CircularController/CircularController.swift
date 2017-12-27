@@ -16,7 +16,6 @@ class CircularController {
     lazy var removeAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.slideController.removeAtIndex(index: 0)
-        strongSelf.updateTitles()
     }
     
     lazy var insertAction: (() -> Void)? = { [weak self] in
@@ -24,14 +23,12 @@ class CircularController {
         let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject())
         let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
         strongSelf.slideController.insert(object: page, index: index)
-        strongSelf.updateTitles()
     }
     
     lazy var appendAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
         let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject())
         strongSelf.slideController.append(object: [page])
-        strongSelf.updateTitles()
     }
     
     private lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
@@ -58,7 +55,6 @@ class CircularController {
             startPageIndex: 0,
             slideDirection: SlideDirection.horizontal)
         slideController.isCircular = true
-        updateTitles()
         internalView.contentView = slideController.view
     }
     
@@ -69,15 +65,6 @@ class CircularController {
             optionsController?.insertDidTapAction = insertAction
             optionsController?.appendDidTapAction = appendAction
             optionsController?.changePositionAction = changePositionAction
-        }
-    }
-}
-
-private typealias PrivateCircularController = CircularController
-private extension PrivateCircularController {
-    func updateTitles() {
-        for index in 0..<slideController.content.count {
-            slideController.titleView.items[index].titleLabel.text = "page \(index + 1)"
         }
     }
 }
