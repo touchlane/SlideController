@@ -639,21 +639,29 @@ private extension PrivateSlideController {
     
     func loadViewIfNeeded(pageIndex: Int) {
         if content.indices.contains(pageIndex) {
+            var ignoreLifecycleEvent = false
             if pageIndex == 0 && contentSlidableController.edgeContainers?.right.hasContent == true {
                 contentSlidableController.edgeContainers?.right.unloadView()
+                ignoreLifecycleEvent = true
             }
             else if pageIndex == content.count - 1 && contentSlidableController.edgeContainers?.left.hasContent == true {
                 contentSlidableController.edgeContainers?.left.unloadView()
+                ignoreLifecycleEvent = true
             }
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
-                content[pageIndex].lifeCycleObject.viewDidLoad()
+                if !ignoreLifecycleEvent {
+                    content[pageIndex].lifeCycleObject.viewDidLoad()
+                }
             }
         }
     }
     
     func loadLeftEdgeView() {
         if contentSlidableController.edgeContainers?.left.hasContent == false {
+            if !contentSlidableController.containers[content.count - 1].hasContent {
+                content[content.count - 1].lifeCycleObject.viewDidLoad()
+            }
             contentSlidableController.containers[content.count - 1].unloadView()
             contentSlidableController.edgeContainers?.left.load(view: content[content.count - 1].lifeCycleObject.view)
         }
@@ -661,6 +669,9 @@ private extension PrivateSlideController {
     
     func loadRightEdgeView() {
         if contentSlidableController.edgeContainers?.right.hasContent == false {
+            if !contentSlidableController.containers[0].hasContent {
+                content[0].lifeCycleObject.viewDidLoad()
+            }
             contentSlidableController.containers[0].unloadView()
             contentSlidableController.edgeContainers?.right.load(view: content[0].lifeCycleObject.view)
         }
