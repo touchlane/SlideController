@@ -1,30 +1,37 @@
+# Changelog for SlideController 1.1.1
+### Added
+* Disabled animation on item selection.
+
+### Fixed
+* Sync LifeCycle calls with animation. [#44](https://github.com/touchlane/SlideController/issues/44)
+
 # Changelog for SlideController 1.1.0
-## Added
+### Added
 * **Breaking Change** `SlidePageModel` renamed to `SlideLifeCycleObjectBuilder`.
 * Callback method `func indicator(position: CGFloat, size: CGFloat, animated: Bool)` in TitleScrollView to implement sliding indicator.
 * Sliding indicator HorizontalTitleScrollView sample. 
 
 # Changelog for SlideController 1.0.4
-## Fixed
+### Fixed
 * Transition between tabs performance.
 
 # Changelog for SlideController 1.0.3
-## Added
+### Added
 * ``isContentUnloadingEnabled`` setting that allows disable pages unloading.
-## Fixed
+### Fixed
 * ``SlidePageLifeCycle`` calls on ``insert(object:, index:)`` .
 * ``SlidePageLifeCycle`` calls on ``shift(pageIndex:, animated:)``.
 
 # Changelog for SlideController 1.0.2
-## Added
+### Added
 * Unit tests
-## Fixed
+### Fixed
 * ``SlidePageLifeCycle`` calls on ``removeViewAtIndex(index:)`` 
 * ``SlidePageLifeCycle`` calls when appended pages to empty ``SlideController``
 * Duplicated ``didStartSliding`` calls
 
 # Changelog for SlideController 1.0.1
-## Fixed
+### Fixed
 * Inappropriate lifecycle calls when ``SlideController`` appears.
 * View loading on ``slideController.shift(pageIndex: Int, animated: Bool)``.
 * Lifecycle ``didStartSliding`` calls on page transition.
@@ -32,7 +39,7 @@
 * Crash calculating ``currentIndex`` when ``contentSize`` of a page is 0.
 
 # Changelog for SlideController 1.0.0
-## Added
+### Added
 * Vertical ``SlideController`` implementation.
 * Smart transition - skipping intermediate pages.
 * ``SlideContentView`` lazy loading.
@@ -42,6 +49,6 @@
 * Device orientation support.
 * ``TitleItemObject`` auto selection when it is out of the screen while sliding.
 * Lock ``TitleView`` for scrolling and selection while ``SlideController's`` is sliding.
-## Fixed
+### Fixed
 * ScrollView automatically adjusted ``contentInsets``.
 
