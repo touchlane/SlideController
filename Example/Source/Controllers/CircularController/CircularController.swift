@@ -57,6 +57,7 @@ class CircularController {
             pagesContent: pagesContent,
             startPageIndex: 0,
             slideDirection: SlideDirection.horizontal)
+        slideController.isCircular = true
         updateTitles()
         internalView.contentView = slideController.view
     }
