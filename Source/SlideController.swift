@@ -161,6 +161,12 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
     
+    public var isCircular = false {
+        didSet {
+            contentSlidableController.isCircular = isCircular
+        }
+    }
+    
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.changeContentLayoutAction()

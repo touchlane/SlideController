@@ -26,6 +26,17 @@ final class SlideContentController {
     
     internal private(set) var edgeContainers: EdgeContainers?
     
+    internal var isCircular = false {
+        didSet {
+            if isCircular {
+                addEdgeContainersIfNeeded()
+            }
+            else {
+                removeEdgeContainersIfNeeded()
+            }
+        }
+    }
+    
     /// - Parameter pagesCount: number of pages
     /// - Parameter scrollDirection: indicates the target slide direction
     init(pagesCount: Int, slideDirection: SlideDirection) {
@@ -55,7 +66,9 @@ final class SlideContentController {
         }
         else {
             slideContentView.appendViews(views: newControllers.map { $0.view })
-            addEdgeContainersIfNeeded()
+            if isCircular {
+                addEdgeContainersIfNeeded()
+            }
         }
     }
     
@@ -68,7 +81,9 @@ final class SlideContentController {
         }
         else {
             slideContentView.insertView(view: controller.view, index: index)
-            addEdgeContainersIfNeeded()
+            if isCircular {
+                addEdgeContainersIfNeeded()
+            }
         }
     }
     
