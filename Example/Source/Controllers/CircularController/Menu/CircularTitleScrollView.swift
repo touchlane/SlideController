@@ -13,8 +13,8 @@ class CircularTitleScrollView: TitleScrollView<CircularTitleItem> {
     private var internalItems: [View] = []
     
     private let internalItemOffsetX: CGFloat = 0
-    private let itemOffsetTop: CGFloat = 36
-    private let itemHeight: CGFloat = 36
+    private let itemOffsetTop: CGFloat = 10
+    private let itemHeight: CGFloat = 20
     private let internalBackgroundColor = UIColor.purple
     
     override required init() {

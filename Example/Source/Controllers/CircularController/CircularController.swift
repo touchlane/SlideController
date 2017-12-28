@@ -54,6 +54,8 @@ class CircularController {
             pagesContent: pagesContent,
             startPageIndex: 0,
             slideDirection: SlideDirection.horizontal)
+        slideController.titleView.alignment = .bottom
+        slideController.titleView.titleSize = 40
         slideController.isCircular = true
         internalView.contentView = slideController.view
     }
