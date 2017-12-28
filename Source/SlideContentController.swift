@@ -8,6 +8,8 @@
 
 import UIKit
 
+internal typealias EdgeContainers = (left: SlideContainerController, right: SlideContainerController)
+
 ///SlideContentController do control for SlideContentView,
 ///manage container controllers and mount target content when needed
 final class SlideContentController {
@@ -21,6 +23,21 @@ final class SlideContentController {
     
     ///Superview for container views
     internal private(set) var slideContentView: SlideContentView
+    
+    ///Left and right temp containers to support infinite scrolling
+    internal private(set) var edgeContainers: EdgeContainers?
+    
+    ///Enables infinite circular scrolling
+    internal var isCircular = false {
+        didSet {
+            if isCircular {
+                addEdgeContainersIfNeeded()
+            }
+            else {
+                removeEdgeContainersIfNeeded()
+            }
+        }
+    }
     
     /// - Parameter pagesCount: number of pages
     /// - Parameter scrollDirection: indicates the target slide direction
@@ -41,20 +58,47 @@ final class SlideContentController {
             newControllers.append(controller)
         }
         containers.append(contentsOf: newControllers)
-        slideContentView.appendViews(views: newControllers.map { $0.view })
+        
+        if edgeContainers != nil {
+            var index = containers.count - newControllers.count + 1
+            for newController in newControllers {
+                slideContentView.insertView(view: newController.view, index: index)
+                index += 1
+            }
+        }
+        else {
+            slideContentView.appendViews(views: newControllers.map { $0.view })
+            if isCircular {
+                addEdgeContainersIfNeeded()
+            }
+        }
     }
     
     ///Insert container at specified index
     func insert(index: Int) {
         let controller = SlideContainerController()
         containers.insert(controller, at: index)
-        slideContentView.insertView(view: controller.view, index: index)
+        if edgeContainers != nil {
+            slideContentView.insertView(view: controller.view, index: index + 1)
+        }
+        else {
+            slideContentView.insertView(view: controller.view, index: index)
+            if isCircular {
+                addEdgeContainersIfNeeded()
+            }
+        }
     }
     
     ///Remove container at specified index
     func removeAtIndex(index: Int) {
         containers.remove(at: index)
-        slideContentView.removeViewAtIndex(index: index)
+        if edgeContainers != nil {
+            slideContentView.removeViewAtIndex(index: index + 1)
+            removeEdgeContainersIfNeeded()
+        }
+        else {
+            slideContentView.removeViewAtIndex(index: index)
+        }
     }
     
     ///Scroll to target container
@@ -62,42 +106,44 @@ final class SlideContentController {
         guard containers.indices.contains(index) else {
             return nil
         }
+        let offsetCorrection = edgeContainers == nil ? 0 : contentSize
         var offsetPoint: CGPoint
         var startOffsetPoint = slideContentView.contentOffset
         var endOffsetPoint: CGPoint
         if slideDirection == .horizontal {
             if index < currentIndex {
-                offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
-                startOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index + 1), y: 0)
+                offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index) + offsetCorrection, y: 0)
+                startOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index + 1) + offsetCorrection, y: 0)
                 endOffsetPoint = offsetPoint
             } else if index == currentIndex{
-                offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: currentIndex), y: 0)
-                endOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
+                offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: currentIndex) + offsetCorrection, y: 0)
+                endOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index) + offsetCorrection, y: 0)
             } else {
-                offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: currentIndex + 1), y: 0)
-                endOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index), y: 0)
+                offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: currentIndex + 1) + offsetCorrection, y: 0)
+                endOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index) + offsetCorrection, y: 0)
             }
         } else {
             if index < currentIndex {
-                offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
-                startOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index + 1))
+                offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index) + offsetCorrection)
+                startOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index + 1) + offsetCorrection)
                 endOffsetPoint = offsetPoint
             } else if index == currentIndex{
-                offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: currentIndex))
-                endOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
+                offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: currentIndex) + offsetCorrection)
+                endOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index) + offsetCorrection)
             } else {
-                offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: currentIndex + 1))
-                endOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index))
+                offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: currentIndex + 1) + offsetCorrection)
+                endOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index) + offsetCorrection)
             }
         }
+        let indexCorrection = edgeContainers == nil ? 0 : 1
         var viewIndices: [Int] = []
         if currentIndex - index > 1 {
             for i in index + 1...currentIndex - 1 {
-                viewIndices.append(i)
+                viewIndices.append(i + indexCorrection)
             }
         } else if index - currentIndex > 1 {
             for i in currentIndex + 1...index - 1 {
-                viewIndices.append(i)
+                viewIndices.append(i + indexCorrection)
             }
         }
         // Before animation
@@ -124,5 +170,23 @@ final class SlideContentController {
             afterAnimation()
         }
         return nil
+    }
+    
+    private func addEdgeContainersIfNeeded() {
+        guard edgeContainers == nil && containers.count > 1 else {
+            return
+        }
+        edgeContainers = (left: SlideContainerController(), right: SlideContainerController())
+        slideContentView.insertView(view: edgeContainers!.left.view, index: 0)
+        slideContentView.appendViews(views: [edgeContainers!.right.view])
+    }
+    
+    private func removeEdgeContainersIfNeeded() {
+        guard edgeContainers != nil && containers.count <= 1 else {
+            return
+        }
+        edgeContainers = nil
+        slideContentView.removeViewAtIndex(index: 0)
+        slideContentView.removeViewAtIndex(index: containers.count)
     }
 }
