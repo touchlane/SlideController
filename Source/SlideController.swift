@@ -64,6 +64,7 @@ public enum SlideDirection {
 
 public enum TitleViewAlignment {
     case top
+    case bottom
     case left
     case right
 }
@@ -538,7 +539,7 @@ private extension PrivateSlideController {
                 contentPageSize = containerView.frame.width
             }
         } else {
-            if titleViewPosition == TitleViewPosition.beside && titleViewAlignment == TitleViewAlignment.top {
+            if (titleViewAlignment == TitleViewAlignment.top || titleViewAlignment == TitleViewAlignment.bottom) && titleViewPosition == TitleViewPosition.beside {
                 contentPageSize = containerView.frame.height - titleSlidableController.titleView.titleSize
             } else {
                 contentPageSize = containerView.frame.height
