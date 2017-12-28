@@ -20,14 +20,14 @@ class CircularController {
     
     lazy var insertAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject())
+        let page = SlideLifeCycleObjectBuilder<ImagePageLifeCycleObject>(object: ImagePageLifeCycleObject())
         let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
         strongSelf.slideController.insert(object: page, index: index)
     }
     
     lazy var appendAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject())
+        let page = SlideLifeCycleObjectBuilder<ImagePageLifeCycleObject>(object: ImagePageLifeCycleObject())
         strongSelf.slideController.append(object: [page])
     }
     
@@ -47,9 +47,9 @@ class CircularController {
     
     init() {
         let pagesContent = [
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject()),
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>()]
+            SlideLifeCycleObjectBuilder<ImagePageLifeCycleObject>(object: ImagePageLifeCycleObject()),
+            SlideLifeCycleObjectBuilder<ImagePageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<ImagePageLifeCycleObject>()]
         slideController = SlideController(
             pagesContent: pagesContent,
             startPageIndex: 0,
@@ -57,16 +57,18 @@ class CircularController {
         slideController.titleView.alignment = .bottom
         slideController.titleView.titleSize = 40
         slideController.isCircular = true
+        slideController.titleView.position = .above
+        slideController.titleView.isTransparent = true
         internalView.contentView = slideController.view
     }
     
     var optionsController: (ViewAccessible & ContentActionable)? {
         didSet {
-            internalView.optionsView = optionsController?.view
-            optionsController?.removeDidTapAction = removeAction
-            optionsController?.insertDidTapAction = insertAction
-            optionsController?.appendDidTapAction = appendAction
-            optionsController?.changePositionAction = changePositionAction
+//            internalView.optionsView = optionsController?.view
+//            optionsController?.removeDidTapAction = removeAction
+//            optionsController?.insertDidTapAction = insertAction
+//            optionsController?.appendDidTapAction = appendAction
+//            optionsController?.changePositionAction = changePositionAction
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  PageLifeCycleObject.swift
+//  ColorPageLifeCycleObject.swift
 //  SlideController_Example
 //
 //  Created by Evgeny Dedovets on 8/10/17.
@@ -9,8 +9,8 @@
 import UIKit
 import SlideController
 
-class PageLifeCycleObject: Initializable {
-    private var controller = ColorController()
+class ColorPageLifeCycleObject: Initializable {
+    var controller = ColorController()
     
     // MARK: - InitialazableImplementation
     
@@ -19,8 +19,8 @@ class PageLifeCycleObject: Initializable {
     }
 }
 
-private typealias SlidePageLifeCycleImplementation = PageLifeCycleObject
-extension SlidePageLifeCycleImplementation: SlidePageLifeCycle {
+private typealias SlideColorPageLifeCycleImplementation = ColorPageLifeCycleObject
+extension SlideColorPageLifeCycleImplementation: SlidePageLifeCycle {
     var isKeyboardResponsive: Bool {
         return false
     }
@@ -38,7 +38,7 @@ extension SlidePageLifeCycleImplementation: SlidePageLifeCycle {
     func didCancelSliding() { }
 }
 
-private typealias ViewableImplementation = PageLifeCycleObject
+private typealias ViewableImplementation = ColorPageLifeCycleObject
 extension ViewableImplementation: Viewable {
     var view: UIView {
         get {
