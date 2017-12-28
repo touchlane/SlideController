@@ -13,6 +13,15 @@ class ActionsController: ContentActionable {
     
     // MARK: ContentActionableImplementation
     
+    var isShowAdvancedActions: Bool {
+        get {
+            return internalView.isShowAdvancedActions
+        }
+        set {
+            internalView.isShowAdvancedActions = newValue
+        }
+    }
+    
     var removeDidTapAction: Action? {
         didSet {
             internalView.removeButton.didTouchUpInside = removeDidTapAction

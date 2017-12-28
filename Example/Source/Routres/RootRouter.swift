@@ -45,6 +45,7 @@ class RootRouter {
     
     func showCircularPage(animated: Bool) {
         let actionsController = ActionsController()
+        actionsController.isShowAdvancedActions = false
         actionsController.menuDidTapAction = menuDidTapAction
         let circularController = CircularController()
         circularController.optionsController = actionsController

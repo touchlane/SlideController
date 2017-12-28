@@ -56,7 +56,6 @@ private extension PrivateCircularView {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
         constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
-        constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
         constraints.append(view.topAnchor.constraint(equalTo: self.topAnchor, constant: 84))
         NSLayoutConstraint.activate(constraints)
     }
