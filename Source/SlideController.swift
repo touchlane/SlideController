@@ -362,7 +362,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         
         if !contentSlidableController.slideContentView.isLayouted {
-            loadViewIfNeeded(pageIndex: pageIndex)
+            unloadView(around: pageIndex)
+            loadView(pageIndex: pageIndex)
             updateCurrentIndex(pageIndex: pageIndex)
         } else {
             scrollToPage(pageIndex: pageIndex, animated: animated)
@@ -373,7 +374,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         var page = currentIndex + 1
         var animated = animated
         if page >= content.count {
-            if contentSlidableController.edgeContainers != nil && animated {
+            if contentSlidableController.edgeContainers != nil && animated && contentSlidableController.slideContentView.isLayouted {
                 let pageSize = contentSlidableController.contentSize
                 if slideDirection == SlideDirection.horizontal {
                     let newContentOffset = CGFloat(content.count + 1) * pageSize
