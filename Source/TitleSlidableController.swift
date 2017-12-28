@@ -169,7 +169,6 @@ private extension PrivateTitleSlidableController {
         var newOffsetX = scrollView.contentOffset.x
         if controllers.indices.contains(index) {
             let title = controllers[index].view
-            
             let centerPosition = title.center.x - scrollView.frame.width / 2
             let leftPosition: CGFloat = 0
             let rightPosition = scrollView.contentSize.width - scrollView.frame.width
@@ -186,6 +185,13 @@ private extension PrivateTitleSlidableController {
                 newOffsetX = centerPosition
             } else {
                 newOffsetX = leftPosition  // less then 1/2 width from the left side
+            }
+            
+            if titleView.titleShiftMode == .paged && title.frame.width > 0 {
+                if scrollView.contentSize.width - title.center.x > scrollView.frame.width / 2 {
+                    let additionalOffset = newOffsetX.truncatingRemainder(dividingBy: title.frame.width)
+                    newOffsetX = newOffsetX + additionalOffset
+                }
             }
         }
         return newOffsetX

@@ -73,6 +73,11 @@ public enum TitleViewPosition {
     case above
 }
 
+public enum TitleShiftMode {
+    case center
+    case paged
+}
+
 private enum ScrollingDirection {
     case right
     case left
