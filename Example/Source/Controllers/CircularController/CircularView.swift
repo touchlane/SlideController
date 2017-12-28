@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CircularView : UIView {
+class CircularView: UIView {
     var contentView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
