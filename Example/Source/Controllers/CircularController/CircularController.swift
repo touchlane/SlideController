@@ -46,10 +46,12 @@ class CircularController {
     }
     
     init() {
-        let pagesContent = [
-            SlideLifeCycleObjectBuilder<ImagePageLifeCycleObject>(object: ImagePageLifeCycleObject()),
-            SlideLifeCycleObjectBuilder<ImagePageLifeCycleObject>(),
-            SlideLifeCycleObjectBuilder<ImagePageLifeCycleObject>()]
+        var pagesContent: [SlideLifeCycleObjectBuilder<ImagePageLifeCycleObject>] = []
+        for index in 1...5 {
+            let page = ImagePageLifeCycleObject()
+            page.controller.image = UIImage(named: "image\(index)")
+            pagesContent.append(SlideLifeCycleObjectBuilder(object: page))
+        }
         slideController = SlideController(
             pagesContent: pagesContent,
             startPageIndex: 0,

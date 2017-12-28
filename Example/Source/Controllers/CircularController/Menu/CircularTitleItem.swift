@@ -14,8 +14,8 @@ class CircularTitleItem: UIView, Initializable, ItemViewable, Selectable {
     
     private let dotViewOffsetX: CGFloat = 5
     private let dotViewSizeValue: CGFloat = 10
-    private let dotDefaultColor = UIColor(white: 1, alpha: 0.5)
-    private let dotSelectedColor = UIColor(white: 1, alpha: 1)
+    private let dotDefaultColor = UIColor(white: 0, alpha: 0.3)
+    private let dotSelectedColor = UIColor(white: 0, alpha: 1)
     private var internalIsSelected: Bool = false
     private var internalIndex: Int = 0
     private var internalDidSelectAction: ((Int) -> Void)?

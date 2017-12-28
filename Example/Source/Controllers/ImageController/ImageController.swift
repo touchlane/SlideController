@@ -11,6 +11,14 @@ import SlideController
 
 class ImageController {
     private let internalView = ImageView()
+    var image: UIImage? {
+        get {
+            return internalView.image
+        }
+        set {
+            internalView.image = newValue
+        }
+    }
 }
 
 private typealias ViewableImplementation = ImageController

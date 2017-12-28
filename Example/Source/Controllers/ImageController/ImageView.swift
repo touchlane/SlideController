@@ -9,9 +9,21 @@
 import UIKit
 
 class ImageView: UIView {
+    var image: UIImage? {
+        didSet {
+            imageView.image = image
+        }
+    }
+    
+    private let imageView = UIImageView()
+    
     init() {
         super.init(frame: CGRect.zero)
-        backgroundColor = randomColor()
+        backgroundColor = UIColor.white
+        imageView.contentMode = .center
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(imageView)
+        activateImageViewConstraints(view: imageView)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -21,10 +33,10 @@ class ImageView: UIView {
 
 private typealias PrivateImageView = ImageView
 private extension PrivateImageView {
-    func randomColor() -> UIColor{
-        let randomRed: CGFloat = CGFloat(drand48())
-        let randomGreen: CGFloat = CGFloat(drand48())
-        let randomBlue: CGFloat = CGFloat(drand48())
-        return UIColor(red: randomRed, green: randomGreen, blue: randomBlue, alpha: 1.0)
+    func activateImageViewConstraints (view: UIView) {
+        NSLayoutConstraint.activate([
+            view.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            view.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        ])
     }
 }
