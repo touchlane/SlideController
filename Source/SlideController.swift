@@ -161,9 +161,13 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
     
-    public var isCircular = false {
-        didSet {
-            contentSlidableController.isCircular = isCircular
+    ///Enables infinite circular scrolling
+    public var isCircular: Bool {
+        get {
+            return contentSlidableController.isCircular
+        }
+        set {
+            contentSlidableController.isCircular = newValue
         }
     }
     
@@ -369,8 +373,21 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         var page = currentIndex + 1
         var animated = animated
         if page >= content.count {
-            page = 0
-            animated = false
+            if contentSlidableController.edgeContainers != nil && animated {
+                let pageSize = contentSlidableController.contentSize
+                if slideDirection == SlideDirection.horizontal {
+                    let newContentOffset = CGFloat(content.count + 1) * pageSize
+                    contentSlidableController.slideContentView.setContentOffset(CGPoint(x: newContentOffset, y: 0), animated: animated)
+                } else {
+                    let newContentOffset = CGFloat(content.count + 1) * pageSize
+                    contentSlidableController.slideContentView.setContentOffset(CGPoint(x: 0, y: newContentOffset), animated: animated)
+                }
+                return
+            }
+            else {
+                page = 0
+                animated = false
+            }
         }
         shift(pageIndex: page, animated: animated)
     }

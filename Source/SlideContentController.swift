@@ -24,8 +24,10 @@ final class SlideContentController {
     ///Superview for container views
     internal private(set) var slideContentView: SlideContentView
     
+    ///Left and right temp containers to support infinite scrolling
     internal private(set) var edgeContainers: EdgeContainers?
     
+    ///Enables infinite circular scrolling
     internal var isCircular = false {
         didSet {
             if isCircular {
