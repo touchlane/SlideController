@@ -98,3 +98,10 @@ extension ViewAccessibleImplementation: ViewAccessible {
         return internalView
     }
 }
+
+private typealias StatusBarAccessibleImplementation = HorizontalController
+extension StatusBarAccessibleImplementation: StatusBarAccessible {
+    var statusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+}
