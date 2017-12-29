@@ -28,7 +28,6 @@ class RootRouter {
         horizontalController.optionsController = actionsController
         let vc = LifecycleContentUIViewController<HorizontalController>()
         vc.controller = horizontalController
-        UIApplication.shared.statusBarStyle = .lightContent
         presenter?.pushViewController(vc, animated: animated)
     }
     
@@ -39,7 +38,6 @@ class RootRouter {
         verticalController.optionsController = actionsController
         let lifecycleController = LifecycleContentUIViewController<VerticalController>()
         lifecycleController.controller = verticalController
-        UIApplication.shared.statusBarStyle = .lightContent
         presenter?.pushViewController(lifecycleController, animated: true)
     }
     
@@ -51,7 +49,6 @@ class RootRouter {
         circularController.optionsController = actionsController
         let lifecycleController = LifecycleContentUIViewController<CircularController>()
         lifecycleController.controller = circularController
-        UIApplication.shared.statusBarStyle = .lightContent
         presenter?.pushViewController(lifecycleController, animated: true)
     }
     
@@ -76,7 +73,6 @@ class RootRouter {
     
     private lazy var menuDidTapAction: (() -> ())? = { [weak self] in
         guard let strongSelf = self else { return }
-        UIApplication.shared.statusBarStyle = .default
         strongSelf.presenter?.popViewController(animated: true)
     }
 }

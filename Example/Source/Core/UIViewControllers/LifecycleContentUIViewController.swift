@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LifecycleContentUIViewController<T>: UIViewController where T: ViewAccessible & ViewLifeCycleDependable {
+class LifecycleContentUIViewController<T>: UIViewController where T: ViewAccessible & StatusBarAccessible & ViewLifeCycleDependable {
     var controller: T? {
         didSet {
             guard let controller = controller else {
@@ -28,6 +28,10 @@ class LifecycleContentUIViewController<T>: UIViewController where T: ViewAccessi
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         controller?.viewDidDisappear()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return controller?.statusBarStyle ?? .default
     }
 }
 

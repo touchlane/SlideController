@@ -56,3 +56,10 @@ extension ViewAccessibleImplementation: ViewAccessible {
         }
     }
 }
+
+private typealias StatusBarAccessibleImplementation = OptionsController
+extension StatusBarAccessibleImplementation: StatusBarAccessible {
+    var statusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+}

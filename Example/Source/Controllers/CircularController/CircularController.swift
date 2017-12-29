@@ -56,3 +56,10 @@ extension ViewAccessibleImplementation: ViewAccessible {
         return internalView
     }
 }
+
+private typealias StatusBarAccessibleImplementation = CircularController
+extension StatusBarAccessibleImplementation: StatusBarAccessible {
+    var statusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+}
