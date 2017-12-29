@@ -11,6 +11,7 @@ import UIKit
 protocol OptionsControllerProtocol: class {
     var openHorizontalDemoAction: (() -> Void)? { get set }
     var openVerticalDemoAction: (() -> Void)? { get set }
+    var openCircularDemoAction: (() -> Void)? { get set }
 }
 
 class OptionsController {
@@ -34,6 +35,15 @@ extension OptionsControllerProtocolImplementation : OptionsControllerProtocol {
         }
         set {
             internalView.verticalDemoButton.didTouchUpInside = newValue
+        }
+    }
+    
+    var openCircularDemoAction: (() -> Void)? {
+        get {
+            return internalView.circularDemoButton.didTouchUpInside
+        }
+        set {
+            internalView.circularDemoButton.didTouchUpInside = newValue
         }
     }
 }

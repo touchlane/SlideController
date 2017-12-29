@@ -15,6 +15,7 @@ class RootRouter {
         let optionsControler = OptionsController()
         optionsControler.openHorizontalDemoAction = openHorizontalDemoAction
         optionsControler.openVerticalDemoAction = openVerticalDemoAction
+        optionsControler.openCircularDemoAction = openCircularDemoAction
         let vc = ContentUIViewController<OptionsController>()
         vc.controller = optionsControler
         presenter?.setViewControllers([vc], animated: animated)
@@ -42,6 +43,18 @@ class RootRouter {
         presenter?.pushViewController(lifecycleController, animated: true)
     }
     
+    func showCircularPage(animated: Bool) {
+        let actionsController = ActionsController()
+        actionsController.isShowAdvancedActions = false
+        actionsController.menuDidTapAction = menuDidTapAction
+        let circularController = CircularController()
+        circularController.optionsController = actionsController
+        let lifecycleController = LifecycleContentUIViewController<CircularController>()
+        lifecycleController.controller = circularController
+        UIApplication.shared.statusBarStyle = .lightContent
+        presenter?.pushViewController(lifecycleController, animated: true)
+    }
+    
     private lazy var openHorizontalDemoAction: (() -> ())? = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.showHorizontalPage(animated: true)
@@ -52,6 +65,13 @@ class RootRouter {
             return
         }
         strongSelf.showVerticalPage(animated: true)
+    }
+    
+    private lazy var openCircularDemoAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else {
+            return
+        }
+        strongSelf.showCircularPage(animated: true)
     }
     
     private lazy var menuDidTapAction: (() -> ())? = { [weak self] in

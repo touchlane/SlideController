@@ -11,15 +11,18 @@ import UIKit
 protocol OptionsViewProtocol: class {
     var horizontalDemoButton: Actionable { get }
     var verticalDemoButton: Actionable { get }
+    var circularDemoButton: Actionable { get }
 }
 
 class OptionsView: UIView {
     private let optionButtonWidth: CGFloat = 220
     private let optionButtonHeigh: CGFloat = 32
-    private let horizontalDemoButtonCenterYOffset: CGFloat = -16
-    private let verticalDemoButtonCenterYOffset: CGFloat = 16
+    private let horizontalDemoButtonCenterYOffset: CGFloat = -32
+    private let verticalDemoButtonCenterYOffset: CGFloat = 0
+    private let circularDemoButtonCenterYOffset: CGFloat = 32
     private let internalHorizontalDemoButton = FilledButton()
     private let internalVerticalDemoButton = FilledButton()
+    private let internalCircularDemoButton = FilledButton()
     private let copyrightLabel = UILabel()
     
     init() {
@@ -39,6 +42,13 @@ class OptionsView: UIView {
         internalVerticalDemoButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(internalVerticalDemoButton)
         activateOptionButtonConstraints(view: internalVerticalDemoButton, centerYOffset: verticalDemoButtonCenterYOffset)
+        
+        internalCircularDemoButton.setTitle(NSLocalizedString("CircularSampleButtonTitle", comment: ""), for: .normal)
+        internalCircularDemoButton.clipsToBounds = true
+        internalCircularDemoButton.layer.cornerRadius = optionButtonHeigh / 2
+        internalCircularDemoButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(internalCircularDemoButton)
+        activateOptionButtonConstraints(view: internalCircularDemoButton, centerYOffset: circularDemoButtonCenterYOffset)
 
         copyrightLabel.text = NSLocalizedString("CopyrightText", comment: "")
         copyrightLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -84,5 +94,9 @@ extension OptionsViewProtocolImplementation: OptionsViewProtocol {
     
     var verticalDemoButton: Actionable {
         return internalVerticalDemoButton
+    }
+    
+    var circularDemoButton: Actionable {
+        return internalCircularDemoButton
     }
 }
