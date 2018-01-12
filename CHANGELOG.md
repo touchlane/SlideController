@@ -1,3 +1,8 @@
+# Changelog for SlideController 1.2.1
+### Fixed
+* Title item selection follow up. [#35](https://github.com/touchlane/SlideController/issues/35)
+* Title view sometimes not responding after app enters foreground.
+
 # Changelog for SlideController 1.2.0
 ### Added
 * `isCircular` setting that enables infinite scroll between pages.
