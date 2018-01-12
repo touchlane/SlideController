@@ -464,6 +464,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         let didReachContentEdge = actualContentOffset.truncatingRemainder(dividingBy: pageSize) == 0.0
         if !didReachContentEdge {
             if !isForcedToSlide {
+                var actualIndex = Int(round((actualContentOffset - offsetCorrection) / pageSize)) % content.count
+                if actualIndex < 0 {
+                    actualIndex = content.count - 1
+                }
+                titleSlidableController.select(index: actualIndex)
                 updateTitleScrollOffset(contentOffset: actualContentOffset, pageSize: pageSize)
             }
             shiftKeyboardIfNeeded(offset: -(actualContentOffset - lastContentOffset))
