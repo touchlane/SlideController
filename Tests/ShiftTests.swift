@@ -101,6 +101,7 @@ class ShiftTests: BaseTestCase {
         self.slideController.shift(pageIndex: 2, animated: false)
         
         guard let finishPage = page3.lifeCycleObject as? TestableLifeCycleObject,
+            let middlePage = page2.lifeCycleObject as? TestableLifeCycleObject,
             let initialPage = page1.lifeCycleObject as? TestableLifeCycleObject else {
                 XCTFail("page is not TestableLifeCycleObject")
                 return
@@ -110,6 +111,13 @@ class ShiftTests: BaseTestCase {
         XCTAssert(initialPage.didDissapearTriggered)
         XCTAssert(initialPage.viewDidLoadTriggered)
         XCTAssert(initialPage.viewDidUnloadTriggered)
+        
+        XCTAssert(!middlePage.didAppearTriggered)
+        XCTAssert(!middlePage.didDissapearTriggered)
+        XCTAssert(middlePage.viewDidLoadTriggered)
+        XCTAssert(!middlePage.viewDidUnloadTriggered)
+        XCTAssert(!middlePage.didStartSlidingTriggered)
+        XCTAssert(!middlePage.didCancelSlidingTriggered)
         
         XCTAssert(finishPage.didAppearTriggered)
         XCTAssert(!finishPage.didDissapearTriggered)
