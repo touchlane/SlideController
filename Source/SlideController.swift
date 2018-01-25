@@ -52,10 +52,6 @@ public protocol ControllerSlidable: class {
 }
 
 public protocol Selectable: class {
-    /// 0 -- 1 value.
-    /// 0 is on selected position
-    /// 1 out of position
-    var outOfSelectedState: Double { get set }
     var isSelected: Bool { get set }
     var didSelectAction: ((Int) -> Void)? { get set }
     var index: Int { get set }

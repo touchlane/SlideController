@@ -220,7 +220,10 @@ private extension PrivateTitleSlidableController {
                 return rightPositionOffset
             }
             else {
-                return CGFloat((index - 1)) * titleWidth
+                if index < 2 {
+                    return leftPositionOffset
+                }
+                return (controllers[index-1].view.frame.minX + controllers[index-2].view.frame.maxX) / 2
             }
         }
         return newOffsetX

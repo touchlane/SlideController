@@ -12,18 +12,25 @@ class ActionsView: UIView {
     let positionControl = UISegmentedControl(items: [
         NSLocalizedString("BesideSegmentTitle", comment: ""),
         NSLocalizedString("AboveSegmentTitle", comment: "")])
+    let titleModeControl = UISegmentedControl(items: [
+        NSLocalizedString("CenterTitleMode", comment: ""),
+        NSLocalizedString("PagedTitleMode", comment: "")])
     let removeButton = FilledButton()
     let insertButton = FilledButton()
     let appendButton = FilledButton()
     let menuButton = FilledButton()
     var changePositionAction: ((Int) -> ())?
+    var changeTitleModeAction: ((Int) -> ())?
     
     private let buttonWidth: CGFloat = 120
     private let buttonHeight: CGFloat = 32
     private let stackViewSpacing: CGFloat = 20
     private let positionControlWidth: CGFloat = 200
+    private let titleModeControlWidth: CGFloat = 200
     private let positionControlBackgroundColor = UIColor.purple
+    private let titleModeControlBackgroundColor = UIColor.purple
     private let positionControlTintColor = UIColor.white
+    private let titleModeControlTintColor = UIColor.white
     private let stackView = UIStackView()
     
     init() {
@@ -36,6 +43,15 @@ class ActionsView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         activateStackViewConstraints(view: stackView)
+        
+        titleModeControl.backgroundColor = titleModeControlBackgroundColor
+        titleModeControl.tintColor = titleModeControlTintColor
+        titleModeControl.layer.cornerRadius = 5 // don't let background bleed
+        titleModeControl.selectedSegmentIndex = 0
+        titleModeControl.addTarget(self, action: #selector(titleModeControlValueChanged(sender:)), for: .valueChanged)
+        titleModeControl.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(titleModeControl)
+        activateTitleModeControlConstraints(view: titleModeControl)
         
         positionControl.backgroundColor = positionControlBackgroundColor
         positionControl.tintColor = positionControlTintColor
@@ -81,7 +97,7 @@ class ActionsView: UIView {
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let stackViewPoint = stackView.convert(point, from: self)
-        return [removeButton, insertButton, appendButton, menuButton, positionControl]
+        return [removeButton, insertButton, appendButton, menuButton, positionControl, titleModeControl]
             .contains { $0.frame.contains(stackViewPoint) }
     }
     
@@ -91,16 +107,19 @@ class ActionsView: UIView {
                 return
             }
             if isShowAdvancedActions {
-                stackView.insertArrangedSubview(positionControl, at: 0)
+                stackView.insertArrangedSubview(titleModeControl, at: 0)
+                activatePositionControlConstraints(view: titleModeControl)
+                stackView.insertArrangedSubview(positionControl, at: 1)
                 activatePositionControlConstraints(view: positionControl)
-                stackView.insertArrangedSubview(removeButton, at: 1)
+                stackView.insertArrangedSubview(removeButton, at: 2)
                 activateButtonConstraints(view: removeButton)
-                stackView.insertArrangedSubview(insertButton, at: 2)
+                stackView.insertArrangedSubview(insertButton, at: 3)
                 activateButtonConstraints(view: insertButton)
-                stackView.insertArrangedSubview(appendButton, at: 3)
+                stackView.insertArrangedSubview(appendButton, at: 4)
                 activateButtonConstraints(view: appendButton)
             }
             else {
+                titleModeControl.removeFromSuperview()
                 positionControl.removeFromSuperview()
                 removeButton.removeFromSuperview()
                 insertButton.removeFromSuperview()
@@ -143,7 +162,21 @@ private extension PrivateActionsView {
             view.heightAnchor.constraint(equalToConstant: self.buttonHeight)])
     }
     
+    func activateTitleModeControlConstraints(view: UIView) {
+        guard let superview = view.superview else {
+            return
+        }
+        NSLayoutConstraint.activate([
+            view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+            view.widthAnchor.constraint(equalToConstant: self.titleModeControlWidth),
+            view.heightAnchor.constraint(equalToConstant: self.buttonHeight)])
+    }
+    
     @objc func positionControlValueChanged(sender: UISegmentedControl) {
         changePositionAction?(sender.selectedSegmentIndex)
+    }
+    
+    @objc func titleModeControlValueChanged(sender: UISegmentedControl) {
+        changeTitleModeAction?(sender.selectedSegmentIndex)
     }
 }

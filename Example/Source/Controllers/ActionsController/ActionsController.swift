@@ -51,6 +51,12 @@ class ActionsController: ContentActionable {
             internalView.changePositionAction = changePositionAction
         }
     }
+    
+    var changeTitleModeAction: ((Int) -> ())? {
+        didSet {
+            internalView.changeTitleModeAction = changeTitleModeAction
+        }
+    }
 }
 
 private typealias ViewAccessibleImplementation = ActionsController

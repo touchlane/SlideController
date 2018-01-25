@@ -48,6 +48,18 @@ class HorizontalController {
         }
     }
     
+    private lazy var changeTitleModeAction: ((Int) -> ())? = { [weak self] mode in
+        guard let strongSelf = self else { return }
+        switch mode {
+        case 0:
+            strongSelf.slideController.titleView.titleShiftMode = .center
+        case 1:
+            strongSelf.slideController.titleView.titleShiftMode = .paged
+        default:
+            break
+        }
+    }
+    
     init() {
         let pagesContent = [
             SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(object: ColorPageLifeCycleObject()),
@@ -68,6 +80,7 @@ class HorizontalController {
             optionsController?.insertDidTapAction = insertAction
             optionsController?.appendDidTapAction = appendAction
             optionsController?.changePositionAction = changePositionAction
+            optionsController?.changeTitleModeAction = changeTitleModeAction
         }
     }
 }
