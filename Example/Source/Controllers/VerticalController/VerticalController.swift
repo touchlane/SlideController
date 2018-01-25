@@ -21,14 +21,14 @@ class VerticalController {
     
     private lazy var insertAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
+        let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
         let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
         strongSelf.slideController.insert(object: page, index: index)
     }
     
     private lazy var appendAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
+        let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
         strongSelf.slideController.append(object: [page])
     }
     
@@ -58,9 +58,9 @@ class VerticalController {
     
     init() {
         let pagesContent = [
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
+            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
         ]
         slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: .vertical)
         slideController.titleView.position = .above
@@ -85,5 +85,12 @@ private typealias ViewAccessibleImplementation = VerticalController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
         return internalView
+    }
+}
+
+private typealias StatusBarAccessibleImplementation = VerticalController
+extension StatusBarAccessibleImplementation: StatusBarAccessible {
+    var statusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

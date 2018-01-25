@@ -80,6 +80,11 @@ private extension PrivateSlideView {
                     contentViewConstraints.append(view.topAnchor.constraint(equalTo: titleView.bottomAnchor))
                     contentViewConstraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
                     contentViewConstraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
+                case TitleViewAlignment.bottom:
+                    contentViewConstraints.append(view.bottomAnchor.constraint(equalTo: titleView.topAnchor))
+                    contentViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
+                    contentViewConstraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
+                    contentViewConstraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
                 case TitleViewAlignment.left:
                     contentViewConstraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
                     contentViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
@@ -117,6 +122,11 @@ private extension PrivateSlideView {
         case .top:
             titleViewConstraints.append(view.heightAnchor.constraint(equalToConstant: view.titleSize))
             titleViewConstraints.append(view.topAnchor.constraint(equalTo: self.topAnchor))
+            titleViewConstraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
+            titleViewConstraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
+        case .bottom:
+            titleViewConstraints.append(view.heightAnchor.constraint(equalToConstant: view.titleSize))
+            titleViewConstraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
             titleViewConstraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
             titleViewConstraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
         case .left:

@@ -11,6 +11,7 @@ import UIKit
 protocol OptionsControllerProtocol: class {
     var openHorizontalDemoAction: (() -> Void)? { get set }
     var openVerticalDemoAction: (() -> Void)? { get set }
+    var openCircularDemoAction: (() -> Void)? { get set }
 }
 
 class OptionsController {
@@ -36,6 +37,15 @@ extension OptionsControllerProtocolImplementation : OptionsControllerProtocol {
             internalView.verticalDemoButton.didTouchUpInside = newValue
         }
     }
+    
+    var openCircularDemoAction: (() -> Void)? {
+        get {
+            return internalView.circularDemoButton.didTouchUpInside
+        }
+        set {
+            internalView.circularDemoButton.didTouchUpInside = newValue
+        }
+    }
 }
 
 private typealias ViewAccessibleImplementation = OptionsController
@@ -44,5 +54,12 @@ extension ViewAccessibleImplementation: ViewAccessible {
         get {
             return internalView
         }
+    }
+}
+
+private typealias StatusBarAccessibleImplementation = OptionsController
+extension StatusBarAccessibleImplementation: StatusBarAccessible {
+    var statusBarStyle: UIStatusBarStyle {
+        return .default
     }
 }

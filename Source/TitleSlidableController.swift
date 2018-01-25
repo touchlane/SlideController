@@ -131,11 +131,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     
     func jump(index: Int, animated: Bool) {
         if controllers.indices.contains(index) {
-            if controllers.indices.contains(selectedIndex) {
-                controllers[selectedIndex].isSelected = false
-            }
-            selectedIndex = index
-            controllers[index].isSelected = true
+            select(index: index)
             updateSlideIndicator(index: index, slideDirection: scrollDirection, animated: false)
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
@@ -145,6 +141,17 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
                 scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: animated)
             }
         }
+    }
+    
+    func select(index: Int) {
+        guard controllers.indices.contains(index) else {
+            return
+        }
+        if controllers.indices.contains(selectedIndex) {
+            controllers[selectedIndex].isSelected = false
+        }
+        selectedIndex = index
+        controllers[index].isSelected = true
     }
     
     func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int) {

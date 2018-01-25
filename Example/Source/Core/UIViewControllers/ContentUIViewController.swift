@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContentUIViewController<T>: UIViewController where T: ViewAccessible {
+class ContentUIViewController<T>: UIViewController where T: ViewAccessible & StatusBarAccessible {
     var controller: T? {
         didSet {
             guard let controller = controller else {
@@ -18,5 +18,9 @@ class ContentUIViewController<T>: UIViewController where T: ViewAccessible {
             view = controller.view
             automaticallyAdjustsScrollViewInsets = false
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return controller?.statusBarStyle ?? .default
     }
 }

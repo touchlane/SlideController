@@ -84,6 +84,30 @@ class ActionsView: UIView {
         return [removeButton, insertButton, appendButton, menuButton, positionControl]
             .contains { $0.frame.contains(stackViewPoint) }
     }
+    
+    var isShowAdvancedActions: Bool = true {
+        didSet {
+            guard oldValue != isShowAdvancedActions else {
+                return
+            }
+            if isShowAdvancedActions {
+                stackView.insertArrangedSubview(positionControl, at: 0)
+                activatePositionControlConstraints(view: positionControl)
+                stackView.insertArrangedSubview(removeButton, at: 1)
+                activateButtonConstraints(view: removeButton)
+                stackView.insertArrangedSubview(insertButton, at: 2)
+                activateButtonConstraints(view: insertButton)
+                stackView.insertArrangedSubview(appendButton, at: 3)
+                activateButtonConstraints(view: appendButton)
+            }
+            else {
+                positionControl.removeFromSuperview()
+                removeButton.removeFromSuperview()
+                insertButton.removeFromSuperview()
+                appendButton.removeFromSuperview()
+            }
+        }
+    }
 }
 
 private typealias PrivateActionsView = ActionsView
