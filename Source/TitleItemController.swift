@@ -9,7 +9,6 @@
 import UIKit
 
 class TitleItemController<T>: TitleItemControllableObject where T: TitleItemObject, T: UIView {
-    
     private var item = T()
     typealias Item = T.Item
     
@@ -31,13 +30,6 @@ class TitleItemController<T>: TitleItemControllableObject where T: TitleItemObje
         set {
             item.isSelected = newValue
         }
-    }
-    
-    var outOfSelectedState: Double {
-        get {
-            return item.isSelected ? 1 : 0
-        }
-        set { }
     }
     
     var didSelectAction: ((Int) -> ())? {
