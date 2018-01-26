@@ -30,6 +30,7 @@
 		86EF198E1FBB219900BD8E73 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 86EF198B1FBB219900BD8E73 /* LICENSE */; };
 		86EF198F1FBB219900BD8E73 /* SlideController.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 86EF198C1FBB219900BD8E73 /* SlideController.podspec */; };
 		DD2C57641FC4129A006CC356 /* LoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2C57631FC4129A006CC356 /* LoadTests.swift */; };
+		DD30948C1FF51D940035D1CC /* ShiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD30948B1FF51D940035D1CC /* ShiftTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		86EF198B1FBB219900BD8E73 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		86EF198C1FBB219900BD8E73 /* SlideController.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SlideController.podspec; sourceTree = "<group>"; };
 		DD2C57631FC4129A006CC356 /* LoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadTests.swift; sourceTree = "<group>"; };
+		DD30948B1FF51D940035D1CC /* ShiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				86C452571FBB463A00BB1542 /* InsertTests.swift */,
 				8647C09E1FBC2EF500850ED5 /* RemoveTests.swift */,
 				DD2C57631FC4129A006CC356 /* LoadTests.swift */,
+				DD30948B1FF51D940035D1CC /* ShiftTests.swift */,
 				86473D5B1FBB157300055999 /* Supporting Files */,
 			);
 			path = Tests;
@@ -309,6 +312,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD30948C1FF51D940035D1CC /* ShiftTests.swift in Sources */,
 				86473D781FBB165700055999 /* TestTitleScrollView.swift in Sources */,
 				86473D7A1FBB166900055999 /* TestTitleItem.swift in Sources */,
 				86C452581FBB463A00BB1542 /* InsertTests.swift in Sources */,

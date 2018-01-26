@@ -13,6 +13,15 @@ class ActionsController: ContentActionable {
     
     // MARK: ContentActionableImplementation
     
+    var isShowAdvancedActions: Bool {
+        get {
+            return internalView.isShowAdvancedActions
+        }
+        set {
+            internalView.isShowAdvancedActions = newValue
+        }
+    }
+    
     var removeDidTapAction: Action? {
         didSet {
             internalView.removeButton.didTouchUpInside = removeDidTapAction
@@ -40,6 +49,12 @@ class ActionsController: ContentActionable {
     var changePositionAction: ((Int) -> ())? {
         didSet {
             internalView.changePositionAction = changePositionAction
+        }
+    }
+    
+    var changeTitleModeAction: ((Int) -> ())? {
+        didSet {
+            internalView.changeTitleModeAction = changeTitleModeAction
         }
     }
 }

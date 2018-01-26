@@ -1,45 +1,27 @@
 //
-//  HorizontalTitleScrollView.swift
-//  SlideController_Example
+//  CircularTitleScrollView.swift
+//  Example
 //
-//  Created by Vadim Morozov on 4/20/17.
+//  Created by Vadim Morozov on 12/27/17.
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
 import UIKit
 import SlideController
 
-class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
-    private var internalItems: [View] = [] {
-        didSet {
-            indicatorView.isHidden = internalItems.isEmpty
-        }
-    }
-    private let internalItemOffsetX: CGFloat = 15
-    private let itemOffsetTop: CGFloat = 36
-    private let itemHeight: CGFloat = 36
+class CircularTitleScrollView: TitleScrollView<CircularTitleItem> {
+    private var internalItems: [View] = []
+    
+    private let internalItemOffsetX: CGFloat = 0
+    private let itemOffsetTop: CGFloat = 10
+    private let itemHeight: CGFloat = 20
     private let internalBackgroundColor = UIColor.purple
     
-    private var indicatorLeadingAnchor: NSLayoutConstraint?
-    private var indicatorWidthAnchor: NSLayoutConstraint?
-    private var indicatorHeight: CGFloat = 2
-    private var indicatorColor: UIColor = .white
-    private let indicatorView = UIView()
-    
-    init(shiftMode: TitleShiftMode) {
+    override required init() {
         super.init()
-        titleShiftMode = shiftMode
+        backgroundColor = internalBackgroundColor
     }
     
-    convenience required override init() {
-        self.init(shiftMode: .center)
-        backgroundColor = internalBackgroundColor
-        
-        indicatorView.translatesAutoresizingMaskIntoConstraints = false
-        indicatorView.backgroundColor = indicatorColor
-        addSubview(indicatorView)
-    }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -94,21 +76,6 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
         }
     }
     
-    override func indicator(position: CGFloat, size: CGFloat, animated: Bool) {
-        if let indicatorLeadingAnchor = indicatorLeadingAnchor,
-            let indicatorWidthAnchor = indicatorWidthAnchor {
-            indicatorLeadingAnchor.constant = position
-            indicatorWidthAnchor.constant = size
-        } else {
-            activateBackgroundViewConstraints(view: indicatorView, position: position, width: size)
-        }
-        if animated {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.layoutIfNeeded()
-            })
-        }
-    }
-    
     var isTransparent = false {
         didSet {
             backgroundColor = isTransparent ? UIColor.clear : internalBackgroundColor
@@ -116,18 +83,15 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
     }
 }
 
-private typealias PrivateHorizontalTitleScrollView = HorizontalTitleScrollView
-private extension PrivateHorizontalTitleScrollView {
+private typealias PrivateCircularTitleScrollView = CircularTitleScrollView
+private extension PrivateCircularTitleScrollView {
     func activateBackgroundViewConstraints(view: UIView, position: CGFloat, width: CGFloat) {
         var constraints: [NSLayoutConstraint] = []
         constraints.append(view.topAnchor.constraint(equalTo: topAnchor, constant: itemOffsetTop + itemHeight))
         let leading = view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: position)
-        indicatorLeadingAnchor = leading
         constraints.append(leading)
         let width = view.widthAnchor.constraint(equalToConstant: width)
-        indicatorWidthAnchor = width
         constraints.append(width)
-        constraints.append(view.heightAnchor.constraint(equalToConstant: indicatorHeight))
         NSLayoutConstraint.activate(constraints)
     }
     

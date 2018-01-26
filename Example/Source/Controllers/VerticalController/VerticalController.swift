@@ -21,14 +21,14 @@ class VerticalController {
     
     private lazy var insertAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
+        let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
         let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
         strongSelf.slideController.insert(object: page, index: index)
     }
     
     private lazy var appendAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
+        let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
         strongSelf.slideController.append(object: [page])
     }
     
@@ -46,6 +46,18 @@ class VerticalController {
         }
     }
     
+    private lazy var changeTitleModeAction: ((Int) -> ())? = { [weak self] mode in
+        guard let strongSelf = self else { return }
+        switch mode {
+        case 0:
+            strongSelf.slideController.titleView.titleShiftMode = .center
+        case 1:
+            strongSelf.slideController.titleView.titleShiftMode = .paged
+        default:
+            break
+        }
+    }
+    
     var optionsController: (ViewAccessible & ContentActionable)? {
         didSet {
             internalView.optionsView = optionsController?.view
@@ -53,14 +65,15 @@ class VerticalController {
             optionsController?.insertDidTapAction = insertAction
             optionsController?.appendDidTapAction = appendAction
             optionsController?.changePositionAction = changePositionAction
+            optionsController?.changeTitleModeAction = changeTitleModeAction
         }
     }
     
     init() {
         let pagesContent = [
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
+            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
         ]
         slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: .vertical)
         slideController.titleView.position = .above
@@ -85,5 +98,12 @@ private typealias ViewAccessibleImplementation = VerticalController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
         return internalView
+    }
+}
+
+private typealias StatusBarAccessibleImplementation = VerticalController
+extension StatusBarAccessibleImplementation: StatusBarAccessible {
+    var statusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

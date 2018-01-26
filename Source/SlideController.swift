@@ -42,7 +42,7 @@ public protocol ViewSlidable: class {
 }
 
 public protocol ControllerSlidable: class {
-    func shift(pageIndex: Int, animated: Bool)
+    func shift(pageIndex: Int, animated: Bool, forced: Bool)
     func showNext(animated: Bool)
     func viewDidAppear()
     func viewDidDisappear()
@@ -64,6 +64,7 @@ public enum SlideDirection {
 
 public enum TitleViewAlignment {
     case top
+    case bottom
     case left
     case right
 }
@@ -104,9 +105,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var didFinishSlideAction: (() -> Void)?
     private var isForcedToSlide = false
     private var isOnScreen = false
-    
-    /// Used for disabling scrollViewDidScroll calls when changeContentLayoutAction is triggered
-    private var isLayouting = false
     
     /// Default delay for sending end animation selector scrollViewEndAnimating(_ scrollView: UIScrollView)
     private let defaultSlidingAnimationDuration = 0.05
@@ -166,6 +164,16 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
     }
     
+    ///Enables infinite circular scrolling
+    public var isCircular: Bool {
+        get {
+            return contentSlidableController.isCircular
+        }
+        set {
+            contentSlidableController.isCircular = newValue
+        }
+    }
+    
     private lazy var firstLayoutTitleAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.changeContentLayoutAction()
@@ -184,7 +192,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private lazy var changeContentLayoutAction: () -> () = { [weak self] in
         guard let strongSelf = self else { return }
         guard !strongSelf.isForcedToSlide else { return }
-        strongSelf.isLayouting = true
         strongSelf.contentSlidableController.slideContentView.delegate = nil
         strongSelf.contentSlidableController.contentSize = strongSelf.calculateContentPageSize(
             direction: strongSelf.slideDirection,
@@ -342,23 +349,23 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         contentSlidableController.slideContentView.delegate = self
     }
     
-    public func shift(pageIndex: Int, animated: Bool = true) {
-        guard pageIndex != currentIndex else {
+    public func shift(pageIndex: Int, animated: Bool = true, forced: Bool = false) {
+        guard pageIndex != currentIndex || forced else {
             return
         }
         isForcedToSlide = animated
         loadViewIfNeeded(pageIndex: pageIndex)
         
-        sourceIndex = currentIndex
-        destinationIndex = pageIndex
-        
         scrollInProgress = true
         if animated && content.indices.contains(currentIndex) {
             content[currentIndex].lifeCycleObject.didStartSliding()
+            sourceIndex = currentIndex
+            destinationIndex = pageIndex
         }
         
         if !contentSlidableController.slideContentView.isLayouted {
-            loadViewIfNeeded(pageIndex: pageIndex)
+            unloadView(around: pageIndex)
+            loadView(pageIndex: pageIndex)
             updateCurrentIndex(pageIndex: pageIndex)
         } else {
             scrollToPage(pageIndex: pageIndex, animated: animated)
@@ -369,8 +376,21 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         var page = currentIndex + 1
         var animated = animated
         if page >= content.count {
-            page = 0
-            animated = false
+            if contentSlidableController.edgeContainers != nil && animated && contentSlidableController.slideContentView.isLayouted {
+                let pageSize = contentSlidableController.contentSize
+                if slideDirection == SlideDirection.horizontal {
+                    let newContentOffset = CGFloat(content.count + 1) * pageSize
+                    contentSlidableController.slideContentView.setContentOffset(CGPoint(x: newContentOffset, y: 0), animated: animated)
+                } else {
+                    let newContentOffset = CGFloat(content.count + 1) * pageSize
+                    contentSlidableController.slideContentView.setContentOffset(CGPoint(x: 0, y: newContentOffset), animated: animated)
+                }
+                return
+            }
+            else {
+                page = 0
+                animated = false
+            }
         }
         shift(pageIndex: page, animated: animated)
     }
@@ -391,10 +411,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     
     // MARK: - UIScrollViewDelegateImplementation
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !isLayouting else {
-            isLayouting = false
-            return
-        }
         NSObject.cancelPreviousPerformRequests(withTarget: self)
         perform(#selector(SlideController.scrollViewEndAnimating(_:)), with: scrollView, afterDelay: defaultSlidingAnimationDuration)
         
@@ -404,8 +420,12 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         
         let pageSize = contentSlidableController.contentSize
+        let offsetCorrection = contentSlidableController.edgeContainers == nil ? 0 : pageSize
         let actualContentOffset = slideDirection == .horizontal ? scrollView.contentOffset.x : scrollView.contentOffset.y
-        let nextIndex = Int(actualContentOffset / pageSize)
+        var nextIndex = Int(actualContentOffset / pageSize)
+        if actualContentOffset - offsetCorrection < 0 {
+            nextIndex = -1
+        }
 
         let isDestinationTransition = nextIndex == (destinationIndex ?? nextIndex)
         let objectIndex = sourceIndex ?? currentIndex
@@ -420,15 +440,32 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if !isForcedToSlide {
             switch scrollingDirection {
             case .up, .right:
-                loadViewIfNeeded(pageIndex: nextIndex - 1)
+                if nextIndex == -1 {
+                    loadLeftEdgeView()
+                }
+                else {
+                    loadViewIfNeeded(pageIndex: nextIndex)
+                    loadViewIfNeeded(pageIndex: nextIndex - 1)
+                }
             case .down, .left:
-                loadViewIfNeeded(pageIndex: nextIndex + 1)
+                if nextIndex == content.count {
+                    loadRightEdgeView()
+                }
+                else {
+                    loadViewIfNeeded(pageIndex: nextIndex)
+                    loadViewIfNeeded(pageIndex: nextIndex + 1)
+                }
             }
         }
         
         let didReachContentEdge = actualContentOffset.truncatingRemainder(dividingBy: pageSize) == 0.0
         if !didReachContentEdge {
             if !isForcedToSlide {
+                var actualIndex = Int(round((actualContentOffset - offsetCorrection) / pageSize)) % content.count
+                if actualIndex < 0 {
+                    actualIndex = content.count - 1
+                }
+                titleSlidableController.select(index: actualIndex)
                 updateTitleScrollOffset(contentOffset: actualContentOffset, pageSize: pageSize)
             }
             shiftKeyboardIfNeeded(offset: -(actualContentOffset - lastContentOffset))
@@ -464,7 +501,17 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         didFinishSlideAction = nil
         
         if nextIndex != currentIndex {
-            updateCurrentIndex(pageIndex: nextIndex)
+            if nextIndex == -1 {
+                shift(pageIndex: content.count - 1, animated: false, forced: true)
+                return
+            }
+            else if nextIndex == content.count {
+                shift(pageIndex: 0, animated: false, forced: true)
+                return
+            }
+            else {
+                updateCurrentIndex(pageIndex: nextIndex)
+            }
         }
         
         titleSlidableController.isSelectionAllowed = true
@@ -494,7 +541,7 @@ private extension PrivateSlideController {
                 contentPageSize = containerView.frame.width
             }
         } else {
-            if titleViewPosition == TitleViewPosition.beside && titleViewAlignment == TitleViewAlignment.top {
+            if (titleViewAlignment == TitleViewAlignment.top || titleViewAlignment == TitleViewAlignment.bottom) && titleViewPosition == TitleViewPosition.beside {
                 contentPageSize = containerView.frame.height - titleSlidableController.titleView.titleSize
             } else {
                 contentPageSize = containerView.frame.height
@@ -530,13 +577,14 @@ private extension PrivateSlideController {
     
     func updateSelectIndicator(contentOffset: CGPoint, pageSize: CGFloat) {
         var contentAxisOffset: CGFloat = 0
+        let offsetCorrection = contentSlidableController.edgeContainers == nil ? 0 : pageSize
         switch slideDirection! {
         case .horizontal:
-            contentAxisOffset = contentOffset.x
+            contentAxisOffset = contentOffset.x - offsetCorrection
         case .vertical:
-            contentAxisOffset = contentOffset.y
+            contentAxisOffset = contentOffset.y - offsetCorrection
         }
-        let actualIndex = Int(contentAxisOffset / pageSize)
+        let actualIndex = contentAxisOffset > 0 ? Int(contentAxisOffset / pageSize) : -1
 
         var startIndex: Int
         var destinationIndex: Int
@@ -612,17 +660,52 @@ private extension PrivateSlideController {
     
     func loadViewIfNeeded(pageIndex: Int) {
         if content.indices.contains(pageIndex) {
+            var ignoreLifecycleEvent = false
+            if pageIndex == 0 && contentSlidableController.edgeContainers?.right.hasContent == true {
+                contentSlidableController.edgeContainers?.right.unloadView()
+                ignoreLifecycleEvent = true
+            }
+            else if pageIndex == content.count - 1 && contentSlidableController.edgeContainers?.left.hasContent == true {
+                contentSlidableController.edgeContainers?.left.unloadView()
+                ignoreLifecycleEvent = true
+            }
             if !contentSlidableController.containers[pageIndex].hasContent {
                 contentSlidableController.containers[pageIndex].load(view: content[pageIndex].lifeCycleObject.view)
-                content[pageIndex].lifeCycleObject.viewDidLoad()
+                if !ignoreLifecycleEvent {
+                    content[pageIndex].lifeCycleObject.viewDidLoad()
+                }
             }
+        }
+    }
+    
+    func loadLeftEdgeView() {
+        if contentSlidableController.edgeContainers?.left.hasContent == false {
+            if !contentSlidableController.containers[content.count - 1].hasContent {
+                content[content.count - 1].lifeCycleObject.viewDidLoad()
+            }
+            contentSlidableController.containers[content.count - 1].unloadView()
+            contentSlidableController.edgeContainers?.left.load(view: content[content.count - 1].lifeCycleObject.view)
+        }
+    }
+    
+    func loadRightEdgeView() {
+        if contentSlidableController.edgeContainers?.right.hasContent == false {
+            if !contentSlidableController.containers[0].hasContent {
+                content[0].lifeCycleObject.viewDidLoad()
+            }
+            contentSlidableController.containers[0].unloadView()
+            contentSlidableController.edgeContainers?.right.load(view: content[0].lifeCycleObject.view)
         }
     }
     
     func pageIndex(for contentOffset: CGPoint) -> Int {
         let pageSize = contentSlidableController.contentSize
-        let actualContentOffset = slideDirection == .horizontal ? contentOffset.x : contentOffset.y
-        let index = Int(actualContentOffset / pageSize)
+        let offsetCorrection = contentSlidableController.edgeContainers == nil ? 0 : pageSize
+        let actualContentOffset = (slideDirection == .horizontal ? contentOffset.x : contentOffset.y) - offsetCorrection
+        var index = Int(actualContentOffset / pageSize)
+        if actualContentOffset < 0 {
+            index = -1
+        }
         return index
     }
     

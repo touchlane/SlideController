@@ -21,7 +21,7 @@ class HorizontalController {
     
     lazy var insertAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject())
+        let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(object: ColorPageLifeCycleObject())
         let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
         strongSelf.slideController.insert(object: page, index: index)
         strongSelf.updateTitles()
@@ -29,7 +29,7 @@ class HorizontalController {
     
     lazy var appendAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        let page = SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject())
+        let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(object: ColorPageLifeCycleObject())
         strongSelf.slideController.append(object: [page])
         strongSelf.updateTitles()
     }
@@ -48,11 +48,23 @@ class HorizontalController {
         }
     }
     
+    private lazy var changeTitleModeAction: ((Int) -> ())? = { [weak self] mode in
+        guard let strongSelf = self else { return }
+        switch mode {
+        case 0:
+            strongSelf.slideController.titleView.titleShiftMode = .center
+        case 1:
+            strongSelf.slideController.titleView.titleShiftMode = .paged
+        default:
+            break
+        }
+    }
+    
     init() {
         let pagesContent = [
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(object: PageLifeCycleObject()),
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>()]
+            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(object: ColorPageLifeCycleObject()),
+            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(),
+            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()]
         slideController = SlideController(
             pagesContent: pagesContent,
             startPageIndex: 0,
@@ -68,6 +80,7 @@ class HorizontalController {
             optionsController?.insertDidTapAction = insertAction
             optionsController?.appendDidTapAction = appendAction
             optionsController?.changePositionAction = changePositionAction
+            optionsController?.changeTitleModeAction = changeTitleModeAction
         }
     }
 }
@@ -96,5 +109,12 @@ private typealias ViewAccessibleImplementation = HorizontalController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
         return internalView
+    }
+}
+
+private typealias StatusBarAccessibleImplementation = HorizontalController
+extension StatusBarAccessibleImplementation: StatusBarAccessible {
+    var statusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

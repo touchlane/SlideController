@@ -15,6 +15,7 @@ class RootRouter {
         let optionsControler = OptionsController()
         optionsControler.openHorizontalDemoAction = openHorizontalDemoAction
         optionsControler.openVerticalDemoAction = openVerticalDemoAction
+        optionsControler.openCircularDemoAction = openCircularDemoAction
         let vc = ContentUIViewController<OptionsController>()
         vc.controller = optionsControler
         presenter?.setViewControllers([vc], animated: animated)
@@ -27,7 +28,6 @@ class RootRouter {
         horizontalController.optionsController = actionsController
         let vc = LifecycleContentUIViewController<HorizontalController>()
         vc.controller = horizontalController
-        UIApplication.shared.statusBarStyle = .lightContent
         presenter?.pushViewController(vc, animated: animated)
     }
     
@@ -38,7 +38,17 @@ class RootRouter {
         verticalController.optionsController = actionsController
         let lifecycleController = LifecycleContentUIViewController<VerticalController>()
         lifecycleController.controller = verticalController
-        UIApplication.shared.statusBarStyle = .lightContent
+        presenter?.pushViewController(lifecycleController, animated: true)
+    }
+    
+    func showCircularPage(animated: Bool) {
+        let actionsController = ActionsController()
+        actionsController.isShowAdvancedActions = false
+        actionsController.menuDidTapAction = menuDidTapAction
+        let circularController = CircularController()
+        circularController.optionsController = actionsController
+        let lifecycleController = LifecycleContentUIViewController<CircularController>()
+        lifecycleController.controller = circularController
         presenter?.pushViewController(lifecycleController, animated: true)
     }
     
@@ -54,9 +64,15 @@ class RootRouter {
         strongSelf.showVerticalPage(animated: true)
     }
     
+    private lazy var openCircularDemoAction: (() -> Void)? = { [weak self] in
+        guard let strongSelf = self else {
+            return
+        }
+        strongSelf.showCircularPage(animated: true)
+    }
+    
     private lazy var menuDidTapAction: (() -> ())? = { [weak self] in
         guard let strongSelf = self else { return }
-        UIApplication.shared.statusBarStyle = .default
         strongSelf.presenter?.popViewController(animated: true)
     }
 }

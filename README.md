@@ -10,6 +10,7 @@ SlideController is simple and flexible UI component completely written in Swift.
 
 ![Horizontal](Example/Assets/horizontal.gif)
 ![Vertical](Example/Assets/vertical.gif)
+![Carousel](Example/Assets/carousel.gif)
 
 # Requirements
 
