@@ -204,10 +204,9 @@ private extension PrivateTitleSlidableController {
     }
     
     func calculateTargetOffsetInPagedMode(index: Int) -> CGFloat {
-        var newOffsetX = scrollView.contentOffset.x
+        let newOffsetX = scrollView.contentOffset.x
         if controllers.indices.contains(index) {
             let title = controllers[index].view
-            let titleLeft = title.frame.minX
             let titleWidth = title.frame.width
             let leftPositionOffset: CGFloat = 0
             let rightPositionOffset = scrollView.contentSize.width - scrollView.frame.width
