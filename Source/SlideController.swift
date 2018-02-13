@@ -223,7 +223,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         contentSlidableController.slideContentView.changeLayoutAction = changeContentLayoutAction
     }
     
-    var isScrollEnabled: Bool = true {
+    public var isScrollEnabled: Bool = true {
         didSet {
             contentSlidableController.slideContentView.isScrollEnabled = isScrollEnabled
         }
@@ -329,7 +329,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         
         if index < currentIndex {
             shift(pageIndex: currentIndex - 1, animated: false)
-            currentIndex = currentIndex - 1
+            if contentSlidableController.slideContentView.isLayouted {
+                currentIndex = currentIndex - 1
+            }
         } else if index == currentIndex {
             /// TODO: check this case
             if currentIndex < content.count {
