@@ -172,22 +172,57 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
 
 private typealias PrivateTitleSlidableController = TitleSlidableController
 private extension PrivateTitleSlidableController {
+    
     func calculateTargetOffset(index: Int) -> CGFloat {
+        guard titleView.titleShiftMode == .center else {
+            return calculateTargetOffsetInPagedMode(index: index)
+        }
+        
         var newOffsetX = scrollView.contentOffset.x
         if controllers.indices.contains(index) {
             let title = controllers[index].view
+            let titleCenter = title.center.x
+            let centerPosition = titleCenter - scrollView.frame.width / 2
+            let leftPosition: CGFloat = 0
+            let rightPosition = scrollView.contentSize.width - scrollView.frame.width
+            
             if scrollView.frame.width >= scrollView.contentSize.width {
                 newOffsetX = scrollView.contentSize.width / 2 - scrollView.frame.width / 2
-            } else if title.center.x >= scrollView.contentSize.width / 2 {
-                if scrollView.contentSize.width - title.center.x > scrollView.frame.width / 2 {
-                    newOffsetX = title.center.x - scrollView.frame.width / 2
+            } else if titleCenter >= scrollView.contentSize.width / 2 {
+                if scrollView.contentSize.width - titleCenter > scrollView.frame.width / 2 {
+                    newOffsetX = centerPosition
                 } else {
-                    newOffsetX = scrollView.contentSize.width - scrollView.frame.width
+                    newOffsetX = rightPosition // less then 1/2 width from the end
                 }
-            } else if title.center.x > scrollView.frame.width / 2 {
-                newOffsetX = title.center.x - scrollView.frame.width / 2
+            } else if titleCenter > scrollView.frame.width / 2 {
+                newOffsetX = centerPosition
             } else {
-                newOffsetX = 0
+                newOffsetX = leftPosition  // less then 1/2 width from the left side
+            }
+        }
+        return newOffsetX
+    }
+    
+    func calculateTargetOffsetInPagedMode(index: Int) -> CGFloat {
+        let newOffsetX = scrollView.contentOffset.x
+        if controllers.indices.contains(index) {
+            let title = controllers[index].view
+            let titleWidth = title.frame.width
+            let leftPositionOffset: CGFloat = 0
+            let rightPositionOffset = scrollView.contentSize.width - scrollView.frame.width
+            // titles smaller then screen width or first tile
+            if scrollView.frame.width >= scrollView.contentSize.width || index == 0 {
+                return leftPositionOffset
+            }
+            // titles close to right side
+            if CGFloat((controllers.count - index + 1)) * titleWidth <= scrollView.frame.width {
+                return rightPositionOffset
+            }
+            else {
+                if index < 2 {
+                    return leftPositionOffset
+                }
+                return (controllers[index-1].view.frame.minX + controllers[index-2].view.frame.maxX) / 2
             }
         }
         return newOffsetX

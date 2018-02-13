@@ -15,4 +15,5 @@ protocol ContentActionable {
     var appendDidTapAction: Action? { get set }
     var menuDidTapAction: Action? { get set }
     var changePositionAction: ((Int) -> ())? { get set }
+    var changeTitleModeAction: ((Int) -> ())? { get set }
 }

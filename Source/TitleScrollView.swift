@@ -13,6 +13,12 @@ public protocol TitleConfigurable: class {
     var items: [TitleItem] { get }
     var alignment: TitleViewAlignment { get set }
     var position: TitleViewPosition { get set }
+    
+    /// Defigns how titles shifted while switching main content.
+    /// Possible values:
+    /// 1. center -- selected title positioned in the center of currenv viewable area if possible. Used by default.
+    /// 2. paged -- left title item border aligned with left viewable area border.
+    var titleShiftMode: TitleShiftMode { get set }
     var titleSize: CGFloat { get set }
     
     /// Called when user slides or shifts content,
@@ -33,6 +39,7 @@ public protocol TitleViewConfigurationDelegate: class {
 }
 
 open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable where T: UIView, T: TitleItemObject {
+    public var titleShiftMode = TitleShiftMode.center
     public typealias View = T
     public typealias TitleItem = View
     public private(set) var isLayouted = false

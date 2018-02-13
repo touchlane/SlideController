@@ -10,10 +10,12 @@
 "HorizontalSampleButtonTitle" = "Horizontal Sample";
 "VerticalSampleButtonTitle" = "Vertical Sample";
 "CircularSampleButtonTitle" = "Carousel Sample";
+"CenterTitleMode" = "Center titles";
+"PagedTitleMode" = "Paged titles";
 "BesideSegmentTitle" = "Beside";
 "AboveSegmentTitle" = "Above";
 "InsertButtonTitle" = "Insert";
 "RemoveButtonTitle" = "Remove";
 "AppendButtonTitle" = "Append";
 
-"CopyrightText" = "Copyright (c) 2017 Touchlane LLC";
+"CopyrightText" = "Copyright (c) 2018 Touchlane LLC";

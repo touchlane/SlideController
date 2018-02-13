@@ -26,8 +26,13 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
     private var indicatorColor: UIColor = .white
     private let indicatorView = UIView()
     
-    override required init() {
+    init(shiftMode: TitleShiftMode) {
         super.init()
+        titleShiftMode = shiftMode
+    }
+    
+    convenience required override init() {
+        self.init(shiftMode: .center)
         backgroundColor = internalBackgroundColor
         
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
