@@ -1,3 +1,8 @@
+# Changelog for SlideController 1.2.2
+### Fixed
+* ```isScrollEnabled``` exposed to public api as intended.
+* ```currentIndex``` calculation for not layouted views.
+
 # Changelog for SlideController 1.2.1
 ### Fixed
 * Title item selection follow up. [#35](https://github.com/touchlane/SlideController/issues/35)
