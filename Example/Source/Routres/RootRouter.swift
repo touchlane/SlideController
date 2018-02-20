@@ -28,7 +28,6 @@ class RootRouter {
     
     func showHorizontalPage(animated: Bool) {
         let actionsController = ActionsController()
-        actionsController.menuDidTapAction = menuDidTapAction
         let horizontalController = HorizontalController()
         horizontalController.optionsController = actionsController
         let vc = LifecycleContentUIViewController<HorizontalController>()
@@ -39,7 +38,6 @@ class RootRouter {
     
     func showVerticalPage(animated: Bool) {
         let actionsController = ActionsController()
-        actionsController.menuDidTapAction = menuDidTapAction
         let verticalController = VerticalController()
         verticalController.optionsController = actionsController
         let lifecycleController = LifecycleContentUIViewController<VerticalController>()
@@ -51,7 +49,6 @@ class RootRouter {
     func showCircularPage(animated: Bool) {
         let actionsController = ActionsController()
         actionsController.isShowAdvancedActions = false
-        actionsController.menuDidTapAction = menuDidTapAction
         let circularController = CircularController()
         circularController.optionsController = actionsController
         let lifecycleController = LifecycleContentUIViewController<CircularController>()
@@ -77,11 +74,6 @@ class RootRouter {
             return
         }
         strongSelf.showCircularPage(animated: true)
-    }
-    
-    private lazy var menuDidTapAction: (() -> ())? = { [weak self] in
-        guard let strongSelf = self else { return }
-        strongSelf.presenter.popViewController(animated: true)
     }
     
     private func setupNavigationBar(presenter: UINavigationController, controller: TitleDesignable) {
