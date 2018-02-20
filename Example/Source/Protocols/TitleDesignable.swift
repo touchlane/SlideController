@@ -18,9 +18,3 @@ protocol TitleAccessible: class {
 protocol TitleColorable: class {
     var titleColor: UIColor { get }
 }
-
-extension TitleColorable {
-    var titleColor: UIColor {
-        return .white
-    }
-}
