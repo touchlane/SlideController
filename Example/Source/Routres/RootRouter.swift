@@ -90,7 +90,6 @@ class RootRouter {
         shadow.shadowOffset = CGSize(width: 0, height: 1)
         shadow.shadowColor = UIColor(white: 0.5, alpha: 0.5)
         
-        presenter.navigationBar.backItem?.title = "Menu"
         presenter.navigationBar.tintColor = controller.titleColor
         presenter.navigationBar.titleTextAttributes = [
             NSAttributedStringKey.foregroundColor: controller.titleColor,
