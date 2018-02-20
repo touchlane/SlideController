@@ -367,6 +367,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         } else {
             scrollToPage(pageIndex: pageIndex, animated: animated)
         }
+        if !animated {
+            scrollInProgress = false
+        }
     }
     
     public func showNext(animated: Bool = true) {
