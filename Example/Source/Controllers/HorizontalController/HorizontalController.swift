@@ -43,7 +43,7 @@ class HorizontalController {
 
         let titleItems = strongSelf.slideController.titleView.items
         let lastItemIndex = titleItems.count - 1
-        strongSelf.slideController.titleView.items[lastItemIndex].titleLabel.text = strongSelf.title(for: strongSelf.addedPagesCount)
+        titleItems[lastItemIndex].titleLabel.text = strongSelf.title(for: strongSelf.addedPagesCount)
     }
 
     private lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
