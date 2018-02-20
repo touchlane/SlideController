@@ -23,7 +23,7 @@ class OptionsView: UIView {
     private let internalHorizontalDemoButton = FilledButton()
     private let internalVerticalDemoButton = FilledButton()
     private let internalCircularDemoButton = FilledButton()
-    private let copyrightLabel = UILabel()
+    private let logoImageView = UIImageView()
     
     init() {
         super.init(frame: CGRect.zero)
@@ -50,10 +50,10 @@ class OptionsView: UIView {
         addSubview(internalCircularDemoButton)
         activateOptionButtonConstraints(view: internalCircularDemoButton, centerYOffset: circularDemoButtonCenterYOffset)
 
-        copyrightLabel.text = NSLocalizedString("CopyrightText", comment: "")
-        copyrightLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(copyrightLabel)
-        activateCopyrightLabelConstraints(view: copyrightLabel)
+        logoImageView.image = UIImage(named: "main_logo")
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(logoImageView)
+        activateLogoImagConstraints(view: logoImageView, anchorView: internalCircularDemoButton)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -75,13 +75,14 @@ private extension PrivateOptionsView {
             ])
     }
     
-    func activateCopyrightLabelConstraints(view: UIView) {
+    func activateLogoImagConstraints(view: UIView, anchorView: UIView) {
         guard let superview = view.superview else {
             return
         }
         NSLayoutConstraint.activate([
             view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
-            view.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -20)
+            view.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -20),
+            view.heightAnchor.constraint(equalToConstant: 60)
             ])
     }
 }
