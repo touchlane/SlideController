@@ -60,7 +60,7 @@ extension ViewAccessibleImplementation: ViewAccessible {
 private typealias StatusBarAccessibleImplementation = CircularController
 extension StatusBarAccessibleImplementation: StatusBarAccessible {
     var statusBarStyle: UIStatusBarStyle {
-        return .default
+        return .lightContent
     }
 }
 
@@ -74,6 +74,6 @@ extension TitleAccessibleImplementation: TitleAccessible {
 private typealias TitleColorableImplementation = CircularController
 extension TitleColorableImplementation: TitleColorable {
     var titleColor: UIColor {
-        return .black
+        return .white
     }
 }

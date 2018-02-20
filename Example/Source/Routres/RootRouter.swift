@@ -9,7 +9,11 @@
 import UIKit
 
 class RootRouter {
-    var presenter: UINavigationController?
+    private let presenter: UINavigationController
+    
+    init(presenter: UINavigationController) {
+        self.presenter = presenter
+    }
     
     func openMainScreen(animated: Bool) {
         let optionsControler = OptionsController()
@@ -18,7 +22,8 @@ class RootRouter {
         optionsControler.openCircularDemoAction = openCircularDemoAction
         let vc = ContentUIViewController<OptionsController>()
         vc.controller = optionsControler
-        presenter?.setViewControllers([vc], animated: animated)
+        setupNavigationBar(presenter: presenter, controller: optionsControler)
+        presenter.setViewControllers([vc], animated: animated)
     }
     
     func showHorizontalPage(animated: Bool) {
@@ -28,7 +33,8 @@ class RootRouter {
         horizontalController.optionsController = actionsController
         let vc = LifecycleContentUIViewController<HorizontalController>()
         vc.controller = horizontalController
-        presenter?.pushViewController(vc, animated: animated)
+        setupNavigationBar(presenter: presenter, controller: horizontalController)
+        presenter.pushViewController(vc, animated: animated)
     }
     
     func showVerticalPage(animated: Bool) {
@@ -38,7 +44,8 @@ class RootRouter {
         verticalController.optionsController = actionsController
         let lifecycleController = LifecycleContentUIViewController<VerticalController>()
         lifecycleController.controller = verticalController
-        presenter?.pushViewController(lifecycleController, animated: true)
+        setupNavigationBar(presenter: presenter, controller: verticalController)
+        presenter.pushViewController(lifecycleController, animated: animated)
     }
     
     func showCircularPage(animated: Bool) {
@@ -49,10 +56,11 @@ class RootRouter {
         circularController.optionsController = actionsController
         let lifecycleController = LifecycleContentUIViewController<CircularController>()
         lifecycleController.controller = circularController
-        presenter?.pushViewController(lifecycleController, animated: true)
+        setupNavigationBar(presenter: presenter, controller: circularController)
+        presenter.pushViewController(lifecycleController, animated: animated)
     }
     
-    private lazy var openHorizontalDemoAction: (() -> ())? = { [weak self] in
+    private lazy var openHorizontalDemoAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.showHorizontalPage(animated: true)
     }
@@ -73,6 +81,20 @@ class RootRouter {
     
     private lazy var menuDidTapAction: (() -> ())? = { [weak self] in
         guard let strongSelf = self else { return }
-        strongSelf.presenter?.popViewController(animated: true)
+        strongSelf.presenter.popViewController(animated: true)
+    }
+    
+    private func setupNavigationBar(presenter: UINavigationController, controller: TitleDesignable) {
+        let shadow = NSShadow()
+        shadow.shadowBlurRadius = 2
+        shadow.shadowOffset = CGSize(width: 0, height: 1)
+        shadow.shadowColor = UIColor(white: 0.5, alpha: 0.5)
+        
+        presenter.navigationBar.backItem?.title = "Menu"
+        presenter.navigationBar.tintColor = controller.titleColor
+        presenter.navigationBar.titleTextAttributes = [
+            NSAttributedStringKey.foregroundColor: controller.titleColor,
+            NSAttributedStringKey.shadow: shadow
+        ]
     }
 }

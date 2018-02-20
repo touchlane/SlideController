@@ -17,17 +17,8 @@ class LifecycleContentUIViewController<T>: UIViewController where T: ViewAccessi
             //Bad design, but this is just a demo :)
             view = controller.view
             title = controller.title
-            
             automaticallyAdjustsScrollViewInsets = false
-            setupNavigationBar(controller: controller)
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        if let controller = controller {
-            setupNavigationBar(controller: controller)
-        }
-        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,22 +33,5 @@ class LifecycleContentUIViewController<T>: UIViewController where T: ViewAccessi
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return controller?.statusBarStyle ?? .default
-    }
-}
-
-private typealias LifecycleContentUIViewControllerPrivate = LifecycleContentUIViewController
-private extension LifecycleContentUIViewControllerPrivate {
-    func setupNavigationBar(controller: T) {
-        navigationItem.hidesBackButton = true
-        
-        let shadow = NSShadow()
-        shadow.shadowBlurRadius = 2
-        shadow.shadowOffset = CGSize(width: 0, height: 1)
-        shadow.shadowColor = UIColor(white: 0.5, alpha: 0.5)
-        
-        navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedStringKey.foregroundColor: controller.titleColor,
-            NSAttributedStringKey.shadow: shadow
-        ]
     }
 }

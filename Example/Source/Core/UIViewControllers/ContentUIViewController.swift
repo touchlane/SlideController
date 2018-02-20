@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContentUIViewController<T>: UIViewController where T: ViewAccessible & StatusBarAccessible {
+class ContentUIViewController<T>: UIViewController where T: ViewAccessible & StatusBarAccessible & TitleDesignable {
     var controller: T? {
         didSet {
             guard let controller = controller else {
@@ -16,6 +16,7 @@ class ContentUIViewController<T>: UIViewController where T: ViewAccessible & Sta
             }
             //Bad design, but this is just a demo :)
             view = controller.view
+            title = controller.title
             automaticallyAdjustsScrollViewInsets = false
         }
     }

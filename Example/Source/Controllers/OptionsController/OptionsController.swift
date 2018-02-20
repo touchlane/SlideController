@@ -60,6 +60,20 @@ extension ViewAccessibleImplementation: ViewAccessible {
 private typealias StatusBarAccessibleImplementation = OptionsController
 extension StatusBarAccessibleImplementation: StatusBarAccessible {
     var statusBarStyle: UIStatusBarStyle {
-        return .default
+        return .lightContent
+    }
+}
+
+private typealias TitleAccessibleImplementation = OptionsController
+extension TitleAccessibleImplementation: TitleAccessible {
+    var title: String {
+        return "SlideController"
+    }
+}
+
+private typealias TitleColorableImplementation = OptionsController
+extension TitleColorableImplementation: TitleColorable {
+    var titleColor: UIColor {
+        return .white
     }
 }

@@ -12,10 +12,9 @@ class RootUINavigationController: UINavigationController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        
-        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.barTintColor = .purple
         navigationBar.shadowImage = UIImage()
-        navigationBar.isTranslucent = true
+        navigationBar.isTranslucent = false
     }
     
     required init?(coder aDecoder: NSCoder) {
