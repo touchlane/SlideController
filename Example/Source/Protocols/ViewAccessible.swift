@@ -8,6 +8,6 @@
 
 import UIKit
 
-protocol ViewAccessible : class {
+protocol ViewAccessible: class {
     var view: UIView { get }
 }

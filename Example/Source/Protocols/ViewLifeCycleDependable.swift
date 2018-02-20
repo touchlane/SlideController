@@ -6,7 +6,7 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-protocol ViewLifeCycleDependable : class {
+protocol ViewLifeCycleDependable: class {
     func viewDidAppear()
     func viewDidDisappear()
 }

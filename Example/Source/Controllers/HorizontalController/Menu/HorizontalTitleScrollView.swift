@@ -16,7 +16,7 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
         }
     }
     private let internalItemOffsetX: CGFloat = 15
-    private let itemOffsetTop: CGFloat = 36
+    private let itemOffsetTop: CGFloat = 50
     private let itemHeight: CGFloat = 36
     private let internalBackgroundColor = UIColor.purple
     
