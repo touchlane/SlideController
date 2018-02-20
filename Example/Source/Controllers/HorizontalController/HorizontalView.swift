@@ -57,7 +57,7 @@ private extension PrivateHorizontalView {
         constraints.append(view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
         constraints.append(view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
         constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
-        constraints.append(view.topAnchor.constraint(equalTo: self.topAnchor, constant: 84))
+        constraints.append(view.topAnchor.constraint(equalTo: self.topAnchor, constant: 94))
         NSLayoutConstraint.activate(constraints)
     }
 }

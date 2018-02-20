@@ -63,3 +63,17 @@ extension StatusBarAccessibleImplementation: StatusBarAccessible {
         return .default
     }
 }
+
+private typealias TitleAccessibleImplementation = CircularController
+extension TitleAccessibleImplementation: TitleAccessible {
+    var title: String {
+        return "Carousel"
+    }
+}
+
+private typealias TitleColorableImplementation = CircularController
+extension TitleColorableImplementation: TitleColorable {
+    var titleColor: UIColor {
+        return .black
+    }
+}

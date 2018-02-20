@@ -47,7 +47,7 @@ class HorizontalTitleItem: UIView, Initializable, ItemViewable, Selectable {
     
     // MARK: - SelectableImplementation
     
-    var didSelectAction: ((Int) -> ())? {
+    var didSelectAction: ((Int) -> Void)? {
         get {
             return internalDidSelectAction
         }
