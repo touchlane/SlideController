@@ -31,6 +31,7 @@ class HorizontalController {
         strongSelf.addedPagesCount += 1
 
         let titleItems = strongSelf.slideController.titleView.items
+        guard titleItems.indices.contains(index) else { return }
         titleItems[index].titleLabel.text = strongSelf.title(for: strongSelf.addedPagesCount)
     }
 
