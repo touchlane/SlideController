@@ -57,6 +57,7 @@ class HorizontalController {
             pagesContent: pagesContent,
             startPageIndex: 0,
             slideDirection: SlideDirection.horizontal)
+        slideController.titleView.titleSize = 94
         updateTitles()
         internalView.contentView = slideController.view
     }
@@ -103,5 +104,19 @@ private typealias StatusBarAccessibleImplementation = HorizontalController
 extension StatusBarAccessibleImplementation: StatusBarAccessible {
     var statusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+}
+
+private typealias TitleAccessibleImplementation = HorizontalController
+extension TitleAccessibleImplementation: TitleAccessible {
+    var title: String {
+        return "Horizontal"
+    }
+}
+
+private typealias TitleColorableImplementation = HorizontalController
+extension TitleColorableImplementation: TitleColorable {
+    var titleColor: UIColor {
+        return .white
     }
 }

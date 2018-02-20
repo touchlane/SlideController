@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		86473D881FBB199600055999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D871FBB199600055999 /* AppDelegate.swift */; };
+		86541B29203AE71F0058935E /* TitleDesignable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86541B28203AE71F0058935E /* TitleDesignable.swift */; };
 		86EF19381FBB1E5000BD8E73 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86EF19171FBB1E4F00BD8E73 /* Images.xcassets */; };
 		86EF19391FBB1E5000BD8E73 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86EF19181FBB1E4F00BD8E73 /* LaunchScreen.xib */; };
 		86EF19541FBB1E9E00BD8E73 /* ActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EF193A1FBB1E9B00BD8E73 /* ActionsView.swift */; };
@@ -89,6 +90,7 @@
 		86473D841FBB199600055999 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86473D871FBB199600055999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86473D931FBB199600055999 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		86541B28203AE71F0058935E /* TitleDesignable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleDesignable.swift; sourceTree = "<group>"; };
 		86EF19171FBB1E4F00BD8E73 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		86EF19181FBB1E4F00BD8E73 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		86EF193A1FBB1E9B00BD8E73 /* ActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionsView.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				86EF19461FBB1E9C00BD8E73 /* ViewLifeCycleDependable.swift */,
 				86EF19411FBB1E9B00BD8E73 /* ViewAccessible.swift */,
 				DD683AD41FF64C7A003C8FE5 /* StatusBarAccessible.swift */,
+				86541B28203AE71F0058935E /* TitleDesignable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -483,6 +486,7 @@
 				86EF19661FBB1E9E00BD8E73 /* ClosureButton.swift in Sources */,
 				86EF19641FBB1E9E00BD8E73 /* ClosureButtonDesignable.swift in Sources */,
 				86EF19571FBB1E9E00BD8E73 /* OptionsView.swift in Sources */,
+				86541B29203AE71F0058935E /* TitleDesignable.swift in Sources */,
 				86EF19681FBB1E9E00BD8E73 /* ActionsController.swift in Sources */,
 				86EF19631FBB1E9E00BD8E73 /* ContentActionable.swift in Sources */,
 			);

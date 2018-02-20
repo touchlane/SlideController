@@ -94,3 +94,17 @@ extension StatusBarAccessibleImplementation: StatusBarAccessible {
         return .lightContent
     }
 }
+
+private typealias TitleAccessibleImplementation = VerticalController
+extension TitleAccessibleImplementation: TitleAccessible {
+    var title: String {
+        return "Vertical"
+    }
+}
+
+private typealias TitleColorableImplementation = VerticalController
+extension TitleColorableImplementation: TitleColorable {
+    var titleColor: UIColor {
+        return .white
+    }
+}
