@@ -46,7 +46,7 @@ class HorizontalController {
         titleItems[lastItemIndex].titleLabel.text = strongSelf.title(for: strongSelf.addedPagesCount)
     }
 
-    private lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
+    private lazy var changePositionAction: ((Int) -> Void)? = { [weak self] position in
         guard let strongSelf = self else { return }
         switch position {
         case 0:
