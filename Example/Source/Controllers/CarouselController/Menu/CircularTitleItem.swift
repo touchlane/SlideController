@@ -1,5 +1,5 @@
 //
-//  CircularTitleItem.swift
+//  CarouselTitleItem.swift
 //  Example
 //
 //  Created by Vadim Morozov on 12/27/17.
@@ -9,7 +9,7 @@
 import UIKit
 import SlideController
 
-class CircularTitleItem: UIView, Initializable, ItemViewable, Selectable {
+class CarouselTitleItem: UIView, Initializable, ItemViewable, Selectable {
     let dotView = UIView()
     
     private let dotViewOffsetX: CGFloat = 5
@@ -37,7 +37,7 @@ class CircularTitleItem: UIView, Initializable, ItemViewable, Selectable {
     
     // MARK: - ItemViewableImplementation
     
-    typealias Item = CircularTitleItem
+    typealias Item = CarouselTitleItem
     
     var view: Item {
         return self
@@ -78,8 +78,8 @@ class CircularTitleItem: UIView, Initializable, ItemViewable, Selectable {
     }
 }
 
-private typealias PrivateCircularTitleItem = CircularTitleItem
-private extension PrivateCircularTitleItem {
+private typealias PrivateCarouselTitleItem = CarouselTitleItem
+private extension PrivateCarouselTitleItem {
     func activateDotViewConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.centerYAnchor.constraint(equalTo: centerYAnchor))

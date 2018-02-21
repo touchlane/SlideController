@@ -38,8 +38,8 @@
 		86EF196C1FBB1E9E00BD8E73 /* ColorPageLifeCycleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EF19521FBB1E9E00BD8E73 /* ColorPageLifeCycleObject.swift */; };
 		86EF196D1FBB1E9E00BD8E73 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EF19531FBB1E9E00BD8E73 /* RootRouter.swift */; };
 		86EF19891FBB20C100BD8E73 /* SlideController.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 86EF19831FBB209400BD8E73 /* SlideController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DD2F936B1FF3F22900A65F48 /* CircularController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2F936A1FF3F22900A65F48 /* CircularController.swift */; };
-		DD2F936D1FF3F23500A65F48 /* CircularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2F936C1FF3F23500A65F48 /* CircularView.swift */; };
+		DD2F936B1FF3F22900A65F48 /* CarouselController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2F936A1FF3F22900A65F48 /* CarouselController.swift */; };
+		DD2F936D1FF3F23500A65F48 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2F936C1FF3F23500A65F48 /* CarouselView.swift */; };
 		DD2F93701FF3F27600A65F48 /* CircularTitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2F936F1FF3F27600A65F48 /* CircularTitleItem.swift */; };
 		DD2F93721FF3F28D00A65F48 /* CircularTitleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2F93711FF3F28D00A65F48 /* CircularTitleScrollView.swift */; };
 		DD3094901FF5362C0035D1CC /* ImagePageLifeCycleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD30948F1FF5362C0035D1CC /* ImagePageLifeCycleObject.swift */; };
@@ -120,8 +120,8 @@
 		86EF19521FBB1E9E00BD8E73 /* ColorPageLifeCycleObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPageLifeCycleObject.swift; sourceTree = "<group>"; };
 		86EF19531FBB1E9E00BD8E73 /* RootRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		86EF197D1FBB209400BD8E73 /* SlideController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SlideController.xcodeproj; path = ../SlideController.xcodeproj; sourceTree = "<group>"; };
-		DD2F936A1FF3F22900A65F48 /* CircularController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularController.swift; sourceTree = "<group>"; };
-		DD2F936C1FF3F23500A65F48 /* CircularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularView.swift; sourceTree = "<group>"; };
+		DD2F936A1FF3F22900A65F48 /* CarouselController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselController.swift; sourceTree = "<group>"; };
+		DD2F936C1FF3F23500A65F48 /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
 		DD2F936F1FF3F27600A65F48 /* CircularTitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTitleItem.swift; sourceTree = "<group>"; };
 		DD2F93711FF3F28D00A65F48 /* CircularTitleScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTitleScrollView.swift; sourceTree = "<group>"; };
 		DD30948F1FF5362C0035D1CC /* ImagePageLifeCycleObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePageLifeCycleObject.swift; sourceTree = "<group>"; };
@@ -299,7 +299,7 @@
 		86EF197B1FBB1FBE00BD8E73 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				DD2F93691FF3F1E900A65F48 /* CircularController */,
+				DD2F93691FF3F1E900A65F48 /* CarouselController */,
 				86EF197A1FBB1FAE00BD8E73 /* ActionsController */,
 				86EF19781FBB1F8C00BD8E73 /* VerticalController */,
 				86EF19751FBB1F6700BD8E73 /* HorizontalController */,
@@ -329,14 +329,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DD2F93691FF3F1E900A65F48 /* CircularController */ = {
+		DD2F93691FF3F1E900A65F48 /* CarouselController */ = {
 			isa = PBXGroup;
 			children = (
-				DD2F936A1FF3F22900A65F48 /* CircularController.swift */,
-				DD2F936C1FF3F23500A65F48 /* CircularView.swift */,
+				DD2F936A1FF3F22900A65F48 /* CarouselController.swift */,
+				DD2F936C1FF3F23500A65F48 /* CarouselView.swift */,
 				DD2F936E1FF3F25400A65F48 /* Menu */,
 			);
-			path = CircularController;
+			path = CarouselController;
 			sourceTree = "<group>";
 		};
 		DD2F936E1FF3F25400A65F48 /* Menu */ = {
@@ -454,9 +454,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD2F936B1FF3F22900A65F48 /* CircularController.swift in Sources */,
+				DD2F936B1FF3F22900A65F48 /* CarouselController.swift in Sources */,
 				DD683AD51FF64C7A003C8FE5 /* StatusBarAccessible.swift in Sources */,
-				DD2F936D1FF3F23500A65F48 /* CircularView.swift in Sources */,
+				DD2F936D1FF3F23500A65F48 /* CarouselView.swift in Sources */,
 				86EF195C1FBB1E9E00BD8E73 /* HorizontalView.swift in Sources */,
 				86EF19671FBB1E9E00BD8E73 /* FilledButton.swift in Sources */,
 				86EF195B1FBB1E9E00BD8E73 /* ViewAccessible.swift in Sources */,

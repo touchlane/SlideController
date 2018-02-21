@@ -19,7 +19,7 @@ class RootRouter {
         let optionsControler = OptionsController()
         optionsControler.openHorizontalDemoAction = openHorizontalDemoAction
         optionsControler.openVerticalDemoAction = openVerticalDemoAction
-        optionsControler.openCircularDemoAction = openCircularDemoAction
+        optionsControler.openCarouselDemoAction = openCarouselDemoAction
         let vc = ContentUIViewController<OptionsController>()
         vc.controller = optionsControler
         setupNavigationBar(presenter: presenter, controller: optionsControler)
@@ -46,14 +46,14 @@ class RootRouter {
         presenter.pushViewController(lifecycleController, animated: animated)
     }
     
-    func showCircularPage(animated: Bool) {
+    func showCarouselPage(animated: Bool) {
         let actionsController = ActionsController()
         actionsController.isShowAdvancedActions = false
-        let circularController = CircularController()
-        circularController.optionsController = actionsController
-        let lifecycleController = LifecycleContentUIViewController<CircularController>()
-        lifecycleController.controller = circularController
-        setupNavigationBar(presenter: presenter, controller: circularController)
+        let carouselController = CarouselController()
+        carouselController.optionsController = actionsController
+        let lifecycleController = LifecycleContentUIViewController<CarouselController>()
+        lifecycleController.controller = carouselController
+        setupNavigationBar(presenter: presenter, controller: carouselController)
         presenter.pushViewController(lifecycleController, animated: animated)
     }
     
@@ -69,11 +69,11 @@ class RootRouter {
         strongSelf.showVerticalPage(animated: true)
     }
     
-    private lazy var openCircularDemoAction: (() -> Void)? = { [weak self] in
+    private lazy var openCarouselDemoAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else {
             return
         }
-        strongSelf.showCircularPage(animated: true)
+        strongSelf.showCarouselPage(animated: true)
     }
     
     private func setupNavigationBar(presenter: UINavigationController, controller: TitleDesignable) {

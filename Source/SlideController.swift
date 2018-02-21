@@ -160,12 +160,12 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     }
     
     ///Enables infinite circular scrolling
-    public var isCircular: Bool {
+    public var isCarousel: Bool {
         get {
-            return contentSlidableController.isCircular
+            return contentSlidableController.isCarousel
         }
         set {
-            contentSlidableController.isCircular = newValue
+            contentSlidableController.isCarousel = newValue
         }
     }
     
