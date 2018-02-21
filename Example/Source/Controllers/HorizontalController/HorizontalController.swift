@@ -75,7 +75,7 @@ class HorizontalController {
             slideController.titleView.items[index].titleLabel.text = title(for: index + 1)
         }
       
-        slideController.titleView.titleSize = 94
+        slideController.titleView.titleSize = 44
         internalView.contentView = slideController.view
     }
 

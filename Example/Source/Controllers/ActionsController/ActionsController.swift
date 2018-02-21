@@ -40,12 +40,6 @@ class ActionsController: ContentActionable {
         }
     }
     
-    var menuDidTapAction: Action? {
-        didSet {
-            internalView.menuButton.didTouchUpInside = menuDidTapAction
-        }
-    }
-    
     var changePositionAction: ((Int) -> ())? {
         didSet {
             internalView.changePositionAction = changePositionAction

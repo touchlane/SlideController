@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ContentUIViewController<T>: UIViewController where T: ViewAccessible & StatusBarAccessible {
+class ContentUIViewController<T>: UIViewController where T: ViewAccessible & StatusBarAccessible & TitleDesignable {
     var controller: T? {
         didSet {
             guard let controller = controller else {

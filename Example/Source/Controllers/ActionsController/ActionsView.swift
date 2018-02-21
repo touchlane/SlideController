@@ -66,13 +66,6 @@ class ActionsView: UIView {
         appendButton.translatesAutoresizingMaskIntoConstraints = false
         stackView.addArrangedSubview(appendButton)
         activateButtonConstraints(view: appendButton)
-        
-        menuButton.setTitle("Menu", for: .normal)
-        menuButton.clipsToBounds = true
-        menuButton.layer.cornerRadius = buttonHeight / 2
-        menuButton.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(menuButton)
-        activateButtonConstraints(view: menuButton)
     }
     
     required init?(coder aDecoder: NSCoder) {
