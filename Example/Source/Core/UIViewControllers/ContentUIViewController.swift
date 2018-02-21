@@ -16,7 +16,6 @@ class ContentUIViewController<T>: UIViewController where T: ViewAccessible & Sta
             }
             //Bad design, but this is just a demo :)
             view = controller.view
-            title = controller.title
             automaticallyAdjustsScrollViewInsets = false
         }
     }

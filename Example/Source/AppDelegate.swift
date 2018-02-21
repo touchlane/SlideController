@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         router = RootRouter(presenter: rootVC)
         window?.rootViewController = rootVC
-        
         router?.openMainScreen(animated: true)
         window?.makeKeyAndVisible()
         return true

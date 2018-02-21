@@ -24,6 +24,7 @@ class OptionsView: UIView {
     private let internalVerticalDemoButton = FilledButton()
     private let internalCircularDemoButton = FilledButton()
     private let logoImageView = UIImageView()
+    private let label = UILabel()
     
     init() {
         super.init(frame: CGRect.zero)
@@ -53,7 +54,14 @@ class OptionsView: UIView {
         logoImageView.image = UIImage(named: "main_logo")
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(logoImageView)
-        activateLogoImagConstraints(view: logoImageView, anchorView: internalCircularDemoButton)
+        activateLogoImageConstraints(view: logoImageView, anchorView: internalCircularDemoButton)
+        
+        label.text = "SlideController"
+        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(red: 61 / 255, green: 86 / 255, blue: 166 / 255, alpha: 1)
+        addSubview(label)
+        activateLabelConstraints(view: label)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -75,7 +83,7 @@ private extension PrivateOptionsView {
             ])
     }
     
-    func activateLogoImagConstraints(view: UIView, anchorView: UIView) {
+    func activateLogoImageConstraints(view: UIView, anchorView: UIView) {
         guard let superview = view.superview else {
             return
         }
@@ -83,6 +91,16 @@ private extension PrivateOptionsView {
             view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
             view.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -20),
             view.heightAnchor.constraint(equalToConstant: 60)
+            ])
+    }
+    
+    func activateLabelConstraints(view: UIView) {
+        guard let superview = view.superview else {
+            return
+        }
+        NSLayoutConstraint.activate([
+            view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+            view.topAnchor.constraint(equalTo: superview.topAnchor, constant: 20)
             ])
     }
 }

@@ -16,7 +16,7 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
     private let itemWidth: CGFloat = 2.5
     private let itemHeight: CGFloat = 120
     private let itemHeightMultiplier: CGFloat = 0.67
-    private let internalBackgroundColor = UIColor.purple
+    private let internalBackgroundColor = UIColor(red: 61 / 255, green: 86 / 255, blue: 166 / 255, alpha: 1)
     private var internalItems: [View] = []
     private let itemsView = UIView()
     
