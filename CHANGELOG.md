@@ -1,3 +1,11 @@
+# Changelog for SlideController 1.3.0
+### Added
+* New example look 🎉 .
+### **Breaking Change**
+* ```isCircular``` renamed to ```isCarousel```.
+### Fixed
+* Select title item after ```insert(object: SlideLifeCycleObjectProvidable, index: Int)```
+
 # Changelog for SlideController 1.2.2
 ### Fixed
 * ```isScrollEnabled``` exposed to public api as intended.
