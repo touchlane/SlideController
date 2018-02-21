@@ -28,9 +28,9 @@ final class SlideContentController {
     internal private(set) var edgeContainers: EdgeContainers?
     
     ///Enables infinite circular scrolling
-    internal var isCircular = false {
+    internal var isCarousel = false {
         didSet {
-            if isCircular {
+            if isCarousel {
                 addEdgeContainersIfNeeded()
             }
             else {
@@ -68,7 +68,7 @@ final class SlideContentController {
         }
         else {
             slideContentView.appendViews(views: newControllers.map { $0.view })
-            if isCircular {
+            if isCarousel {
                 addEdgeContainersIfNeeded()
             }
         }
@@ -83,7 +83,7 @@ final class SlideContentController {
         }
         else {
             slideContentView.insertView(view: controller.view, index: index)
-            if isCircular {
+            if isCarousel {
                 addEdgeContainersIfNeeded()
             }
         }

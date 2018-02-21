@@ -1,5 +1,5 @@
 //
-//  CircularView.swift
+//  CarouselView.swift
 //  Example
 //
 //  Created by Vadim Morozov on 12/27/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CircularView: UIView {
+class CarouselView: UIView {
     var contentView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -41,8 +41,8 @@ class CircularView: UIView {
     }
 }
 
-private typealias PrivateCircularView = CircularView
-private extension PrivateCircularView {
+private typealias PrivateCarouselView = CarouselView
+private extension PrivateCarouselView {
     func activateContentViewConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.bottomAnchor.constraint(equalTo: self.bottomAnchor))

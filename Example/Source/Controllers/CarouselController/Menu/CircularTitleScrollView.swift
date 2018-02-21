@@ -1,5 +1,5 @@
 //
-//  CircularTitleScrollView.swift
+//  CarouselTitleScrollView.swift
 //  Example
 //
 //  Created by Vadim Morozov on 12/27/17.
@@ -9,7 +9,7 @@
 import UIKit
 import SlideController
 
-class CircularTitleScrollView: TitleScrollView<CircularTitleItem> {
+class CarouselTitleScrollView: TitleScrollView<CarouselTitleItem> {
     private var internalItems: [View] = []
     
     private let internalItemOffsetX: CGFloat = 0
@@ -83,8 +83,8 @@ class CircularTitleScrollView: TitleScrollView<CircularTitleItem> {
     }
 }
 
-private typealias PrivateCircularTitleScrollView = CircularTitleScrollView
-private extension PrivateCircularTitleScrollView {
+private typealias PrivateCarouselTitleScrollView = CarouselTitleScrollView
+private extension PrivateCarouselTitleScrollView {
     func activateBackgroundViewConstraints(view: UIView, position: CGFloat, width: CGFloat) {
         var constraints: [NSLayoutConstraint] = []
         constraints.append(view.topAnchor.constraint(equalTo: topAnchor, constant: itemOffsetTop + itemHeight))

@@ -11,7 +11,7 @@ import UIKit
 protocol OptionsViewProtocol: class {
     var horizontalDemoButton: Actionable { get }
     var verticalDemoButton: Actionable { get }
-    var circularDemoButton: Actionable { get }
+    var carouselDemoButton: Actionable { get }
 }
 
 class OptionsView: UIView {
@@ -19,10 +19,10 @@ class OptionsView: UIView {
     private let optionButtonHeigh: CGFloat = 32
     private let horizontalDemoButtonCenterYOffset: CGFloat = -32
     private let verticalDemoButtonCenterYOffset: CGFloat = 0
-    private let circularDemoButtonCenterYOffset: CGFloat = 32
+    private let carouselDemoButtonCenterYOffset: CGFloat = 32
     private let internalHorizontalDemoButton = FilledButton()
     private let internalVerticalDemoButton = FilledButton()
-    private let internalCircularDemoButton = FilledButton()
+    private let internalCarouselDemoButton = FilledButton()
     private let logoImageView = UIImageView()
     private let label = UILabel()
     
@@ -44,17 +44,17 @@ class OptionsView: UIView {
         addSubview(internalVerticalDemoButton)
         activateOptionButtonConstraints(view: internalVerticalDemoButton, centerYOffset: verticalDemoButtonCenterYOffset)
         
-        internalCircularDemoButton.setTitle(NSLocalizedString("CircularSampleButtonTitle", comment: ""), for: .normal)
-        internalCircularDemoButton.clipsToBounds = true
-        internalCircularDemoButton.layer.cornerRadius = optionButtonHeigh / 2
-        internalCircularDemoButton.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(internalCircularDemoButton)
-        activateOptionButtonConstraints(view: internalCircularDemoButton, centerYOffset: circularDemoButtonCenterYOffset)
+        internalCarouselDemoButton.setTitle(NSLocalizedString("CarouselSampleButtonTitle", comment: ""), for: .normal)
+        internalCarouselDemoButton.clipsToBounds = true
+        internalCarouselDemoButton.layer.cornerRadius = optionButtonHeigh / 2
+        internalCarouselDemoButton.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(internalCarouselDemoButton)
+        activateOptionButtonConstraints(view: internalCarouselDemoButton, centerYOffset: carouselDemoButtonCenterYOffset)
 
         logoImageView.image = UIImage(named: "main_logo")
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(logoImageView)
-        activateLogoImageConstraints(view: logoImageView, anchorView: internalCircularDemoButton)
+        activateLogoImageConstraints(view: logoImageView, anchorView: internalCarouselDemoButton)
         
         label.text = "SlideController"
         label.font = UIFont.boldSystemFont(ofSize: 24)
@@ -115,7 +115,7 @@ extension OptionsViewProtocolImplementation: OptionsViewProtocol {
         return internalVerticalDemoButton
     }
     
-    var circularDemoButton: Actionable {
-        return internalCircularDemoButton
+    var carouselDemoButton: Actionable {
+        return internalCarouselDemoButton
     }
 }
