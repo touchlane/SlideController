@@ -137,7 +137,7 @@ class ShiftTests: BaseTestCase {
         XCTAssertEqual(currentIndex, 1)
     }
     
-    func testShowNextisCarousel() {
+    func testShowNextCarousel() {
         slideController.isCarousel = true
         let page1 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
         let page2 = SlideLifeCycleObjectBuilder<TestableLifeCycleObject>(object: TestableLifeCycleObject())
