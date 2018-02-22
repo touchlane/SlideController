@@ -1,3 +1,8 @@
+# Changelog for SlideController 1.3.1
+### Example changes
+* `insertAction` now inserts a page before currently selected page for both vertical and horizontal samples.
+* `removeAction` now deletes current page for vertical sample as well as for horizontal.
+
 # Changelog for SlideController 1.3.0
 ### Added
 * New example look 🎉 .
