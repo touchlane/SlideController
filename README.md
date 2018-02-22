@@ -169,16 +169,16 @@ ___
 
 Alignment of title view. Supports `.top`, `.bottom`, `.left`, `.right`. The default value of `alignment` is `.top`.
 ```swift
-public var alignment = TitleViewAlignment.top
+public var alignment: SlideController.TitleViewAlignment { get set }
 ```
 
 The size of `TitleScrollView`. For `.horizontal` slide direction of `SlideController` the `titleSize` corresponds to `height`. For `.vertical` slide direction of `SlideController` the `titleSize` corresponds to `width`.  The default value of `titleSize` is `84`.
 ```swift 
-open var titleSize: CGFloat = 84
+open var titleSize: CGFloat { get set }
 ```
 
 Array of title items that displayed in `TitleScrollView`.
 ```swift
-open var items: [TitleItem]
+open var items: [TitleItem] { get }
 ```
 ___

@@ -73,10 +73,10 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     open func removeViewAtIndex(index: Int) { }
     
     ///Simple hack to be notified when layout completed
-    open var firstLayoutAction: (() -> ())?
+    open var firstLayoutAction: (() -> Void)?
     
     ///Notifies on each size or content size update
-    open var changeLayoutAction: (() -> ())?
+    open var changeLayoutAction: (() -> Void)?
     
     // MARK: - TitleConfigurableImplementation
     
