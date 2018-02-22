@@ -16,13 +16,20 @@ class VerticalController {
     
     private lazy var removeAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
-        strongSelf.slideController.removeAtIndex(index: 0)
+        guard let index = strongSelf.slideController.content
+            .index(where: { strongSelf.slideController.currentModel === $0 }) else {
+                return
+        }
+        strongSelf.slideController.removeAtIndex(index: index)
     }
     
     private lazy var insertAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
         let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
-        let index = strongSelf.slideController.content.count == 0 ? 0 : strongSelf.slideController.content.count - 1
+        guard let index = strongSelf.slideController.content
+            .index(where: { strongSelf.slideController.currentModel === $0 }) else {
+                return
+        }
         strongSelf.slideController.insert(object: page, index: index)
     }
     
