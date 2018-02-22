@@ -79,6 +79,9 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     open var changeLayoutAction: (() -> ())?
     
     // MARK: - TitleConfigurableImplementation
+    
+    
+    /// Alignment of title view. Supports `.top`, `.bottom`, `.left`, `.right`. The default value of `alignment` is `.top`.
     public var alignment = TitleViewAlignment.top {
         didSet {
             if alignment != oldValue {
@@ -87,6 +90,7 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
         }
     }
     
+    /// The size of `TitleScrollView`. For `.horizontal` slide direction of `SlideController` the `titleSize` corresponds to `height`. For `.vertical` slide direction of `SlideController` the `titleSize` corresponds to `width`.  The default value of `titleSize` is `84`.
     open var titleSize: CGFloat = 84 {
         didSet {
             if titleSize != oldValue {
@@ -107,6 +111,7 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     
     weak public var titleViewConfigurationDelegate: TitleViewConfigurationDelegate?
     
+    /// Array of title items that displayed in `TitleScrollView`.
     open var items: [TitleItem] {
         return [TitleItem]()
     }
