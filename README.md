@@ -90,7 +90,7 @@ override func viewDidDisappear(_ animated: Bool) {
 
 # Documentation
 
-## `SlideController`
+### SlideController
 
 Default initializer of `SlideController`.  
 `pagesContent` - initial content of controller, can be empty.  
@@ -165,7 +165,7 @@ Lets the `SlideController` know when it is not displayed on the screen. Used for
 public func viewDidDisappear()
 ```
 ___
-## `TitleScrollView`
+### TitleScrollView
 
 Alignment of title view. Supports `.top`, `.bottom`, `.left`, `.right`. The default value of `alignment` is `.top`.
 ```swift
