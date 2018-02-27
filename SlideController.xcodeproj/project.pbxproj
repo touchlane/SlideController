@@ -31,6 +31,7 @@
 		86EF198F1FBB219900BD8E73 /* SlideController.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 86EF198C1FBB219900BD8E73 /* SlideController.podspec */; };
 		DD2C57641FC4129A006CC356 /* LoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2C57631FC4129A006CC356 /* LoadTests.swift */; };
 		DD30948C1FF51D940035D1CC /* ShiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD30948B1FF51D940035D1CC /* ShiftTests.swift */; };
+		DDDC3FF72045B47E00741F15 /* UIScrollView+Scrollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDC3FF62045B47E00741F15 /* UIScrollView+Scrollable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		86EF198C1FBB219900BD8E73 /* SlideController.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SlideController.podspec; sourceTree = "<group>"; };
 		DD2C57631FC4129A006CC356 /* LoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadTests.swift; sourceTree = "<group>"; };
 		DD30948B1FF51D940035D1CC /* ShiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftTests.swift; sourceTree = "<group>"; };
+		DDDC3FF62045B47E00741F15 /* UIScrollView+Scrollable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Scrollable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 				86473D621FBB158B00055999 /* TitleItemController.swift */,
 				86473D641FBB158C00055999 /* TitleScrollView.swift */,
 				86473D651FBB158C00055999 /* TitleSlidableController.swift */,
+				DDDC3FF62045B47E00741F15 /* UIScrollView+Scrollable.swift */,
 				86473D5A1FBB156200055999 /* Supporting Files */,
 			);
 			path = Source;
@@ -297,6 +300,7 @@
 			files = (
 				86473D6B1FBB158C00055999 /* SlideContentView.swift in Sources */,
 				86473D6A1FBB158C00055999 /* SlideView.swift in Sources */,
+				DDDC3FF72045B47E00741F15 /* UIScrollView+Scrollable.swift in Sources */,
 				86473D691FBB158C00055999 /* SlideContainerView.swift in Sources */,
 				86473D721FBB158C00055999 /* SlideLifeCycleObjectBuilder.swift in Sources */,
 				86473D701FBB158C00055999 /* TitleSlidableController.swift in Sources */,

@@ -393,13 +393,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         if page >= content.count {
             if contentSlidableController.edgeContainers != nil && animated && contentSlidableController.slideContentView.isLayouted {
                 let pageSize = contentSlidableController.contentSize
+                let newContentOffset = CGFloat(content.count + 1) * pageSize
+                let newOffsetPoint: CGPoint
                 if slideDirection == SlideDirection.horizontal {
-                    let newContentOffset = CGFloat(content.count + 1) * pageSize
-                    contentSlidableController.slideContentView.setContentOffset(CGPoint(x: newContentOffset, y: 0), animated: animated)
+                    newOffsetPoint = CGPoint(x: newContentOffset, y: 0)
                 } else {
-                    let newContentOffset = CGFloat(content.count + 1) * pageSize
-                    contentSlidableController.slideContentView.setContentOffset(CGPoint(x: 0, y: newContentOffset), animated: animated)
+                    newOffsetPoint = CGPoint(x: 0, y: newContentOffset)
                 }
+                contentSlidableController.slideContentView.scroll(to: newOffsetPoint, animated: animated)
                 return
             }
             else {

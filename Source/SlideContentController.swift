@@ -148,9 +148,9 @@ final class SlideContentController {
         }
         // Before animation
         slideContentView.hideContainers(at: viewIndices)
-        slideContentView.setContentOffset(startOffsetPoint, animated: false)
+        slideContentView.scroll(to: startOffsetPoint, animated: false)
         // Animation
-        slideContentView.setContentOffset(offsetPoint, animated: animated)
+        slideContentView.scroll(to: offsetPoint, animated: animated)
         
         let afterAnimation = { [weak self] in
             guard let strongSelf = self else {
@@ -161,7 +161,7 @@ final class SlideContentController {
             let delegate = strongSelf.slideContentView.delegate
             strongSelf.slideContentView.delegate = nil
             strongSelf.slideContentView.showContainers(at: viewIndices)
-            strongSelf.slideContentView.setContentOffset(endOffsetPoint, animated: false)
+            strongSelf.slideContentView.scroll(to: endOffsetPoint, animated: false)
             strongSelf.slideContentView.delegate = delegate
         }
         if animated {
