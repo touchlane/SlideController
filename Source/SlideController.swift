@@ -305,7 +305,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 shift(pageIndex: newCurrentIndex, animated: false)
             }
             currentIndex = newCurrentIndex
-            isForcedToSlide = false
             contentSlidableController.slideContentView.delegate = self
             // Load view if it's around current
             if currentIndex - index <= 1 || !isContentUnloadingEnabled {
