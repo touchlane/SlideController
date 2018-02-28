@@ -98,7 +98,14 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     private var lastContentOffset: CGFloat = 0
     private var didFinishForceSlide: (() -> Void)?
     private var didFinishSlideAction: (() -> Void)?
-    private var isForcedToSlide = false
+    private var isForcedToSlide = false {
+        didSet {
+            guard oldValue != isForcedToSlide else {
+                return
+            }
+            contentSlidableController.slideContentView.isScrollEnabled = !isForcedToSlide
+        }
+    }
     private var isOnScreen = false
     
     /// Default delay for sending end animation selector scrollViewEndAnimating(_ scrollView: UIScrollView)
@@ -109,14 +116,15 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     /// Used for setting title item selection.
     private var scrollInProgress = false {
         didSet {
-            if oldValue != scrollInProgress {
-                /// Disable selection and scrolling of title view
-                titleSlidableController.isSelectionAllowed = !scrollInProgress
-                titleSlidableController.titleView.isScrollEnabled = !scrollInProgress
-                /// Once scrolling is started to show title that out of the screen
-                if scrollInProgress && !isForcedToSlide {
-                    titleSlidableController.jump(index: currentIndex, animated: false)
-                }
+            guard oldValue != scrollInProgress else {
+                return
+            }
+            /// Disable selection and scrolling of title view
+            titleSlidableController.isSelectionAllowed = !scrollInProgress
+            titleSlidableController.titleView.isScrollEnabled = !scrollInProgress
+            /// Once scrolling is started to show title that out of the screen
+            if scrollInProgress && !isForcedToSlide {
+                titleSlidableController.jump(index: currentIndex, animated: false)
             }
         }
     }
@@ -297,7 +305,6 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
                 shift(pageIndex: newCurrentIndex, animated: false)
             }
             currentIndex = newCurrentIndex
-            isForcedToSlide = false
             contentSlidableController.slideContentView.delegate = self
             // Load view if it's around current
             if currentIndex - index <= 1 || !isContentUnloadingEnabled {
@@ -364,6 +371,11 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         guard pageIndex != currentIndex || forced else {
             return
         }
+        // Do not allow multiple shift calls,
+        // the problem is described in https://stackoverflow.com/a/16898199
+        guard !isForcedToSlide || forced else {
+            return
+        }
         isForcedToSlide = animated
         loadViewIfNeeded(pageIndex: pageIndex)
         
@@ -381,8 +393,9 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         } else {
             scrollToPage(pageIndex: pageIndex, animated: animated)
         }
-        if !animated {
+        if !animated || !contentSlidableController.slideContentView.isLayouted {
             scrollInProgress = false
+            isForcedToSlide = false
         }
     }
     
