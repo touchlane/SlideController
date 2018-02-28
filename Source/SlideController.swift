@@ -373,7 +373,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
         }
         // Do not allow multiple shift calls,
         // the problem is described in https://stackoverflow.com/a/16898199
-        guard !isForcedToSlide else {
+        guard !isForcedToSlide || forced else {
             return
         }
         isForcedToSlide = animated
