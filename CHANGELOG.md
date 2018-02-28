@@ -1,3 +1,7 @@
+# Changelog for SlideController 1.3.2
+### Fixed
+* Do not allow multiple `shift` calls at the same time to prevent titleView freeze.
+
 # Changelog for SlideController 1.3.1
 ### Example changes
 * `insertAction` now inserts a page before currently selected page for both vertical and horizontal samples.
