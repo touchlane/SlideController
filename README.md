@@ -145,9 +145,9 @@ Removes a page at `index`.
 public func removeAtIndex(index: Int)
 ```
 
-Slides content to page at `pageIndex` with sliding animation if `animated` is set to `true`.   The default value of `animated` is `true`.
+Slides content to page at `pageIndex` with sliding animation if `animated` is set to `true`. Using `forced` is not recommended, it will perform shift even if other shift animation in progress or `pageIndex` equals current page. The default value of `animated` is `true`. The default value of `forced` is `false`.
 ```swift
-public func shift(pageIndex: Int, animated: Bool = default)
+public func shift(pageIndex: Int, animated: Bool = default, forced: Bool = default)
 ```
 
 Slides content the next page with sliding animation if `animated` is set to `true`. The default value of `animated` is `true`.
