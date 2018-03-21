@@ -1,4 +1,4 @@
-![LOGO](https://github.com/touchlane/Docs/blob/master/Assets/logo.svg)
+![LOGO](https://github.com/touchlane/SlideController/blob/master/Assets/logo.svg)
 
 [![Build Status](https://travis-ci.org/touchlane/SlideController.svg?branch=master)](https://travis-ci.org/touchlane/SlideController)
 [![codecov.io](https://codecov.io/gh/touchlane/SlideController/branch/master/graphs/badge.svg)](https://codecov.io/gh/codecov/SlideController/branch/master)
