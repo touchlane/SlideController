@@ -1,3 +1,7 @@
+# Changelog for SlideController 1.3.4
+### Fixed
+* Sliding indicator animation when title jumps not animated.
+
 # Changelog for SlideController 1.3.3
 ### Added
 * `shouldAnimateIndicatorOnSelection(index: Int) -> Bool` in `TitleConfigurable` allows to manage animation of sliding indicator
