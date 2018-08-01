@@ -132,7 +132,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     func jump(index: Int, animated: Bool) {
         if controllers.indices.contains(index) {
             select(index: index)
-            updateSlideIndicator(index: index, slideDirection: scrollDirection, animated: titleView.shouldAnimateIndicatorOnSelection(index: index))
+            updateSlideIndicator(index: index, slideDirection: scrollDirection, animated: animated && titleView.shouldAnimateIndicatorOnSelection(index: index))
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
             case .horizontal:
