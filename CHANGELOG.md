@@ -1,3 +1,7 @@
+# Changelog for SlideController 1.3.3
+### Added
+* `shouldAnimateIndicatorOnSelection(index: Int) -> Bool` in `TitleConfigurable` allows to manage animation of sliding indicator
+
 # Changelog for SlideController 1.3.2
 ### Fixed
 * Do not allow multiple `shift` calls at the same time to prevent titleView freeze.

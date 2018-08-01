@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SlideController'
-  s.version          = '1.3.2'
+  s.version          = '1.3.3'
   s.summary          = 'SlideController is replacement for Apple\'s UIPageControl completely written in Swift using power of generic types.'
   s.description      = <<-DESC
   Swipe between pages with an interactive title navigation control. Configure horizontal or vertical chains for unlimited pages amount.
