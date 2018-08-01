@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/cocoapods/l/SlideController.svg?style=flat)](http://cocoapods.org/pods/SlideController)
 [![Platform](https://img.shields.io/cocoapods/p/SlideController.svg?style=flat)](http://cocoapods.org/pods/SlideController)
 
-SlideController is a simple and flexible UI component fully written in Swift. Built using power of generic types, it is a nice alternative for UIPageViewController.
+SlideController is a simple and flexible UI component fully written in Swift. Built using power of generic types, it is a nice alternative to UIPageViewController.
 
 ![Horizontal](Example/Assets/horizontal.gif)
 ![Vertical](Example/Assets/vertical.gif)
