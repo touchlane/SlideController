@@ -23,7 +23,12 @@ public protocol TitleConfigurable: class {
     ///   - animated: should update position and size animated
     func indicator(position: CGFloat, size: CGFloat, animated: Bool)
     
-    weak var titleViewConfigurationDelegate: TitleViewConfigurationDelegate? { get set }
+    /// Return `true` if sliding indicator should update position animated
+    /// - Parameters:
+    ///   - index: target index for sliding indicator
+    func shouldAnimateIndicatorOnSelection(index: Int) -> Bool
+    
+    var titleViewConfigurationDelegate: TitleViewConfigurationDelegate? { get set }
 }
 
 public protocol TitleViewConfigurationDelegate: class {
@@ -108,6 +113,10 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     }
     
     open func indicator(position: CGFloat, size: CGFloat, animated: Bool) { }
+    
+    open func shouldAnimateIndicatorOnSelection(index: Int) -> Bool {
+        return false
+    }
     
     weak public var titleViewConfigurationDelegate: TitleViewConfigurationDelegate?
     

@@ -34,7 +34,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             return
         }
         if strongSelf.controllers.indices.contains(index) {
-            strongSelf.updateSlideIndicator(index: index, slideDirection: strongSelf.scrollDirection, animated: false)
+            strongSelf.updateSlideIndicator(index: index, slideDirection: strongSelf.scrollDirection, animated: strongSelf.titleView.shouldAnimateIndicatorOnSelection(index: index))
         }
         strongSelf.isOffsetChangeAllowed = false
         strongSelf.didSelectItemAction?(index, strongSelf.didCompleteSelectItemAction)
@@ -132,7 +132,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     func jump(index: Int, animated: Bool) {
         if controllers.indices.contains(index) {
             select(index: index)
-            updateSlideIndicator(index: index, slideDirection: scrollDirection, animated: false)
+            updateSlideIndicator(index: index, slideDirection: scrollDirection, animated: titleView.shouldAnimateIndicatorOnSelection(index: index))
             // TODO: calculate offset for vertical scroll direction
             switch scrollDirection {
             case .horizontal:
