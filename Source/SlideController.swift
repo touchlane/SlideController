@@ -103,7 +103,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             guard oldValue != isForcedToSlide else {
                 return
             }
-            contentSlidableController.slideContentView.isScrollEnabled = !isForcedToSlide
+            contentSlidableController.slideContentView.isScrollEnabled = !isForcedToSlide && isScrollEnabled
         }
     }
     private var isOnScreen = false
