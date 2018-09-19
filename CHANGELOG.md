@@ -1,3 +1,7 @@
+# Changelog for SlideController 1.4.0
+### Added
+* Updates for Swift 4.2
+
 # Changelog for SlideController 1.3.5
 ### Fixed
 * Reset of `isScrollEnabled` property
