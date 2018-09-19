@@ -1,3 +1,7 @@
+# Changelog for SlideController 1.3.5
+### Fixed
+* Reset of `isScrollEnabled` property
+
 # Changelog for SlideController 1.3.4
 ### Fixed
 * Sliding indicator animation when title jumps not animated.
