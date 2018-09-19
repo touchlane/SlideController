@@ -84,8 +84,8 @@ class RootRouter {
         
         presenter.navigationBar.tintColor = controller.titleColor
         presenter.navigationBar.titleTextAttributes = [
-            NSAttributedStringKey.foregroundColor: controller.titleColor,
-            NSAttributedStringKey.shadow: shadow
+            .foregroundColor: controller.titleColor,
+            .shadow: shadow
         ]
     }
 }

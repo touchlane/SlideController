@@ -1,5 +1,5 @@
 os: osx
-osx_image: xcode9
+osx_image: xcode10
 language: objective-c
 
 deploy:
@@ -9,7 +9,7 @@ deploy:
     tags: true
 
 script:
-  - set -o pipefail && xcodebuild -scheme SlideController -workspace SlideController.xcworkspace -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6,OS=11.0' build test | xcpretty --color
+  - set -o pipefail && xcodebuild -scheme SlideController -workspace SlideController.xcworkspace -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6,OS=12.0' build test | xcpretty --color
   - pod lib lint
 after_success:
   - bash <(curl -s https://codecov.io/bash)
