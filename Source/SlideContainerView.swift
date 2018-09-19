@@ -36,7 +36,7 @@ final class SlideContainerView {
         var removeConstraints: [NSLayoutConstraint] = []
         var addConstraints: [NSLayoutConstraint] = []
         
-        let layoutAttribute: NSLayoutAttribute
+        let layoutAttribute: NSLayoutConstraint.Attribute
         let containerViewAnchor: NSLayoutDimension
         let internalViewAnchor: NSLayoutDimension
         let constraintConstant: CGFloat
@@ -78,7 +78,7 @@ final class SlideContainerView {
         var removeConstraints: [NSLayoutConstraint] = []
         var addConstraints: [NSLayoutConstraint] = []
         
-        let layoutAttribute: NSLayoutAttribute
+        let layoutAttribute: NSLayoutConstraint.Attribute
         let containerViewAnchor: NSLayoutDimension
         let internalViewAnchor: NSLayoutDimension
         let superviewAnchor: NSLayoutDimension
