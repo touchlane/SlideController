@@ -1,5 +1,6 @@
 ![LOGO](https://github.com/touchlane/SlideController/blob/master/Assets/logo.svg)
 
+![Language](https://img.shields.io/badge/swift-4.2-orange.svg)
 [![Build Status](https://travis-ci.org/touchlane/SlideController.svg?branch=master)](https://travis-ci.org/touchlane/SlideController)
 [![codecov.io](https://codecov.io/gh/touchlane/SlideController/branch/master/graphs/badge.svg)](https://codecov.io/gh/codecov/SlideController/branch/master)
 [![Version](https://img.shields.io/cocoapods/v/SlideController.svg?style=flat)](http://cocoapods.org/pods/SlideController)
