@@ -15,17 +15,17 @@ final class SlideContainerController {
     
     ///Property to indicate if target view mounted to container
     var hasContent: Bool {
-        return isViewLoaded
+        return self.isViewLoaded
     }
     
     ///Implements lazy load, add target view as subview to container view when needed and set hasContent = true
     func load(view: UIView) {
-        guard !isViewLoaded else {
+        guard !self.isViewLoaded else {
             return
         }
-        isViewLoaded = true
+        self.isViewLoaded = true
         view.translatesAutoresizingMaskIntoConstraints = false
-        internalView.addSubview(view)
+        self.internalView.addSubview(view)
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: internalView.topAnchor),
             view.leadingAnchor.constraint(equalTo: internalView.leadingAnchor),
@@ -36,11 +36,11 @@ final class SlideContainerController {
     
     ///Removes view from container and sets hasContent = false
     func unloadView() {
-        guard isViewLoaded else {
+        guard self.isViewLoaded else {
             return
         }
-        isViewLoaded = false
-        internalView.subviews.forEach({ $0.removeFromSuperview() })
+        self.isViewLoaded = false
+        self.internalView.subviews.forEach({ $0.removeFromSuperview() })
     }
 }
 
@@ -48,6 +48,6 @@ final class SlideContainerController {
 private typealias ViewableImplementation = SlideContainerController
 extension ViewableImplementation: Viewable {
     var view: UIView {
-        return internalView
+        return self.internalView
     }
 }

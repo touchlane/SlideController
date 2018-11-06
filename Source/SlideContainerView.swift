@@ -19,7 +19,7 @@ final class SlideContainerView {
     /// - Parameter view: The view to show as content.
     init(view: UIView) {
         containerView.clipsToBounds = true
-        containerView.translatesAutoresizingMaskIntoConstraints = false
+//        containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(view)
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: containerView.topAnchor),
