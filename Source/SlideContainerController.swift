@@ -10,7 +10,7 @@ import UIKit
 
 ///SlideContainerController do control for specific container view
 final class SlideContainerController {
-    private var internalView = TEstInternalView()
+    private var internalView = InternalView()
     private var isViewLoaded = false
     
     ///Property to indicate if target view mounted to container
@@ -43,5 +43,20 @@ private typealias ViewableImplementation = SlideContainerController
 extension ViewableImplementation: Viewable {
     var view: UIView {
         return self.internalView
+    }
+}
+
+///Intenal view for SlideContainerController
+private final class InternalView: UIView {
+    private var oldSize: CGSize = .zero
+    
+    override func layoutSubviews() {
+        guard self.oldSize != self.bounds.size else {
+            return
+        }
+        super.layoutSubviews()
+        
+        self.subviews.first?.frame = self.bounds
+        self.oldSize = self.bounds.size
     }
 }

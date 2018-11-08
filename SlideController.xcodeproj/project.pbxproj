@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B0FB3C72191EA7C00DFF026 /* TEstInternalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0FB3C62191EA7C00DFF026 /* TEstInternalView.swift */; };
 		86473D491FBB150A00055999 /* SlideController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86473D3F1FBB150A00055999 /* SlideController.framework */; };
 		86473D501FBB150A00055999 /* SlideController.h in Headers */ = {isa = PBXBuildFile; fileRef = 86473D421FBB150A00055999 /* SlideController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		86473D681FBB158C00055999 /* SlideController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86473D5D1FBB158B00055999 /* SlideController.swift */; };
@@ -45,7 +44,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4B0FB3C62191EA7C00DFF026 /* TEstInternalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TEstInternalView.swift; sourceTree = "<group>"; };
 		86473D3F1FBB150A00055999 /* SlideController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SlideController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		86473D421FBB150A00055999 /* SlideController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideController.h; sourceTree = "<group>"; };
 		86473D431FBB150A00055999 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 				86473D641FBB158C00055999 /* TitleScrollView.swift */,
 				86473D651FBB158C00055999 /* TitleSlidableController.swift */,
 				86473D5A1FBB156200055999 /* Supporting Files */,
-				4B0FB3C62191EA7C00DFF026 /* TEstInternalView.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -299,7 +296,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				86473D6B1FBB158C00055999 /* SlideContentView.swift in Sources */,
-				4B0FB3C72191EA7C00DFF026 /* TEstInternalView.swift in Sources */,
 				86473D6A1FBB158C00055999 /* SlideView.swift in Sources */,
 				86473D691FBB158C00055999 /* SlideContainerView.swift in Sources */,
 				86473D721FBB158C00055999 /* SlideLifeCycleObjectBuilder.swift in Sources */,
