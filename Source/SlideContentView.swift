@@ -63,7 +63,7 @@ final class SlideContentView: UIScrollView {
             .filter({ indices.contains($0.offset) })
             .map({ $0.element })
         for page in pages {
-            page.hide(direction: slideDirection)
+            page.isHidden = true
         }
         self.layoutContainers(direction: self.slideDirection)
     }
@@ -74,7 +74,7 @@ final class SlideContentView: UIScrollView {
             .filter({ indices.contains($0.offset) })
             .map({ $0.element })
         for page in pages {
-            page.show(direction: slideDirection)
+            page.isHidden = false
         }
         self.layoutContainers(direction: self.slideDirection)
     }
@@ -84,8 +84,7 @@ final class SlideContentView: UIScrollView {
 
         var scrollAxisOffset: CGFloat = 0
         for container in self.containers {
-            guard !container.specHidden else {
-                container.view.frame = .zero
+            guard !container.isHidden else {
                 continue
             }
             
@@ -99,7 +98,7 @@ final class SlideContentView: UIScrollView {
                 scrollAxisOffset += size.height
             }
             
-            container.view.frame = CGRect(origin: origin, size: size)
+            container.frame = CGRect(origin: origin, size: size)
         }
 
         switch direction {
@@ -118,9 +117,9 @@ extension ViewSlidableImplementation: ViewSlidable {
     func appendViews(views: [View]) {
         for view in views {
             view.backgroundColor = .clear
-            let viewModel = SlideContainerView(view: view)
-            self.containers.append(viewModel)
-            self.addSubview(viewModel.view)
+            let container = SlideContainerView(view: view)
+            self.containers.append(container)
+            self.addSubview(container)
         }
         
         self.layoutContainers(direction: self.slideDirection)
@@ -132,9 +131,9 @@ extension ViewSlidableImplementation: ViewSlidable {
         }
 
         view.backgroundColor = .clear
-        let viewModel = SlideContainerView(view: view)
-        self.containers.insert(viewModel, at: index)
-        self.addSubview(viewModel.view)
+        let container = SlideContainerView(view: view)
+        self.containers.insert(container, at: index)
+        self.addSubview(container)
         
         self.layoutContainers(direction: self.slideDirection)
     }
@@ -144,9 +143,9 @@ extension ViewSlidableImplementation: ViewSlidable {
             return
         }
         
-        let page = self.containers[index]
+        let container = self.containers[index]
         self.containers.remove(at: index)
-        page.view.removeFromSuperview()
+        container.removeFromSuperview()
 
         self.layoutContainers(direction: self.slideDirection)
     }
