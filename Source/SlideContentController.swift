@@ -32,8 +32,7 @@ final class SlideContentController {
         didSet {
             if isCarousel {
                 addEdgeContainersIfNeeded()
-            }
-            else {
+            } else {
                 removeEdgeContainersIfNeeded()
             }
         }

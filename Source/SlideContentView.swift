@@ -65,6 +65,7 @@ final class SlideContentView: UIScrollView {
         for page in pages {
             page.hide(direction: slideDirection)
         }
+        self.layoutContainers(direction: self.slideDirection)
     }
     
     func showContainers(at indices: [Int]) {
@@ -75,6 +76,7 @@ final class SlideContentView: UIScrollView {
         for page in pages {
             page.show(direction: slideDirection)
         }
+        self.layoutContainers(direction: self.slideDirection)
     }
     
     private func layoutContainers(direction: SlideDirection) {
@@ -82,6 +84,11 @@ final class SlideContentView: UIScrollView {
 
         var scrollAxisOffset: CGFloat = 0
         for container in self.containers {
+            guard !container.specHidden else {
+                container.view.frame = .zero
+                continue
+            }
+            
             let origin: CGPoint
             switch direction {
             case .horizontal:
@@ -91,7 +98,7 @@ final class SlideContentView: UIScrollView {
                 origin = CGPoint(x: 0, y: scrollAxisOffset)
                 scrollAxisOffset += size.height
             }
-
+            
             container.view.frame = CGRect(origin: origin, size: size)
         }
 
@@ -110,7 +117,6 @@ extension ViewSlidableImplementation: ViewSlidable {
     
     func appendViews(views: [View]) {
         for view in views {
-            view.translatesAutoresizingMaskIntoConstraints = false
             view.backgroundColor = .clear
             let viewModel = SlideContainerView(view: view)
             self.containers.append(viewModel)
@@ -124,8 +130,7 @@ extension ViewSlidableImplementation: ViewSlidable {
         guard index < self.containers.count else {
             return
         }
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
+
         view.backgroundColor = .clear
         let viewModel = SlideContainerView(view: view)
         self.containers.insert(viewModel, at: index)

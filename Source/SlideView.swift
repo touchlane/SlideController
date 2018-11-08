@@ -62,7 +62,6 @@ class SlideView<T>: UIView, TitleViewConfigurationDelegate where T: ViewSlidable
             activateContentViewConstraints(view: contentView, titleView: titleView)
         }
     }
-    
 }
 
 private typealias PrivateSlideView = SlideView

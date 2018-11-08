@@ -10,7 +10,7 @@ import UIKit
 
 ///SlideContainerController do control for specific container view
 final class SlideContainerController {
-    private var internalView = UIView()
+    private var internalView = TEstInternalView()
     private var isViewLoaded = false
     
     ///Property to indicate if target view mounted to container
@@ -24,14 +24,8 @@ final class SlideContainerController {
             return
         }
         self.isViewLoaded = true
-        view.translatesAutoresizingMaskIntoConstraints = false
         self.internalView.addSubview(view)
-        NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: internalView.topAnchor),
-            view.leadingAnchor.constraint(equalTo: internalView.leadingAnchor),
-            view.bottomAnchor.constraint(equalTo: internalView.bottomAnchor),
-            view.trailingAnchor.constraint(equalTo: internalView.trailingAnchor)
-        ])
+        view.frame = self.internalView.bounds
     }
     
     ///Removes view from container and sets hasContent = false
