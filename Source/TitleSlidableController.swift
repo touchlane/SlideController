@@ -12,7 +12,7 @@ import UIKit
 protocol TitleScrollable: class {
     var didSelectItemAction: ((Int, (() -> Void)?) -> Void)? { get set }
     func jump(index: Int, animated: Bool)
-    func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int)
+    func shift(ratio: CGFloat, startIndex: Int, destinationIndex: Int)
     func indicatorSlide(offset: CGFloat, pageSize: CGFloat, startIndex: Int, destinationIndex: Int)
     init(pagesCount: Int, slideDirection: SlideDirection)
 }
@@ -135,13 +135,34 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             // TODO: calculate offset for vertical scroll direction
             switch slideDirection {
             case .horizontal:
-                scrollView.setContentOffset(CGPoint(x: calculateTargetOffset(index: index), y: 0), animated: animated)
+                let offset = CGPoint(x: calculateTargetOffset(index: index), y: 0)
+                scrollView.setContentOffset(offset, animated: animated)
             case .vertical:
                 scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: animated)
             }
         }
     }
     
+    func shift(ratio: CGFloat, startIndex: Int, destinationIndex: Int) {
+        guard self.isOffsetChangeAllowed, self.controllers.indices.contains(startIndex), self.controllers.indices.contains(destinationIndex) else {
+            return
+        }
+
+        let targetOffset = calculateTargetOffset(index: destinationIndex)
+        let startOffset = calculateTargetOffset(index: startIndex)
+        let totalShift = startOffset - targetOffset
+        let normalizedRatio = ratio < 0 ? 1 + ratio : ratio
+        let shift = normalizedRatio * totalShift
+        // TODO: calculate offset for vertical scroll direction
+        switch self.slideDirection {
+        case .horizontal:
+            let offset = CGPoint(x: min(startOffset, targetOffset) + abs(shift), y: 0)
+            scrollView.setContentOffset(offset, animated: false)
+        case .vertical:
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+        }
+    }
+
     func select(index: Int) {
         guard controllers.indices.contains(index) else {
             return
@@ -151,21 +172,6 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
         }
         selectedIndex = index
         controllers[index].isSelected = true
-    }
-    
-    func shift(delta: CGFloat, startIndex: Int, destinationIndex: Int) {
-        if isOffsetChangeAllowed && controllers.indices.contains(startIndex) && controllers.indices.contains(destinationIndex) {
-            let targetOffset = calculateTargetOffset(index: destinationIndex)
-            let startOffset = calculateTargetOffset(index: startIndex)
-            let shift = delta * abs(startOffset - targetOffset) / scrollView.frame.width
-            // TODO: calculate offset for vertical scroll direction
-            switch slideDirection {
-            case .horizontal:
-                scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x + shift, y: 0), animated: false)
-            case .vertical:
-                scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
-            }
-        }
     }
 }
 
