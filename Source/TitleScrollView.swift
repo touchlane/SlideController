@@ -58,10 +58,6 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     }
     
     override open func layoutSubviews() {
-        guard self.bounds.size != self.previousSize || self.contentSize != self.previousContentSize else {
-            return
-        }
-        
         super.layoutSubviews()
         
         if !self.isLayouted {
@@ -69,6 +65,10 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
             self.firstLayoutAction?()
         }
         
+        guard self.bounds.size != self.previousSize || self.contentSize != self.previousContentSize else {
+            return
+        }
+
         self.previousSize = self.bounds.size
         self.previousContentSize = self.contentSize
         self.changeLayoutAction?()
