@@ -21,7 +21,7 @@ final class SlideContentView: UIScrollView {
     private var previousSize: CGSize = .zero
     private var previousContentSize: CGSize = .zero
     
-    /// - Parameter scrollDirection: indicates the target slide direction
+    /// - Parameter slideDirection: indicates the target slide direction
     init(slideDirection: SlideDirection) {
         self.slideDirection = slideDirection
         super.init(frame: .zero)
