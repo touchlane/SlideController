@@ -46,7 +46,7 @@ extension ViewableImplementation: Viewable {
     }
 }
 
-///Intenal view for SlideContainerController
+///Internal view for SlideContainerController
 private final class InternalView: UIView {
     private var oldSize: CGSize = .zero
     
