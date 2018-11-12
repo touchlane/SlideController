@@ -1,3 +1,8 @@
+# Changelog for SlideController 1.5.0
+### Fixed
+* Improved performance by replacing autolayout with frame-based layout
+* Fixed title view jumping while scrolling content
+
 # Changelog for SlideController 1.4.0
 ### Added
 * Updates for Swift 4.2
