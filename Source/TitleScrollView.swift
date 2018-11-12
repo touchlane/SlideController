@@ -41,15 +41,15 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     public typealias View = T
     public typealias TitleItem = View
     public private(set) var isLayouted = false
-    private var previousSize = CGSize.zero
-    private var previousContentSize = CGSize.zero
+    private var previousSize: CGSize = .zero
+    private var previousContentSize: CGSize = .zero
     
     public init() {
-        super.init(frame: CGRect.zero)
-        showsVerticalScrollIndicator = false
-        showsHorizontalScrollIndicator = false
+        super.init(frame: .zero)
+        self.showsVerticalScrollIndicator = false
+        self.showsHorizontalScrollIndicator = false
         if #available(iOS 11.0, *) {
-            contentInsetAdjustmentBehavior = .never
+            self.contentInsetAdjustmentBehavior = .never
         }
     }
     
@@ -59,15 +59,19 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     
     override open func layoutSubviews() {
         super.layoutSubviews()
-        if !isLayouted {
-            isLayouted = true
-            firstLayoutAction?()
+        
+        if !self.isLayouted {
+            self.isLayouted = true
+            self.firstLayoutAction?()
         }
-        if bounds.size != previousSize || contentSize != previousContentSize {
-            previousSize = bounds.size
-            previousContentSize = contentSize
-            changeLayoutAction?()
+        
+        guard self.bounds.size != self.previousSize || self.contentSize != self.previousContentSize else {
+            return
         }
+
+        self.previousSize = self.bounds.size
+        self.previousContentSize = self.contentSize
+        self.changeLayoutAction?()
     }
     
     // MARK: - ViewSlidableImplementation
@@ -87,10 +91,10 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     
     
     /// Alignment of title view. Supports `.top`, `.bottom`, `.left`, `.right`. The default value of `alignment` is `.top`.
-    public var alignment = TitleViewAlignment.top {
+    public var alignment: TitleViewAlignment = .top {
         didSet {
-            if alignment != oldValue {
-               titleViewConfigurationDelegate?.didChangeAlignment(alignment: alignment)
+            if self.alignment != oldValue {
+               self.titleViewConfigurationDelegate?.didChangeAlignment(alignment: self.alignment)
             }
         }
     }
@@ -98,16 +102,16 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     /// The size of `TitleScrollView`. For `.horizontal` slide direction of `SlideController` the `titleSize` corresponds to `height`. For `.vertical` slide direction of `SlideController` the `titleSize` corresponds to `width`.  The default value of `titleSize` is `84`.
     open var titleSize: CGFloat = 84 {
         didSet {
-            if titleSize != oldValue {
-                titleViewConfigurationDelegate?.didChangeTitleSize(size: titleSize)
+            if self.titleSize != oldValue {
+                self.titleViewConfigurationDelegate?.didChangeTitleSize(size: self.titleSize)
             }
         }
     }
     
-    open var position = TitleViewPosition.beside {
+    open var position: TitleViewPosition = .beside {
         didSet {
-            if position != oldValue {
-                titleViewConfigurationDelegate?.didChangePosition(position: position)
+            if self.position != oldValue {
+                self.titleViewConfigurationDelegate?.didChangePosition(position: self.position)
             }
         }
     }
@@ -122,6 +126,6 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     
     /// Array of title items that displayed in `TitleScrollView`.
     open var items: [TitleItem] {
-        return [TitleItem]()
+        return []
     }
 }

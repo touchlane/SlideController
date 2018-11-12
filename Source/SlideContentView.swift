@@ -18,22 +18,21 @@ final class SlideContentView: UIScrollView {
     
     ///Notifies on each size or content size update
     var changeLayoutAction: (() -> ())?
-    private var previousSize = CGSize.zero
-    private var previousContentSize = CGSize.zero
+    private var previousSize: CGSize = .zero
+    private var previousContentSize: CGSize = .zero
     
-    /// - Parameter scrollDirection: indicates the target slide direction
+    /// - Parameter slideDirection: indicates the target slide direction
     init(slideDirection: SlideDirection) {
         self.slideDirection = slideDirection
-        super.init(frame: CGRect.zero)
-        isPagingEnabled = true
-        bounces = false
-        showsVerticalScrollIndicator = false
-        showsHorizontalScrollIndicator = false
-        isDirectionalLockEnabled = true
+        super.init(frame: .zero)
+        self.isPagingEnabled = true
+        self.bounces = false
+        self.showsVerticalScrollIndicator = false
+        self.showsHorizontalScrollIndicator = false
+        self.isDirectionalLockEnabled = true
         if #available(iOS 11.0, *) {
-            contentInsetAdjustmentBehavior = .never
+            self.contentInsetAdjustmentBehavior = .never
         }
-
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,16 +40,21 @@ final class SlideContentView: UIScrollView {
     }
     
     override func layoutSubviews() {
+        guard self.bounds.size != self.previousSize || self.contentSize != self.previousContentSize else {
+            return
+        }
+        
         super.layoutSubviews()
-        if !isLayouted {
-            isLayouted = true
-            firstLayoutAction?()
+        if !self.isLayouted {
+            self.isLayouted = true
+            self.firstLayoutAction?()
         }
-        if bounds.size != previousSize || contentSize != previousContentSize {
-            previousSize = bounds.size
-            previousContentSize = contentSize
-            changeLayoutAction?()
-        }
+
+        self.layoutContainers(direction: self.slideDirection)
+
+        self.previousSize = self.bounds.size
+        self.previousContentSize = self.contentSize
+        self.changeLayoutAction?()
     }
     
     func hideContainers(at indices: [Int]) {
@@ -59,8 +63,9 @@ final class SlideContentView: UIScrollView {
             .filter({ indices.contains($0.offset) })
             .map({ $0.element })
         for page in pages {
-            page.hide(direction: slideDirection)
+            page.isHidden = true
         }
+        self.layoutContainers(direction: self.slideDirection)
     }
     
     func showContainers(at indices: [Int]) {
@@ -69,48 +74,39 @@ final class SlideContentView: UIScrollView {
             .filter({ indices.contains($0.offset) })
             .map({ $0.element })
         for page in pages {
-            page.show(direction: slideDirection)
+            page.isHidden = false
         }
-    }
-}
-
-private typealias PrivateContentSlideView = SlideContentView
-private extension PrivateContentSlideView {
-    ///Set constraints depend target slide direction
-    func activateConstraints(page: SlideContainerView, prevPage: SlideContainerView?, isLast: Bool, direction: SlideDirection) {
-        page.constraints.append(page.view.widthAnchor.constraint(equalTo: self.widthAnchor))
-        page.constraints.append(page.view.heightAnchor.constraint(equalTo: self.heightAnchor))
-        if direction == SlideDirection.horizontal {
-            page.constraints.append(page.view.topAnchor.constraint(equalTo: self.topAnchor))
-            if let prevPage = prevPage {
-                page.constraints.append(page.view.leadingAnchor.constraint(equalTo: prevPage.view.trailingAnchor))
-            } else {
-                page.constraints.append(page.view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
-            }
-            if isLast {
-                page.constraints.append(page.view.trailingAnchor.constraint(equalTo: self.trailingAnchor))
-            }
-        } else {
-            page.constraints.append(page.view.leadingAnchor.constraint(equalTo: self.leadingAnchor))
-            if let prevPage = prevPage {
-                page.constraints.append(page.view.topAnchor.constraint(equalTo: prevPage.view.bottomAnchor))
-            } else {
-                page.constraints.append(page.view.topAnchor.constraint(equalTo: self.topAnchor))
-            }
-            if isLast {
-                page.constraints.append(page.view.bottomAnchor.constraint(equalTo: self.bottomAnchor))
-            }
-        }
-        NSLayoutConstraint.activate(page.constraints)
+        self.layoutContainers(direction: self.slideDirection)
     }
     
-    //Update constraints for specific container
-    func updateConstraints(page: SlideContainerView, prevPage: SlideContainerView?, isLast: Bool, direction: SlideDirection) {
-        for constraint in page.constraints {
-            constraint.isActive = false
+    private func layoutContainers(direction: SlideDirection) {
+        let size = self.bounds.size
+
+        var scrollAxisOffset: CGFloat = 0
+        for container in self.containers {
+            guard !container.isHidden else {
+                continue
+            }
+            
+            let origin: CGPoint
+            switch direction {
+            case .horizontal:
+                origin = CGPoint(x: scrollAxisOffset, y: 0)
+                scrollAxisOffset += size.width
+            case .vertical:
+                origin = CGPoint(x: 0, y: scrollAxisOffset)
+                scrollAxisOffset += size.height
+            }
+            
+            container.frame = CGRect(origin: origin, size: size)
         }
-        page.constraints.removeAll()
-        activateConstraints(page: page, prevPage: prevPage, isLast: isLast, direction: direction)
+
+        switch direction {
+        case .horizontal:
+            self.contentSize = CGSize(width: scrollAxisOffset, height: size.height)
+        case .vertical:
+             self.contentSize = CGSize(width: size.width, height: scrollAxisOffset)
+        }
     }
 }
 
@@ -119,48 +115,38 @@ extension ViewSlidableImplementation: ViewSlidable {
     typealias View = UIView
     
     func appendViews(views: [View]) {
-        var prevPage: SlideContainerView? = containers.last
-        let prevPrevPage: SlideContainerView? = containers.count > 1 ? containers[containers.count - 2] : nil
-        if let prevPage = prevPage {
-            updateConstraints(page: prevPage, prevPage: prevPrevPage, isLast: false, direction: slideDirection)
+        for view in views {
+            view.backgroundColor = .clear
+            let container = SlideContainerView(view: view)
+            self.containers.append(container)
+            self.addSubview(container)
         }
-        for i in 0...views.count - 1 {
-            let view = views[i]
-            view.backgroundColor = UIColor.clear
-            view.translatesAutoresizingMaskIntoConstraints = false
-            let viewModel = SlideContainerView(view: view)
-            containers.append(viewModel)
-            addSubview(viewModel.view)
-            activateConstraints(page: viewModel, prevPage: prevPage, isLast: i == views.count - 1, direction: slideDirection)
-            prevPage = viewModel
-        }
+        
+        self.layoutContainers(direction: self.slideDirection)
     }
-    
+
     func insertView(view: View, index: Int) {
-        guard index < containers.count else { return }
-        view.backgroundColor = UIColor.clear
-        view.translatesAutoresizingMaskIntoConstraints = false
-        let viewModel = SlideContainerView(view: view)
-        containers.insert(viewModel, at: index)
-        addSubview(viewModel.view)
-        let prevPage = index > 0 ? containers[index - 1]:  nil
-        let nextPage = containers[index + 1]
-        activateConstraints(page: viewModel, prevPage: prevPage, isLast: false, direction: slideDirection)
-        updateConstraints(page: nextPage, prevPage: viewModel, isLast: index == containers.count - 2, direction: slideDirection)
+        guard index < self.containers.count else {
+            return
+        }
+
+        view.backgroundColor = .clear
+        let container = SlideContainerView(view: view)
+        self.containers.insert(container, at: index)
+        self.addSubview(container)
+        
+        self.layoutContainers(direction: self.slideDirection)
     }
     
     func removeViewAtIndex(index: Int) {
-        guard index < containers.count else { return }
-        let page = containers[index]
-        let prevPage = index > 0 ? containers[index - 1]: nil
-        let nextPage = index < containers.count - 1 ? containers[index + 1]: nil
-        containers.remove(at: index)
-        page.view.removeFromSuperview()
-        if let nextPage = nextPage {
-            updateConstraints(page: nextPage, prevPage: prevPage, isLast: index == containers.count - 1, direction: slideDirection)
-        } else if let prevPage = prevPage {
-            let prevPrevPage = containers.count > 1 ? containers[containers.count - 2]: nil
-            updateConstraints(page: prevPage, prevPage: prevPrevPage, isLast: true, direction: slideDirection)
+        guard index < self.containers.count else {
+            return
         }
+        
+        let container = self.containers[index]
+        self.containers.remove(at: index)
+        container.removeFromSuperview()
+
+        self.layoutContainers(direction: self.slideDirection)
     }
 }
