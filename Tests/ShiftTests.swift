@@ -13,7 +13,7 @@ class ShiftTests: BaseTestCase {
         slideController.shift(pageIndex: 1, animated: false)
         
         let contentCount = slideController.content.count
-        let currentIndex = slideController.content.index(where: { $0 === slideController.currentModel })
+        let currentIndex = slideController.content.firstIndex(where: { $0 === slideController.currentModel })
         
         XCTAssertEqual(contentCount, givenContent.count)
         XCTAssertEqual(currentIndex, 1)
@@ -28,7 +28,7 @@ class ShiftTests: BaseTestCase {
         
         slideController.shift(pageIndex: 0, animated: false)
         
-        let currentIndex = slideController.content.index(where: { $0 === slideController.currentModel })
+        let currentIndex = slideController.content.firstIndex(where: { $0 === slideController.currentModel })
         XCTAssertEqual(currentIndex, 0)
     }
     
@@ -41,7 +41,7 @@ class ShiftTests: BaseTestCase {
         
         slideController.shift(pageIndex: givenContent.count - 1, animated: true)
         
-        let currentIndex = slideController.content.index(where: { $0 === slideController.currentModel })
+        let currentIndex = slideController.content.firstIndex(where: { $0 === slideController.currentModel })
         XCTAssertEqual(currentIndex, givenContent.count - 1)
     }
     
@@ -133,7 +133,7 @@ class ShiftTests: BaseTestCase {
         slideController.append(object: givenContent)
         slideController.showNext()
         
-        let currentIndex = slideController.content.index(where: { $0 === slideController.currentModel })
+        let currentIndex = slideController.content.firstIndex(where: { $0 === slideController.currentModel })
         XCTAssertEqual(currentIndex, 1)
     }
     
@@ -147,7 +147,7 @@ class ShiftTests: BaseTestCase {
         slideController.shift(pageIndex: 2)
         slideController.showNext()
         
-        let currentIndex = slideController.content.index(where: { $0 === slideController.currentModel })
+        let currentIndex = slideController.content.firstIndex(where: { $0 === slideController.currentModel })
         XCTAssertEqual(currentIndex, 0)
     }
 }

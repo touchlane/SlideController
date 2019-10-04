@@ -15,7 +15,7 @@ class InsertTests: BaseTestCase {
         slideController.insert(object: insertingPage, index: 0)
         
         let contentCount = slideController.content.count
-        let currentIndex = slideController.content.index(where: { $0 === slideController.currentModel })
+        let currentIndex = slideController.content.firstIndex(where: { $0 === slideController.currentModel })
 
         XCTAssertEqual(contentCount, givenContent.count + 1)
         XCTAssertEqual(currentIndex, 1)

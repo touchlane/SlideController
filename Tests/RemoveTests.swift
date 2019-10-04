@@ -14,7 +14,7 @@ class RemoveTests: BaseTestCase {
         slideController.removeAtIndex(index: 0)
         
         let contentCount = slideController.content.count
-        let currentIndex = slideController.content.index(where: { $0 === slideController.currentModel })
+        let currentIndex = slideController.content.firstIndex(where: { $0 === slideController.currentModel })
         
         guard let currentPage = page2.lifeCycleObject as? TestableLifeCycleObject else {
             XCTFail("page is not TestableLifeCycleObject")
