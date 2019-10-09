@@ -1,3 +1,7 @@
+# Changelog for SlideController 1.5.1
+### Changed
+* Updates for Swift 5.0
+
 # Changelog for SlideController 1.5.0
 ### Fixed
 * Improved performance by replacing autolayout with frame-based layout
