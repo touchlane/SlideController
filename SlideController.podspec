@@ -10,5 +10,6 @@ Pod::Spec.new do |s|
   s.author           = { 'Touchlane LLC' => 'tech@touchlane.com' }
   s.source           = { :git => 'https://github.com/touchlane/SlideController.git', :tag => s.version.to_s }
   s.ios.deployment_target = '9.0'
+  s.swift_version = '5.0'
   s.source_files = 'Source/*.swift'
 end
