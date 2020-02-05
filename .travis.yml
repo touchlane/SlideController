@@ -2,6 +2,9 @@ os: osx
 osx_image: xcode11
 language: objective-c
 
+before_install:
+  - gem install cocoapods
+
 deploy:
   provider: script
   script: ./scripts/deploy.sh
