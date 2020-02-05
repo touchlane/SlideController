@@ -4,6 +4,7 @@ language: objective-c
 
 before_install:
   - gem install cocoapods
+  - pod repo add-cdn trunk 'https://cdn.cocoapods.org/'
 
 deploy:
   provider: script
