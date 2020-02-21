@@ -6,8 +6,8 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-import UIKit
 import SlideController
+import UIKit
 
 class HorizontalController {
     private let internalView = HorizontalView()
@@ -29,7 +29,7 @@ class HorizontalController {
         let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(object: ColorPageLifeCycleObject())
         guard let index = strongSelf.slideController.content
             .firstIndex(where: { strongSelf.slideController.currentModel === $0 }) else {
-                return
+            return
         }
         strongSelf.slideController.insert(object: page, index: index)
         strongSelf.addedPagesCount += 1
@@ -68,7 +68,8 @@ class HorizontalController {
         let pagesContent = [
             SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(object: ColorPageLifeCycleObject()),
             SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(),
-            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()]
+            SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
+        ]
         slideController = SlideController(
             pagesContent: pagesContent,
             startPageIndex: 0,
@@ -78,7 +79,7 @@ class HorizontalController {
         for index in 0..<addedPagesCount {
             slideController.titleView.items[index].titleLabel.text = title(for: index + 1)
         }
-      
+
         slideController.titleView.titleSize = 44
         internalView.contentView = slideController.view
     }
@@ -97,7 +98,7 @@ class HorizontalController {
 private typealias PrivateHorizontalController = HorizontalController
 private extension PrivateHorizontalController {
     func title(for index: Int) -> String {
-       return "page \(index)"
+        "page \(index)"
     }
 }
 
@@ -115,27 +116,27 @@ extension ViewLifeCycleDependableImplementation: ViewLifeCycleDependable {
 private typealias ViewAccessibleImplementation = HorizontalController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
-        return internalView
+        internalView
     }
 }
 
 private typealias StatusBarAccessibleImplementation = HorizontalController
 extension StatusBarAccessibleImplementation: StatusBarAccessible {
     var statusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        .lightContent
     }
 }
 
 private typealias TitleAccessibleImplementation = HorizontalController
 extension TitleAccessibleImplementation: TitleAccessible {
     var title: String {
-        return "Horizontal"
+        "Horizontal"
     }
 }
 
 private typealias TitleColorableImplementation = HorizontalController
 extension TitleColorableImplementation: TitleColorable {
     var titleColor: UIColor {
-        return .white
+        .white
     }
 }

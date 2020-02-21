@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol OptionsControllerProtocol: class {
+protocol OptionsControllerProtocol: AnyObject {
     var openHorizontalDemoAction: (() -> Void)? { get set }
     var openVerticalDemoAction: (() -> Void)? { get set }
     var openCarouselDemoAction: (() -> Void)? { get set }
@@ -19,28 +19,28 @@ class OptionsController {
 }
 
 private typealias OptionsControllerProtocolImplementation = OptionsController
-extension OptionsControllerProtocolImplementation : OptionsControllerProtocol {
+extension OptionsControllerProtocolImplementation: OptionsControllerProtocol {
     var openHorizontalDemoAction: (() -> Void)? {
         get {
-            return internalView.horizontalDemoButton.didTouchUpInside
+            internalView.horizontalDemoButton.didTouchUpInside
         }
         set {
             internalView.horizontalDemoButton.didTouchUpInside = newValue
         }
     }
-    
+
     var openVerticalDemoAction: (() -> Void)? {
         get {
-            return internalView.verticalDemoButton.didTouchUpInside
+            internalView.verticalDemoButton.didTouchUpInside
         }
         set {
             internalView.verticalDemoButton.didTouchUpInside = newValue
         }
     }
-    
+
     var openCarouselDemoAction: (() -> Void)? {
         get {
-            return internalView.carouselDemoButton.didTouchUpInside
+            internalView.carouselDemoButton.didTouchUpInside
         }
         set {
             internalView.carouselDemoButton.didTouchUpInside = newValue
@@ -51,29 +51,27 @@ extension OptionsControllerProtocolImplementation : OptionsControllerProtocol {
 private typealias ViewAccessibleImplementation = OptionsController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
-        get {
-            return internalView
-        }
+        internalView
     }
 }
 
 private typealias StatusBarAccessibleImplementation = OptionsController
 extension StatusBarAccessibleImplementation: StatusBarAccessible {
     var statusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        .lightContent
     }
 }
 
 private typealias TitleAccessibleImplementation = OptionsController
 extension TitleAccessibleImplementation: TitleAccessible {
     var title: String {
-        return "SlideController"
+        "SlideController"
     }
 }
 
 private typealias TitleColorableImplementation = OptionsController
 extension TitleColorableImplementation: TitleColorable {
     var titleColor: UIColor {
-        return .white
+        .white
     }
 }

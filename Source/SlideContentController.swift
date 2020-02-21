@@ -10,24 +10,24 @@ import UIKit
 
 internal typealias EdgeContainers = (left: SlideContainerController, right: SlideContainerController)
 
-///SlideContentController do control for SlideContentView,
-///manage container controllers and mount target content when needed
+/// SlideContentController do control for SlideContentView,
+/// manage container controllers and mount target content when needed
 final class SlideContentController {
     private var slideDirection: SlideDirection!
-    
-    ///Depend on set SlideDirection contentSize indicate width or height of the SlideContentView
+
+    /// Depend on set SlideDirection contentSize indicate width or height of the SlideContentView
     var contentSize: CGFloat = 0
-    
-    ///Container controllers
+
+    /// Container controllers
     internal private(set) var containers = [SlideContainerController]()
-    
-    ///Superview for container views
+
+    /// Superview for container views
     internal private(set) var slideContentView: SlideContentView
-    
-    ///Left and right temp containers to support infinite scrolling
+
+    /// Left and right temp containers to support infinite scrolling
     internal private(set) var edgeContainers: EdgeContainers?
-    
-    ///Enables infinite circular scrolling
+
+    /// Enables infinite circular scrolling
     internal var isCarousel = false {
         didSet {
             if isCarousel {
@@ -37,7 +37,7 @@ final class SlideContentController {
             }
         }
     }
-    
+
     /// - Parameter pagesCount: number of pages
     /// - Parameter slideDirection: indicates the target slide direction
     init(pagesCount: Int, slideDirection: SlideDirection) {
@@ -47,9 +47,9 @@ final class SlideContentController {
             append(pagesCount: pagesCount)
         }
     }
-    
-    ///Append specified number of containers
-    ///- Parameter pagesCount: number of containers to be added
+
+    /// Append specified number of containers
+    /// - Parameter pagesCount: number of containers to be added
     func append(pagesCount: Int) {
         var newControllers = [SlideContainerController]()
         for _ in 0..<pagesCount {
@@ -57,50 +57,47 @@ final class SlideContentController {
             newControllers.append(controller)
         }
         containers.append(contentsOf: newControllers)
-        
+
         if edgeContainers != nil {
             var index = containers.count - newControllers.count + 1
             for newController in newControllers {
                 slideContentView.insertView(view: newController.view, index: index)
                 index += 1
             }
-        }
-        else {
+        } else {
             slideContentView.appendViews(views: newControllers.map { $0.view })
             if isCarousel {
                 addEdgeContainersIfNeeded()
             }
         }
     }
-    
-    ///Insert container at specified index
+
+    /// Insert container at specified index
     func insert(index: Int) {
         let controller = SlideContainerController()
         containers.insert(controller, at: index)
         if edgeContainers != nil {
             slideContentView.insertView(view: controller.view, index: index + 1)
-        }
-        else {
+        } else {
             slideContentView.insertView(view: controller.view, index: index)
             if isCarousel {
                 addEdgeContainersIfNeeded()
             }
         }
     }
-    
-    ///Remove container at specified index
+
+    /// Remove container at specified index
     func removeAtIndex(index: Int) {
         containers.remove(at: index)
         if edgeContainers != nil {
             slideContentView.removeViewAtIndex(index: index + 1)
             removeEdgeContainersIfNeeded()
-        }
-        else {
+        } else {
             slideContentView.removeViewAtIndex(index: index)
         }
     }
-    
-    ///Scroll to target container
+
+    /// Scroll to target container
     func scroll(fromPage currentIndex: Int, toPage index: Int, animated: Bool) -> (() -> Void)? {
         guard containers.indices.contains(index) else {
             return nil
@@ -114,7 +111,7 @@ final class SlideContentController {
                 offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index) + offsetCorrection, y: 0)
                 startOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index + 1) + offsetCorrection, y: 0)
                 endOffsetPoint = offsetPoint
-            } else if index == currentIndex{
+            } else if index == currentIndex {
                 offsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: currentIndex) + offsetCorrection, y: 0)
                 endOffsetPoint = CGPoint(x: contentSize * CGFloat(integerLiteral: index) + offsetCorrection, y: 0)
             } else {
@@ -126,7 +123,7 @@ final class SlideContentController {
                 offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index) + offsetCorrection)
                 startOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index + 1) + offsetCorrection)
                 endOffsetPoint = offsetPoint
-            } else if index == currentIndex{
+            } else if index == currentIndex {
                 offsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: currentIndex) + offsetCorrection)
                 endOffsetPoint = CGPoint(x: 0, y: contentSize * CGFloat(integerLiteral: index) + offsetCorrection)
             } else {
@@ -150,7 +147,7 @@ final class SlideContentController {
         slideContentView.setContentOffset(startOffsetPoint, animated: false)
         // Animation
         slideContentView.setContentOffset(offsetPoint, animated: animated)
-        
+
         let afterAnimation = { [weak self] in
             guard let strongSelf = self else {
                 return
@@ -170,18 +167,18 @@ final class SlideContentController {
         }
         return nil
     }
-    
+
     private func addEdgeContainersIfNeeded() {
-        guard edgeContainers == nil && containers.count > 1 else {
+        guard edgeContainers == nil, containers.count > 1 else {
             return
         }
         edgeContainers = (left: SlideContainerController(), right: SlideContainerController())
         slideContentView.insertView(view: edgeContainers!.left.view, index: 0)
         slideContentView.appendViews(views: [edgeContainers!.right.view])
     }
-    
+
     private func removeEdgeContainersIfNeeded() {
-        guard edgeContainers != nil && containers.count <= 1 else {
+        guard edgeContainers != nil, containers.count <= 1 else {
             return
         }
         edgeContainers = nil

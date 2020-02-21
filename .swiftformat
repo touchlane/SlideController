@@ -1,0 +1,20 @@
+# file options
+
+# format options
+
+--commas inline
+--header ignore
+--indent 4
+--patternlet inline
+--operatorfunc no-space
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--closingparen same-line
+--nospaceoperators ..<, ...
+--swiftversion 5.1
+
+# rules
+
+--enable isEmpty
+--disable unusedArguments

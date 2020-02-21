@@ -6,40 +6,40 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-import UIKit
 import SlideController
+import UIKit
 
 class VerticalController {
     private let titleSize: CGFloat = 22.5
     private let internalView = VerticalView()
     private let slideController: SlideController<VerticalTitleScrollView, VerticalTitleItem>
-    
+
     private lazy var removeAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
         guard let index = strongSelf.slideController.content
             .firstIndex(where: { strongSelf.slideController.currentModel === $0 }) else {
-                return
+            return
         }
         strongSelf.slideController.removeAtIndex(index: index)
     }
-    
+
     private lazy var insertAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
         let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
         guard let index = strongSelf.slideController.content
             .firstIndex(where: { strongSelf.slideController.currentModel === $0 }) else {
-                return
+            return
         }
         strongSelf.slideController.insert(object: page, index: index)
     }
-    
+
     private lazy var appendAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
         let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
         strongSelf.slideController.append(object: [page])
     }
-    
-    private lazy var changePositionAction: ((Int) -> ())? = { [weak self] position in
+
+    private lazy var changePositionAction: ((Int) -> Void)? = { [weak self] position in
         guard let strongSelf = self else { return }
         switch position {
         case 0:
@@ -52,7 +52,7 @@ class VerticalController {
             break
         }
     }
-    
+
     var optionsController: (ViewAccessible & ContentActionable)? {
         didSet {
             internalView.optionsView = optionsController?.view
@@ -62,7 +62,7 @@ class VerticalController {
             optionsController?.changePositionAction = changePositionAction
         }
     }
-    
+
     init() {
         let pagesContent = [
             SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(),
@@ -82,7 +82,7 @@ extension ViewLifeCycleDependableImplementation: ViewLifeCycleDependable {
     func viewDidAppear() {
         slideController.viewDidAppear()
     }
-    
+
     func viewDidDisappear() {
         slideController.viewDidDisappear()
     }
@@ -91,27 +91,27 @@ extension ViewLifeCycleDependableImplementation: ViewLifeCycleDependable {
 private typealias ViewAccessibleImplementation = VerticalController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
-        return internalView
+        internalView
     }
 }
 
 private typealias StatusBarAccessibleImplementation = VerticalController
 extension StatusBarAccessibleImplementation: StatusBarAccessible {
     var statusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        .lightContent
     }
 }
 
 private typealias TitleAccessibleImplementation = VerticalController
 extension TitleAccessibleImplementation: TitleAccessible {
     var title: String {
-        return "Vertical"
+        "Vertical"
     }
 }
 
 private typealias TitleColorableImplementation = VerticalController
 extension TitleColorableImplementation: TitleColorable {
     var titleColor: UIColor {
-        return .white
+        .white
     }
 }

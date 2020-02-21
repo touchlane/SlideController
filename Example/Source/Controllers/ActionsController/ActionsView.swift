@@ -11,13 +11,14 @@ import UIKit
 class ActionsView: UIView {
     let positionControl = UISegmentedControl(items: [
         NSLocalizedString("BesideSegmentTitle", comment: ""),
-        NSLocalizedString("AboveSegmentTitle", comment: "")])
+        NSLocalizedString("AboveSegmentTitle", comment: "")
+    ])
     let removeButton = FilledButton()
     let insertButton = FilledButton()
     let appendButton = FilledButton()
     let menuButton = FilledButton()
-    var changePositionAction: ((Int) -> ())?
-    
+    var changePositionAction: ((Int) -> Void)?
+
     private let buttonWidth: CGFloat = 120
     private let buttonHeight: CGFloat = 32
     private let stackViewSpacing: CGFloat = 20
@@ -25,10 +26,10 @@ class ActionsView: UIView {
     private let positionControlBackgroundColor = UIColor.purple
     private let positionControlTintColor = UIColor.white
     private let stackView = UIStackView()
-    
+
     init() {
         super.init(frame: CGRect.zero)
-        
+
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .fill
@@ -36,7 +37,7 @@ class ActionsView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         activateStackViewConstraints(view: stackView)
-        
+
         positionControl.backgroundColor = positionControlBackgroundColor
         positionControl.tintColor = positionControlTintColor
         positionControl.layer.cornerRadius = 5 // don't let background bleed
@@ -45,21 +46,21 @@ class ActionsView: UIView {
         positionControl.translatesAutoresizingMaskIntoConstraints = false
         stackView.addArrangedSubview(positionControl)
         activatePositionControlConstraints(view: positionControl)
-        
+
         removeButton.setTitle("Remove", for: .normal)
         removeButton.clipsToBounds = true
         removeButton.layer.cornerRadius = buttonHeight / 2
         removeButton.translatesAutoresizingMaskIntoConstraints = false
         stackView.addArrangedSubview(removeButton)
         activateButtonConstraints(view: removeButton)
-        
+
         insertButton.setTitle("Insert", for: .normal)
         insertButton.clipsToBounds = true
         insertButton.layer.cornerRadius = buttonHeight / 2
         insertButton.translatesAutoresizingMaskIntoConstraints = false
         stackView.addArrangedSubview(insertButton)
         activateButtonConstraints(view: insertButton)
-        
+
         appendButton.setTitle("Append", for: .normal)
         appendButton.clipsToBounds = true
         appendButton.layer.cornerRadius = buttonHeight / 2
@@ -67,17 +68,17 @@ class ActionsView: UIView {
         stackView.addArrangedSubview(appendButton)
         activateButtonConstraints(view: appendButton)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let stackViewPoint = stackView.convert(point, from: self)
         return [removeButton, insertButton, appendButton, menuButton, positionControl]
             .contains { $0.frame.contains(stackViewPoint) }
     }
-    
+
     var isShowAdvancedActions: Bool = true {
         didSet {
             guard oldValue != isShowAdvancedActions else {
@@ -92,8 +93,7 @@ class ActionsView: UIView {
                 activateButtonConstraints(view: insertButton)
                 stackView.insertArrangedSubview(appendButton, at: 3)
                 activateButtonConstraints(view: appendButton)
-            }
-            else {
+            } else {
                 positionControl.removeFromSuperview()
                 removeButton.removeFromSuperview()
                 insertButton.removeFromSuperview()
@@ -112,30 +112,32 @@ private extension PrivateActionsView {
         NSLayoutConstraint.activate([
             view.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
-            view.centerYAnchor.constraint(equalTo: superview.centerYAnchor)])
-        
+            view.centerYAnchor.constraint(equalTo: superview.centerYAnchor)
+        ])
     }
-    
+
     func activateButtonConstraints(view: UIView) {
         guard let superview = view.superview else {
             return
         }
         NSLayoutConstraint.activate([
             view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
-            view.widthAnchor.constraint(equalToConstant: self.buttonWidth),
-            view.heightAnchor.constraint(equalToConstant: self.buttonHeight)])
+            view.widthAnchor.constraint(equalToConstant: buttonWidth),
+            view.heightAnchor.constraint(equalToConstant: buttonHeight)
+        ])
     }
-    
+
     func activatePositionControlConstraints(view: UIView) {
         guard let superview = view.superview else {
             return
         }
         NSLayoutConstraint.activate([
             view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
-            view.widthAnchor.constraint(equalToConstant: self.positionControlWidth),
-            view.heightAnchor.constraint(equalToConstant: self.buttonHeight)])
+            view.widthAnchor.constraint(equalToConstant: positionControlWidth),
+            view.heightAnchor.constraint(equalToConstant: buttonHeight)
+        ])
     }
-    
+
     @objc func positionControlValueChanged(sender: UISegmentedControl) {
         changePositionAction?(sender.selectedSegmentIndex)
     }

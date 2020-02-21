@@ -14,24 +14,24 @@ class LifecycleContentUIViewController<T>: UIViewController where T: ViewAccessi
             guard let controller = controller else {
                 return
             }
-            //Bad design, but this is just a demo :)
+            // Bad design, but this is just a demo :)
             view = controller.view
             title = controller.title
             automaticallyAdjustsScrollViewInsets = false
         }
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         controller?.viewDidAppear()
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         controller?.viewDidDisappear()
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return controller?.statusBarStyle ?? .default
+        controller?.statusBarStyle ?? .default
     }
 }

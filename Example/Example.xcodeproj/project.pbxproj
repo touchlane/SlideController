@@ -38,6 +38,7 @@
 		86EF196C1FBB1E9E00BD8E73 /* ColorPageLifeCycleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EF19521FBB1E9E00BD8E73 /* ColorPageLifeCycleObject.swift */; };
 		86EF196D1FBB1E9E00BD8E73 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EF19531FBB1E9E00BD8E73 /* RootRouter.swift */; };
 		86EF19891FBB20C100BD8E73 /* SlideController.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 86EF19831FBB209400BD8E73 /* SlideController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C621E484A1BB65C0F967A9B2 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D253F50760DBBA9B9ACBF6C /* Pods_Example.framework */; };
 		DD2F936B1FF3F22900A65F48 /* CarouselController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2F936A1FF3F22900A65F48 /* CarouselController.swift */; };
 		DD2F936D1FF3F23500A65F48 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2F936C1FF3F23500A65F48 /* CarouselView.swift */; };
 		DD2F93701FF3F27600A65F48 /* CircularTitleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2F936F1FF3F27600A65F48 /* CircularTitleItem.swift */; };
@@ -87,6 +88,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2D253F50760DBBA9B9ACBF6C /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CD37D229E7D10EBACC3BDE4 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		86473D841FBB199600055999 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86473D871FBB199600055999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86473D931FBB199600055999 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 		86EF19521FBB1E9E00BD8E73 /* ColorPageLifeCycleObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPageLifeCycleObject.swift; sourceTree = "<group>"; };
 		86EF19531FBB1E9E00BD8E73 /* RootRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		86EF197D1FBB209400BD8E73 /* SlideController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SlideController.xcodeproj; path = ../SlideController.xcodeproj; sourceTree = "<group>"; };
+		B0C8C467482AD6A7733B6C6F /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		DD2F936A1FF3F22900A65F48 /* CarouselController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselController.swift; sourceTree = "<group>"; };
 		DD2F936C1FF3F23500A65F48 /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
 		DD2F936F1FF3F27600A65F48 /* CircularTitleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularTitleItem.swift; sourceTree = "<group>"; };
@@ -135,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C621E484A1BB65C0F967A9B2 /* Pods_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,9 +149,12 @@
 		86473D7B1FBB199600055999 = {
 			isa = PBXGroup;
 			children = (
+				A3957F9323FFCE040089CCCC /* Script */,
 				86473D861FBB199600055999 /* Source */,
 				86473D851FBB199600055999 /* Products */,
 				86EF197D1FBB209400BD8E73 /* SlideController.xcodeproj */,
+				B78DA0858E8617B973873388 /* Pods */,
+				9A8A4D3195E4FA2EA2CE01BF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -329,6 +337,31 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9A8A4D3195E4FA2EA2CE01BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2D253F50760DBBA9B9ACBF6C /* Pods_Example.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A3957F9323FFCE040089CCCC /* Script */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Script;
+			sourceTree = "<group>";
+		};
+		B78DA0858E8617B973873388 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B0C8C467482AD6A7733B6C6F /* Pods-Example.debug.xcconfig */,
+				7CD37D229E7D10EBACC3BDE4 /* Pods-Example.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
 		DD2F93691FF3F1E900A65F48 /* CarouselController */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,7 +397,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 86473D961FBB199600055999 /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
+				246F05AA0E1A509A55B62559 /* [CP] Check Pods Manifest.lock */,
 				86473D801FBB199600055999 /* Sources */,
+				A31AD77924001A48004A1212 /* ShellScript */,
 				86473D811FBB199600055999 /* Frameworks */,
 				86473D821FBB199600055999 /* Resources */,
 				86EF19881FBB20B000BD8E73 /* Copy Frameworks */,
@@ -449,6 +484,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		246F05AA0E1A509A55B62559 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A31AD77924001A48004A1212 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat\" --lint --lenient \"$SRCROOT\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		86473D801FBB199600055999 /* Sources */ = {
@@ -613,6 +690,7 @@
 		};
 		86473D971FBB199600055999 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0C8C467482AD6A7733B6C6F /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -627,6 +705,7 @@
 		};
 		86473D981FBB199600055999 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7CD37D229E7D10EBACC3BDE4 /* Pods-Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

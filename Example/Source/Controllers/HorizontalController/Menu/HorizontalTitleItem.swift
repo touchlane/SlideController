@@ -6,22 +6,22 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-import UIKit
 import SlideController
+import UIKit
 
 class HorizontalTitleItem: UIView, Initializable, ItemViewable, Selectable {
     let titleLabel = UILabel()
-    
+
     private var titleLabelOffsetX: CGFloat = 21
     private var internalIsSelected: Bool = false
     private var internalIndex: Int = 0
     private var internalDidSelectAction: ((Int) -> Void)?
-    
+
     private let titleLabelFont = UIFont.systemFont(ofSize: 16.5)
     private let internalBackgroundColor = UIColor.clear
     private let titleFontDefaultColor = UIColor(white: 1, alpha: 0.7)
     private let titleFontSelectedColor = UIColor(white: 1, alpha: 1)
-    
+
     required init() {
         super.init(frame: CGRect.zero)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -32,33 +32,33 @@ class HorizontalTitleItem: UIView, Initializable, ItemViewable, Selectable {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapDetected(_:)))
         addGestureRecognizer(tapRecognizer)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - ItemViewableImplementation
-    
+
     typealias Item = HorizontalTitleItem
-    
+
     var view: Item {
-        return self
+        self
     }
-    
+
     // MARK: - SelectableImplementation
-    
+
     var didSelectAction: ((Int) -> Void)? {
         get {
-            return internalDidSelectAction
+            internalDidSelectAction
         }
         set {
             internalDidSelectAction = newValue
         }
     }
-    
+
     var isSelected: Bool {
         get {
-            return internalIsSelected
+            internalIsSelected
         }
         set {
             if newValue {
@@ -69,10 +69,10 @@ class HorizontalTitleItem: UIView, Initializable, ItemViewable, Selectable {
             internalIsSelected = newValue
         }
     }
-    
+
     var index: Int {
         get {
-            return internalIndex
+            internalIndex
         }
         set {
             internalIndex = newValue
@@ -89,7 +89,7 @@ private extension PrivateHorizontalTitleItem {
         constraints.append(view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: titleLabelOffsetX))
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     @objc func tapDetected(_ recognizer: UIGestureRecognizer) {
         if !internalIsSelected {
             internalDidSelectAction?(internalIndex)

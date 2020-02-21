@@ -11,43 +11,43 @@ import UIKit
 class TitleItemController<T>: TitleItemControllableObject where T: TitleItemObject, T: UIView {
     private var item = T()
     typealias Item = T.Item
-    
+
     // MARK: - InitializableImplementation
-    required init() {
-        
-    }
-    
+
+    required init() {}
+
     // MARK: - ItemViewableImplementation
+
     var view: Item {
-        return item.view
+        item.view
     }
-    
+
     // MARK: - SelectableImplementation
+
     var isSelected: Bool {
         get {
-            return item.isSelected
+            item.isSelected
         }
         set {
             item.isSelected = newValue
         }
     }
-    
-    var didSelectAction: ((Int) -> ())? {
+
+    var didSelectAction: ((Int) -> Void)? {
         get {
-            return item.didSelectAction
+            item.didSelectAction
         }
         set {
             item.didSelectAction = newValue
         }
     }
-    
+
     var index: Int {
         get {
-            return item.index
+            item.index
         }
         set {
             item.index = newValue
         }
     }
 }
-

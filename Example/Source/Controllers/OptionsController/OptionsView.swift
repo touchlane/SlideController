@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol OptionsViewProtocol: class {
+protocol OptionsViewProtocol: AnyObject {
     var horizontalDemoButton: Actionable { get }
     var verticalDemoButton: Actionable { get }
     var carouselDemoButton: Actionable { get }
@@ -25,25 +25,25 @@ class OptionsView: UIView {
     private let internalCarouselDemoButton = FilledButton()
     private let logoImageView = UIImageView()
     private let label = UILabel()
-    
+
     init() {
         super.init(frame: CGRect.zero)
         backgroundColor = UIColor.white
-        
+
         internalHorizontalDemoButton.setTitle(NSLocalizedString("HorizontalSampleButtonTitle", comment: ""), for: .normal)
         internalHorizontalDemoButton.clipsToBounds = true
         internalHorizontalDemoButton.layer.cornerRadius = optionButtonHeigh / 2
         internalHorizontalDemoButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(internalHorizontalDemoButton)
         activateOptionButtonConstraints(view: internalHorizontalDemoButton, centerYOffset: horizontalDemoButtonCenterYOffset)
-        
+
         internalVerticalDemoButton.setTitle(NSLocalizedString("VerticalSampleButtonTitle", comment: ""), for: .normal)
         internalVerticalDemoButton.clipsToBounds = true
         internalVerticalDemoButton.layer.cornerRadius = optionButtonHeigh / 2
         internalVerticalDemoButton.translatesAutoresizingMaskIntoConstraints = false
         addSubview(internalVerticalDemoButton)
         activateOptionButtonConstraints(view: internalVerticalDemoButton, centerYOffset: verticalDemoButtonCenterYOffset)
-        
+
         internalCarouselDemoButton.setTitle(NSLocalizedString("CarouselSampleButtonTitle", comment: ""), for: .normal)
         internalCarouselDemoButton.clipsToBounds = true
         internalCarouselDemoButton.layer.cornerRadius = optionButtonHeigh / 2
@@ -55,7 +55,7 @@ class OptionsView: UIView {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(logoImageView)
         activateLogoImageConstraints(view: logoImageView, anchorView: internalCarouselDemoButton)
-        
+
         label.text = "SlideController"
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +63,7 @@ class OptionsView: UIView {
         addSubview(label)
         activateLabelConstraints(view: label)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -71,7 +71,7 @@ class OptionsView: UIView {
 
 private typealias PrivateOptionsView = OptionsView
 private extension PrivateOptionsView {
-    func activateOptionButtonConstraints (view: UIView, centerYOffset: CGFloat) {
+    func activateOptionButtonConstraints(view: UIView, centerYOffset: CGFloat) {
         guard let superview = view.superview else {
             return
         }
@@ -80,9 +80,9 @@ private extension PrivateOptionsView {
             view.centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: centerYOffset * 2),
             view.heightAnchor.constraint(equalToConstant: optionButtonHeigh),
             view.widthAnchor.constraint(equalToConstant: optionButtonWidth)
-            ])
+        ])
     }
-    
+
     func activateLogoImageConstraints(view: UIView, anchorView: UIView) {
         guard let superview = view.superview else {
             return
@@ -91,9 +91,9 @@ private extension PrivateOptionsView {
             view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
             view.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -20),
             view.heightAnchor.constraint(equalToConstant: 60)
-            ])
+        ])
     }
-    
+
     func activateLabelConstraints(view: UIView) {
         guard let superview = view.superview else {
             return
@@ -101,21 +101,21 @@ private extension PrivateOptionsView {
         NSLayoutConstraint.activate([
             view.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
             view.topAnchor.constraint(equalTo: superview.topAnchor, constant: 20)
-            ])
+        ])
     }
 }
 
 private typealias OptionsViewProtocolImplementation = OptionsView
 extension OptionsViewProtocolImplementation: OptionsViewProtocol {
     var horizontalDemoButton: Actionable {
-        return internalHorizontalDemoButton
+        internalHorizontalDemoButton
     }
-    
+
     var verticalDemoButton: Actionable {
-        return internalVerticalDemoButton
+        internalVerticalDemoButton
     }
-    
+
     var carouselDemoButton: Actionable {
-        return internalCarouselDemoButton
+        internalCarouselDemoButton
     }
 }

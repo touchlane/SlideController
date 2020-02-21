@@ -6,8 +6,8 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-import UIKit
 import SlideController
+import UIKit
 
 class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
     private var internalItems: [View] = [] {
@@ -15,21 +15,22 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
             indicatorView.isHidden = internalItems.isEmpty
         }
     }
+
     private let internalItemOffsetX: CGFloat = 15
     private let itemOffsetTop: CGFloat = 0
     private let itemHeight: CGFloat = 36
     private let internalBackgroundColor = UIColor.purple
-    
+
     private var indicatorLeadingAnchor: NSLayoutConstraint?
     private var indicatorWidthAnchor: NSLayoutConstraint?
     private var indicatorHeight: CGFloat = 2
     private var indicatorColor: UIColor = .white
     private let indicatorView = UIView()
-    
-    override required init() {
+
+    required override init() {
         super.init()
         backgroundColor = internalBackgroundColor
-        
+
         indicatorView.translatesAutoresizingMaskIntoConstraints = false
         indicatorView.backgroundColor = indicatorColor
         addSubview(indicatorView)
@@ -38,11 +39,11 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override var items: [TitleItem] {
-        return internalItems
+        internalItems
     }
-    
+
     override func appendViews(views: [View]) {
         var prevView: View? = internalItems.last
         let prevPrevView: UIView? = internalItems.count > 1 ? internalItems[items.count - 2] : nil
@@ -58,7 +59,7 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
             prevView = view
         }
     }
-    
+
     override func insertView(view: View, index: Int) {
         guard index < internalItems.count else {
             return
@@ -66,12 +67,12 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
         view.translatesAutoresizingMaskIntoConstraints = false
         internalItems.insert(view, at: index)
         addSubview(view)
-        let prevView: View? = index > 0 ? internalItems[index - 1] :  nil
+        let prevView: View? = index > 0 ? internalItems[index - 1] : nil
         let nextView: View = internalItems[index + 1]
         activateConstraints(view: view, prevView: prevView, isLast: false)
         updateConstraints(view: nextView, prevView: view, isLast: index == internalItems.count - 2)
     }
-    
+
     override func removeViewAtIndex(index: Int) {
         guard index < internalItems.count else {
             return
@@ -88,7 +89,7 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
             updateConstraints(view: prevView, prevView: prevPrevView, isLast: true)
         }
     }
-    
+
     override func indicator(position: CGFloat, size: CGFloat, animated: Bool) {
         if let indicatorLeadingAnchor = indicatorLeadingAnchor,
             let indicatorWidthAnchor = indicatorWidthAnchor {
@@ -103,7 +104,7 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
             })
         }
     }
-    
+
     var isTransparent = false {
         didSet {
             backgroundColor = isTransparent ? UIColor.clear : internalBackgroundColor
@@ -125,7 +126,7 @@ private extension PrivateHorizontalTitleScrollView {
         constraints.append(view.heightAnchor.constraint(equalToConstant: indicatorHeight))
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     func activateConstraints(view: UIView, prevView: UIView?, isLast: Bool) {
         var constraints: [NSLayoutConstraint] = []
         constraints.append(view.topAnchor.constraint(equalTo: topAnchor, constant: itemOffsetTop))
@@ -140,15 +141,15 @@ private extension PrivateHorizontalTitleScrollView {
         }
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     func removeConstraints(view: UIView) {
-        let viewConstraints = constraints.filter({ $0.firstItem === view })
-        let heigthConstraints = view.constraints.filter({ $0.firstAttribute == .height })
+        let viewConstraints = constraints.filter { $0.firstItem === view }
+        let heigthConstraints = view.constraints.filter { $0.firstAttribute == .height }
         NSLayoutConstraint.deactivate(viewConstraints + heigthConstraints)
     }
-    
+
     func updateConstraints(view: UIView, prevView: UIView?, isLast: Bool) {
-        self.removeConstraints(view: view)
-        self.activateConstraints(view: view, prevView: prevView, isLast: isLast)
+        removeConstraints(view: view)
+        activateConstraints(view: view, prevView: prevView, isLast: isLast)
     }
 }

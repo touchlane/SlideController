@@ -14,9 +14,9 @@ class ImageView: UIView {
             imageView.image = image
         }
     }
-    
+
     private let imageView = UIImageView()
-    
+
     init() {
         super.init(frame: CGRect.zero)
         backgroundColor = UIColor.white
@@ -25,7 +25,7 @@ class ImageView: UIView {
         addSubview(imageView)
         activateImageViewConstraints(view: imageView)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -33,10 +33,10 @@ class ImageView: UIView {
 
 private typealias PrivateImageView = ImageView
 private extension PrivateImageView {
-    func activateImageViewConstraints (view: UIView) {
+    func activateImageViewConstraints(view: UIView) {
         NSLayoutConstraint.activate([
-            view.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            view.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            view.centerXAnchor.constraint(equalTo: centerXAnchor),
+            view.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 }

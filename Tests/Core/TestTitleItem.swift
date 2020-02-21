@@ -1,9 +1,9 @@
-import UIKit
 import SlideController
+import UIKit
 
 class TestTitleItem: UIView, Initializable, ItemViewable, Selectable {
     let titleLabel = UILabel()
-    
+
     private var backgroundViewHeight: CGFloat = 2
     private var titleLabelOffsetX: CGFloat = 21
     private var newIndicatorRadius: CGFloat = 9
@@ -16,7 +16,7 @@ class TestTitleItem: UIView, Initializable, ItemViewable, Selectable {
     private let internalBackgroundColor = UIColor.clear
     private let titleFontDefaultColor = UIColor(white: 1, alpha: 0.7)
     private let titleFontSelectedColor = UIColor(white: 1, alpha: 1)
-    
+
     required init() {
         super.init(frame: CGRect.zero)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,33 +30,33 @@ class TestTitleItem: UIView, Initializable, ItemViewable, Selectable {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapDetected(_:)))
         addGestureRecognizer(tapRecognizer)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - ItemViewableImplementation
-    
+
     typealias Item = TestTitleItem
-    
+
     var view: Item {
-        return self
+        self
     }
-    
+
     // MARK: - SelectableImplementation
-    
-    var didSelectAction: ((Int) -> ())? {
+
+    var didSelectAction: ((Int) -> Void)? {
         get {
-            return internalDidSelectAction
+            internalDidSelectAction
         }
         set {
             internalDidSelectAction = newValue
         }
     }
-    
+
     var isSelected: Bool {
         get {
-            return internalIsSelected
+            internalIsSelected
         }
         set {
             if newValue {
@@ -69,10 +69,10 @@ class TestTitleItem: UIView, Initializable, ItemViewable, Selectable {
             internalIsSelected = newValue
         }
     }
-    
+
     var index: Int {
         get {
-            return internalIndex
+            internalIndex
         }
         set {
             internalIndex = newValue
@@ -90,7 +90,7 @@ private extension PrivateTestTitleItem {
         constraints.append(view.heightAnchor.constraint(equalToConstant: backgroundViewHeight))
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     func activateTitleLabelConstraints(view: UIView) {
         var constraints = [NSLayoutConstraint]()
         constraints.append(view.centerYAnchor.constraint(equalTo: centerYAnchor))
@@ -98,11 +98,10 @@ private extension PrivateTestTitleItem {
         constraints.append(view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: titleLabelOffsetX))
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     @objc func tapDetected(_ recognizer: UIGestureRecognizer) {
         if !internalIsSelected {
             internalDidSelectAction?(internalIndex)
         }
     }
 }
-

@@ -8,36 +8,36 @@
 
 import UIKit
 
-///Represents container view for one page content
+/// Represents container view for one page content
 final class SlideContainerView: UIView {
     private var internalView: UIView
-    
+
     private var oldSize: CGSize = .zero
 
     /// - Parameter view: The view to show as content.
     init(view: UIView) {
-        self.internalView = view
+        internalView = view
         super.init(frame: .zero)
-        self.clipsToBounds = true
-        self.addSubview(view)
+        clipsToBounds = true
+        addSubview(view)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
-        guard self.oldSize != self.bounds.size else {
+        guard oldSize != bounds.size else {
             return
         }
-        
+
         super.layoutSubviews()
 
-        guard !self.isHidden else {
+        guard !isHidden else {
             return
         }
-        
-        self.internalView.frame = self.bounds
-        self.oldSize = self.bounds.size
+
+        internalView.frame = bounds
+        oldSize = bounds.size
     }
 }

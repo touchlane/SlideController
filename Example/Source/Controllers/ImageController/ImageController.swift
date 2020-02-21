@@ -6,14 +6,14 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-import UIKit
 import SlideController
+import UIKit
 
 class ImageController {
     private let internalView = ImageView()
     var image: UIImage? {
         get {
-            return internalView.image
+            internalView.image
         }
         set {
             internalView.image = newValue
@@ -24,6 +24,6 @@ class ImageController {
 private typealias ViewableImplementation = ImageController
 extension ViewableImplementation: Viewable {
     var view: UIView {
-        return internalView
+        internalView
     }
 }

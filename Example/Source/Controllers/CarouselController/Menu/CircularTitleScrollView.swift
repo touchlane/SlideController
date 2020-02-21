@@ -6,30 +6,30 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-import UIKit
 import SlideController
+import UIKit
 
 class CarouselTitleScrollView: TitleScrollView<CarouselTitleItem> {
     private var internalItems: [View] = []
-    
+
     private let internalItemOffsetX: CGFloat = 0
     private let itemOffsetTop: CGFloat = 10
     private let itemHeight: CGFloat = 20
     private let internalBackgroundColor = UIColor.purple
-    
-    override required init() {
+
+    required override init() {
         super.init()
         backgroundColor = internalBackgroundColor
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override var items: [TitleItem] {
-        return internalItems
+        internalItems
     }
-    
+
     override func appendViews(views: [View]) {
         var prevView: View? = internalItems.last
         let prevPrevView: UIView? = internalItems.count > 1 ? internalItems[items.count - 2] : nil
@@ -45,7 +45,7 @@ class CarouselTitleScrollView: TitleScrollView<CarouselTitleItem> {
             prevView = view
         }
     }
-    
+
     override func insertView(view: View, index: Int) {
         guard index < internalItems.count else {
             return
@@ -53,12 +53,12 @@ class CarouselTitleScrollView: TitleScrollView<CarouselTitleItem> {
         view.translatesAutoresizingMaskIntoConstraints = false
         internalItems.insert(view, at: index)
         addSubview(view)
-        let prevView: View? = index > 0 ? internalItems[index - 1] :  nil
+        let prevView: View? = index > 0 ? internalItems[index - 1] : nil
         let nextView: View = internalItems[index + 1]
         activateConstraints(view: view, prevView: prevView, isLast: false)
         updateConstraints(view: nextView, prevView: view, isLast: index == internalItems.count - 2)
     }
-    
+
     override func removeViewAtIndex(index: Int) {
         guard index < internalItems.count else {
             return
@@ -75,7 +75,7 @@ class CarouselTitleScrollView: TitleScrollView<CarouselTitleItem> {
             updateConstraints(view: prevView, prevView: prevPrevView, isLast: true)
         }
     }
-    
+
     var isTransparent = false {
         didSet {
             backgroundColor = isTransparent ? UIColor.clear : internalBackgroundColor
@@ -99,15 +99,15 @@ private extension PrivateCarouselTitleScrollView {
         }
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     func removeConstraints(view: UIView) {
-        let viewConstraints = constraints.filter({ $0.firstItem === view })
-        let heigthConstraints = view.constraints.filter({ $0.firstAttribute == .height })
+        let viewConstraints = constraints.filter { $0.firstItem === view }
+        let heigthConstraints = view.constraints.filter { $0.firstAttribute == .height }
         NSLayoutConstraint.deactivate(viewConstraints + heigthConstraints)
     }
-    
+
     func updateConstraints(view: UIView, prevView: UIView?, isLast: Bool) {
-        self.removeConstraints(view: view)
-        self.activateConstraints(view: view, prevView: prevView, isLast: isLast)
+        removeConstraints(view: view)
+        activateConstraints(view: view, prevView: prevView, isLast: isLast)
     }
 }

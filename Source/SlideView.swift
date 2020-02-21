@@ -10,17 +10,17 @@ import UIKit
 
 class SlideView<T>: UIView, TitleViewConfigurationDelegate where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable {
     private var oldSize: CGSize = .zero
-    
+
     var contentView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
-            if let view = self.contentView {
-                self.addSubview(view)
+            if let view = contentView {
+                addSubview(view)
             }
-            self.layoutContainers()
+            layoutContainers()
         }
     }
-    
+
     var titleView: T? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -31,33 +31,33 @@ class SlideView<T>: UIView, TitleViewConfigurationDelegate where T: ViewSlidable
             self.layoutContainers()
         }
     }
-    
+
     override func layoutSubviews() {
-        guard self.bounds.size != self.oldSize else {
+        guard bounds.size != oldSize else {
             return
         }
-        
+
         super.layoutSubviews()
-        self.layoutContainers()
-        self.oldSize = self.bounds.size
+        layoutContainers()
+        oldSize = bounds.size
     }
-    
+
     private func layoutContainers() {
         if let titleView = self.titleView {
             let alignment = titleView.alignment
             let size = titleView.titleSize
-            titleView.frame = self.titleFrame(in: self.bounds, alignment: alignment, size: size)
-            
+            titleView.frame = titleFrame(in: bounds, alignment: alignment, size: size)
+
             if titleView.position == TitleViewPosition.beside {
-                self.contentView?.frame = self.contentFrame(in: self.bounds, alignment: alignment, size: size)
+                contentView?.frame = contentFrame(in: bounds, alignment: alignment, size: size)
             } else {
-                self.contentView?.frame = self.bounds
+                contentView?.frame = bounds
             }
         } else {
-            self.contentView?.frame = self.bounds
+            contentView?.frame = bounds
         }
     }
-    
+
     private func titleFrame(in bounds: CGRect, alignment: TitleViewAlignment, size: CGFloat) -> CGRect {
         switch alignment {
         case .top:
@@ -70,6 +70,7 @@ class SlideView<T>: UIView, TitleViewConfigurationDelegate where T: ViewSlidable
             return CGRect(x: bounds.width - size, y: 0, width: size, height: bounds.height)
         }
     }
+
     private func contentFrame(in bounds: CGRect, alignment: TitleViewAlignment, size: CGFloat) -> CGRect {
         switch alignment {
         case .top:
@@ -82,19 +83,20 @@ class SlideView<T>: UIView, TitleViewConfigurationDelegate where T: ViewSlidable
             return CGRect(x: 0, y: 0, width: bounds.width - size, height: bounds.height)
         }
     }
-    
+
     // MARK: - TitleViewConfigurationDelegateImplementation
+
     func didChangeAlignment(alignment: TitleViewAlignment) {
-        self.layoutContainers()
+        layoutContainers()
     }
-    
+
     func didChangeTitleSize(size: CGFloat) {
-        if self.titleView != nil {
-            self.layoutContainers()
+        if titleView != nil {
+            layoutContainers()
         }
     }
-    
+
     func didChangePosition(position: TitleViewPosition) {
-        self.layoutContainers()
+        layoutContainers()
     }
 }

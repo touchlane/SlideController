@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ColorView : UIView {
+class ColorView: UIView {
     init() {
         super.init(frame: CGRect.zero)
         backgroundColor = randomColor()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -21,7 +21,7 @@ class ColorView : UIView {
 
 private typealias PrivateColorView = ColorView
 private extension PrivateColorView {
-    func randomColor() -> UIColor{
+    func randomColor() -> UIColor {
         let randomRed: CGFloat = CGFloat(drand48())
         let randomGreen: CGFloat = CGFloat(drand48())
         let randomBlue: CGFloat = CGFloat(drand48())

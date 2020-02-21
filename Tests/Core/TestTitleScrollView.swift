@@ -1,5 +1,5 @@
-import UIKit
 import SlideController
+import UIKit
 
 class TestTitleScrollView: TitleScrollView<TestTitleItem> {
     private var internalItems: [View] = []
@@ -8,8 +8,8 @@ class TestTitleScrollView: TitleScrollView<TestTitleItem> {
     private let itemHeight: CGFloat = 36
     private let shadowOpacity: Float = 0.16
     private let internalBackgroundColor = UIColor.purple
-    
-    override required init() {
+
+    required override init() {
         super.init()
         clipsToBounds = false
         layer.shadowColor = UIColor.black.cgColor
@@ -17,15 +17,15 @@ class TestTitleScrollView: TitleScrollView<TestTitleItem> {
         layer.shadowOpacity = shadowOpacity
         backgroundColor = internalBackgroundColor
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override var items: [TitleItem] {
-        return internalItems
+        internalItems
     }
-    
+
     override func appendViews(views: [View]) {
         var prevView: View? = internalItems.last
         let prevPrevView: UIView? = internalItems.count > 1 ? internalItems[items.count - 2] : nil
@@ -41,7 +41,7 @@ class TestTitleScrollView: TitleScrollView<TestTitleItem> {
             prevView = view
         }
     }
-    
+
     override func insertView(view: View, index: Int) {
         guard index < internalItems.count else {
             return
@@ -49,12 +49,12 @@ class TestTitleScrollView: TitleScrollView<TestTitleItem> {
         view.translatesAutoresizingMaskIntoConstraints = false
         internalItems.insert(view, at: index)
         addSubview(view)
-        let prevView: View? = index > 0 ? internalItems[index - 1] :  nil
+        let prevView: View? = index > 0 ? internalItems[index - 1] : nil
         let nextView: View = internalItems[index + 1]
         activateConstraints(view, prevView: prevView, isLast: false)
         updateConstraints(nextView, prevView: view, isLast: index == internalItems.count - 2)
     }
-    
+
     override func removeViewAtIndex(index: Int) {
         guard index < internalItems.count else {
             return
@@ -71,7 +71,7 @@ class TestTitleScrollView: TitleScrollView<TestTitleItem> {
             updateConstraints(prevView, prevView: prevPrevView, isLast: true)
         }
     }
-    
+
     var isTransparent = false {
         didSet {
             backgroundColor = isTransparent ? UIColor.clear : internalBackgroundColor
@@ -95,19 +95,19 @@ private extension PrivateTestTitleScrollView {
         }
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     func removeConstraints(view: UIView) {
-        let viewConstraints = constraints.filter({ $0.firstItem === view })
-        let heigthConstraints = view.constraints.filter({ $0.firstAttribute == .height })
+        let viewConstraints = constraints.filter { $0.firstItem === view }
+        let heigthConstraints = view.constraints.filter { $0.firstAttribute == .height }
         NSLayoutConstraint.deactivate(viewConstraints + heigthConstraints)
     }
-    
+
     func updateConstraints(_ view: UIView, prevView: UIView?, isLast: Bool) {
-        self.removeConstraints(view: view)
-        self.activateConstraints(view, prevView: prevView, isLast: isLast)
+        removeConstraints(view: view)
+        activateConstraints(view, prevView: prevView, isLast: isLast)
     }
-    
+
     func itemOffsetX() -> CGFloat {
-        return internalItemOffsetX
+        internalItemOffsetX
     }
 }

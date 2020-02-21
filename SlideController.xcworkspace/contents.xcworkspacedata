@@ -7,4 +7,10 @@
    <FileRef
       location = "container:SlideController.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:SlideController.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>

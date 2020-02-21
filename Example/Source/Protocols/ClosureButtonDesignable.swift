@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ButtonDesignable: class {
+protocol ButtonDesignable: AnyObject {
     var textFont: UIFont { get }
     var textColor: UIColor { get }
     var bgColor: UIColor { get }
@@ -16,14 +16,14 @@ protocol ButtonDesignable: class {
 
 extension ButtonDesignable {
     var textFont: UIFont {
-        return UIFont.systemFont(ofSize: 15)
+        UIFont.systemFont(ofSize: 15)
     }
-    
+
     var textColor: UIColor {
-        return UIColor.white
+        UIColor.white
     }
-    
+
     var bgColor: UIColor {
-        return UIColor.purple
+        UIColor.purple
     }
 }

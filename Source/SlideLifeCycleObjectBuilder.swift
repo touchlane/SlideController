@@ -6,30 +6,31 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-public protocol SlideLifeCycleObjectProvidable: class {
+public protocol SlideLifeCycleObjectProvidable: AnyObject {
     var lifeCycleObject: SlideLifeCycleObject { get }
 }
 
 open class SlideLifeCycleObjectBuilder<T: SlideLifeCycleObject>: SlideLifeCycleObjectProvidable {
-    ///Internal LifeCycle Object
+    /// Internal LifeCycle Object
     private var object: T?
-    
-    ///Use to create model with prebuilt LifeCycle object
+
+    /// Use to create model with prebuilt LifeCycle object
     public init(object: T) {
         self.object = object
     }
-    
-    public init() { }
-    
+
+    public init() {}
+
     // MARK: - SlideLifeCycleObjectProvidableImplementation
+
     open var lifeCycleObject: SlideLifeCycleObject {
-        return buildObjectIfNeeded()
+        buildObjectIfNeeded()
     }
 }
 
 private typealias PrivateSlidePageModel = SlideLifeCycleObjectBuilder
-extension PrivateSlidePageModel  {
-    ///Genarate LifeCycle object of specified type when needed
+extension PrivateSlidePageModel {
+    /// Genarate LifeCycle object of specified type when needed
     func buildObjectIfNeeded() -> SlideLifeCycleObject {
         if let object = object {
             return object

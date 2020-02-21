@@ -6,16 +6,16 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-import UIKit
 import SlideController
+import UIKit
 
 class ColorController {
     private let internalView = ColorView()
 }
 
 private typealias ViewableImplementation = ColorController
-extension ViewableImplementation : Viewable {
+extension ViewableImplementation: Viewable {
     var view: UIView {
-        return internalView
+        internalView
     }
 }

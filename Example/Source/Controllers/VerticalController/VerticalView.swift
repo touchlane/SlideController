@@ -20,7 +20,7 @@ class VerticalView: UIView {
             }
         }
     }
-    
+
     var optionsView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -44,9 +44,9 @@ private extension PrivateVerticalView {
             view.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
             view.topAnchor.constraint(equalTo: superview.topAnchor)
-            ])
+        ])
     }
-    
+
     func activateOptionsViewConstraints(view: UIView) {
         guard let superview = view.superview else {
             return
@@ -56,7 +56,6 @@ private extension PrivateVerticalView {
             view.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
             view.bottomAnchor.constraint(equalTo: superview.bottomAnchor),
             view.topAnchor.constraint(equalTo: superview.topAnchor)
-            ])
-        
+        ])
     }
 }

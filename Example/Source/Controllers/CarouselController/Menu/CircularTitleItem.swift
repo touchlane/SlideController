@@ -6,12 +6,12 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-import UIKit
 import SlideController
+import UIKit
 
 class CarouselTitleItem: UIView, Initializable, ItemViewable, Selectable {
     let dotView = UIView()
-    
+
     private let dotViewOffsetX: CGFloat = 5
     private let dotViewSizeValue: CGFloat = 10
     private let dotDefaultColor = UIColor(white: 0, alpha: 0.3)
@@ -19,7 +19,7 @@ class CarouselTitleItem: UIView, Initializable, ItemViewable, Selectable {
     private var internalIsSelected: Bool = false
     private var internalIndex: Int = 0
     private var internalDidSelectAction: ((Int) -> Void)?
-    
+
     required init() {
         super.init(frame: CGRect.zero)
         dotView.layer.cornerRadius = dotViewSizeValue / 2
@@ -30,33 +30,33 @@ class CarouselTitleItem: UIView, Initializable, ItemViewable, Selectable {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapDetected(_:)))
         addGestureRecognizer(tapRecognizer)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - ItemViewableImplementation
-    
+
     typealias Item = CarouselTitleItem
-    
+
     var view: Item {
-        return self
+        self
     }
-    
+
     // MARK: - SelectableImplementation
-    
-    var didSelectAction: ((Int) -> ())? {
+
+    var didSelectAction: ((Int) -> Void)? {
         get {
-            return internalDidSelectAction
+            internalDidSelectAction
         }
         set {
             internalDidSelectAction = newValue
         }
     }
-    
+
     var isSelected: Bool {
         get {
-            return internalIsSelected
+            internalIsSelected
         }
         set {
             if newValue {
@@ -67,10 +67,10 @@ class CarouselTitleItem: UIView, Initializable, ItemViewable, Selectable {
             internalIsSelected = newValue
         }
     }
-    
+
     var index: Int {
         get {
-            return internalIndex
+            internalIndex
         }
         set {
             internalIndex = newValue
@@ -89,7 +89,7 @@ private extension PrivateCarouselTitleItem {
         constraints.append(view.heightAnchor.constraint(equalToConstant: dotViewSizeValue))
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     @objc func tapDetected(_ recognizer: UIGestureRecognizer) {
         if !internalIsSelected {
             internalDidSelectAction?(internalIndex)

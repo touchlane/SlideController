@@ -9,7 +9,7 @@
 
 import UIKit
 
-protocol TitleScrollable: class {
+protocol TitleScrollable: AnyObject {
     var didSelectItemAction: ((Int, (() -> Void)?) -> Void)? { get set }
     func jump(index: Int, animated: Bool)
     func shift(ratio: CGFloat, startIndex: Int, destinationIndex: Int)
@@ -18,16 +18,15 @@ protocol TitleScrollable: class {
 }
 
 class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: UIScrollView, T: TitleConfigurable, N: TitleItemControllableObject, N: UIView, N.Item == T.View {
-
     private var isOffsetChangeAllowed = true
     private var slideDirection: SlideDirection
     private var selectedIndex = 0
-    
+
     private lazy var didCompleteSelectItemAction: () -> Void = { [weak self] in
         guard let strongSelf = self else { return }
         strongSelf.isOffsetChangeAllowed = true
     }
-    
+
     private lazy var didSelectTitleItemAction: (Int) -> Void = { [weak self] index in
         guard let strongSelf = self else { return }
         guard strongSelf.isSelectionAllowed else {
@@ -41,26 +40,27 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     }
 
     var didCompleteTitleLayout: (() -> Void)?
-    
+
     var titleView: T {
-        return self.scrollView
+        scrollView
     }
-    
+
     private var scrollView = T()
     private var controllers: [TitleItemController<N>] = []
-    
+
     var isSelectionAllowed: Bool = true
-    
+
     // MARK: - TitleScrollableImplementation
+
     required init(pagesCount: Int, slideDirection: SlideDirection) {
         self.slideDirection = slideDirection
         if pagesCount > 0 {
             append(pagesCount: pagesCount)
         }
     }
-    
+
     var didSelectItemAction: ((Int, (() -> Void)?) -> Void)?
-    
+
     func append(pagesCount: Int) {
         var newControllers: [TitleItemController<N>] = []
         for index in 0..<pagesCount {
@@ -70,9 +70,9 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             newControllers.append(controller)
         }
         controllers.append(contentsOf: newControllers)
-        scrollView.appendViews(views: newControllers.map({ $0.view }))
+        scrollView.appendViews(views: newControllers.map { $0.view })
     }
-    
+
     func insert(index: Int) {
         let controller = TitleItemController<N>()
         controller.index = index
@@ -83,7 +83,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
         controllers.insert(controller, at: index)
         scrollView.insertView(view: controller.view, index: index)
     }
-    
+
     func removeAtIndex(index: Int) {
         for i in index + 1..<controllers.count {
             controllers[i].index = i - 1
@@ -91,14 +91,14 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
         controllers.remove(at: index)
         scrollView.removeViewAtIndex(index: index)
     }
-    
+
     func indicatorSlide(offset: CGFloat, pageSize: CGFloat, startIndex: Int, destinationIndex: Int) {
         guard controllers.indices.contains(startIndex),
             controllers.indices.contains(destinationIndex) else {
             return
         }
         let multipler = offset / pageSize
-        
+
         var startingPosition: CGFloat = 0
         var destinationPosition: CGFloat = 0
         switch slideDirection {
@@ -109,9 +109,9 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             startingPosition = controllers[startIndex].view.frame.origin.y
             destinationPosition = controllers[destinationIndex].view.frame.origin.y
         }
-        
+
         let indicatorOffset = startingPosition + multipler * abs(destinationPosition - startingPosition)
-        
+
         var startingSize: CGFloat = 0
         var destinationSize: CGFloat = 0
         switch slideDirection {
@@ -122,12 +122,12 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             startingSize = controllers[startIndex].view.frame.height
             destinationSize = controllers[startIndex].view.frame.height
         }
-        
+
         let size = startingSize + abs(multipler) * (destinationSize - startingSize)
- 
+
         titleView.indicator(position: indicatorOffset, size: size, animated: false)
     }
-    
+
     func jump(index: Int, animated: Bool) {
         if controllers.indices.contains(index) {
             select(index: index)
@@ -142,9 +142,9 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
             }
         }
     }
-    
+
     func shift(ratio: CGFloat, startIndex: Int, destinationIndex: Int) {
-        guard self.isOffsetChangeAllowed, self.controllers.indices.contains(startIndex), self.controllers.indices.contains(destinationIndex) else {
+        guard isOffsetChangeAllowed, controllers.indices.contains(startIndex), controllers.indices.contains(destinationIndex) else {
             return
         }
 
@@ -154,7 +154,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
         let normalizedRatio = ratio < 0 ? 1 + ratio : ratio
         let shift = normalizedRatio * totalShift
         // TODO: calculate offset for vertical scroll direction
-        switch self.slideDirection {
+        switch slideDirection {
         case .horizontal:
             let offset = CGPoint(x: min(startOffset, targetOffset) + abs(shift), y: 0)
             scrollView.setContentOffset(offset, animated: false)
@@ -197,9 +197,9 @@ private extension PrivateTitleSlidableController {
         }
         return newOffsetX
     }
-    
+
     func updateSlideIndicator(index: Int, slideDirection: SlideDirection, animated: Bool) {
-        let frame = self.controllers[index].view.frame
+        let frame = controllers[index].view.frame
         let position: CGFloat
         let size: CGFloat
         switch slideDirection {
@@ -210,7 +210,7 @@ private extension PrivateTitleSlidableController {
             position = frame.origin.y
             size = frame.height
         }
-        
-        self.titleView.indicator(position: position, size: size, animated: animated)
+
+        titleView.indicator(position: position, size: size, animated: animated)
     }
 }

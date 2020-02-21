@@ -6,13 +6,13 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-import UIKit
 import SlideController
+import UIKit
 
 class CarouselController {
     private let internalView = CarouselView()
     private let slideController: SlideController<CarouselTitleScrollView, CarouselTitleItem>!
-    
+
     init() {
         var pagesContent: [SlideLifeCycleObjectBuilder<ImagePageLifeCycleObject>] = []
         for index in 1...5 {
@@ -31,7 +31,7 @@ class CarouselController {
         slideController.titleView.isTransparent = true
         internalView.contentView = slideController.view
     }
-    
+
     var optionsController: (ViewAccessible & ContentActionable)? {
         didSet {
             internalView.optionsView = optionsController?.view
@@ -44,7 +44,7 @@ extension ViewLifeCycleDependableImplementation: ViewLifeCycleDependable {
     func viewDidAppear() {
         slideController.viewDidAppear()
     }
-    
+
     func viewDidDisappear() {
         slideController.viewDidDisappear()
     }
@@ -53,27 +53,27 @@ extension ViewLifeCycleDependableImplementation: ViewLifeCycleDependable {
 private typealias ViewAccessibleImplementation = CarouselController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
-        return internalView
+        internalView
     }
 }
 
 private typealias StatusBarAccessibleImplementation = CarouselController
 extension StatusBarAccessibleImplementation: StatusBarAccessible {
     var statusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        .lightContent
     }
 }
 
 private typealias TitleAccessibleImplementation = CarouselController
 extension TitleAccessibleImplementation: TitleAccessible {
     var title: String {
-        return "Carousel"
+        "Carousel"
     }
 }
 
 private typealias TitleColorableImplementation = CarouselController
 extension TitleColorableImplementation: TitleColorable {
     var titleColor: UIColor {
-        return .white
+        .white
     }
 }
