@@ -10,37 +10,31 @@ import UIKit
 
 ///SlideContainerController do control for specific container view
 final class SlideContainerController {
-    private var internalView = UIView()
+    private var internalView = InternalView()
     private var isViewLoaded = false
     
     ///Property to indicate if target view mounted to container
     var hasContent: Bool {
-        return isViewLoaded
+        return self.isViewLoaded
     }
     
     ///Implements lazy load, add target view as subview to container view when needed and set hasContent = true
     func load(view: UIView) {
-        guard !isViewLoaded else {
+        guard !self.isViewLoaded else {
             return
         }
-        isViewLoaded = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        internalView.addSubview(view)
-        NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: internalView.topAnchor),
-            view.leadingAnchor.constraint(equalTo: internalView.leadingAnchor),
-            view.bottomAnchor.constraint(equalTo: internalView.bottomAnchor),
-            view.trailingAnchor.constraint(equalTo: internalView.trailingAnchor)
-        ])
+        self.isViewLoaded = true
+        self.internalView.addSubview(view)
+        view.frame = self.internalView.bounds
     }
     
     ///Removes view from container and sets hasContent = false
     func unloadView() {
-        guard isViewLoaded else {
+        guard self.isViewLoaded else {
             return
         }
-        isViewLoaded = false
-        internalView.subviews.forEach({ $0.removeFromSuperview() })
+        self.isViewLoaded = false
+        self.internalView.subviews.forEach({ $0.removeFromSuperview() })
     }
 }
 
@@ -48,6 +42,21 @@ final class SlideContainerController {
 private typealias ViewableImplementation = SlideContainerController
 extension ViewableImplementation: Viewable {
     var view: UIView {
-        return internalView
+        return self.internalView
+    }
+}
+
+///Internal view for SlideContainerController
+private final class InternalView: UIView {
+    private var oldSize: CGSize = .zero
+    
+    override func layoutSubviews() {
+        guard self.oldSize != self.bounds.size else {
+            return
+        }
+        super.layoutSubviews()
+        
+        self.subviews.first?.frame = self.bounds
+        self.oldSize = self.bounds.size
     }
 }

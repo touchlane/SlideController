@@ -85,16 +85,6 @@ class CarouselTitleScrollView: TitleScrollView<CarouselTitleItem> {
 
 private typealias PrivateCarouselTitleScrollView = CarouselTitleScrollView
 private extension PrivateCarouselTitleScrollView {
-    func activateBackgroundViewConstraints(view: UIView, position: CGFloat, width: CGFloat) {
-        var constraints: [NSLayoutConstraint] = []
-        constraints.append(view.topAnchor.constraint(equalTo: topAnchor, constant: itemOffsetTop + itemHeight))
-        let leading = view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: position)
-        constraints.append(leading)
-        let width = view.widthAnchor.constraint(equalToConstant: width)
-        constraints.append(width)
-        NSLayoutConstraint.activate(constraints)
-    }
-    
     func activateConstraints(view: UIView, prevView: UIView?, isLast: Bool) {
         var constraints: [NSLayoutConstraint] = []
         constraints.append(view.topAnchor.constraint(equalTo: topAnchor, constant: itemOffsetTop))

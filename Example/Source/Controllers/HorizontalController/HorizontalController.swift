@@ -18,7 +18,7 @@ class HorizontalController {
     lazy var removeCurrentPageAction: (() -> Void)? = { [weak self] in
         guard let strongSelf = self else { return }
         guard let currentPageIndex = strongSelf.slideController.content
-            .index(where: { strongSelf.slideController.currentModel === $0 }) else {
+            .firstIndex(where: { strongSelf.slideController.currentModel === $0 }) else {
             return
         }
         strongSelf.slideController.removeAtIndex(index: currentPageIndex)
@@ -28,7 +28,7 @@ class HorizontalController {
         guard let strongSelf = self else { return }
         let page = SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>(object: ColorPageLifeCycleObject())
         guard let index = strongSelf.slideController.content
-            .index(where: { strongSelf.slideController.currentModel === $0 }) else {
+            .firstIndex(where: { strongSelf.slideController.currentModel === $0 }) else {
                 return
         }
         strongSelf.slideController.insert(object: page, index: index)

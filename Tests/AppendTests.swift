@@ -12,7 +12,7 @@ class AppendTests: BaseTestCase {
         slideController.append(object: givenContent)
         
         let contentCount = slideController.content.count
-        let currentIndex = slideController.content.index(where: {
+        let currentIndex = slideController.content.firstIndex(where: {
             $0 === slideController.currentModel
         })
         
