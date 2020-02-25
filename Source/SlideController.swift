@@ -201,7 +201,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
             direction: strongSelf.slideDirection,
             titleViewAlignment: strongSelf.titleSlidableController.titleView.alignment,
             titleViewPosition: strongSelf.titleSlidableController.titleView.position,
-            titleSize: strongSelf.titleSlidableController.titleView.titleSize)
+            titleSize: strongSelf.titleSlidableController.titleView.titleSize
+        )
         strongSelf.scrollToPage(pageIndex: strongSelf.currentIndex, animated: false)
         strongSelf.contentSlidableController.slideContentView.delegate = strongSelf
         strongSelf.titleSlidableController.isSelectionAllowed = true
@@ -223,7 +224,8 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     public init(
         pagesContent: [SlideLifeCycleObjectProvidable],
         startPageIndex: Int = 0,
-        slideDirection: SlideDirection) {
+        slideDirection: SlideDirection
+    ) {
         super.init()
         content = pagesContent
         self.slideDirection = slideDirection

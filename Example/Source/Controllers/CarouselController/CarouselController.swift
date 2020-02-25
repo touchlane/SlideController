@@ -23,7 +23,8 @@ class CarouselController {
         slideController = SlideController(
             pagesContent: pagesContent,
             startPageIndex: 0,
-            slideDirection: SlideDirection.horizontal)
+            slideDirection: SlideDirection.horizontal
+        )
         slideController.titleView.alignment = .bottom
         slideController.titleView.titleSize = 40
         slideController.isCarousel = true

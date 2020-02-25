@@ -10,7 +10,6 @@
 --wraparguments before-first
 --wrapparameters before-first
 --wrapcollections before-first
---closingparen same-line
 --nospaceoperators ..<, ...
 --swiftversion 5.1
 

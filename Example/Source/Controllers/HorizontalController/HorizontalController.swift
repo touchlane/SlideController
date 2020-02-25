@@ -73,7 +73,8 @@ class HorizontalController {
         slideController = SlideController(
             pagesContent: pagesContent,
             startPageIndex: 0,
-            slideDirection: SlideDirection.horizontal)
+            slideDirection: SlideDirection.horizontal
+        )
 
         addedPagesCount = pagesContent.count
         for index in 0..<addedPagesCount {

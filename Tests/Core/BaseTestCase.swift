@@ -9,7 +9,8 @@ class BaseTestCase: XCTestCase {
         slideController = SlideController(
             pagesContent: [],
             startPageIndex: 0,
-            slideDirection: SlideDirection.horizontal)
+            slideDirection: SlideDirection.horizontal
+        )
 
         slideController.viewDidAppear()
     }
