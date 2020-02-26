@@ -16,8 +16,8 @@ SlideController is a simple and flexible UI component fully written in Swift. Bu
 # Requirements
 
 * iOS 9.0+
-* Xcode 10.2+
-* Swift 5.0+
+* Xcode 11+
+* Swift 5.1+
 
 # Installation
 
@@ -52,10 +52,10 @@ import SlideController
 1) Create content
 ```swift
 let content = [
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
-            SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
-        ]
+    SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
+    SlideLifeCycleObjectBuilder<PageLifeCycleObject>(),
+    SlideLifeCycleObjectBuilder<PageLifeCycleObject>()
+]
  ```
  
 * ``PageLifeCycleObject`` is any object conforms to ``Initializable, Viewable, SlidePageLifeCycle `` protocols
@@ -65,7 +65,8 @@ let content = [
 slideController = SlideController<CustomTitleView, CustomTitleItem>(
     pagesContent: content,
     startPageIndex: 0,
-    slideDirection: .horizontal)
+    slideDirection: .horizontal
+)
 ```
 
 * ``CustomTitleView`` is subclass of ``TitleScrollView<CustomTitleItem>``
@@ -98,9 +99,11 @@ Default initializer of `SlideController`.
 `startPageIndex` - page index that should be displayed initially.  
 `slideDirection` - slide direction. `.horizontal` or `.vertical`. 
 ```swift
-public init(pagesContent: [SlideLifeCycleObjectProvidable],
-            startPageIndex: Int = 0,
-            slideDirection: SlideDirection)
+public init(
+    pagesContent: [SlideLifeCycleObjectProvidable],
+    startPageIndex: Int = 0,
+    slideDirection: SlideDirection
+)
 ```
 
 Returns `titleView` instanсe of `TitleScrollView`.
