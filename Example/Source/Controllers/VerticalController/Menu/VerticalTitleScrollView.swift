@@ -34,7 +34,7 @@ class VerticalTitleScrollView: TitleScrollView<VerticalTitleItem> {
     }
 
     override var items: [TitleItem] {
-        internalItems
+        return internalItems
     }
 
     override func appendViews(views: [View]) {

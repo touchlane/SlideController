@@ -22,7 +22,7 @@ private typealias OptionsControllerProtocolImplementation = OptionsController
 extension OptionsControllerProtocolImplementation: OptionsControllerProtocol {
     var openHorizontalDemoAction: (() -> Void)? {
         get {
-            internalView.horizontalDemoButton.didTouchUpInside
+            return internalView.horizontalDemoButton.didTouchUpInside
         }
         set {
             internalView.horizontalDemoButton.didTouchUpInside = newValue
@@ -31,7 +31,7 @@ extension OptionsControllerProtocolImplementation: OptionsControllerProtocol {
 
     var openVerticalDemoAction: (() -> Void)? {
         get {
-            internalView.verticalDemoButton.didTouchUpInside
+            return internalView.verticalDemoButton.didTouchUpInside
         }
         set {
             internalView.verticalDemoButton.didTouchUpInside = newValue
@@ -40,10 +40,10 @@ extension OptionsControllerProtocolImplementation: OptionsControllerProtocol {
 
     var openCarouselDemoAction: (() -> Void)? {
         get {
-            internalView.carouselDemoButton.didTouchUpInside
+            return internalView.carouselDemoButton.didTouchUpInside
         }
         set {
-            internalView.carouselDemoButton.didTouchUpInside = newValue
+            return internalView.carouselDemoButton.didTouchUpInside = newValue
         }
     }
 }
@@ -51,27 +51,27 @@ extension OptionsControllerProtocolImplementation: OptionsControllerProtocol {
 private typealias ViewAccessibleImplementation = OptionsController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
-        internalView
+        return internalView
     }
 }
 
 private typealias StatusBarAccessibleImplementation = OptionsController
 extension StatusBarAccessibleImplementation: StatusBarAccessible {
     var statusBarStyle: UIStatusBarStyle {
-        .lightContent
+        return .lightContent
     }
 }
 
 private typealias TitleAccessibleImplementation = OptionsController
 extension TitleAccessibleImplementation: TitleAccessible {
     var title: String {
-        "SlideController"
+        return "SlideController"
     }
 }
 
 private typealias TitleColorableImplementation = OptionsController
 extension TitleColorableImplementation: TitleColorable {
     var titleColor: UIColor {
-        .white
+        return .white
     }
 }

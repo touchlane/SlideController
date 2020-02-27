@@ -41,7 +41,7 @@ class HorizontalTitleScrollView: TitleScrollView<HorizontalTitleItem> {
     }
 
     override var items: [TitleItem] {
-        internalItems
+        return internalItems
     }
 
     override func appendViews(views: [View]) {

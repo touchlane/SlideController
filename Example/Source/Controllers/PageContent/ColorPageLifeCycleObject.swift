@@ -20,7 +20,7 @@ class ColorPageLifeCycleObject: Initializable {
 private typealias SlideColorPageLifeCycleImplementation = ColorPageLifeCycleObject
 extension SlideColorPageLifeCycleImplementation: SlidePageLifeCycle {
     var isKeyboardResponsive: Bool {
-        false
+        return false
     }
 
     func didAppear() {}
@@ -39,6 +39,6 @@ extension SlideColorPageLifeCycleImplementation: SlidePageLifeCycle {
 private typealias ViewableImplementation = ColorPageLifeCycleObject
 extension ViewableImplementation: Viewable {
     var view: UIView {
-        controller.view
+        return controller.view
     }
 }

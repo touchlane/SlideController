@@ -117,27 +117,27 @@ extension ViewLifeCycleDependableImplementation: ViewLifeCycleDependable {
 private typealias ViewAccessibleImplementation = HorizontalController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
-        internalView
+        return internalView
     }
 }
 
 private typealias StatusBarAccessibleImplementation = HorizontalController
 extension StatusBarAccessibleImplementation: StatusBarAccessible {
     var statusBarStyle: UIStatusBarStyle {
-        .lightContent
+        return .lightContent
     }
 }
 
 private typealias TitleAccessibleImplementation = HorizontalController
 extension TitleAccessibleImplementation: TitleAccessible {
     var title: String {
-        "Horizontal"
+        return "Horizontal"
     }
 }
 
 private typealias TitleColorableImplementation = HorizontalController
 extension TitleColorableImplementation: TitleColorable {
     var titleColor: UIColor {
-        .white
+        return .white
     }
 }

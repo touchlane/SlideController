@@ -40,14 +40,14 @@ class CarouselTitleItem: UIView, Initializable, ItemViewable, Selectable {
     typealias Item = CarouselTitleItem
 
     var view: Item {
-        self
+        return self
     }
 
     // MARK: - SelectableImplementation
 
     var didSelectAction: ((Int) -> Void)? {
         get {
-            internalDidSelectAction
+            return internalDidSelectAction
         }
         set {
             internalDidSelectAction = newValue
@@ -56,7 +56,7 @@ class CarouselTitleItem: UIView, Initializable, ItemViewable, Selectable {
 
     var isSelected: Bool {
         get {
-            internalIsSelected
+            return internalIsSelected
         }
         set {
             if newValue {
@@ -70,7 +70,7 @@ class CarouselTitleItem: UIView, Initializable, ItemViewable, Selectable {
 
     var index: Int {
         get {
-            internalIndex
+            return internalIndex
         }
         set {
             internalIndex = newValue

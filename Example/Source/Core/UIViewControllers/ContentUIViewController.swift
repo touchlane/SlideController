@@ -21,6 +21,6 @@ class ContentUIViewController<T>: UIViewController where T: ViewAccessible & Sta
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        controller?.statusBarStyle ?? .default
+        return controller?.statusBarStyle ?? .default
     }
 }

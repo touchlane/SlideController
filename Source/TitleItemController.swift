@@ -19,14 +19,14 @@ class TitleItemController<T>: TitleItemControllableObject where T: TitleItemObje
     // MARK: - ItemViewableImplementation
 
     var view: Item {
-        item.view
+        return item.view
     }
 
     // MARK: - SelectableImplementation
 
     var isSelected: Bool {
         get {
-            item.isSelected
+            return item.isSelected
         }
         set {
             item.isSelected = newValue
@@ -35,7 +35,7 @@ class TitleItemController<T>: TitleItemControllableObject where T: TitleItemObje
 
     var didSelectAction: ((Int) -> Void)? {
         get {
-            item.didSelectAction
+            return item.didSelectAction
         }
         set {
             item.didSelectAction = newValue
@@ -44,7 +44,7 @@ class TitleItemController<T>: TitleItemControllableObject where T: TitleItemObje
 
     var index: Int {
         get {
-            item.index
+            return item.index
         }
         set {
             item.index = newValue

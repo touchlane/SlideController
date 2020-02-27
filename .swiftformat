@@ -6,8 +6,8 @@
 --wrapparameters before-first
 --wrapcollections before-first
 --nospaceoperators ..<, ...
---swiftversion 5.1
+--swiftversion 5.0
 
 --enable isEmpty
---disable unusedArguments
+--disable unusedArguments, trailingClosures, redundantReturn
 --exclude Pods, scripts

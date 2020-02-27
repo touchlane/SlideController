@@ -16,14 +16,14 @@ protocol ButtonDesignable: AnyObject {
 
 extension ButtonDesignable {
     var textFont: UIFont {
-        UIFont.systemFont(ofSize: 15)
+        return UIFont.systemFont(ofSize: 15)
     }
 
     var textColor: UIColor {
-        UIColor.white
+        return UIColor.white
     }
 
     var bgColor: UIColor {
-        UIColor.purple
+        return UIColor.purple
     }
 }

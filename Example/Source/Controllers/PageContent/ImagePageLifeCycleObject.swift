@@ -20,7 +20,7 @@ class ImagePageLifeCycleObject: Initializable {
 private typealias SlideImagePageLifeCycleImplementation = ImagePageLifeCycleObject
 extension SlideImagePageLifeCycleImplementation: SlidePageLifeCycle {
     var isKeyboardResponsive: Bool {
-        false
+        return false
     }
 
     func didAppear() {}
@@ -39,6 +39,6 @@ extension SlideImagePageLifeCycleImplementation: SlidePageLifeCycle {
 private typealias ViewableImplementation = ImagePageLifeCycleObject
 extension ViewableImplementation: Viewable {
     var view: UIView {
-        controller.view
+        return controller.view
     }
 }

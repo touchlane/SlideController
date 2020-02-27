@@ -54,27 +54,27 @@ extension ViewLifeCycleDependableImplementation: ViewLifeCycleDependable {
 private typealias ViewAccessibleImplementation = CarouselController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
-        internalView
+        return internalView
     }
 }
 
 private typealias StatusBarAccessibleImplementation = CarouselController
 extension StatusBarAccessibleImplementation: StatusBarAccessible {
     var statusBarStyle: UIStatusBarStyle {
-        .lightContent
+        return .lightContent
     }
 }
 
 private typealias TitleAccessibleImplementation = CarouselController
 extension TitleAccessibleImplementation: TitleAccessible {
     var title: String {
-        "Carousel"
+        return "Carousel"
     }
 }
 
 private typealias TitleColorableImplementation = CarouselController
 extension TitleColorableImplementation: TitleColorable {
     var titleColor: UIColor {
-        .white
+        return .white
     }
 }

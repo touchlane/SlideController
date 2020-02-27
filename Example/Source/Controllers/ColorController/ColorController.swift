@@ -16,6 +16,6 @@ class ColorController {
 private typealias ViewableImplementation = ColorController
 extension ViewableImplementation: Viewable {
     var view: UIView {
-        internalView
+        return internalView
     }
 }

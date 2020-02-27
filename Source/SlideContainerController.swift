@@ -15,7 +15,7 @@ final class SlideContainerController {
 
     /// Property to indicate if target view mounted to container
     var hasContent: Bool {
-        isViewLoaded
+        return isViewLoaded
     }
 
     /// Implements lazy load, add target view as subview to container view when needed and set hasContent = true
@@ -42,7 +42,7 @@ final class SlideContainerController {
 private typealias ViewableImplementation = SlideContainerController
 extension ViewableImplementation: Viewable {
     var view: UIView {
-        internalView
+        return internalView
     }
 }
 

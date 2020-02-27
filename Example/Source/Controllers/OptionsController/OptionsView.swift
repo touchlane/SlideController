@@ -108,14 +108,14 @@ private extension PrivateOptionsView {
 private typealias OptionsViewProtocolImplementation = OptionsView
 extension OptionsViewProtocolImplementation: OptionsViewProtocol {
     var horizontalDemoButton: Actionable {
-        internalHorizontalDemoButton
+        return internalHorizontalDemoButton
     }
 
     var verticalDemoButton: Actionable {
-        internalVerticalDemoButton
+        return internalVerticalDemoButton
     }
 
     var carouselDemoButton: Actionable {
-        internalCarouselDemoButton
+        return internalCarouselDemoButton
     }
 }

@@ -15,7 +15,7 @@ class ActionsController: ContentActionable {
 
     var isShowAdvancedActions: Bool {
         get {
-            internalView.isShowAdvancedActions
+            return internalView.isShowAdvancedActions
         }
         set {
             internalView.isShowAdvancedActions = newValue
@@ -50,6 +50,6 @@ class ActionsController: ContentActionable {
 private typealias ViewAccessibleImplementation = ActionsController
 extension ViewAccessibleImplementation: ViewAccessible {
     var view: UIView {
-        internalView
+        return internalView
     }
 }

@@ -42,7 +42,7 @@ class TitleSlidableController<T, N>: TitleScrollable where T: ViewSlidable, T: U
     var didCompleteTitleLayout: (() -> Void)?
 
     var titleView: T {
-        scrollView
+        return scrollView
     }
 
     private var scrollView = T()

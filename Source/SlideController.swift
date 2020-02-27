@@ -132,7 +132,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
 
     /// Returns `titleView` instanсe of specified type.
     public var titleView: T {
-        titleSlidableController.titleView
+        return titleSlidableController.titleView
     }
 
     /// Returns `LifeCycleObject` for currently displayed page.
@@ -171,7 +171,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     /// When set to `true` scrolling in the direction of last item will result jumping to the first item.  Makes scrolling infinite. The default value is `false`.
     public var isCarousel: Bool {
         get {
-            contentSlidableController.isCarousel
+            return contentSlidableController.isCarousel
         }
         set {
             contentSlidableController.isCarousel = newValue

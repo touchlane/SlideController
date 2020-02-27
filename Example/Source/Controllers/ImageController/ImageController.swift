@@ -13,7 +13,7 @@ class ImageController {
     private let internalView = ImageView()
     var image: UIImage? {
         get {
-            internalView.image
+            return internalView.image
         }
         set {
             internalView.image = newValue
@@ -24,6 +24,6 @@ class ImageController {
 private typealias ViewableImplementation = ImageController
 extension ViewableImplementation: Viewable {
     var view: UIView {
-        internalView
+        return internalView
     }
 }

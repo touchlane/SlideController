@@ -47,7 +47,7 @@ class VerticalTitleItem: UIView, Initializable, Selectable, ItemViewable {
     typealias Item = VerticalTitleItem
 
     var view: Item {
-        self
+        return self
     }
 }
 

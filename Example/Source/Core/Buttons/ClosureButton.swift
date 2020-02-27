@@ -35,7 +35,7 @@ private typealias ActionableImplementation = ClosureButton
 extension ActionableImplementation: Actionable {
     var didTouchUpInside: (() -> Void)? {
         get {
-            internalDidTouchUpInside
+            return internalDidTouchUpInside
         }
         set {
             internalDidTouchUpInside = newValue
