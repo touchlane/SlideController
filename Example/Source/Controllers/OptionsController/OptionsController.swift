@@ -43,7 +43,7 @@ extension OptionsControllerProtocolImplementation: OptionsControllerProtocol {
             return internalView.carouselDemoButton.didTouchUpInside
         }
         set {
-            return internalView.carouselDemoButton.didTouchUpInside = newValue
+            internalView.carouselDemoButton.didTouchUpInside = newValue
         }
     }
 }

@@ -555,7 +555,7 @@ public class SlideController<T, N>: NSObject, UIScrollViewDelegate, ControllerSl
     // MARK: - ViewableImplementation
 
     public var view: UIView {
-        containerView
+        return containerView
     }
 }
 

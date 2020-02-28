@@ -16,8 +16,8 @@ SlideController is a simple and flexible UI component fully written in Swift. Bu
 # Requirements
 
 * iOS 9.0+
-* Xcode 11+
-* Swift 5.1+
+* Xcode 10.2+
+* Swift 5.0+
 
 # Installation
 

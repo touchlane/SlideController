@@ -99,7 +99,7 @@ class HorizontalController {
 private typealias PrivateHorizontalController = HorizontalController
 private extension PrivateHorizontalController {
     func title(for index: Int) -> String {
-        "page \(index)"
+        return "page \(index)"
     }
 }
 
