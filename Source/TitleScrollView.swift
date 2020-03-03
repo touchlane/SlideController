@@ -119,13 +119,13 @@ open class TitleScrollView<T>: UIScrollView, ViewSlidable, TitleConfigurable whe
     open func indicator(position: CGFloat, size: CGFloat, animated: Bool) {}
 
     open func shouldAnimateIndicatorOnSelection(index: Int) -> Bool {
-        false
+        return false
     }
 
     public weak var titleViewConfigurationDelegate: TitleViewConfigurationDelegate?
 
     /// Array of title items that displayed in `TitleScrollView`.
     open var items: [TitleItem] {
-        []
+        return []
     }
 }

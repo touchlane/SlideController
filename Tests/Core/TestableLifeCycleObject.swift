@@ -25,7 +25,7 @@ class TestableLifeCycleObject: Initializable {
 private typealias SlidePageLifeCycleImplementation = TestableLifeCycleObject
 extension SlidePageLifeCycleImplementation: SlidePageLifeCycle {
     var isKeyboardResponsive: Bool {
-        false
+        return false
     }
 
     func didAppear() {
@@ -56,6 +56,6 @@ extension SlidePageLifeCycleImplementation: SlidePageLifeCycle {
 private typealias ViewableImplementation = TestableLifeCycleObject
 extension ViewableImplementation: Viewable {
     var view: UIView {
-        UIView()
+        return UIView()
     }
 }

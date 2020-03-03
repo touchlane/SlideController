@@ -32,6 +32,6 @@ class LifecycleContentUIViewController<T>: UIViewController where T: ViewAccessi
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        controller?.statusBarStyle ?? .default
+        return controller?.statusBarStyle ?? .default
     }
 }
