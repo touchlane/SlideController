@@ -70,7 +70,7 @@ class VerticalController {
             SlideLifeCycleObjectBuilder<ColorPageLifeCycleObject>()
         ]
         slideController = SlideController(pagesContent: pagesContent, startPageIndex: 0, slideDirection: .vertical)
-        slideController.titleView.position = .above
+        slideController.titleView.position = .beside
         slideController.titleView.alignment = .left
         slideController.titleView.titleSize = titleSize
         internalView.contentView = slideController.view
