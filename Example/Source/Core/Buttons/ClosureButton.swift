@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol Actionable: class {
+protocol Actionable: AnyObject {
     var didTouchUpInside: (() -> Void)? { get set }
 }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol OptionsControllerProtocol: class {
+protocol OptionsControllerProtocol: AnyObject {
     var openHorizontalDemoAction: (() -> Void)? { get set }
     var openVerticalDemoAction: (() -> Void)? { get set }
     var openCarouselDemoAction: (() -> Void)? { get set }

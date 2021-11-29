@@ -6,7 +6,7 @@
 //  Copyright © 2017 Touchlane LLC. All rights reserved.
 //
 
-public protocol SlideLifeCycleObjectProvidable: class {
+public protocol SlideLifeCycleObjectProvidable: AnyObject {
     var lifeCycleObject: SlideLifeCycleObject { get }
 }
 

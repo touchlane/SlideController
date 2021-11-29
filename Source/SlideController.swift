@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol SlidePageLifeCycle: class {
+public protocol SlidePageLifeCycle: AnyObject {
     func didAppear()
     func didDissapear()
     func viewDidLoad()
@@ -18,20 +18,20 @@ public protocol SlidePageLifeCycle: class {
     var isKeyboardResponsive: Bool { get }
 }
 
-public protocol Viewable: class {
+public protocol Viewable: AnyObject {
     var view: UIView { get }
 }
 
-public protocol ItemViewable: class {
+public protocol ItemViewable: AnyObject {
     associatedtype Item: UIView
     var view: Item { get }
 }
 
-public protocol Initializable: class {
+public protocol Initializable: AnyObject {
     init()
 }
 
-public protocol ViewSlidable: class {
+public protocol ViewSlidable: AnyObject {
     associatedtype View: UIView
     func appendViews(views: [View])
     func insertView(view: View, index: Int)
@@ -41,7 +41,7 @@ public protocol ViewSlidable: class {
     var isLayouted: Bool { get }
 }
 
-public protocol ControllerSlidable: class {
+public protocol ControllerSlidable: AnyObject {
     func shift(pageIndex: Int, animated: Bool, forced: Bool)
     func showNext(animated: Bool)
     func viewDidAppear()
@@ -51,7 +51,7 @@ public protocol ControllerSlidable: class {
     func removeAtIndex(index : Int)
 }
 
-public protocol Selectable: class {
+public protocol Selectable: AnyObject {
     var isSelected: Bool { get set }
     var didSelectAction: ((Int) -> Void)? { get set }
     var index: Int { get set }

@@ -9,7 +9,7 @@
 
 import UIKit
 
-protocol TitleScrollable: class {
+protocol TitleScrollable: AnyObject {
     var didSelectItemAction: ((Int, (() -> Void)?) -> Void)? { get set }
     func jump(index: Int, animated: Bool)
     func shift(ratio: CGFloat, startIndex: Int, destinationIndex: Int)

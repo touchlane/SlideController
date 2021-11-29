@@ -11,10 +11,10 @@ import UIKit
 
 typealias TitleDesignable = TitleAccessible & TitleColorable
 
-protocol TitleAccessible: class {
+protocol TitleAccessible: AnyObject {
     var title: String { get }
 }
 
-protocol TitleColorable: class {
+protocol TitleColorable: AnyObject {
     var titleColor: UIColor { get }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol OptionsViewProtocol: class {
+protocol OptionsViewProtocol: AnyObject {
     var horizontalDemoButton: Actionable { get }
     var verticalDemoButton: Actionable { get }
     var carouselDemoButton: Actionable { get }

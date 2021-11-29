@@ -8,6 +8,6 @@
 
 import UIKit
 
-protocol StatusBarAccessible: class {
+protocol StatusBarAccessible: AnyObject {
     var statusBarStyle: UIStatusBarStyle { get }
 }

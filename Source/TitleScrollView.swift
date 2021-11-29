@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol TitleConfigurable: class {
+public protocol TitleConfigurable: AnyObject {
     associatedtype TitleItem: UIView
     var items: [TitleItem] { get }
     var alignment: TitleViewAlignment { get set }
@@ -31,7 +31,7 @@ public protocol TitleConfigurable: class {
     var titleViewConfigurationDelegate: TitleViewConfigurationDelegate? { get set }
 }
 
-public protocol TitleViewConfigurationDelegate: class {
+public protocol TitleViewConfigurationDelegate: AnyObject {
     func didChangeAlignment(alignment: TitleViewAlignment)
     func didChangeTitleSize(size: CGFloat)
     func didChangePosition(position: TitleViewPosition)
