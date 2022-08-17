@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "SlideController",
     platforms: [
-        .iOS(.v12)
+        .iOS(.v11)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
@@ -19,16 +19,14 @@ let package = Package(
         .target(
             name: "SlideController",
             dependencies: [],
-            resources: [
-                .copy("Supporting Files")
-            ]
+            path: "Sources",
+            exclude: ["SlideController/SupportingFiles/Info.plist"]
         ),
         .testTarget(
             name: "SlideControllerTests",
             dependencies: ["SlideController"],
-            resources: [
-                .copy("Supporting Files")
-            ]
+            path: "Tests",
+            exclude: ["SlideControllerTests/SupportingFiles/Info.plist"]
         ),
     ],
     swiftLanguageVersions: [.v5]
