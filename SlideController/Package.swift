@@ -18,9 +18,18 @@ let package = Package(
     targets: [
         .target(
             name: "SlideController",
-            dependencies: []),
+            dependencies: [],
+            resources: [
+                .copy("Supporting Files")
+            ]
+        ),
         .testTarget(
             name: "SlideControllerTests",
-            dependencies: ["SlideController"]),
-    ]
+            dependencies: ["SlideController"],
+            resources: [
+                .copy("Supporting Files")
+            ]
+        ),
+    ],
+    swiftLanguageVersions: [.v5]
 )
