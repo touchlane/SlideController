@@ -71,6 +71,7 @@
 		86EF198C1FBB219900BD8E73 /* SlideController.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SlideController.podspec; sourceTree = "<group>"; };
 		DD2C57631FC4129A006CC356 /* LoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadTests.swift; sourceTree = "<group>"; };
 		DD30948B1FF51D940035D1CC /* ShiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftTests.swift; sourceTree = "<group>"; };
+		EB10492328AD3C25004C7347 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				86EF198B1FBB219900BD8E73 /* LICENSE */,
+				EB10492328AD3C25004C7347 /* Package.swift */,
 				86EF198A1FBB219900BD8E73 /* README.md */,
 				86EF198C1FBB219900BD8E73 /* SlideController.podspec */,
 			);

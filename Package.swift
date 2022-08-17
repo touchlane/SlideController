@@ -19,14 +19,14 @@ let package = Package(
         .target(
             name: "SlideController",
             dependencies: [],
-            path: "Sources",
-            exclude: ["SlideController/SupportingFiles/Info.plist"]
+            path: "Source",
+            exclude: ["Supporting Files/Info.plist"]
         ),
         .testTarget(
             name: "SlideControllerTests",
             dependencies: ["SlideController"],
             path: "Tests",
-            exclude: ["SlideControllerTests/SupportingFiles/Info.plist"]
+            exclude: ["Supporting Files/Info.plist"]
         ),
     ],
     swiftLanguageVersions: [.v5]
